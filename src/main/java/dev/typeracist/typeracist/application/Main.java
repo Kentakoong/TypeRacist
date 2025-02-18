@@ -5,6 +5,7 @@ import dev.typeracist.typeracist.logic.SceneManager;
 import dev.typeracist.typeracist.scene.CharacterScene;
 import dev.typeracist.typeracist.scene.MainScene;
 import dev.typeracist.typeracist.scene.SettingScene;
+import dev.typeracist.typeracist.utils.SceneName;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
@@ -17,9 +18,9 @@ public class Main extends Application {
 
         SceneManager sceneManager = GameLogic.getInstance().getSceneManager();
 
-        sceneManager.addScene("main", new MainScene(800, 600));
-        sceneManager.addScene("settings", new SettingScene(800, 600));
-        sceneManager.addScene("characters", new CharacterScene(800, 600));
+        sceneManager.addScene(SceneName.MAIN, new MainScene(800, 600));
+        sceneManager.addScene(SceneName.SETTINGS, new SettingScene(800, 600));
+        sceneManager.addScene(SceneName.CHARACTERS, new CharacterScene(800, 600));
 
         sceneManager.setScene("main");
         primaryStage.show();

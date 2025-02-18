@@ -8,10 +8,12 @@ import java.util.HashMap;
 public class SceneManager {
     final private Stage primaryStage;
     final private HashMap<String, Scene> scenes;
+    final private SceneHistoryManager sceneHistoryManager;
 
     public SceneManager(Stage primaryStage) {
         this.primaryStage = primaryStage;
-        scenes = new HashMap<String, Scene>();
+        this.scenes = new HashMap<>();
+        this.sceneHistoryManager = new SceneHistoryManager();
     }
 
     public void addScene(String name, Scene scene) {
@@ -26,10 +28,19 @@ public class SceneManager {
         return scenes.containsKey(name);
     }
 
+    public String getPreviousScene() {
+        return sceneHistoryManager.getPreviousScene();
+    }
+
+    public void setToPreviousScene() {
+        setScene(getPreviousScene());
+    }
+
     public void setScene(String name) {
         if (!sceneExists(name))
             throw new IllegalArgumentException("Scene " + name + " not found");
 
+        sceneHistoryManager.addSceneToHistory(name);
         primaryStage.setScene(scenes.get(name));
     }
 }

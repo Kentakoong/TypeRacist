@@ -27,7 +27,7 @@ public class CharacterScene extends Scene {
 
         // Buttons for navigation
         Button previousButton = new Button("Previous");
-        previousButton.setOnAction(event -> GameLogic.getInstance().getSceneManager().setScene("main"));
+        previousButton.setOnAction(event -> GameLogic.getInstance().getSceneManager().setToPreviousScene());
 
         Button nextButton = new Button("Next"); // Example for Next Button
         nextButton.setDisable(true);
