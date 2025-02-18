@@ -1,6 +1,7 @@
 package dev.typeracist.typeracist.scene;
 
 import dev.typeracist.typeracist.logic.GameLogic;
+import dev.typeracist.typeracist.utils.SceneName;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -20,8 +21,8 @@ public class MainScene extends Scene {
         Label title = new Label("TypeRacist");
         title.setFont(Font.font("JetBrainsMono NF", FontWeight.BOLD, 36));
 
-        assert GameLogic.getInstance().getSceneManager().sceneExists("character-choosing");
-        assert GameLogic.getInstance().getSceneManager().sceneExists("settings");
+        assert GameLogic.getInstance().getSceneManager().sceneExists(SceneName.CHARACTERS);
+        assert GameLogic.getInstance().getSceneManager().sceneExists(SceneName.SETTINGS);
 
         VBox buttonBar = new VBox();
         buttonBar.setAlignment(Pos.CENTER);
@@ -29,11 +30,11 @@ public class MainScene extends Scene {
 
         Button startButton = new Button("Start Game");
         startButton.setPrefWidth(200);
-        startButton.setOnAction(event -> GameLogic.getInstance().getSceneManager().setScene("characters"));
+        startButton.setOnAction(event -> GameLogic.getInstance().getSceneManager().setScene(SceneName.CHARACTERS));
 
         Button settingsButton = new Button("Settings");
         settingsButton.setPrefWidth(200);
-        settingsButton.setOnAction(event -> GameLogic.getInstance().getSceneManager().setScene("settings"));
+        settingsButton.setOnAction(event -> GameLogic.getInstance().getSceneManager().setScene(SceneName.SETTINGS));
 
         Button exitButton = new Button("Exit");
         exitButton.setPrefWidth(200);
