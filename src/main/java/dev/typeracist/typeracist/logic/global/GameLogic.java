@@ -1,4 +1,4 @@
-package dev.typeracist.typeracist.logic;
+package dev.typeracist.typeracist.logic.global;
 
 import javafx.stage.Stage;
 

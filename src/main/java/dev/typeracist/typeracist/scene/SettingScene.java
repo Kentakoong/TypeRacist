@@ -1,16 +1,16 @@
 package dev.typeracist.typeracist.scene;
 
-import dev.typeracist.typeracist.logic.GameLogic;
+import dev.typeracist.typeracist.logic.global.GameLogic;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
-import javafx.scene.layout.HBox;
 
 public class SettingScene extends Scene {
     public SettingScene(double width, double height) {
