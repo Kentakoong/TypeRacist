@@ -1,6 +1,6 @@
 package dev.typeracist.typeracist.scene;
 
-import dev.typeracist.typeracist.logic.GameLogic;
+import dev.typeracist.typeracist.logic.global.GameLogic;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;

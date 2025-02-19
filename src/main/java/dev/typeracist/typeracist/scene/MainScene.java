@@ -1,6 +1,6 @@
 package dev.typeracist.typeracist.scene;
 
-import dev.typeracist.typeracist.logic.GameLogic;
+import dev.typeracist.typeracist.logic.global.GameLogic;
 import dev.typeracist.typeracist.utils.SceneName;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -40,7 +40,11 @@ public class MainScene extends Scene {
         exitButton.setPrefWidth(200);
         exitButton.setOnAction(event -> GameLogic.getInstance().getSceneManager().closeStage());
 
-        buttonBar.getChildren().addAll(startButton, settingsButton, exitButton);
+        Button testSceneButton = new Button("Test Scene");
+        testSceneButton.setPrefWidth(200);
+        testSceneButton.setOnAction(event -> GameLogic.getInstance().getSceneManager().setScene(SceneName.TEST));
+
+        buttonBar.getChildren().addAll(startButton, settingsButton, exitButton, testSceneButton);
         root.getChildren().addAll(title, buttonBar);
     }
 }

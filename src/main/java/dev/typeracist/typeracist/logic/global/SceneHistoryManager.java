@@ -1,4 +1,4 @@
-package dev.typeracist.typeracist.logic;
+package dev.typeracist.typeracist.logic.global;
 
 import java.util.ArrayList;
 import java.util.List;
