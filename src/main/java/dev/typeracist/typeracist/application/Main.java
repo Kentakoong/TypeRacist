@@ -2,10 +2,7 @@ package dev.typeracist.typeracist.application;
 
 import dev.typeracist.typeracist.logic.global.GameLogic;
 import dev.typeracist.typeracist.logic.global.SceneManager;
-import dev.typeracist.typeracist.scene.CharacterScene;
-import dev.typeracist.typeracist.scene.DynamicSceneDemo;
-import dev.typeracist.typeracist.scene.MainScene;
-import dev.typeracist.typeracist.scene.SettingScene;
+import dev.typeracist.typeracist.scene.*;
 import dev.typeracist.typeracist.utils.SceneName;
 import javafx.application.Application;
 import javafx.stage.Stage;
@@ -26,7 +23,8 @@ public class Main extends Application {
         sceneManager.addScene(SceneName.MAIN, new MainScene(800, 600));
         sceneManager.addScene(SceneName.SETTINGS, new SettingScene(800, 600));
         sceneManager.addScene(SceneName.CHARACTERS, new CharacterScene(800, 600));
-        sceneManager.addScene(SceneName.TEST, new DynamicSceneDemo(800, 600));
+        sceneManager.addScene(SceneName.DYNAMIC_PANE_TEST, new DynamicSceneDemo(800, 600));
+        sceneManager.addScene(SceneName.KEYBOARD_TEST, new KeyboardPaneSceneDemo(800, 600));
 
         sceneManager.setScene(SceneName.MAIN);
         primaryStage.show();
