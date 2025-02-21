@@ -42,9 +42,14 @@ public class MainScene extends Scene {
 
         Button testSceneButton = new Button("Test Scene");
         testSceneButton.setPrefWidth(200);
-        testSceneButton.setOnAction(event -> GameLogic.getInstance().getSceneManager().setScene(SceneName.TEST));
+        testSceneButton.setOnAction(event -> GameLogic.getInstance().getSceneManager().setScene(SceneName.DYNAMIC_PANE_TEST));
 
-        buttonBar.getChildren().addAll(startButton, settingsButton, exitButton, testSceneButton);
+
+        Button testKeyBoardPaneSceneButton = new Button("Keyboard Test Scene");
+        testKeyBoardPaneSceneButton.setPrefWidth(200);
+        testKeyBoardPaneSceneButton.setOnAction(event -> GameLogic.getInstance().getSceneManager().setScene(SceneName.KEYBOARD_TEST));
+
+        buttonBar.getChildren().addAll(startButton, settingsButton, exitButton, testSceneButton, testKeyBoardPaneSceneButton);
         root.getChildren().addAll(title, buttonBar);
     }
 }
