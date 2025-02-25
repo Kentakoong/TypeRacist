@@ -3,6 +3,7 @@ package dev.typeracist.typeracist.scene;
 import dev.typeracist.typeracist.gui.gameScene.TypingPane;
 import dev.typeracist.typeracist.logic.gameScene.TypingHardness;
 import dev.typeracist.typeracist.logic.global.GameLogic;
+import dev.typeracist.typeracist.utils.DataSetName;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -55,7 +56,7 @@ public class KeyboardPaneSceneDemo extends Scene {
         subHbox.getChildren().addAll(wpm, unit);
         hBox.getChildren().addAll(title, leftSpacer, rightSpacer, subHbox);
 
-        List<String> selectParagraph = GameLogic.getInstance().getDataSetManager().getDataSet("commonWords1k").getRandomWordsByScoreRange(4.5, 7, 50);
+        List<String> selectParagraph = GameLogic.getInstance().getDataSetManager().getDataSet(DataSetName.COMMON_WORDS_1K).getRandomWordsByScoreRange(4.5, 7, 50);
 
         TypingPane typingPane = new TypingPane(selectParagraph);
 
@@ -65,7 +66,7 @@ public class KeyboardPaneSceneDemo extends Scene {
             typingPane.getTypingTracker().start();
 
             new Thread(() -> {
-                while (true) {
+                while (typingPane.getTypingTracker().isRunning()) {
                     try {
                         Platform.runLater(() -> {
                             wpm.setText(String.valueOf(Math.round(typingPane.getTypingTracker().calculateCorrectWPM() * 100.0) / 100.0));

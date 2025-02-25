@@ -2,6 +2,7 @@ package dev.typeracist.typeracist.logic.global;
 
 import dev.typeracist.typeracist.logic.gameScene.DataSet;
 import dev.typeracist.typeracist.logic.gameScene.DataSetManager;
+import dev.typeracist.typeracist.utils.DataSetName;
 import javafx.stage.Stage;
 
 public class GameLogic {
@@ -28,9 +29,9 @@ public class GameLogic {
         DataSet commonWords1k = new DataSet("/dev/typeracist/typeracist/datasets/commonWords1k.json");
         commonWords1k.initializeWithRanking();
 
-        getInstance().dataSetManager.addDataset("popularBooks", popularBooks);
-        getInstance().dataSetManager.addDataset("commonWords1k", commonWords1k);
-        getInstance().dataSetManager.addDataset("commonWords25k", commonWords25k);
+        getInstance().dataSetManager.addDataset(DataSetName.POPULAR_BOOKS, popularBooks);
+        getInstance().dataSetManager.addDataset(DataSetName.COMMON_WORDS_1K, commonWords1k);
+        getInstance().dataSetManager.addDataset(DataSetName.COMMON_WORDS_25K, commonWords25k);
     }
 
     public static GameLogic getInstance() {
