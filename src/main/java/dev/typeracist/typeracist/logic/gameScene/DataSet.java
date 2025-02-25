@@ -103,7 +103,6 @@ public class DataSet {
         return paragraphsInRange.get(random.nextInt(paragraphsInRange.size()));
     }
 
-    // Get Random Words (without score range)
     public List<String> getRandomWords(int count) {
         if (words.isEmpty()) return Collections.emptyList();
         return random.ints(0, words.size())
@@ -113,7 +112,6 @@ public class DataSet {
                 .collect(Collectors.toList());
     }
 
-    // Get Random Paragraphs (without score range)
     public List<List<String>> getRandomParagraphs(int count) {
         if (paragraphs.isEmpty()) return Collections.emptyList();
         return random.ints(0, paragraphs.size())
@@ -123,7 +121,6 @@ public class DataSet {
                 .collect(Collectors.toList());
     }
 
-    // Get Random Words By Score Range
     public List<String> getRandomWordsByScoreRange(double minScore, double maxScore, int count) {
         List<String> wordsInRange = rankedWords.entrySet().stream()
                 .filter(entry -> entry.getValue() >= minScore && entry.getValue() <= maxScore)
@@ -138,7 +135,6 @@ public class DataSet {
                 .collect(Collectors.toList());
     }
 
-    // Get Random Paragraphs By Score Range
     public List<List<String>> getRandomParagraphsByScoreRange(double minScore, double maxScore, int count) {
         List<String> paragraphsInRange = rankedParagraphs.entrySet().stream()
                 .filter(entry -> entry.getValue() >= minScore && entry.getValue() <= maxScore)
