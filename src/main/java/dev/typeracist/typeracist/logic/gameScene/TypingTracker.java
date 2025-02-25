@@ -4,21 +4,50 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TypingTracker {
-    private List<String> words;
-    private List<String> trackedWords;
+    private final List<String> words;
+    private final List<String> trackedWords;
+    private long startTime;
+    private long totalElapsedTime;
+    private boolean isRunning;
 
     public TypingTracker(List<String> words) {
         this.words = words;
         this.trackedWords = new ArrayList<>();
+        this.trackedWords.add(""); // Ensure at least one word is tracked
+        this.startTime = -1;
+        this.totalElapsedTime = 0;
+        this.isRunning = false;
+    }
 
+    public void start() {
+        if (!isRunning) {
+            startTime = System.currentTimeMillis();
+            isRunning = true;
+        }
+    }
+
+    public void pause() {
+        if (isRunning) {
+            totalElapsedTime += System.currentTimeMillis() - startTime;
+            startTime = -1;
+            isRunning = false;
+        }
+    }
+
+    public void stop() {
+        startTime = -1;
+        totalElapsedTime = 0;
+        isRunning = false;
+        trackedWords.clear();
         trackedWords.add("");
     }
 
     public void addCharacter(String character) {
+        if (!isRunning) start(); // Auto-start if not running
+
         if (trackedWords.isEmpty()) {
             addNewWord();
         }
-
         appendCharacter(character);
     }
 
@@ -26,44 +55,61 @@ public class TypingTracker {
         if (!trackedWords.isEmpty() && getLastTypedWord().isEmpty()) {
             return;
         }
-
         trackedWords.add("");
     }
 
     public void removeCharacter() {
-        if (trackedWords.isEmpty() || trackedWords.size() == 1 && trackedWords.getFirst().isEmpty()) {
+        if (trackedWords.isEmpty() || (trackedWords.size() == 1 && trackedWords.getFirst().isEmpty())) {
             return;
         }
-
-        if (getLastTypedWord().isEmpty() && checkWord(getTypingTrackedPosition().wordPosition - 1))
-            return;
-
         if (getLastTypedWord().isEmpty()) {
             trackedWords.removeLast();
+        } else {
+            removeLastCharacter();
         }
-
-        removeLastCharacter();
     }
 
     public boolean checkWord(int index) {
-        if (index < 0 || index >= words.size()) {
-            throw new IllegalArgumentException("Invalid index");
-        }
-
-        if (index >= trackedWords.size()) {
+        if (index < 0 || index >= words.size() || index >= trackedWords.size()) {
             return false;
         }
-
         return trackedWords.get(index).equals(words.get(index));
     }
 
+    public double calculateCorrectWPM() {
+        long elapsedTime = getElapsedTime();
+        if (elapsedTime == 0) return 0.0;
+
+        int correctWordCount = 0;
+        for (int i = 0; i < Math.min(words.size(), trackedWords.size()); i++) {
+            if (checkWord(i)) {
+                correctWordCount++;
+            }
+        }
+
+        System.out.println(correctWordCount);
+        return (correctWordCount * 60000.0) / elapsedTime;
+    }
+
+    public double calculateRawWPM() {
+        long elapsedTime = getElapsedTime();
+        if (elapsedTime == 0) return 0.0;
+
+        int totalTypedWords = trackedWords.size();
+        return (totalTypedWords * 60000.0) / elapsedTime;
+    }
+
+    
     public TypingTrackedPosition getTypingTrackedPosition() {
         assert !trackedWords.isEmpty();
         return new TypingTrackedPosition(trackedWords.size() - 1, trackedWords.getLast().length() - 1);
     }
 
-    public String getLastTypedWord() {
-        return trackedWords.getLast();
+    private long getElapsedTime() {
+        if (isRunning) {
+            return totalElapsedTime + (System.currentTimeMillis() - startTime);
+        }
+        return totalElapsedTime;
     }
 
     public List<String> getTrackedWords() {
@@ -74,45 +120,16 @@ public class TypingTracker {
         return words;
     }
 
-//    private void renderDynamicColorText(int index, DynamicColorText dynamicColorText, Color baseColor, Color highlightCorrectColor, Color highlightWrongColor) {
-//
-//        String currentTypedWord = trackedWords.get(index);
-//        String currentWord = words.get(index);
-//
-//        int dynamicTextLength = dynamicColorText.length();
-//
-//        if (currentTypedWord.length() >= currentWord.length() && dynamicTextLength != currentTypedWord.length()) {
-//            dynamicColorText.setText(currentWord + currentTypedWord.substring(currentWord.length()));
-//        }
-//
-//        int maxWordLength = Math.max(currentTypedWord.length(), currentWord.length());
-//
-//        assert dynamicColorText.length() == maxWordLength;
-//        for (int i = 0; i < maxWordLength; i++) {
-//            if (i >= currentWord.length()) {
-//                dynamicColorText.highlightCharacter(i, Color.DARKRED);
-//                continue;
-//            }
-//
-//            if (i >= currentTypedWord.length()) {
-//                dynamicColorText.highlightCharacter(i, baseColor);
-//                continue;
-//            }
-//
-//            if (currentTypedWord.charAt(i) == currentWord.charAt(i)) {
-//                dynamicColorText.highlightCharacter(i, highlightCorrectColor);
-//            } else {
-//                dynamicColorText.highlightCharacter(i, highlightWrongColor);
-//            }
-//        }
-//
-//    }
+    private String getLastTypedWord() {
+        return trackedWords.getLast();
+    }
 
     private void appendCharacter(String character) {
         trackedWords.set(trackedWords.size() - 1, getLastTypedWord().concat(character));
     }
 
     private void removeLastCharacter() {
-        trackedWords.set(trackedWords.size() - 1, getLastTypedWord().substring(0, getLastTypedWord().length() - 1));
+        String lastWord = getLastTypedWord();
+        trackedWords.set(trackedWords.size() - 1, lastWord.substring(0, lastWord.length() - 1));
     }
 }
