@@ -4,6 +4,8 @@ import dev.typeracist.typeracist.gui.gameScene.TypingPane;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 
 import java.util.List;
 
@@ -25,6 +27,9 @@ public class KeyboardPaneSceneDemo extends Scene {
                 "render", "optimize", "interaction", "navigation", "control", "format", "arrange", "develop",
                 "adjust", "initialize", "simulate", "evaluate", "compare", "transform"
         ));
+
+        typingPane.setFont(Font.font("Departure Mono", FontWeight.MEDIUM, 24));
+        typingPane.setHgap(15);
 
         root.getChildren().addAll(typingPane);
 
