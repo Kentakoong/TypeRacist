@@ -26,12 +26,12 @@ public class TypingPane extends FlowPane {
     private final HashMap<Integer, List<DynamicColorText>> rowMap;
     private final TypingTracker typingTracker;
 
-    private int maxVisibleRows = 3;
-    private int currentTopRow = 0;
-    private int triggerScrollRowRelativeTopCurrentTopRow = 2;
+    private int maxVisibleRows;
+    private int currentTopRow;
+    private int triggerScrollRowRelativeTopCurrentTopRow;
     private Font font;
 
-    private boolean firstClickHandled = false;
+    private boolean firstClickHandled;
     private EventHandler<KeyEvent> onFirstClick;
 
     public TypingPane(List<String> words) {
@@ -40,6 +40,10 @@ public class TypingPane extends FlowPane {
         dynamicColorWords = new ArrayList<>();
         typingTracker = new TypingTracker(words);
         rowMap = new HashMap<>();
+        maxVisibleRows = 3;
+        currentTopRow = 0;
+        triggerScrollRowRelativeTopCurrentTopRow = 2;
+        firstClickHandled = false;
 
         setHgap(11);
         setVgap(8);
@@ -82,7 +86,6 @@ public class TypingPane extends FlowPane {
                     String input = event.getText();
 
                     if (!input.isEmpty() && input.codePointAt(0) >= 32 && input.codePointAt(0) < 127) {
-                        System.out.println("Typed: " + input);
                         typingTracker.addCharacter(input);
                     }
                 }
@@ -90,7 +93,6 @@ public class TypingPane extends FlowPane {
 
             TypingTrackedPosition position = typingTracker.getTypingTrackedPosition();
             reRenderWord(position.wordPosition);
-
 
             int currentWordRow = getRowOfWord(position.wordPosition);
             if (currentWordRow >= currentTopRow + triggerScrollRowRelativeTopCurrentTopRow) {
@@ -199,7 +201,6 @@ public class TypingPane extends FlowPane {
         });
 
         for (int i = currentTopRow; i < currentTopRow + maxVisibleRows; i++) {
-            System.out.println("interested: " + i);
             if (rowMap.containsKey(i)) {
                 for (DynamicColorText word : rowMap.get(i)) {
                     word.setManaged(true);
