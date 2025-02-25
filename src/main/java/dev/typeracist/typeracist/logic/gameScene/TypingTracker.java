@@ -1,14 +1,18 @@
 package dev.typeracist.typeracist.logic.gameScene;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 public class TypingTracker {
     private final List<String> words;
     private final List<String> trackedWords;
+    private final Map<String, TypedWordStatus> typedWordStatuses;
     private long startTime;
     private long totalElapsedTime;
     private boolean isRunning;
+    private boolean allowRemoveCorrectWord;
 
     public TypingTracker(List<String> words) {
         this.words = words;
@@ -17,6 +21,8 @@ public class TypingTracker {
         this.startTime = -1;
         this.totalElapsedTime = 0;
         this.isRunning = false;
+        this.allowRemoveCorrectWord = true;
+        this.typedWordStatuses = new LinkedHashMap<>();
     }
 
     public void start() {
@@ -42,13 +48,20 @@ public class TypingTracker {
         trackedWords.add("");
     }
 
+    public boolean isRunning() {
+        return isRunning;
+    }
+
     public void addCharacter(String character) {
         if (!isRunning) start(); // Auto-start if not running
 
         if (trackedWords.isEmpty()) {
             addNewWord();
         }
+
+        int currentIndex = getTypingTrackedPosition().wordPosition;
         appendCharacter(character);
+        updateTypedWordStatuses(currentIndex);
     }
 
     public void addNewWord() {
@@ -62,11 +75,22 @@ public class TypingTracker {
         if (trackedWords.isEmpty() || (trackedWords.size() == 1 && trackedWords.getFirst().isEmpty())) {
             return;
         }
+
+        // don't allow removing of typed corrected word
+        if (allowRemoveCorrectWord && getLastTypedWord().isEmpty() && trackedWords.size() >= 2 && checkWord(getTypingTrackedPosition().wordPosition - 1)) {
+            return;
+        }
+
+        int currentIndex = getTypingTrackedPosition().wordPosition;
+
         if (getLastTypedWord().isEmpty()) {
             trackedWords.removeLast();
         } else {
             removeLastCharacter();
         }
+
+        updateTypedWordStatuses(currentIndex);
+
     }
 
     public boolean checkWord(int index) {
@@ -87,7 +111,6 @@ public class TypingTracker {
             }
         }
 
-        System.out.println(correctWordCount);
         return (correctWordCount * 60000.0) / elapsedTime;
     }
 
@@ -99,7 +122,10 @@ public class TypingTracker {
         return (totalTypedWords * 60000.0) / elapsedTime;
     }
 
-    
+    public Map<String, TypedWordStatus> getTypedWordStatuses() {
+        return typedWordStatuses;
+    }
+
     public TypingTrackedPosition getTypingTrackedPosition() {
         assert !trackedWords.isEmpty();
         return new TypingTrackedPosition(trackedWords.size() - 1, trackedWords.getLast().length() - 1);
@@ -124,6 +150,14 @@ public class TypingTracker {
         return trackedWords.getLast();
     }
 
+    public boolean isAllowRemoveCorrectWord() {
+        return allowRemoveCorrectWord;
+    }
+
+    public void setAllowRemoveCorrectWord(boolean allowRemoveCorrectWord) {
+        this.allowRemoveCorrectWord = allowRemoveCorrectWord;
+    }
+
     private void appendCharacter(String character) {
         trackedWords.set(trackedWords.size() - 1, getLastTypedWord().concat(character));
     }
@@ -131,5 +165,29 @@ public class TypingTracker {
     private void removeLastCharacter() {
         String lastWord = getLastTypedWord();
         trackedWords.set(trackedWords.size() - 1, lastWord.substring(0, lastWord.length() - 1));
+    }
+
+    private void updateTypedWordStatuses(int index) {
+        String currentWord = words.get(index);
+        String currentTypedWord = trackedWords.get(index);
+
+        if (currentTypedWord.isEmpty()) {
+            typedWordStatuses.put(currentWord, TypedWordStatus.NONE);
+            return;
+        }
+
+        if (currentTypedWord.equals(currentWord)) {
+            typedWordStatuses.put(currentWord, TypedWordStatus.CORRECTED);
+        } else if (currentTypedWord.length() < currentWord.length()) {
+            if (currentWord.startsWith(currentTypedWord)) {
+                typedWordStatuses.put(currentWord, TypedWordStatus.CORRECTED_UNCOMPLETED);
+            } else {
+                typedWordStatuses.put(currentWord, TypedWordStatus.INCORRECT_UNCOMPLETED);
+            }
+        } else if (currentTypedWord.length() > currentWord.length()) {
+            typedWordStatuses.put(currentWord, TypedWordStatus.INCORRECT_OVERFLOWED);
+        } else {
+            typedWordStatuses.put(currentWord, TypedWordStatus.INCORRECT);
+        }
     }
 }
