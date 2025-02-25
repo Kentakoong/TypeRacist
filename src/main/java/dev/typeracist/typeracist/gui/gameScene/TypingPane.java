@@ -4,8 +4,10 @@ import dev.typeracist.typeracist.logic.gameScene.CursorDynamicColorText;
 import dev.typeracist.typeracist.logic.gameScene.DynamicColorText;
 import dev.typeracist.typeracist.logic.gameScene.TypingTrackedPosition;
 import dev.typeracist.typeracist.logic.gameScene.TypingTracker;
+import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -28,6 +30,9 @@ public class TypingPane extends FlowPane {
     private int currentTopRow = 0;
     private int triggerScrollRowRelativeTopCurrentTopRow = 2;
     private Font font;
+
+    private boolean firstClickHandled = false;
+    private EventHandler<KeyEvent> onFirstClick;
 
     public TypingPane(List<String> words) {
         super();
@@ -62,6 +67,14 @@ public class TypingPane extends FlowPane {
         requestFocus();
 
         setOnKeyPressed(event -> {
+
+            if (!firstClickHandled) {
+                firstClickHandled = true;
+                if (onFirstClick != null) {
+                    onFirstClick.handle(event);
+                }
+            }
+
             switch (event.getCode()) {
                 case SPACE -> typingTracker.addNewWord();
                 case BACK_SPACE -> typingTracker.removeCharacter();
@@ -90,6 +103,9 @@ public class TypingPane extends FlowPane {
         });
     }
 
+    public void setOnFirstType(EventHandler<KeyEvent> handler) {
+        this.onFirstClick = handler;
+    }
 
     public int getMaxVisibleRows() {
         return maxVisibleRows;
@@ -106,6 +122,10 @@ public class TypingPane extends FlowPane {
 
     public void setTriggerScrollRowRelativeTopCurrentTopRow(int triggerScrollRowRelativeTopCurrentTopRow) {
         this.triggerScrollRowRelativeTopCurrentTopRow = triggerScrollRowRelativeTopCurrentTopRow;
+    }
+
+    public TypingTracker getTypingTracker() {
+        return typingTracker;
     }
 
     public void setFont(Font font) {
@@ -184,7 +204,6 @@ public class TypingPane extends FlowPane {
                 for (DynamicColorText word : rowMap.get(i)) {
                     word.setManaged(true);
                     word.setVisible(true);
-                    System.out.println(i + "-" + word.toString());
                 }
             }
         }
