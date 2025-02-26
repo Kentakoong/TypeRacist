@@ -169,8 +169,13 @@ public class TypingTracker {
 
     private void updateTypedWordStatuses(int index) {
         String currentWord = words.get(index);
-        String currentTypedWord = trackedWords.get(index);
 
+        if (index >= trackedWords.size()) {
+            typedWordStatuses.remove(currentWord);
+            return;
+        }
+
+        String currentTypedWord = trackedWords.get(index);
         if (currentTypedWord.isEmpty()) {
             typedWordStatuses.put(currentWord, TypedWordStatus.NONE);
             return;
@@ -178,16 +183,23 @@ public class TypingTracker {
 
         if (currentTypedWord.equals(currentWord)) {
             typedWordStatuses.put(currentWord, TypedWordStatus.CORRECTED);
-        } else if (currentTypedWord.length() < currentWord.length()) {
-            if (currentWord.startsWith(currentTypedWord)) {
-                typedWordStatuses.put(currentWord, TypedWordStatus.CORRECTED_UNCOMPLETED);
-            } else {
-                typedWordStatuses.put(currentWord, TypedWordStatus.INCORRECT_UNCOMPLETED);
-            }
-        } else if (currentTypedWord.length() > currentWord.length()) {
-            typedWordStatuses.put(currentWord, TypedWordStatus.INCORRECT_OVERFLOWED);
-        } else {
+            return;
+        }
+
+        if (currentTypedWord.length() == currentWord.length()) {
             typedWordStatuses.put(currentWord, TypedWordStatus.INCORRECT);
+            return;
+        }
+
+        if (currentTypedWord.length() > currentWord.length()) {
+            typedWordStatuses.put(currentWord, TypedWordStatus.INCORRECT_OVERFLOWED);
+            return;
+        }
+
+        if (currentWord.startsWith(currentTypedWord)) {
+            typedWordStatuses.put(currentWord, TypedWordStatus.CORRECTED_UNCOMPLETED);
+        } else {
+            typedWordStatuses.put(currentWord, TypedWordStatus.INCORRECT_UNCOMPLETED);
         }
     }
 }
