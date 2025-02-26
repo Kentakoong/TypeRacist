@@ -9,28 +9,28 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 
-public class DataSet {
+public class Dataset {
     private final List<String> paragraphs;
     private final List<String> words;
     private final Random random = new Random();
     private LinkedHashMap<String, Double> rankedWords;
     private LinkedHashMap<String, Double> rankedParagraphs;
 
-    public DataSet(String filePath) {
+    public Dataset(String filePath) {
         paragraphs = readJsonFile(filePath);
         words = new ArrayList<>();
         rankedWords = new LinkedHashMap<>();
         rankedParagraphs = new LinkedHashMap<>();
     }
 
-    public DataSet(List<String> paragraphs) {
+    public Dataset(List<String> paragraphs) {
         this.paragraphs = new ArrayList<>(paragraphs);
         this.words = new ArrayList<>();
         this.rankedWords = new LinkedHashMap<>();
         this.rankedParagraphs = new LinkedHashMap<>();
     }
 
-    public DataSet(String filePath, boolean lowerCase, boolean noPunctuation, boolean noNumber) {
+    public Dataset(String filePath, boolean lowerCase, boolean noPunctuation, boolean noNumber) {
         paragraphs = readJsonFile(filePath);
         words = new ArrayList<>();
         rankedWords = new LinkedHashMap<>();
@@ -39,7 +39,7 @@ public class DataSet {
         applyTransformations(lowerCase, noPunctuation, noNumber);
     }
 
-    public DataSet(List<String> paragraphs, boolean lowerCase, boolean noPunctuation, boolean noNumber) {
+    public Dataset(List<String> paragraphs, boolean lowerCase, boolean noPunctuation, boolean noNumber) {
         this.paragraphs = new ArrayList<>(paragraphs);
         this.words = new ArrayList<>();
         this.rankedWords = new LinkedHashMap<>();
@@ -51,7 +51,7 @@ public class DataSet {
     private static List<String> readJsonFile(String filePath) {
         List<String> paragraphs = new ArrayList<>();
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(
-                Objects.requireNonNull(DataSet.class.getResourceAsStream(filePath))))) {
+                Objects.requireNonNull(Dataset.class.getResourceAsStream(filePath))))) {
             StringBuilder content = new StringBuilder();
             String line;
             while ((line = reader.readLine()) != null) {

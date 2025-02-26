@@ -3,7 +3,7 @@ package dev.typeracist.typeracist.scene;
 import dev.typeracist.typeracist.gui.gameScene.TypingPane;
 import dev.typeracist.typeracist.logic.gameScene.TypingHardness;
 import dev.typeracist.typeracist.logic.global.GameLogic;
-import dev.typeracist.typeracist.utils.DataSetName;
+import dev.typeracist.typeracist.utils.DatasetName;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -56,7 +56,7 @@ public class KeyboardPaneSceneDemo extends Scene {
         subHbox.getChildren().addAll(wpm, unit);
         hBox.getChildren().addAll(title, leftSpacer, rightSpacer, subHbox);
 
-        List<String> selectParagraph = GameLogic.getInstance().getDataSetManager().getDataSet(DataSetName.COMMON_WORDS_1K).getRandomWordsByScoreRange(4.5, 7, 50);
+        List<String> selectParagraph = GameLogic.getInstance().getDatasetManager().getDataSet(DatasetName.COMMON_WORDS_1K).getRandomWordsByScoreRange(4.5, 7, 50);
 
         TypingPane typingPane = new TypingPane(selectParagraph);
 
