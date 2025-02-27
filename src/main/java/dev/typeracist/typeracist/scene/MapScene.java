@@ -25,6 +25,7 @@ public class MapScene extends Scene {
 
         createNode("castle", 75, 490, this.getClass().getResource("/dev/typeracist/typeracist/image/map/castle.png").toString(), "START");
         createNode("shop", 200, 520, this.getClass().getResource("/dev/typeracist/typeracist/image/map/shop.png").toString(), "STORE");
+        createNode("book", 490, 30, this.getClass().getResource("/dev/typeracist/typeracist/image/map/book.png").toString(), "BOOK");
         createNode("chest1", 175, 60, this.getClass().getResource("/dev/typeracist/typeracist/image/map/chest.png").toString(), "REWARD1");
         createNode("chest2", 675, 180, this.getClass().getResource("/dev/typeracist/typeracist/image/map/chest.png").toString(), "REWARD2");
         createNode("anvil1", 275, 60, this.getClass().getResource("/dev/typeracist/typeracist/image/map/anvil.png").toString(), "UPGRADE");
@@ -57,6 +58,7 @@ public class MapScene extends Scene {
         connectNodes("sword6", "sword9");
         connectNodes("skull", "sword9");
         connectNodes("skull", "next");
+        connectNodes("sword7", "book");
     }
 
     private void createNode(String id, double x, double y, String imagePath, String action) {
