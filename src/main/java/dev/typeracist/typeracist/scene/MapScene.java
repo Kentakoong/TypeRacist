@@ -3,10 +3,12 @@
     import dev.typeracist.typeracist.logic.global.GameLogic;
     import javafx.scene.Scene;
     import javafx.scene.control.Button;
+    import javafx.scene.control.Label;
     import javafx.scene.image.Image;
     import javafx.scene.image.ImageView;
     import javafx.scene.layout.Pane;
     import javafx.scene.shape.Line;
+    import javafx.scene.text.Font;
 
     import java.util.HashMap;
     import java.util.Map;
@@ -21,6 +23,17 @@
 
             //set background to grey
             root.setStyle("-fx-background-color: grey;");
+
+
+            // Add title label
+            Font baseFont = Font.loadFont(KeyboardPaneSceneDemo.class.getResourceAsStream("/dev/typeracist/typeracist/fonts/DepartureMono-Regular.otf"), 36);
+            Label titleLabel = new Label("Arena Map");
+            titleLabel.setStyle("-fx-text-fill: black;");
+            titleLabel.setLayoutX(50);
+            titleLabel.setLayoutY(10);
+            titleLabel.setFont(Font.font(baseFont.getName(), 36));
+            root.getChildren().add(titleLabel);
+
 
             // Create nodes
 
@@ -132,13 +145,16 @@
                     GameLogic.getInstance().getSceneManager().setScene("STORE_SCENE");
                     break;
                 case "UPGRADE":
-                    GameLogic.getInstance().getSceneManager().setScene("UPGRADE_SCENE");
+                    GameLogic.getInstance().getSceneManager().setScene("forgePane");
                     break;
                 case "BOSS":
                     GameLogic.getInstance().getSceneManager().setScene("BOSS_SCENE");
                     break;
                 case "NEXT":
                     GameLogic.getInstance().getSceneManager().setScene("NEXT_MAP");
+                    break;
+                case "BOOK":
+                    GameLogic.getInstance().getSceneManager().setScene("enchantPane");
                     break;
             }
         }
