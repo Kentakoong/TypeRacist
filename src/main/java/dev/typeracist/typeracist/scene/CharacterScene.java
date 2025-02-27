@@ -8,13 +8,15 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
 
 public class CharacterScene extends Scene {
+    private String selectedCharacter; // Store selected character ID
+
     public CharacterScene(double width, double height) {
         super(new VBox(), width, height);
 
@@ -23,16 +25,39 @@ public class CharacterScene extends Scene {
         root.setSpacing(20);
         root.setPadding(new Insets(20));
 
-        Label title = new Label("Choose your Character");
-        title.setFont(Font.font("JetBrainsMono NF", FontWeight.BOLD, 24));
+        // Add title label
+        Font baseFont = Font.loadFont(getClass().getResourceAsStream("/dev/typeracist/typeracist/fonts/DepartureMono-Regular.otf"), 36);
+        Label titleLabel = new Label("Choose Your Character");
+        titleLabel.setStyle("-fx-text-fill: black;");
+        titleLabel.setFont(Font.font(baseFont.getName(), 36));
 
         // Character selection area
         HBox characterSelection = new HBox(10);
         characterSelection.setAlignment(Pos.CENTER);
-        for (int i = 0; i < 5; i++) {
-            Rectangle characterSlot = new Rectangle(80, 80);
-            characterSlot.setStyle("-fx-fill: lightgray; -fx-stroke: black;");
-            characterSelection.getChildren().add(characterSlot);
+
+        // Array of character image paths
+        String[] characterImages = {
+                "/dev/typeracist/typeracist/image/character/char1.png",
+                "/dev/typeracist/typeracist/image/character/char2.png",
+                "/dev/typeracist/typeracist/image/character/char3.png",
+                "/dev/typeracist/typeracist/image/character/char4.png",
+                "/dev/typeracist/typeracist/image/character/char5.png"
+        };
+
+        // Loop to create character images
+        for (int i = 0; i < characterImages.length; i++) {
+            String characterPath = characterImages[i]; // Create a final local variable
+            Image characterImage = new Image(getClass().getResourceAsStream(characterPath)); // Fix image loading
+            ImageView characterView = new ImageView(characterImage);
+            characterView.setFitWidth(80);
+            characterView.setFitHeight(80);
+
+            characterView.setOnMouseClicked(event -> {
+                selectedCharacter = characterPath; // Use the final local variable
+                System.out.println("Selected character: " + selectedCharacter);
+            });
+
+            characterSelection.getChildren().add(characterView);
         }
 
         // Name input field
@@ -54,8 +79,15 @@ public class CharacterScene extends Scene {
 
         // Confirm button
         Button confirmButton = new Button("Confirm");
-        confirmButton.setOnAction(event -> GameLogic.getInstance().getSceneManager().setScene(SceneName.MAP));
+        confirmButton.setOnAction(event -> {
+            if (selectedCharacter != null) {
+                System.out.println("Character confirmed: " + selectedCharacter);
+                GameLogic.getInstance().getSceneManager().setScene(SceneName.MAP);
+            } else {
+                System.out.println("Please select a character first!");
+            }
+        });
 
-        root.getChildren().addAll(title, characterSelection, nameBox, difficultyBox, confirmButton);
+        root.getChildren().addAll(titleLabel, characterSelection, nameBox, difficultyBox, confirmButton);
     }
 }
