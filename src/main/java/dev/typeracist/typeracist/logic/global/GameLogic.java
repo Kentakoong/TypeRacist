@@ -5,10 +5,15 @@ import dev.typeracist.typeracist.logic.gameScene.DatasetManager;
 import dev.typeracist.typeracist.utils.DatasetName;
 import javafx.stage.Stage;
 
+import java.util.HashSet;
+import java.util.Set;
+
 public class GameLogic {
     private static GameLogic instance;
     private final SceneManager sceneManager;
     private final DatasetManager datasetManager;
+    private String selectedCharacter; // Store character image path or ID
+    private final Set<String> clearedBattles = new HashSet<>();
 
     private GameLogic(Stage primaryStage) {
         sceneManager = new SceneManager(primaryStage);
@@ -47,5 +52,22 @@ public class GameLogic {
 
     public DatasetManager getDatasetManager() {
         return datasetManager;
+    }
+
+    //intermediated pass variable  CharacterScene and Map
+    public void setSelectedCharacter(String character) {
+        this.selectedCharacter = character;
+    }
+
+    public String getSelectedCharacter() {
+        return selectedCharacter;
+    }
+
+    public void clearBattle(String battleName) {
+        clearedBattles.add(battleName);
+    }
+
+    public boolean isBattleCleared(String battleName) {
+        return clearedBattles.contains(battleName);
     }
 }

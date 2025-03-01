@@ -63,7 +63,7 @@
             });
             root.getChildren().add(confirmButton);
 
-            character = new ImageView(new Image(this.getClass().getResource("/dev/typeracist/typeracist/image/map/castle.png").toString()));
+            character = new ImageView(new Image(this.getClass().getResource("/dev/typeracist/typeracist/image/character/warrior.png").toString()));
             character.setFitWidth(50); // Set character size
             character.setFitHeight(50);
             character.setLayoutX(75); // Initial position (same as "castle")
@@ -110,6 +110,18 @@
             connectNodes("skull", "sword9");
             connectNodes("skull", "next");
             connectNodes("sword7", "book");
+
+            // Test buttons to win battles
+            addWinButton("Win BATTLE1", 50, 550, "BATTLE1");
+            addWinButton("Win BATTLE2", 150, 550, "BATTLE2");
+            addWinButton("Win BATTLE3", 250, 550, "BATTLE3");
+            addWinButton("Win BATTLE4", 350, 550, "BATTLE4");
+            addWinButton("Win BATTLE5", 450, 550, "BATTLE5");
+            addWinButton("Win BATTLE6", 550, 550, "BATTLE6");
+            addWinButton("Win BATTLE7", 650, 550, "BATTLE7");
+            addWinButton("Win BATTLE8", 750, 550, "BATTLE8");
+            addWinButton("Win BATTLE9", 850, 550, "BATTLE9");
+            addWinButton("BOSS", 950, 550, "BOSS");
         }
 
         private void createNode(String id, double x, double y, String imagePath, String action, String description) {
@@ -176,50 +188,120 @@
                     GameLogic.getInstance().getSceneManager().setScene("BATTLE_SCENE1");
                     break;
                 case "BATTLE2":
-                    GameLogic.getInstance().getSceneManager().setScene("BATTLE_SCENE2");
+                    if (GameLogic.getInstance().isBattleCleared("BATTLE1")) {
+                        GameLogic.getInstance().getSceneManager().setScene("BATTLE_SCENE2");
+                    } else {
+                        infoLabel.setText("You must clear BATTLE1 first!");
+                    }
                     break;
                 case "BATTLE3":
-                    GameLogic.getInstance().getSceneManager().setScene("BATTLE_SCENE3");
+                    if (GameLogic.getInstance().isBattleCleared("BATTLE2")) {
+                        GameLogic.getInstance().getSceneManager().setScene("BATTLE_SCENE3");
+                    } else {
+                        infoLabel.setText("You must clear BATTLE2 first!");
+                    }
                     break;
                 case "BATTLE4":
-                    GameLogic.getInstance().getSceneManager().setScene("BATTLE_SCENE4");
+                    if (GameLogic.getInstance().isBattleCleared("BATTLE3")) {
+                        GameLogic.getInstance().getSceneManager().setScene("BATTLE_SCENE4");
+                    } else {
+                        infoLabel.setText("You must clear BATTLE3 first!");
+                    }
                     break;
                 case "BATTLE5":
-                    GameLogic.getInstance().getSceneManager().setScene("BATTLE_SCENE5");
+                    if (GameLogic.getInstance().isBattleCleared("BATTLE4")) {
+                        GameLogic.getInstance().getSceneManager().setScene("BATTLE_SCENE5");
+                    } else {
+                        infoLabel.setText("You must clear BATTLE4 first!");
+                    }
                     break;
                 case "BATTLE6":
-                    GameLogic.getInstance().getSceneManager().setScene("BATTLE_SCENE6");
+                    if (GameLogic.getInstance().isBattleCleared("BATTLE5")) {
+                        GameLogic.getInstance().getSceneManager().setScene("BATTLE_SCENE6");
+                    } else {
+                        infoLabel.setText("You must clear BATTLE5 first!");
+                    }
                     break;
                 case "BATTLE7":
-                    GameLogic.getInstance().getSceneManager().setScene("BATTLE_SCENE7");
+                    if (GameLogic.getInstance().isBattleCleared("BATTLE6")) {
+                        GameLogic.getInstance().getSceneManager().setScene("BATTLE_SCENE7");
+                    } else {
+                        infoLabel.setText("You must clear BATTLE6 first!");
+                    }
                     break;
                 case "BATTLE8":
-                    GameLogic.getInstance().getSceneManager().setScene("BATTLE_SCENE8");
+                    if (GameLogic.getInstance().isBattleCleared("BATTLE7")) {
+                        GameLogic.getInstance().getSceneManager().setScene("BATTLE_SCENE8");
+                    } else {
+                        infoLabel.setText("You must clear BATTLE7 first!");
+                    }
                     break;
                 case "BATTLE9":
-                    GameLogic.getInstance().getSceneManager().setScene("BATTLE_SCENE9");
+                    if (GameLogic.getInstance().isBattleCleared("BATTLE8")) {
+                        GameLogic.getInstance().getSceneManager().setScene("BATTLE_SCENE9");
+                    } else {
+                        infoLabel.setText("You must clear BATTLE8 first!");
+                    }
                     break;
                 case "REWARD1":
-                    GameLogic.getInstance().getSceneManager().setScene("REWARD_SCENE1");
+                    if (GameLogic.getInstance().isBattleCleared("BATTLE4")) {
+                        GameLogic.getInstance().getSceneManager().setScene("REWARD_SCENE1");
+                    } else {
+                        infoLabel.setText("You must clear BATTLE4 first!");
+                    }
                     break;
                 case "REWARD2":
-                    GameLogic.getInstance().getSceneManager().setScene("REWARD_SCENE2");
+                    if (GameLogic.getInstance().isBattleCleared("BATTLE9")) {
+                        GameLogic.getInstance().getSceneManager().setScene("REWARD_SCENE2");
+                    } else {
+                        infoLabel.setText("You must clear BATTLE9 first!");
+                    }
                     break;
                 case "STORE":
                     GameLogic.getInstance().getSceneManager().setScene("STORE_SCENE");
                     break;
                 case "UPGRADE":
-                    GameLogic.getInstance().getSceneManager().setScene("forgePane");
+                    if (GameLogic.getInstance().isBattleCleared("BATTLE5")) {
+                        GameLogic.getInstance().getSceneManager().setScene("forgePane");
+                    } else {
+                        infoLabel.setText("You must clear BATTLE5 first!");
+                    }
                     break;
                 case "BOSS":
-                    GameLogic.getInstance().getSceneManager().setScene("BOSS_SCENE");
+                    if (GameLogic.getInstance().isBattleCleared("BATTLE9")) {
+                        GameLogic.getInstance().getSceneManager().setScene("BOSS_SCENE");
+                    } else {
+                        infoLabel.setText("You must clear BATTLE9 first!");
+                    }
                     break;
                 case "NEXT":
-                    GameLogic.getInstance().getSceneManager().setScene("NEXT_MAP");
+                    if (GameLogic.getInstance().isBattleCleared("BOSS")) {
+                        GameLogic.getInstance().getSceneManager().setScene("NEXT_MAP");
+                    } else {
+                        infoLabel.setText("You must clear BOSS first!");
+                    }
                     break;
                 case "BOOK":
-                    GameLogic.getInstance().getSceneManager().setScene("enchantPane");
+                    if (GameLogic.getInstance().isBattleCleared("BATTLE7")) {
+                        GameLogic.getInstance().getSceneManager().setScene("enchantPane");
+                    } else {
+                        infoLabel.setText("You must clear BATTLE7 first!");
+                    }
                     break;
             }
         }
+
+        private void addWinButton(String text, double x, double y, String battleName) {
+            Button winButton = new Button(text);
+            winButton.setLayoutX(x);
+            winButton.setLayoutY(y);
+            winButton.setOnAction(event -> {
+                GameLogic.getInstance().clearBattle(battleName);
+                infoLabel.setText(battleName + " cleared!");
+            });
+            root.getChildren().add(winButton);
+        }
+
+
+
     }
