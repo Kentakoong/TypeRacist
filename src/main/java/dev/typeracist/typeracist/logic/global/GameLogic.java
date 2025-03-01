@@ -18,6 +18,7 @@ public class GameLogic {
     private GameLogic(Stage primaryStage) {
         sceneManager = new SceneManager(primaryStage);
         datasetManager = new DatasetManager();
+        selectedCharacter = "/dev/typeracist/typeracist/image/character/warrior.png";
     }
 
     public static void init(Stage primaryStage) {
