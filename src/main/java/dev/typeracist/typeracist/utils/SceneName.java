@@ -7,4 +7,5 @@ public class SceneName {
     final public static String DYNAMIC_PANE_TEST = "dynamic-pane-test";
     final public static String KEYBOARD_TEST = "keyboard-pane-test";
     final public static String MAP = "map";
+    final public static String BATTLE_TEST = "battle-pane-test";
 }

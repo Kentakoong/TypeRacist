@@ -131,7 +131,7 @@ public class TypingTracker {
         return new TypingTrackedPosition(trackedWords.size() - 1, trackedWords.getLast().length() - 1);
     }
 
-    private long getElapsedTime() {
+    public long getElapsedTime() {
         if (isRunning) {
             return totalElapsedTime + (System.currentTimeMillis() - startTime);
         }

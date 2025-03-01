@@ -5,6 +5,7 @@ import dev.typeracist.typeracist.logic.global.ResourceManager;
 import dev.typeracist.typeracist.utils.ResourceName;
 import dev.typeracist.typeracist.utils.SceneName;
 import javafx.geometry.Pos;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
@@ -55,7 +56,22 @@ public class MainScene extends BaseScene {
         testKeyBoardPaneSceneButton.setPrefWidth(200);
         testKeyBoardPaneSceneButton.setOnAction(event -> GameLogic.getInstance().getSceneManager().setScene(SceneName.KEYBOARD_TEST));
 
-        buttonBar.getChildren().addAll(startButton, settingsButton, exitButton, testSceneButton, testKeyBoardPaneSceneButton);
+        Button testBattleScene = new Button("Battle Test Scene");
+        testBattleScene.setPrefWidth(200);
+        testBattleScene.setOnAction(event -> {
+                    try {
+                        GameLogic.getInstance().getSceneManager().setScene(SceneName.BATTLE_TEST);
+                    } catch (IllegalArgumentException e) {
+                        Alert alert = new Alert(Alert.AlertType.ERROR);
+                        alert.setTitle("Error");
+                        alert.setHeaderText("Scene is not loaded.");
+                        alert.setContentText("Please wait for scene to load, try again in a few seconds.");
+                        alert.showAndWait();
+                    }
+                }
+        );
+
+        buttonBar.getChildren().addAll(startButton, settingsButton, exitButton, testSceneButton, testKeyBoardPaneSceneButton, testBattleScene);
         root.getChildren().addAll(titleLabel, buttonBar);
     }
 

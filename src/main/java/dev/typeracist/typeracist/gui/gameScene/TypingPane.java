@@ -4,6 +4,7 @@ import dev.typeracist.typeracist.logic.gameScene.CursorDynamicColorText;
 import dev.typeracist.typeracist.logic.gameScene.DynamicColorText;
 import dev.typeracist.typeracist.logic.gameScene.TypingTrackedPosition;
 import dev.typeracist.typeracist.logic.gameScene.TypingTracker;
+import dev.typeracist.typeracist.utils.EventProcessor;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -22,17 +23,23 @@ public class TypingPane extends FlowPane {
     final static public Color DEFAULT_DYNAMIC_COLOR_TEXT_HIGHLIGHT_WRONG_COLOR = Color.RED;
     final static public Color DEFAULT_DYNAMIC_COLOR_TEXT_HIGHLIGHT_OUTOFWORD_COLOR = Color.DARKRED;
 
-    private final List<DynamicColorText> dynamicColorWords;
-    private final HashMap<Integer, List<DynamicColorText>> rowMap;
-    private final TypingTracker typingTracker;
+    protected final List<DynamicColorText> dynamicColorWords;
+    protected final HashMap<Integer, List<DynamicColorText>> rowMap;
+    protected final TypingTracker typingTracker;
 
-    private int maxVisibleRows;
-    private int currentTopRow;
-    private int triggerScrollRowRelativeTopCurrentTopRow;
-    private Font font;
+    protected int maxVisibleRows;
+    protected int currentTopRow;
+    protected int triggerScrollRowRelativeTopCurrentTopRow;
 
-    private boolean firstClickHandled;
-    private EventHandler<KeyEvent> onFirstClick;
+    protected Color baseColor;
+    protected Color highlightCorrectColor;
+    protected Color highlightWrongColor;
+    protected Color highlightOutOfWordColor;
+    protected Font font;
+
+    protected boolean firstTypeHandled;
+    protected EventHandler<KeyEvent> onFirstTypeHandler;
+    protected EventProcessor<KeyEvent> onTypeProcessor;
 
     public TypingPane(List<String> words) {
         super();
@@ -43,7 +50,11 @@ public class TypingPane extends FlowPane {
         maxVisibleRows = 3;
         currentTopRow = 0;
         triggerScrollRowRelativeTopCurrentTopRow = 2;
-        firstClickHandled = false;
+        firstTypeHandled = false;
+        baseColor = DEFAULT_DYNAMIC_COLOR_TEXT_BASE_COLOR;
+        highlightCorrectColor = DEFAULT_DYNAMIC_COLOR_TEXT_HIGHLIGHT_CORRECT_COLOR;
+        highlightWrongColor = DEFAULT_DYNAMIC_COLOR_TEXT_HIGHLIGHT_WRONG_COLOR;
+        highlightOutOfWordColor = DEFAULT_DYNAMIC_COLOR_TEXT_HIGHLIGHT_OUTOFWORD_COLOR;
 
         setHgap(11);
         setVgap(8);
@@ -70,12 +81,16 @@ public class TypingPane extends FlowPane {
         setFocusTraversable(true);
         requestFocus();
 
-        setOnKeyPressed(event -> {
+        super.setOnKeyPressed(event -> {
 
-            if (!firstClickHandled) {
-                firstClickHandled = true;
-                if (onFirstClick != null) {
-                    onFirstClick.handle(event);
+            if (onTypeProcessor != null) {
+                event = onTypeProcessor.process(event);
+            }
+
+            if (!firstTypeHandled) {
+                firstTypeHandled = true;
+                if (onFirstTypeHandler != null) {
+                    onFirstTypeHandler.handle(event);
                 }
             }
 
@@ -106,8 +121,37 @@ public class TypingPane extends FlowPane {
     }
 
     public void setOnFirstType(EventHandler<KeyEvent> handler) {
-        this.onFirstClick = handler;
+        onFirstTypeHandler = handler;
     }
+
+    public void setOnType(EventProcessor<KeyEvent> processor) {
+        onTypeProcessor = processor;
+    }
+
+
+    public void setHighlightColors(Color baseColor, Color correctColor, Color wrongColor, Color outOfWordColor) {
+        this.baseColor = baseColor;
+        this.highlightCorrectColor = correctColor;
+        this.highlightWrongColor = wrongColor;
+        this.highlightOutOfWordColor = outOfWordColor;
+    }
+
+    public Color getBaseColor() {
+        return baseColor != null ? baseColor : DEFAULT_DYNAMIC_COLOR_TEXT_BASE_COLOR;
+    }
+
+    public Color getHighlightCorrectColor() {
+        return highlightCorrectColor != null ? highlightCorrectColor : DEFAULT_DYNAMIC_COLOR_TEXT_HIGHLIGHT_CORRECT_COLOR;
+    }
+
+    public Color getHighlightWrongColor() {
+        return highlightWrongColor != null ? highlightWrongColor : DEFAULT_DYNAMIC_COLOR_TEXT_HIGHLIGHT_WRONG_COLOR;
+    }
+
+    public Color getHighlightOutOfWordColor() {
+        return highlightOutOfWordColor != null ? highlightOutOfWordColor : DEFAULT_DYNAMIC_COLOR_TEXT_HIGHLIGHT_OUTOFWORD_COLOR;
+    }
+
 
     public int getMaxVisibleRows() {
         return maxVisibleRows;
@@ -150,7 +194,7 @@ public class TypingPane extends FlowPane {
         }
     }
 
-    private void initializeTypingPaneTexts() {
+    protected void initializeTypingPaneTexts() {
         for (int i = 0; i < typingTracker.getWords().size(); ++i) {
             DynamicColorText newDynamicColorWord = renderWord(i);
 
@@ -165,7 +209,7 @@ public class TypingPane extends FlowPane {
         updateRowVisibility();
     }
 
-    private void updateRowMappings() {
+    protected void updateRowMappings() {
         rowMap.clear();
 
         dynamicColorWords.forEach(word -> {
@@ -192,7 +236,7 @@ public class TypingPane extends FlowPane {
         }
     }
 
-    private void updateRowVisibility() {
+    protected void updateRowVisibility() {
         updateRowMappings();
 
         dynamicColorWords.forEach(word -> {
@@ -229,10 +273,10 @@ public class TypingPane extends FlowPane {
     protected DynamicColorText renderWord(int index) {
         return renderWord(
                 index,
-                DEFAULT_DYNAMIC_COLOR_TEXT_BASE_COLOR,
-                DEFAULT_DYNAMIC_COLOR_TEXT_HIGHLIGHT_CORRECT_COLOR,
-                DEFAULT_DYNAMIC_COLOR_TEXT_HIGHLIGHT_WRONG_COLOR,
-                DEFAULT_DYNAMIC_COLOR_TEXT_HIGHLIGHT_OUTOFWORD_COLOR
+                baseColor,
+                highlightCorrectColor,
+                highlightWrongColor,
+                highlightOutOfWordColor
         );
     }
 
@@ -257,10 +301,10 @@ public class TypingPane extends FlowPane {
     protected void reRenderWord(int index) {
         reRenderWord(
                 index,
-                DEFAULT_DYNAMIC_COLOR_TEXT_BASE_COLOR,
-                DEFAULT_DYNAMIC_COLOR_TEXT_HIGHLIGHT_CORRECT_COLOR,
-                DEFAULT_DYNAMIC_COLOR_TEXT_HIGHLIGHT_WRONG_COLOR,
-                DEFAULT_DYNAMIC_COLOR_TEXT_HIGHLIGHT_OUTOFWORD_COLOR
+                baseColor,
+                highlightCorrectColor,
+                highlightWrongColor,
+                highlightOutOfWordColor
         );
     }
 
@@ -288,7 +332,9 @@ public class TypingPane extends FlowPane {
 
         assert dynamicColorText.length() == maxWordLength;
         for (int i = 0; i < maxWordLength; i++) {
+            // todo: find a better way to ensure that overflow word do not cause a row limit overflow
             if (i >= currentWord.length()) {
+                updateRowVisibility(); // needed to be fixed
                 dynamicColorText.highlightCharacter(i, hightlightOutofWordColor);
                 continue;
             }

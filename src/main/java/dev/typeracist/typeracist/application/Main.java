@@ -29,6 +29,7 @@ public class Main extends Application {
         // load dataset and keyboard pane, in other page.
         new Thread(() -> {
             GameLogic.initializeDatasets();
+            sceneManager.addScene(SceneName.BATTLE_TEST, new BattleScene(1000, 750));
             sceneManager.addScene(SceneName.KEYBOARD_TEST, new KeyboardPaneSceneDemo(1000, 750));
         }).start();
 
