@@ -1,32 +1,25 @@
 package dev.typeracist.typeracist.logic.characters;
 
-public abstract class Character {
-    protected final HP hp;
-    protected final int atk;
-    protected final int def;
+public abstract class Character extends Entity {
+    protected static final HP BASE_HP = new HP(35);
+    protected static final int BASE_ATK = 4;
+    protected static final int BASE_DEF = 5;
+    protected static final int XP_TO_LEVEL_UP = 25;
     protected int xp;
     protected int coin;
-    protected static final int BASE_HP = 35;
-    protected static final int XP_TO_LEVEL_UP = 25;
 
-    public Character(int atk, int def) {
-        this.hp = new HP(BASE_HP);
-        this.atk = atk;
-        this.def = def;
+    public Character(HP hp, int atk, int def) {
+        super(hp, atk, def);
         this.xp = 0;
         this.coin = 0;
     }
 
-    public HP getHp() {
-        return hp;
+    public Character(int atk, int def) {
+        this(BASE_HP, atk, def);
     }
 
-    public int getAtk() {
-        return atk;
-    }
-
-    public int getDef() {
-        return def;
+    public Character() {
+        this(BASE_HP, BASE_ATK, BASE_DEF);
     }
 
     public int getXp() {
@@ -55,7 +48,4 @@ public abstract class Character {
         }
         this.coin -= amount;
     }
-
-    // Abstract method for character-specific ability
-    public abstract void useAbility();
 }
