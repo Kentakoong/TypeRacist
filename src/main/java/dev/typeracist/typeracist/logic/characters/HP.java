@@ -1,14 +1,18 @@
 package dev.typeracist.typeracist.logic.characters;
 
 public class HP {
-    private int currentHP;
     private final int maxHP;
     private final int minHP;
+    private int currentHP;
 
-    public HP(int maxHP) {
+    public HP(int maxHP, int currentHP) {
         this.maxHP = maxHP;
         this.minHP = 0;
-        this.currentHP = maxHP;
+        this.currentHP = currentHP;
+    }
+
+    public HP(int maxHP) {
+        this(maxHP, maxHP);
     }
 
     public int getCurrentHP() {
