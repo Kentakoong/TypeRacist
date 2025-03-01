@@ -8,6 +8,8 @@
     import javafx.scene.image.Image;
     import javafx.scene.image.ImageView;
     import javafx.scene.layout.Pane;
+    import javafx.scene.paint.Color;
+    import javafx.scene.shape.Circle;
     import javafx.scene.shape.Line;
     import javafx.scene.text.Font;
     import javafx.animation.TranslateTransition;
@@ -125,6 +127,13 @@
         }
 
         private void createNode(String id, double x, double y, String imagePath, String action, String description) {
+            // Create status circle
+            Circle statusCircle = new Circle(30); // Adjust radius as needed
+            statusCircle.setLayoutX(x + 35); // Centered with the icon
+            statusCircle.setLayoutY(y + 25);
+            statusCircle.setFill(getNodeColor(action)); // Set initial color
+
+
             ImageView icon = new ImageView(new Image(imagePath));
             icon.setFitWidth(50);
             icon.setFitHeight(50);
@@ -144,7 +153,10 @@
             });
 
             nodeButtons.put(id, button);
+            // Add circle first, then button so the circle is behind the image
+            root.getChildren().add(statusCircle);
             root.getChildren().add(button);
+
         }
 
         private void connectNodes(String from, String to) {
@@ -159,6 +171,20 @@
                 root.getChildren().add(0, line); // Add behind buttons
             }
         }
+
+        // Helper method to determine circle color
+        private Color getNodeColor(String action) {
+            if ("BOSS".equals(action)) {
+                return Color.RED; // Boss fights
+            } else if (GameLogic.getInstance().isBattleCleared(action)) {
+                return Color.GREEN; // Won battles
+            } else if (GameLogic.getInstance().isBattleUnlocked(action)) {
+                return Color.YELLOW; // Playable battles
+            } else {
+                return Color.WHITE; // Locked battles
+            }
+        }
+
 
         private void moveCharacter(double targetX, double targetY) {
             // Center the character on the target
@@ -295,13 +321,30 @@
             Button winButton = new Button(text);
             winButton.setLayoutX(x);
             winButton.setLayoutY(y);
+
             winButton.setOnAction(event -> {
-                GameLogic.getInstance().clearBattle(battleName);
+                GameLogic.getInstance().clearBattle(battleName); // Mark as won
                 infoLabel.setText(battleName + " cleared!");
+                updateNodeColors(); // Refresh colors after winning
             });
+
             root.getChildren().add(winButton);
         }
 
+        private void updateNodeColors() {
+            for (Map.Entry<String, Button> entry : nodeButtons.entrySet()) {
+                String nodeId = entry.getKey();
+                Button button = entry.getValue();
+                Color newColor = getNodeColor(nodeId);
+
+                // Update the circle color dynamically
+                for (javafx.scene.Node node : root.getChildren()) {
+                    if (node instanceof Circle && node.getUserData() != null && node.getUserData().equals(nodeId)) {
+                        ((Circle) node).setFill(newColor);
+                    }
+                }
+            }
+        }
 
 
     }

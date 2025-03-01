@@ -70,4 +70,20 @@ public class GameLogic {
     public boolean isBattleCleared(String battleName) {
         return clearedBattles.contains(battleName);
     }
+
+    // Checks if a battle is playable based on previous battle clear status
+    public boolean isBattleUnlocked(String battleName) {
+        switch (battleName) {
+            case "BATTLE2": return isBattleCleared("BATTLE1");
+            case "BATTLE3": return isBattleCleared("BATTLE2");
+            case "BATTLE4": return isBattleCleared("BATTLE3");
+            case "BATTLE5": return isBattleCleared("BATTLE4");
+            case "BATTLE6": return isBattleCleared("BATTLE5");
+            case "BATTLE7": return isBattleCleared("BATTLE6");
+            case "BATTLE8": return isBattleCleared("BATTLE7");
+            case "BATTLE9": return isBattleCleared("BATTLE8");
+            case "BOSS": return isBattleCleared("BATTLE9");
+            default: return false;
+        }
+    }
 }
