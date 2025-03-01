@@ -20,16 +20,16 @@ public class Main extends Application {
 
         SceneManager sceneManager = GameLogic.getInstance().getSceneManager();
 
-        sceneManager.addScene(SceneName.MAIN, new MainScene(800, 600));
-        sceneManager.addScene(SceneName.SETTINGS, new SettingScene(800, 600));
-        sceneManager.addScene(SceneName.CHARACTERS, new CharacterScene(800, 600));
-        sceneManager.addScene(SceneName.DYNAMIC_PANE_TEST, new DynamicSceneDemo(800, 600));
-        sceneManager.addScene(SceneName.MAP, new MapScene(800, 600));
+        sceneManager.addScene(SceneName.MAIN, new MainScene(1000, 750));
+        sceneManager.addScene(SceneName.SETTINGS, new SettingScene(1000, 750));
+        sceneManager.addScene(SceneName.CHARACTERS, new CharacterScene(1000, 750));
+        sceneManager.addScene(SceneName.DYNAMIC_PANE_TEST, new DynamicSceneDemo(1000, 750));
+        sceneManager.addScene(SceneName.MAP, new MapScene(1000, 750));
 
         // load dataset and keyboard pane, in other page.
         new Thread(() -> {
             GameLogic.initializeDatasets();
-            sceneManager.addScene(SceneName.KEYBOARD_TEST, new KeyboardPaneSceneDemo(800, 600));
+            sceneManager.addScene(SceneName.KEYBOARD_TEST, new KeyboardPaneSceneDemo(1000, 750));
         }).start();
 
         sceneManager.setScene(SceneName.MAIN);

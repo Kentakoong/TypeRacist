@@ -66,62 +66,62 @@
             character = new ImageView(new Image(this.getClass().getResource("/dev/typeracist/typeracist/image/character/warrior.png").toString()));
             character.setFitWidth(50); // Set character size
             character.setFitHeight(50);
-            character.setLayoutX(75); // Initial position (same as "castle")
-            character.setLayoutY(490);
+            character.setLayoutX(225); // Initial position (same as "castle")
+            character.setLayoutY(540);
 
             root.getChildren().add(character);
 
 
 
             // Create nodes
-            createNode("castle", 75, 490, this.getClass().getResource("/dev/typeracist/typeracist/image/map/castle.png").toString(), "START", "The starting point of your journey.");
-            createNode("shop", 200, 520, this.getClass().getResource("/dev/typeracist/typeracist/image/map/shop.png").toString(), "STORE","tmp");
-            createNode("book", 490, 80, this.getClass().getResource("/dev/typeracist/typeracist/image/map/book.png").toString(), "BOOK","tmp");
-            createNode("chest1", 175, 110, this.getClass().getResource("/dev/typeracist/typeracist/image/map/chest.png").toString(), "REWARD1","tmp");
-            createNode("chest2", 675, 230, this.getClass().getResource("/dev/typeracist/typeracist/image/map/chest.png").toString(), "REWARD2","tmp");
-            createNode("anvil1", 275, 110, this.getClass().getResource("/dev/typeracist/typeracist/image/map/anvil.png").toString(), "UPGRADE","tmp");
-            createNode("sword1", 135, 375, this.getClass().getResource("/dev/typeracist/typeracist/image/map/sword.png").toString(), "BATTLE1","tmp");
-            createNode("sword2", 200, 300, this.getClass().getResource("/dev/typeracist/typeracist/image/map/sword.png").toString(), "BATTLE2","tmp");
-            createNode("sword3", 250,400 , this.getClass().getResource("/dev/typeracist/typeracist/image/map/sword.png").toString(), "BATTLE3","tmp");
-            createNode("sword4", 75, 200, this.getClass().getResource("/dev/typeracist/typeracist/image/map/sword.png").toString(), "BATTLE4","tmp");
-            createNode("sword5", 350, 200, this.getClass().getResource("/dev/typeracist/typeracist/image/map/sword.png").toString(), "BATTLE5","tmp");
-            createNode("sword6", 500, 175, this.getClass().getResource("/dev/typeracist/typeracist/image/map/sword.png").toString(), "BATTLE6","tmp");
-            createNode("sword7", 585, 110, this.getClass().getResource("/dev/typeracist/typeracist/image/map/sword.png").toString(), "BATTLE7","tmp");
-            createNode("sword8", 700, 110, this.getClass().getResource("/dev/typeracist/typeracist/image/map/sword.png").toString(), "BATTLE8","tmp");
-            createNode("sword9", 600, 300, this.getClass().getResource("/dev/typeracist/typeracist/image/map/sword.png").toString(), "BATTLE9","tmp");
-            createNode("skull", 525, 440, this.getClass().getResource("/dev/typeracist/typeracist/image/map/skull.png").toString(), "BOSS","tmp");
-            createNode("next", 700, 500,this.getClass().getResource("/dev/typeracist/typeracist/image/map/next.png").toString(), "NEXT","tmp");
+            createNode("castle", 175, 540, this.getClass().getResource("/dev/typeracist/typeracist/image/map/castle.png").toString(), "START", "The starting point of your journey.");
+            createNode("shop", 300, 570, this.getClass().getResource("/dev/typeracist/typeracist/image/map/shop.png").toString(), "STORE","tmp");
+            createNode("book", 590, 130, this.getClass().getResource("/dev/typeracist/typeracist/image/map/book.png").toString(), "BOOK","tmp");
+            createNode("chest1", 275, 160, this.getClass().getResource("/dev/typeracist/typeracist/image/map/chest.png").toString(), "REWARD1","tmp");
+            createNode("chest2", 775, 280, this.getClass().getResource("/dev/typeracist/typeracist/image/map/chest.png").toString(), "REWARD2","tmp");
+            createNode("anvil1", 400, 160, this.getClass().getResource("/dev/typeracist/typeracist/image/map/anvil.png").toString(), "UPGRADE","tmp");
+            createNode("BATTLE1", 235, 425, this.getClass().getResource("/dev/typeracist/typeracist/image/map/sword.png").toString(), "BATTLE1","tmp");
+            createNode("BATTLE2", 300, 350, this.getClass().getResource("/dev/typeracist/typeracist/image/map/sword.png").toString(), "BATTLE2","tmp");
+            createNode("BATTLE3", 350,450 , this.getClass().getResource("/dev/typeracist/typeracist/image/map/sword.png").toString(), "BATTLE3","tmp");
+            createNode("BATTLE4", 175, 250, this.getClass().getResource("/dev/typeracist/typeracist/image/map/sword.png").toString(), "BATTLE4","tmp");
+            createNode("BATTLE5", 450, 250, this.getClass().getResource("/dev/typeracist/typeracist/image/map/sword.png").toString(), "BATTLE5","tmp");
+            createNode("BATTLE6", 600, 225, this.getClass().getResource("/dev/typeracist/typeracist/image/map/sword.png").toString(), "BATTLE6","tmp");
+            createNode("BATTLE7", 685, 160, this.getClass().getResource("/dev/typeracist/typeracist/image/map/sword.png").toString(), "BATTLE7","tmp");
+            createNode("BATTLE8", 800, 160, this.getClass().getResource("/dev/typeracist/typeracist/image/map/sword.png").toString(), "BATTLE8","tmp");
+            createNode("BATTLE9", 700, 350, this.getClass().getResource("/dev/typeracist/typeracist/image/map/sword.png").toString(), "BATTLE9","tmp");
+            createNode("BOSS", 625, 490, this.getClass().getResource("/dev/typeracist/typeracist/image/map/skull.png").toString(), "BOSS","tmp");
+            createNode("next", 800, 550,this.getClass().getResource("/dev/typeracist/typeracist/image/map/next.png").toString(), "NEXT","tmp");
 
             // Connect nodes visually
             connectNodes("castle", "shop");
-            connectNodes("castle", "sword1");
-            connectNodes("sword4", "chest1");
-            connectNodes("sword9", "chest2");
-            connectNodes("sword5", "anvil1");
-            connectNodes("sword1", "sword3");
-            connectNodes("sword1", "sword2");
-            connectNodes("sword2", "sword4");
-            connectNodes("sword2", "sword5");
-            connectNodes("sword2", "sword5");
-            connectNodes("sword5", "sword6");
-            connectNodes("sword6", "sword7");
-            connectNodes("sword7", "sword8");
-            connectNodes("sword6", "sword9");
-            connectNodes("skull", "sword9");
-            connectNodes("skull", "next");
-            connectNodes("sword7", "book");
+            connectNodes("castle", "BATTLE1");
+            connectNodes("BATTLE4", "chest1");
+            connectNodes("BATTLE9", "chest2");
+            connectNodes("BATTLE5", "anvil1");
+            connectNodes("BATTLE1", "BATTLE3");
+            connectNodes("BATTLE1", "BATTLE2");
+            connectNodes("BATTLE2", "BATTLE4");
+            connectNodes("BATTLE2", "BATTLE5");
+            connectNodes("BATTLE2", "BATTLE5");
+            connectNodes("BATTLE5", "BATTLE6");
+            connectNodes("BATTLE6", "BATTLE7");
+            connectNodes("BATTLE7", "BATTLE8");
+            connectNodes("BATTLE6", "BATTLE9");
+            connectNodes("BOSS", "BATTLE9");
+            connectNodes("BOSS", "next");
+            connectNodes("BATTLE7", "book");
 
             // Test buttons to win battles
-            addWinButton("Win BATTLE1", 50, 550, "BATTLE1");
-            addWinButton("Win BATTLE2", 150, 550, "BATTLE2");
-            addWinButton("Win BATTLE3", 250, 550, "BATTLE3");
-            addWinButton("Win BATTLE4", 350, 550, "BATTLE4");
-            addWinButton("Win BATTLE5", 450, 550, "BATTLE5");
-            addWinButton("Win BATTLE6", 550, 550, "BATTLE6");
-            addWinButton("Win BATTLE7", 650, 550, "BATTLE7");
-            addWinButton("Win BATTLE8", 750, 550, "BATTLE8");
-            addWinButton("Win BATTLE9", 850, 550, "BATTLE9");
-            addWinButton("BOSS", 950, 550, "BOSS");
+            addWinButton("Win BATTLE1", 50, 700, "BATTLE1");
+            addWinButton("Win BATTLE2", 150, 700, "BATTLE2");
+            addWinButton("Win BATTLE3", 250, 700, "BATTLE3");
+            addWinButton("Win BATTLE4", 350, 700, "BATTLE4");
+            addWinButton("Win BATTLE5", 450, 700, "BATTLE5");
+            addWinButton("Win BATTLE6", 550, 700, "BATTLE6");
+            addWinButton("Win BATTLE7", 650, 700, "BATTLE7");
+            addWinButton("Win BATTLE8", 750, 700, "BATTLE8");
+            addWinButton("Win BATTLE9", 850, 700, "BATTLE9");
+            addWinButton("BOSS", 950, 700, "BOSS");
         }
 
         private void createNode(String id, double x, double y, String imagePath, String action, String description) {
