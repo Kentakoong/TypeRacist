@@ -5,6 +5,7 @@ import javafx.animation.Timeline;
 import javafx.scene.Node;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Font;
 import javafx.util.Duration;
 
 
@@ -12,7 +13,7 @@ import javafx.util.Duration;
 // it will break the cursor position adjustment logic (that is not considering the spacing)
 
 public class CursorDynamicColorText extends DynamicColorText {
-    public static Color DEFAULT_CURSOR_COLOR = Color.GREY;
+    public static Color DEFAULT_CURSOR_COLOR = Color.BLACK;
     private static final Rectangle sharedCursor = new Rectangle(2, 15, DEFAULT_CURSOR_COLOR);
     private static CursorDynamicColorText currentOwner;
 
@@ -78,6 +79,12 @@ public class CursorDynamicColorText extends DynamicColorText {
 
         sharedCursor.setManaged(false);
         getChildren().add(sharedCursor);
+    }
+
+    @Override
+    public void setFont(Font font) {
+        super.setFont(font);
+        sharedCursor.setHeight(font.getSize());
     }
 
     public int getCursorPosition() {
