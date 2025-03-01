@@ -35,13 +35,19 @@ public class CharacterScene extends Scene {
         HBox characterSelection = new HBox(10);
         characterSelection.setAlignment(Pos.CENTER);
 
+        String warrior =  "/dev/typeracist/typeracist/image/character/warrior.png";
+        String archer = "/dev/typeracist/typeracist/image/character/archer.png";
+        String wizard =  "/dev/typeracist/typeracist/image/character/wizard.png";
+        String assassin =  "/dev/typeracist/typeracist/image/character/assassin.png";
+        String wretch  = "/dev/typeracist/typeracist/image/character/wretch.png" ;
+
         // Array of character image paths
         String[] characterImages = {
-                "/dev/typeracist/typeracist/image/character/char1.png",
-                "/dev/typeracist/typeracist/image/character/char2.png",
-                "/dev/typeracist/typeracist/image/character/char3.png",
-                "/dev/typeracist/typeracist/image/character/char4.png",
-                "/dev/typeracist/typeracist/image/character/char5.png"
+                warrior,
+                archer,
+                wizard,
+                assassin,
+                wretch
         };
 
         // Loop to create character images
