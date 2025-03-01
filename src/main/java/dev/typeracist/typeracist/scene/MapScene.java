@@ -16,6 +16,9 @@
     public class MapScene extends Scene {
         private final Pane root;
         private final Map<String, Button> nodeButtons = new HashMap<>();
+        private final Label infoLabel;
+        private final Button confirmButton;
+        private String selectedAction = null;
 
         public MapScene(double width, double height) {
             super(new Pane(), width, height);
@@ -24,9 +27,10 @@
             //set background to grey
             root.setStyle("-fx-background-color: grey;");
 
-
-            // Add title label
+            // Load font
             Font baseFont = Font.loadFont(KeyboardPaneSceneDemo.class.getResourceAsStream("/dev/typeracist/typeracist/fonts/DepartureMono-Regular.otf"), 36);
+
+            // title label
             Label titleLabel = new Label("Arena Map");
             titleLabel.setStyle("-fx-text-fill: black;");
             titleLabel.setLayoutX(50);
@@ -35,27 +39,46 @@
             root.getChildren().add(titleLabel);
 
 
+            // Info Label to show node descriptions
+            infoLabel = new Label("Select a location.");
+            infoLabel.setFont(Font.font(baseFont.getName(), 24));
+            infoLabel.setStyle("-fx-text-fill: black;");
+            infoLabel.setLayoutX(50);
+            infoLabel.setLayoutY(60);
+            root.getChildren().add(infoLabel);
+
+            // Confirm Button
+            confirmButton = new Button("Confirm");
+            confirmButton.setLayoutX(50);
+            confirmButton.setLayoutY(100);
+            confirmButton.setDisable(true); // Disabled until a selection is made
+            confirmButton.setOnAction(event -> {
+                if (selectedAction != null) {
+                    navigate(selectedAction);
+                }
+            });
+            root.getChildren().add(confirmButton);
+
+
+
             // Create nodes
-
-            //  System.out.println(this.getClass().getResource("/dev/typeracist/typeracist/image/anvil.jpg").toString());
-
-            createNode("castle", 75, 490, this.getClass().getResource("/dev/typeracist/typeracist/image/map/castle.png").toString(), "START");
-            createNode("shop", 200, 520, this.getClass().getResource("/dev/typeracist/typeracist/image/map/shop.png").toString(), "STORE");
-            createNode("book", 490, 30, this.getClass().getResource("/dev/typeracist/typeracist/image/map/book.png").toString(), "BOOK");
-            createNode("chest1", 175, 60, this.getClass().getResource("/dev/typeracist/typeracist/image/map/chest.png").toString(), "REWARD1");
-            createNode("chest2", 675, 180, this.getClass().getResource("/dev/typeracist/typeracist/image/map/chest.png").toString(), "REWARD2");
-            createNode("anvil1", 275, 60, this.getClass().getResource("/dev/typeracist/typeracist/image/map/anvil.png").toString(), "UPGRADE");
-            createNode("sword1", 135, 375, this.getClass().getResource("/dev/typeracist/typeracist/image/map/sword.png").toString(), "BATTLE1");
-            createNode("sword2", 200, 250, this.getClass().getResource("/dev/typeracist/typeracist/image/map/sword.png").toString(), "BATTLE2");
-            createNode("sword3", 250,400 , this.getClass().getResource("/dev/typeracist/typeracist/image/map/sword.png").toString(), "BATTLE3");
-            createNode("sword4", 75, 150, this.getClass().getResource("/dev/typeracist/typeracist/image/map/sword.png").toString(), "BATTLE4");
-            createNode("sword5", 350, 150, this.getClass().getResource("/dev/typeracist/typeracist/image/map/sword.png").toString(), "BATTLE5");
-            createNode("sword6", 500, 125, this.getClass().getResource("/dev/typeracist/typeracist/image/map/sword.png").toString(), "BATTLE6");
-            createNode("sword7", 585, 60, this.getClass().getResource("/dev/typeracist/typeracist/image/map/sword.png").toString(), "BATTLE7");
-            createNode("sword8", 700, 50, this.getClass().getResource("/dev/typeracist/typeracist/image/map/sword.png").toString(), "BATTLE8");
-            createNode("sword9", 600, 250, this.getClass().getResource("/dev/typeracist/typeracist/image/map/sword.png").toString(), "BATTLE9");
-            createNode("skull", 525, 390, this.getClass().getResource("/dev/typeracist/typeracist/image/map/skull.png").toString(), "BOSS");
-            createNode("next", 700, 450,this.getClass().getResource("/dev/typeracist/typeracist/image/map/next.png").toString(), "NEXT");
+            createNode("castle", 75, 490, this.getClass().getResource("/dev/typeracist/typeracist/image/map/castle.png").toString(), "START", "The starting point of your journey.");
+            createNode("shop", 200, 520, this.getClass().getResource("/dev/typeracist/typeracist/image/map/shop.png").toString(), "STORE","tmp");
+            createNode("book", 490, 80, this.getClass().getResource("/dev/typeracist/typeracist/image/map/book.png").toString(), "BOOK","tmp");
+            createNode("chest1", 175, 110, this.getClass().getResource("/dev/typeracist/typeracist/image/map/chest.png").toString(), "REWARD1","tmp");
+            createNode("chest2", 675, 230, this.getClass().getResource("/dev/typeracist/typeracist/image/map/chest.png").toString(), "REWARD2","tmp");
+            createNode("anvil1", 275, 110, this.getClass().getResource("/dev/typeracist/typeracist/image/map/anvil.png").toString(), "UPGRADE","tmp");
+            createNode("sword1", 135, 375, this.getClass().getResource("/dev/typeracist/typeracist/image/map/sword.png").toString(), "BATTLE1","tmp");
+            createNode("sword2", 200, 300, this.getClass().getResource("/dev/typeracist/typeracist/image/map/sword.png").toString(), "BATTLE2","tmp");
+            createNode("sword3", 250,400 , this.getClass().getResource("/dev/typeracist/typeracist/image/map/sword.png").toString(), "BATTLE3","tmp");
+            createNode("sword4", 75, 200, this.getClass().getResource("/dev/typeracist/typeracist/image/map/sword.png").toString(), "BATTLE4","tmp");
+            createNode("sword5", 350, 200, this.getClass().getResource("/dev/typeracist/typeracist/image/map/sword.png").toString(), "BATTLE5","tmp");
+            createNode("sword6", 500, 175, this.getClass().getResource("/dev/typeracist/typeracist/image/map/sword.png").toString(), "BATTLE6","tmp");
+            createNode("sword7", 585, 110, this.getClass().getResource("/dev/typeracist/typeracist/image/map/sword.png").toString(), "BATTLE7","tmp");
+            createNode("sword8", 700, 110, this.getClass().getResource("/dev/typeracist/typeracist/image/map/sword.png").toString(), "BATTLE8","tmp");
+            createNode("sword9", 600, 300, this.getClass().getResource("/dev/typeracist/typeracist/image/map/sword.png").toString(), "BATTLE9","tmp");
+            createNode("skull", 525, 440, this.getClass().getResource("/dev/typeracist/typeracist/image/map/skull.png").toString(), "BOSS","tmp");
+            createNode("next", 700, 500,this.getClass().getResource("/dev/typeracist/typeracist/image/map/next.png").toString(), "NEXT","tmp");
 
             // Connect nodes visually
             connectNodes("castle", "shop");
@@ -77,7 +100,7 @@
             connectNodes("sword7", "book");
         }
 
-        private void createNode(String id, double x, double y, String imagePath, String action) {
+        private void createNode(String id, double x, double y, String imagePath, String action, String description) {
             ImageView icon = new ImageView(new Image(imagePath));
             icon.setFitWidth(50);
             icon.setFitHeight(50);
@@ -87,7 +110,12 @@
             button.setLayoutX(x);
             button.setLayoutY(y);
 
-            button.setOnAction(event -> navigate(action));
+            // Click action: Set selected node and update info label
+            button.setOnAction(event -> {
+                selectedAction = action;
+                infoLabel.setText(id.toUpperCase() + " - " + description);
+                confirmButton.setDisable(false); // Enable confirm button after selection
+            });
 
             nodeButtons.put(id, button);
             root.getChildren().add(button);
@@ -105,7 +133,6 @@
                 root.getChildren().add(0, line); // Add behind buttons
             }
         }
-
         private void navigate(String action) {
             switch (action) {
                 case "BATTLE1":
