@@ -26,6 +26,10 @@ public class SceneManager {
         scenes.remove(name);
     }
 
+    public Scene getScene(String name) {
+        return scenes.get(name);
+    }
+
     public boolean sceneExists(String name) {
         return scenes.containsKey(name);
     }
