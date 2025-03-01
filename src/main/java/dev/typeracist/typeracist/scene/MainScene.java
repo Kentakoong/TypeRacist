@@ -18,8 +18,14 @@ public class MainScene extends Scene {
         root.setAlignment(Pos.CENTER);
         root.setSpacing(20);
 
-        Label title = new Label("TypeRacist");
-        title.setFont(Font.font("JetBrainsMono NF", FontWeight.BOLD, 36));
+        // Add title label
+        Font baseFont = Font.loadFont(KeyboardPaneSceneDemo.class.getResourceAsStream("/dev/typeracist/typeracist/fonts/DepartureMono-Regular.otf"), 36);
+        Label titleLabel = new Label("TypeRacist");
+        titleLabel.setStyle("-fx-text-fill: black;");
+        titleLabel.setLayoutX(50);
+        titleLabel.setLayoutY(10);
+        titleLabel.setFont(Font.font(baseFont.getName(), 36));
+
 
         assert GameLogic.getInstance().getSceneManager().sceneExists(SceneName.CHARACTERS);
         assert GameLogic.getInstance().getSceneManager().sceneExists(SceneName.SETTINGS);
@@ -50,6 +56,6 @@ public class MainScene extends Scene {
         testKeyBoardPaneSceneButton.setOnAction(event -> GameLogic.getInstance().getSceneManager().setScene(SceneName.KEYBOARD_TEST));
 
         buttonBar.getChildren().addAll(startButton, settingsButton, exitButton, testSceneButton, testKeyBoardPaneSceneButton);
-        root.getChildren().addAll(title, buttonBar);
+        root.getChildren().addAll(titleLabel, buttonBar);
     }
 }
