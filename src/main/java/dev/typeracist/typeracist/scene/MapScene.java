@@ -67,7 +67,7 @@
             });
             root.getChildren().add(confirmButton);
 
-            character = new ImageView(new Image(this.getClass().getResource("/dev/typeracist/typeracist/image/character/warrior.png").toString()));
+            character = new ImageView(new Image(this.getClass().getResource(GameLogic.getInstance().getSelectedCharacter()).toString()));
             character.setFitWidth(50); // Set character size
             character.setFitHeight(50);
             character.setLayoutX(225); // Initial position (same as "castle")
@@ -148,6 +148,8 @@
         //Update Map Color
 
         private void updateNodeColors() {
+            character.setImage(new Image(MapScene.class.getResource(GameLogic.getInstance().getSelectedCharacter()).toString()));
+
             for (MapNode node : mapNodes.values()) {
                 node.updateStatusColor();
             }
