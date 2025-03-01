@@ -1,5 +1,6 @@
     package dev.typeracist.typeracist.scene;
 
+    import dev.typeracist.typeracist.gui.gameScene.MapNode;
     import dev.typeracist.typeracist.logic.global.GameLogic;
     import dev.typeracist.typeracist.utils.SceneName;
     import javafx.scene.Scene;
@@ -25,6 +26,7 @@
         private final Button confirmButton;
         private String selectedAction = null;
         private final ImageView character;
+        private final Map<String, MapNode> mapNodes = new HashMap<>();
 
         public MapScene(double width, double height) {
             super(new Pane(), width, height);
@@ -73,8 +75,6 @@
 
             root.getChildren().add(character);
 
-
-
             // Create nodes
             createNode("castle", 175, 540, this.getClass().getResource("/dev/typeracist/typeracist/image/map/castle.png").toString(), "START", "The starting point of your journey.");
             createNode("shop", 300, 570, this.getClass().getResource("/dev/typeracist/typeracist/image/map/shop.png").toString(), "STORE","tmp");
@@ -112,6 +112,7 @@
             connectNodes("BOSS", "BATTLE9");
             connectNodes("BOSS", "next");
             connectNodes("BATTLE7", "book");
+            System.out.println("teat1");
 
             // Test buttons to win battles
             addWinButton("Win BATTLE1", 50, 700, "BATTLE1");
@@ -126,38 +127,32 @@
             addWinButton("BOSS", 950, 700, "BOSS");
         }
 
+
+
         private void createNode(String id, double x, double y, String imagePath, String action, String description) {
-            // Create status circle
-            Circle statusCircle = new Circle(30); // Adjust radius as needed
-            statusCircle.setLayoutX(x + 35); // Centered with the icon
-            statusCircle.setLayoutY(y + 25);
-            statusCircle.setFill(getNodeColor(action)); // Set initial color
+            MapNode node = new MapNode(x, y, imagePath, action);
 
-
-            ImageView icon = new ImageView(new Image(imagePath));
-            icon.setFitWidth(50);
-            icon.setFitHeight(50);
-
-            Button button = new Button("", icon);
-            button.setStyle("-fx-background-color: transparent;");
-            button.setLayoutX(x);
-            button.setLayoutY(y);
-
-            // Click action: Move character and navigate
-            button.setOnAction(event -> {
+            node.getButton().setOnAction(event -> {
                 selectedAction = action;
                 infoLabel.setText(id.toUpperCase() + " - " + description);
                 confirmButton.setDisable(false); // Enable confirm button
-
                 moveCharacter(x, y);
             });
 
-            nodeButtons.put(id, button);
-            // Add circle first, then button so the circle is behind the image
-            root.getChildren().add(statusCircle);
-            root.getChildren().add(button);
+            root.getChildren().add(node.getStatusCircle()); // Add circle
+            root.getChildren().add(node.getButton()); // Add button
 
+            mapNodes.put(id, node);
         }
+
+        //Update Map Color
+
+        private void updateNodeColors() {
+            for (MapNode node : mapNodes.values()) {
+                node.updateStatusColor();
+            }
+        }
+
 
         private void connectNodes(String from, String to) {
             Button node1 = nodeButtons.get(from);
@@ -331,20 +326,7 @@
             root.getChildren().add(winButton);
         }
 
-        private void updateNodeColors() {
-            for (Map.Entry<String, Button> entry : nodeButtons.entrySet()) {
-                String nodeId = entry.getKey();
-                Button button = entry.getValue();
-                Color newColor = getNodeColor(nodeId);
 
-                // Update the circle color dynamically
-                for (javafx.scene.Node node : root.getChildren()) {
-                    if (node instanceof Circle && node.getUserData() != null && node.getUserData().equals(nodeId)) {
-                        ((Circle) node).setFill(newColor);
-                    }
-                }
-            }
-        }
 
 
     }
