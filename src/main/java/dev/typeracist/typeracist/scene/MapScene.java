@@ -10,6 +10,8 @@
     import javafx.scene.layout.Pane;
     import javafx.scene.shape.Line;
     import javafx.scene.text.Font;
+    import javafx.animation.TranslateTransition;
+    import javafx.util.Duration;
 
     import java.util.HashMap;
     import java.util.Map;
@@ -20,6 +22,7 @@
         private final Label infoLabel;
         private final Button confirmButton;
         private String selectedAction = null;
+        private final ImageView character;
 
         public MapScene(double width, double height) {
             super(new Pane(), width, height);
@@ -59,6 +62,14 @@
                 }
             });
             root.getChildren().add(confirmButton);
+
+            character = new ImageView(new Image(this.getClass().getResource("/dev/typeracist/typeracist/image/map/castle.png").toString()));
+            character.setFitWidth(50); // Set character size
+            character.setFitHeight(50);
+            character.setLayoutX(75); // Initial position (same as "castle")
+            character.setLayoutY(490);
+
+            root.getChildren().add(character);
 
 
 
@@ -111,11 +122,13 @@
             button.setLayoutX(x);
             button.setLayoutY(y);
 
-            // Click action: Set selected node and update info label
+            // Click action: Move character and navigate
             button.setOnAction(event -> {
                 selectedAction = action;
                 infoLabel.setText(id.toUpperCase() + " - " + description);
-                confirmButton.setDisable(false); // Enable confirm button after selection
+                confirmButton.setDisable(false); // Enable confirm button
+
+                moveCharacter(x, y);
             });
 
             nodeButtons.put(id, button);
@@ -134,6 +147,27 @@
                 root.getChildren().add(0, line); // Add behind buttons
             }
         }
+
+        private void moveCharacter(double targetX, double targetY) {
+            // Center the character on the target
+            System.out.println("-----------");
+            System.out.println(targetX);
+            System.out.println(targetY);
+            double finalX = targetX + 0; // Adjust if needed
+            double finalY = targetY + 0;
+
+            TranslateTransition transition = new TranslateTransition(Duration.millis(500), character);
+            transition.setToX(50);
+            transition.setToY(0);
+            transition.play();
+
+            // Update character position after animation
+            transition.setOnFinished(event -> {
+                character.setLayoutX(finalX);
+                character.setLayoutY(finalY);
+            });
+        }
+
         private void navigate(String action) {
             switch (action) {
                 case "START":
