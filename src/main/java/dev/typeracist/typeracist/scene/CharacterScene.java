@@ -116,11 +116,15 @@ public class CharacterScene extends Scene {
             if (selectedCharacter != null) {
                 System.out.println("Character confirmed: " + selectedCharacter);
                 GameLogic.getInstance().getSceneManager().setScene(SceneName.MAP);
+
             } else {
                 // Show warning message in red
                 warningLabel.setText("Please select a character first!");
                 warningLabel.setStyle("-fx-text-fill: red;");
             }
+            //set select character
+            GameLogic.getInstance().setSelectedCharacter(selectedCharacter);
+            System.out.println("Select THIS!! :"+GameLogic.getInstance().getSelectedCharacter());
         });
 
         // Warning Label (Initially empty)
