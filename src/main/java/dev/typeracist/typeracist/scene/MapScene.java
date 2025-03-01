@@ -1,6 +1,7 @@
     package dev.typeracist.typeracist.scene;
 
     import dev.typeracist.typeracist.logic.global.GameLogic;
+    import dev.typeracist.typeracist.utils.SceneName;
     import javafx.scene.Scene;
     import javafx.scene.control.Button;
     import javafx.scene.control.Label;
@@ -135,6 +136,8 @@
         }
         private void navigate(String action) {
             switch (action) {
+                case "START":
+                    GameLogic.getInstance().getSceneManager().setScene(SceneName.CHARACTERS);
                 case "BATTLE1":
                     GameLogic.getInstance().getSceneManager().setScene("BATTLE_SCENE1");
                     break;
