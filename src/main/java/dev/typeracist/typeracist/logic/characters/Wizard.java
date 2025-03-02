@@ -8,7 +8,7 @@ public class Wizard extends Character {
     private int turnsSinceLastStun;
 
     public Wizard() {
-        super(3, 4, ResourceManager.getImage(ResourceName.WIZARD)); // ATK: 3, DEF: 4
+        super(3, 4, ResourceManager.getImage(ResourceName.IMAGE_CHARACTER_WIZARD)); // ATK: 3, DEF: 4
         this.turnsSinceLastStun = STUN_COOLDOWN; // Ready to use at start
     }
 

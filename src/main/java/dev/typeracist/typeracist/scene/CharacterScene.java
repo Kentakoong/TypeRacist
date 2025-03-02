@@ -3,6 +3,8 @@ package dev.typeracist.typeracist.scene;
 import dev.typeracist.typeracist.logic.characters.Character;
 import dev.typeracist.typeracist.logic.characters.*;
 import dev.typeracist.typeracist.logic.global.GameLogic;
+import dev.typeracist.typeracist.logic.global.ResourceManager;
+import dev.typeracist.typeracist.utils.ResourceName;
 import dev.typeracist.typeracist.utils.SceneName;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -31,7 +33,7 @@ public class CharacterScene extends BaseScene {
         root.setPadding(new Insets(20));
 
         // Load font
-        Font baseFont = Font.loadFont(getClass().getResourceAsStream("/dev/typeracist/typeracist/fonts/DepartureMono-Regular.otf"), 36);
+        Font baseFont = ResourceManager.getFont(ResourceName.FONT_DEPARTURE_MONO, 36);
 
         // Title Label
         Label titleLabel = new Label("Choose Your Character");

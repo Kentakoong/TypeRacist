@@ -4,6 +4,8 @@ import dev.typeracist.typeracist.gui.gameScene.TypingPane;
 import dev.typeracist.typeracist.logic.gameScene.TypingHardness;
 import dev.typeracist.typeracist.logic.global.GameLogic;
 import dev.typeracist.typeracist.utils.DatasetName;
+import dev.typeracist.typeracist.logic.global.ResourceManager;
+import dev.typeracist.typeracist.utils.ResourceName;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -23,8 +25,7 @@ public class KeyboardPaneSceneDemo extends BaseScene {
     public KeyboardPaneSceneDemo(double width, double height) {
         super(new VBox(), width, height);
 
-        // Load the font once, without specifying weight for now
-        Font baseFont = Font.loadFont(KeyboardPaneSceneDemo.class.getResourceAsStream("/dev/typeracist/typeracist/fonts/DepartureMono-Regular.otf"), 36);
+        Font baseFont = ResourceManager.getFont(ResourceName.FONT_DEPARTURE_MONO, 36);
 
         VBox root = (VBox) getRoot();
         root.setPadding(new Insets(40));

@@ -2,6 +2,8 @@ package dev.typeracist.typeracist.scene;
 
 import dev.typeracist.typeracist.gui.gameScene.MapNode;
 import dev.typeracist.typeracist.logic.global.GameLogic;
+import dev.typeracist.typeracist.logic.global.ResourceManager;
+import dev.typeracist.typeracist.utils.ResourceName;
 import dev.typeracist.typeracist.utils.SceneName;
 import javafx.animation.TranslateTransition;
 import javafx.scene.control.Button;
@@ -33,7 +35,7 @@ public class MapScene extends BaseScene {
         root.setStyle("-fx-background-color: grey;");
 
         // Load font
-        Font baseFont = Font.loadFont(KeyboardPaneSceneDemo.class.getResourceAsStream("/dev/typeracist/typeracist/fonts/DepartureMono-Regular.otf"), 36);
+        Font baseFont = ResourceManager.getFont(ResourceName.FONT_DEPARTURE_MONO, 36);
 
         // title label
         Label titleLabel = new Label("Arena Map");

@@ -5,6 +5,7 @@ import dev.typeracist.typeracist.logic.gameScene.DatasetManager;
 import dev.typeracist.typeracist.utils.DatasetName;
 import dev.typeracist.typeracist.logic.characters.Character;
 import dev.typeracist.typeracist.logic.characters.Warrior;
+import dev.typeracist.typeracist.utils.ResourceName;
 import javafx.stage.Stage;
 
 import java.util.HashSet;
@@ -28,13 +29,13 @@ public class GameLogic {
     }
 
     public static void initializeDatasets() {
-        Dataset popularBooks = new Dataset("/dev/typeracist/typeracist/datasets/popularBooks.json");
+        Dataset popularBooks = new Dataset(ResourceName.DATASET_POPULAR_BOOKS);
         popularBooks.initializeWithRanking();
 
-        Dataset commonWords25k = new Dataset("/dev/typeracist/typeracist/datasets/commonWords25k.json");
+        Dataset commonWords25k = new Dataset(ResourceName.DATASET_COMMON_WORDS_25K);
         commonWords25k.initializeWithRanking();
 
-        Dataset commonWords1k = new Dataset("/dev/typeracist/typeracist/datasets/commonWords1k.json");
+        Dataset commonWords1k = new Dataset(ResourceName.DATASET_COMMON_WORDS_1K);
         commonWords1k.initializeWithRanking();
 
         getInstance().datasetManager.addDataset(DatasetName.POPULAR_BOOKS, popularBooks);

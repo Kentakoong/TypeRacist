@@ -1,6 +1,8 @@
 package dev.typeracist.typeracist.scene;
 
 import dev.typeracist.typeracist.logic.global.GameLogic;
+import dev.typeracist.typeracist.logic.global.ResourceManager;
+import dev.typeracist.typeracist.utils.ResourceName;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -8,8 +10,6 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
 
 public class SettingScene extends BaseScene {
     public SettingScene(double width, double height) {
@@ -46,7 +46,7 @@ public class SettingScene extends BaseScene {
 
         // Title
         Label title = new Label("Settings");
-        title.setFont(Font.font("JetBrainsMono NF", FontWeight.BOLD, 24));
+        title.setFont(ResourceManager.getFont(ResourceName.FONT_DEPARTURE_MONO, 36));
 
         // Settings Table
         VBox settingsTable = new VBox();
