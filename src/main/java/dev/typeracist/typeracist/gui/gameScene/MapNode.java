@@ -7,13 +7,13 @@ import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 
-public class MapNode {
+public class MapNode extends Button {
     private final Circle statusCircle;
-    private final ImageView icon;
-    private final Button button;
     private final String action;
 
-    public MapNode(double x, double y, String imagePath, String action) {
+    public MapNode(double x, double y, Image image, String action) {
+        super(); // Initialize the Button
+
         this.action = action;
 
         // Create status circle
@@ -23,15 +23,15 @@ public class MapNode {
         statusCircle.setFill(getNodeColor(action)); // Set initial color
 
         // Create image icon
-        icon = new ImageView(new Image(imagePath));
+        ImageView icon = new ImageView(image);
         icon.setFitWidth(50);
         icon.setFitHeight(50);
 
-        // Create button with the icon
-        button = new Button("", icon);
-        button.setStyle("-fx-background-color: transparent;");
-        button.setLayoutX(x);
-        button.setLayoutY(y);
+        // Set button properties
+        this.setGraphic(icon);
+        this.setStyle("-fx-background-color: transparent;");
+        this.setLayoutX(x);
+        this.setLayoutY(y);
     }
 
     // Method to update the status color dynamically
@@ -42,14 +42,6 @@ public class MapNode {
     // Getters for easy access
     public Circle getStatusCircle() {
         return statusCircle;
-    }
-
-    public ImageView getIcon() {
-        return icon;
-    }
-
-    public Button getButton() {
-        return button;
     }
 
     public String getAction() {

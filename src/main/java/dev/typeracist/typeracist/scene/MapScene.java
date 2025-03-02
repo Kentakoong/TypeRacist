@@ -8,6 +8,7 @@ import dev.typeracist.typeracist.utils.SceneName;
 import javafx.animation.TranslateTransition;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
@@ -20,7 +21,6 @@ import java.util.Map;
 
 public class MapScene extends BaseScene {
     private final Pane root;
-    private final Map<String, Button> nodeButtons = new HashMap<>();
     private final Label infoLabel;
     private final Button confirmButton;
     private final ImageView character;
@@ -72,26 +72,24 @@ public class MapScene extends BaseScene {
         character.setLayoutX(225); // Initial position (same as "castle")
         character.setLayoutY(540);
 
-        root.getChildren().add(character);
-
         // Create nodes
-        createNode("castle", 175, 540, this.getClass().getResource("/dev/typeracist/typeracist/image/map/castle.png").toString(), "START", "The starting point of your journey.");
-        createNode("shop", 300, 570, this.getClass().getResource("/dev/typeracist/typeracist/image/map/shop.png").toString(), "STORE", "tmp");
-        createNode("book", 590, 130, this.getClass().getResource("/dev/typeracist/typeracist/image/map/book.png").toString(), "BOOK", "tmp");
-        createNode("chest1", 275, 160, this.getClass().getResource("/dev/typeracist/typeracist/image/map/chest.png").toString(), "REWARD1", "tmp");
-        createNode("chest2", 775, 280, this.getClass().getResource("/dev/typeracist/typeracist/image/map/chest.png").toString(), "REWARD2", "tmp");
-        createNode("anvil1", 400, 160, this.getClass().getResource("/dev/typeracist/typeracist/image/map/anvil.png").toString(), "UPGRADE", "tmp");
-        createNode("BATTLE1", 235, 425, this.getClass().getResource("/dev/typeracist/typeracist/image/map/sword.png").toString(), "BATTLE1", "tmp");
-        createNode("BATTLE2", 300, 350, this.getClass().getResource("/dev/typeracist/typeracist/image/map/sword.png").toString(), "BATTLE2", "tmp");
-        createNode("BATTLE3", 350, 450, this.getClass().getResource("/dev/typeracist/typeracist/image/map/sword.png").toString(), "BATTLE3", "tmp");
-        createNode("BATTLE4", 175, 250, this.getClass().getResource("/dev/typeracist/typeracist/image/map/sword.png").toString(), "BATTLE4", "tmp");
-        createNode("BATTLE5", 450, 250, this.getClass().getResource("/dev/typeracist/typeracist/image/map/sword.png").toString(), "BATTLE5", "tmp");
-        createNode("BATTLE6", 600, 225, this.getClass().getResource("/dev/typeracist/typeracist/image/map/sword.png").toString(), "BATTLE6", "tmp");
-        createNode("BATTLE7", 685, 160, this.getClass().getResource("/dev/typeracist/typeracist/image/map/sword.png").toString(), "BATTLE7", "tmp");
-        createNode("BATTLE8", 800, 160, this.getClass().getResource("/dev/typeracist/typeracist/image/map/sword.png").toString(), "BATTLE8", "tmp");
-        createNode("BATTLE9", 700, 350, this.getClass().getResource("/dev/typeracist/typeracist/image/map/sword.png").toString(), "BATTLE9", "tmp");
-        createNode("BOSS", 625, 490, this.getClass().getResource("/dev/typeracist/typeracist/image/map/skull.png").toString(), "BOSS", "tmp");
-        createNode("next", 800, 550, this.getClass().getResource("/dev/typeracist/typeracist/image/map/next.png").toString(), "NEXT", "tmp");
+        createNode("castle", 175, 540, ResourceManager.getImage(ResourceName.IMAGE_MAP_CASTLE), "START", "The starting point of your journey.");
+        createNode("shop", 300, 570, ResourceManager.getImage(ResourceName.IMAGE_MAP_SHOP), "STORE", "tmp");
+        createNode("book", 590, 130, ResourceManager.getImage(ResourceName.IMAGE_MAP_BOOK), "BOOK", "tmp");
+        createNode("chest1", 275, 160, ResourceManager.getImage(ResourceName.IMAGE_MAP_CHEST), "REWARD1", "tmp");
+        createNode("chest2", 775, 280, ResourceManager.getImage(ResourceName.IMAGE_MAP_CHEST), "REWARD2", "tmp");
+        createNode("anvil1", 400, 160, ResourceManager.getImage(ResourceName.IMAGE_MAP_ANVIL), "UPGRADE", "tmp");
+        createNode("BATTLE1", 235, 425, ResourceManager.getImage(ResourceName.IMAGE_MAP_SWORD), "BATTLE1", "tmp");
+        createNode("BATTLE2", 300, 350, ResourceManager.getImage(ResourceName.IMAGE_MAP_SWORD), "BATTLE2", "tmp");
+        createNode("BATTLE3", 350, 450, ResourceManager.getImage(ResourceName.IMAGE_MAP_SWORD), "BATTLE3", "tmp");
+        createNode("BATTLE4", 175, 250, ResourceManager.getImage(ResourceName.IMAGE_MAP_SWORD), "BATTLE4", "tmp");
+        createNode("BATTLE5", 450, 250, ResourceManager.getImage(ResourceName.IMAGE_MAP_SWORD), "BATTLE5", "tmp");
+        createNode("BATTLE6", 600, 225, ResourceManager.getImage(ResourceName.IMAGE_MAP_SWORD), "BATTLE6", "tmp");
+        createNode("BATTLE7", 685, 160, ResourceManager.getImage(ResourceName.IMAGE_MAP_SWORD), "BATTLE7", "tmp");
+        createNode("BATTLE8", 800, 160, ResourceManager.getImage(ResourceName.IMAGE_MAP_SWORD), "BATTLE8", "tmp");
+        createNode("BATTLE9", 700, 350, ResourceManager.getImage(ResourceName.IMAGE_MAP_SWORD), "BATTLE9", "tmp");
+        createNode("BOSS", 625, 490, ResourceManager.getImage(ResourceName.IMAGE_MAP_SKULL), "BOSS", "tmp");
+        createNode("next", 800, 550, ResourceManager.getImage(ResourceName.IMAGE_MAP_NEXT), "NEXT", "tmp");
 
         // Connect nodes visually
         connectNodes("castle", "shop");
@@ -124,13 +122,15 @@ public class MapScene extends BaseScene {
         addWinButton("Win BATTLE8", 750, 700, "BATTLE8");
         addWinButton("Win BATTLE9", 850, 700, "BATTLE9");
         addWinButton("BOSS", 950, 700, "BOSS");
+
+        root.getChildren().add(character);
     }
 
 
-    private void createNode(String id, double x, double y, String imagePath, String action, String description) {
-        MapNode node = new MapNode(x, y, imagePath, action);
+    private void createNode(String id, double x, double y, Image image, String action, String description) {
+        MapNode node = new MapNode(x, y, image, action);
 
-        node.getButton().setOnAction(event -> {
+        node.setOnAction(event -> {
             selectedAction = action;
             infoLabel.setText(id.toUpperCase() + " - " + description);
             confirmButton.setDisable(false); // Enable confirm button
@@ -138,7 +138,7 @@ public class MapScene extends BaseScene {
         });
 
         root.getChildren().add(node.getStatusCircle()); // Add circle
-        root.getChildren().add(node.getButton()); // Add button
+        root.getChildren().add(node); // Add button
 
         mapNodes.put(id, node);
     }
@@ -153,8 +153,8 @@ public class MapScene extends BaseScene {
 
 
     private void connectNodes(String from, String to) {
-        Button node1 = nodeButtons.get(from);
-        Button node2 = nodeButtons.get(to);
+        MapNode node1 = mapNodes.get(from);
+        MapNode node2 = mapNodes.get(to);
         if (node1 != null && node2 != null) {
             Line line = new Line(
                     node1.getLayoutX() + 25, node1.getLayoutY() + 25,
