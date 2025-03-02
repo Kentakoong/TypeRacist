@@ -1,8 +1,6 @@
 module dev.typeracist.typeracist {
     requires javafx.controls;
-    requires javafx.fxml;
+    requires org.json;
 
-
-    opens dev.typeracist.typeracist to javafx.fxml;
-    exports dev.typeracist.typeracist;
+    exports dev.typeracist.typeracist.application;
 }

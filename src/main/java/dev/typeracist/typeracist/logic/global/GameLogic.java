@@ -1,8 +1,11 @@
 package dev.typeracist.typeracist.logic.global;
 
-import dev.typeracist.typeracist.logic.gameScene.DataSet;
-import dev.typeracist.typeracist.logic.gameScene.DataSetManager;
-import dev.typeracist.typeracist.utils.DataSetName;
+import dev.typeracist.typeracist.logic.gameScene.Dataset;
+import dev.typeracist.typeracist.logic.gameScene.DatasetManager;
+import dev.typeracist.typeracist.logic.gameScene.Dataset;
+import dev.typeracist.typeracist.logic.gameScene.DatasetManager;
+import dev.typeracist.typeracist.utils.DatasetName;
+import dev.typeracist.typeracist.utils.DatasetName;
 import javafx.stage.Stage;
 
 import java.util.HashSet;
@@ -11,13 +14,13 @@ import java.util.Set;
 public class GameLogic {
     private static GameLogic instance;
     private final SceneManager sceneManager;
-    private final DataSetManager dataSetManager;
+    private final DatasetManager dataSetManager;
     private String selectedCharacter; // Store character image path or ID
     private final Set<String> clearedBattles = new HashSet<>();
 
     private GameLogic(Stage primaryStage) {
         sceneManager = new SceneManager(primaryStage);
-        dataSetManager = new DataSetManager();
+        dataSetManager = new DatasetManager();
         selectedCharacter = "/dev/typeracist/typeracist/image/character/warrior.png";
     }
 
@@ -26,18 +29,18 @@ public class GameLogic {
     }
 
     public static void initializeDataSets() {
-        DataSet popularBooks = new DataSet("/dev/typeracist/typeracist/datasets/popularBooks.json");
+        Dataset popularBooks = new Dataset("/dev/typeracist/typeracist/datasets/popularBooks.json");
         popularBooks.initializeWithRanking();
 
-        DataSet commonWords25k = new DataSet("/dev/typeracist/typeracist/datasets/commonWords25k.json");
+        Dataset commonWords25k = new Dataset("/dev/typeracist/typeracist/datasets/commonWords25k.json");
         commonWords25k.initializeWithRanking();
 
-        DataSet commonWords1k = new DataSet("/dev/typeracist/typeracist/datasets/commonWords1k.json");
+        Dataset commonWords1k = new Dataset("/dev/typeracist/typeracist/datasets/commonWords1k.json");
         commonWords1k.initializeWithRanking();
 
-        getInstance().dataSetManager.addDataset(DataSetName.POPULAR_BOOKS, popularBooks);
-        getInstance().dataSetManager.addDataset(DataSetName.COMMON_WORDS_1K, commonWords1k);
-        getInstance().dataSetManager.addDataset(DataSetName.COMMON_WORDS_25K, commonWords25k);
+        getInstance().dataSetManager.addDataset(DatasetName.POPULAR_BOOKS, popularBooks);
+        getInstance().dataSetManager.addDataset(DatasetName.COMMON_WORDS_1K, commonWords1k);
+        getInstance().dataSetManager.addDataset(DatasetName.COMMON_WORDS_25K, commonWords25k);
     }
 
     public static GameLogic getInstance() {
@@ -51,7 +54,7 @@ public class GameLogic {
         return sceneManager;
     }
 
-    public DataSetManager getDataSetManager() {
+    public DatasetManager getDataSetManager() {
         return dataSetManager;
     }
 

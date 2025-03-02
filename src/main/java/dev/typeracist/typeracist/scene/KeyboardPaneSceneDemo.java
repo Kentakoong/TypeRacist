@@ -56,7 +56,7 @@ public class KeyboardPaneSceneDemo extends Scene {
         subHbox.getChildren().addAll(wpm, unit);
         hBox.getChildren().addAll(title, leftSpacer, rightSpacer, subHbox);
 
-        List<String> selectParagraph = GameLogic.getInstance().getDatasetManager().getDataSet(DatasetName.COMMON_WORDS_1K).getRandomWordsByScoreRange(4.5, 7, 50);
+        List<String> selectParagraph = GameLogic.getInstance().getDataSetManager().getDataSet(DatasetName.COMMON_WORDS_1K).getRandomWordsByScoreRange(4.5, 7, 50);
 
         TypingPane typingPane = new TypingPane(selectParagraph);
 
