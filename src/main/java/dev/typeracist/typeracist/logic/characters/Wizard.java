@@ -1,11 +1,14 @@
 package dev.typeracist.typeracist.logic.characters;
 
+import dev.typeracist.typeracist.logic.global.ResourceManager;
+import dev.typeracist.typeracist.utils.ResourceName;
+
 public class Wizard extends Character {
-    private int turnsSinceLastStun;
     private static final int STUN_COOLDOWN = 3;
+    private int turnsSinceLastStun;
 
     public Wizard() {
-        super(3, 4); // ATK: 3, DEF: 4
+        super(3, 4, ResourceManager.getImage(ResourceName.WIZARD)); // ATK: 3, DEF: 4
         this.turnsSinceLastStun = STUN_COOLDOWN; // Ready to use at start
     }
 

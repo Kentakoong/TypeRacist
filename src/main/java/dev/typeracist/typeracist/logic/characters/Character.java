@@ -1,5 +1,7 @@
 package dev.typeracist.typeracist.logic.characters;
 
+import javafx.scene.image.Image;
+
 public abstract class Character extends Entity {
     protected static final HP BASE_HP = new HP(35);
     protected static final int BASE_ATK = 4;
@@ -8,18 +10,14 @@ public abstract class Character extends Entity {
     protected int xp;
     protected int coin;
 
-    public Character(HP hp, int atk, int def) {
-        super(hp, atk, def);
+    public Character(HP hp, int atk, int def, Image image) {
+        super(hp, atk, def, image);
         this.xp = 0;
         this.coin = 0;
     }
 
-    public Character(int atk, int def) {
-        this(BASE_HP, atk, def);
-    }
-
-    public Character() {
-        this(BASE_HP, BASE_ATK, BASE_DEF);
+    public Character(int atk, int def, Image image) {
+        this(BASE_HP, atk, def, image);
     }
 
     public int getXp() {
