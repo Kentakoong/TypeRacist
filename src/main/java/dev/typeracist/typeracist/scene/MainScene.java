@@ -1,6 +1,8 @@
 package dev.typeracist.typeracist.scene;
 
 import dev.typeracist.typeracist.logic.global.GameLogic;
+import dev.typeracist.typeracist.logic.global.ResourceManager;
+import dev.typeracist.typeracist.utils.ResourceName;
 import dev.typeracist.typeracist.utils.SceneName;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -17,7 +19,7 @@ public class MainScene extends BaseScene {
         root.setSpacing(20);
 
         // Add title label
-        Font baseFont = Font.loadFont(KeyboardPaneSceneDemo.class.getResourceAsStream("/dev/typeracist/typeracist/fonts/DepartureMono-Regular.otf"), 36);
+        Font baseFont = ResourceManager.getFont(ResourceName.FONT_DEPARTURE_MONO, 36);
         Label titleLabel = new Label("TypeRacist");
         titleLabel.setStyle("-fx-text-fill: black;");
         titleLabel.setLayoutX(50);

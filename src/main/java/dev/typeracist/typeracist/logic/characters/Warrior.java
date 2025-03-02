@@ -5,7 +5,7 @@ import dev.typeracist.typeracist.utils.ResourceName;
 
 public class Warrior extends Character {
     public Warrior() {
-        super(4, 5, ResourceManager.getImage(ResourceName.WARRIOR)); // ATK: 4, DEF: 5
+        super(4, 5, ResourceManager.getImage(ResourceName.IMAGE_CHARACTER_WARRIOR)); // ATK: 4, DEF: 5
     }
 
     @Override

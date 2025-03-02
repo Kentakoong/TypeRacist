@@ -9,7 +9,7 @@ public class Archer extends Character {
     private final Random random;
 
     public Archer() {
-        super(4, 3, ResourceManager.getImage(ResourceName.ARCHER)); // ATK: 4, DEF: 3
+        super(4, 3, ResourceManager.getImage(ResourceName.IMAGE_CHARACTER_ARCHER)); // ATK: 4, DEF: 3
         this.random = new Random();
     }
 
