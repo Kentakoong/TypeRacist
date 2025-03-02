@@ -1,14 +1,14 @@
 package dev.typeracist.typeracist.scene;
 
+import dev.typeracist.typeracist.logic.characters.Character;
+import dev.typeracist.typeracist.logic.characters.*;
 import dev.typeracist.typeracist.logic.global.GameLogic;
 import dev.typeracist.typeracist.utils.SceneName;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -17,8 +17,8 @@ import javafx.scene.text.Font;
 import java.util.HashMap;
 import java.util.Map;
 
-public class CharacterScene extends Scene {
-    private String selectedCharacter; // Store selected character ID
+public class CharacterScene extends BaseScene {
+    private Character selectedCharacter; // Store selected character ID
     private Label warningLabel; // Label to display warning message
     private Label characterInfoLabel; // Label to display character name & description
 
@@ -43,16 +43,16 @@ public class CharacterScene extends Scene {
         characterSelection.setAlignment(Pos.CENTER);
 
         // Character Image Paths
-        String warrior = "/dev/typeracist/typeracist/image/character/warrior.png";
-        String archer = "/dev/typeracist/typeracist/image/character/archer.png";
-        String wizard = "/dev/typeracist/typeracist/image/character/wizard.png";
-        String assassin = "/dev/typeracist/typeracist/image/character/assassin.png";
-        String wretch = "/dev/typeracist/typeracist/image/character/wretch.png";
+        Character warrior = new Warrior();
+        Character archer = new Archer();
+        Character wizard = new Wizard();
+        Character assassin = new Assassin();
+        Character wretch = new Wretch();
 
         // Map character images to names and descriptions
-        Map<String, String[]> characterData = new HashMap<>();
+        Map<Character, String[]> characterData = new HashMap<>();
         characterData.put(warrior, new String[]{"Warrior", "A brave fighter with strong melee attacks." +
-                "\n"+"ATK : 4\n" +
+                "\n" + "ATK : 4\n" +
                 "DEF : 5\nABIL : NONE"});
         characterData.put(archer, new String[]{"Archer", "A skilled marksman with excellent range." +
                 "\nATK : 4\n" +
@@ -73,20 +73,19 @@ public class CharacterScene extends Scene {
         characterInfoLabel.setFont(Font.font(baseFont.getName(), 18));
         characterInfoLabel.setStyle("-fx-text-fill: black;");
 
-        for (String characterPath : characterData.keySet()) {
-            Image characterImage = new Image(getClass().getResourceAsStream(characterPath));
-            ImageView characterView = new ImageView(characterImage);
+        for (Character character : characterData.keySet()) {
+            ImageView characterView = new ImageView(character.getImage());
             characterView.setFitWidth(80);
             characterView.setFitHeight(80);
 
             characterView.setOnMouseClicked(event -> {
-                selectedCharacter = characterPath;
+                selectedCharacter = character;
                 System.out.println("Selected character: " + selectedCharacter);
                 warningLabel.setText(""); // Clear warning when character is selected
 
                 // Update character info label
-                String characterName = characterData.get(characterPath)[0];
-                String characterDescription = characterData.get(characterPath)[1];
+                String characterName = characterData.get(character)[0];
+                String characterDescription = characterData.get(character)[1];
                 characterInfoLabel.setText(characterName + " - " + characterDescription);
             });
 
@@ -113,8 +112,12 @@ public class CharacterScene extends Scene {
         // Confirm button
         Button confirmButton = new Button("Confirm");
         confirmButton.setOnAction(event -> {
+
             if (selectedCharacter != null) {
                 System.out.println("Character confirmed: " + selectedCharacter);
+                //set select character
+                GameLogic.getInstance().setSelectedCharacter(selectedCharacter);
+                System.out.println("Select THIS!! :" + GameLogic.getInstance().getSelectedCharacter());
                 GameLogic.getInstance().getSceneManager().setScene(SceneName.MAP);
 
             } else {
@@ -122,9 +125,6 @@ public class CharacterScene extends Scene {
                 warningLabel.setText("Please select a character first!");
                 warningLabel.setStyle("-fx-text-fill: red;");
             }
-            //set select character
-            GameLogic.getInstance().setSelectedCharacter(selectedCharacter);
-            System.out.println("Select THIS!! :"+GameLogic.getInstance().getSelectedCharacter());
         });
 
         // Warning Label (Initially empty)
@@ -133,5 +133,15 @@ public class CharacterScene extends Scene {
         warningLabel.setStyle("-fx-text-fill: red;");
 
         root.getChildren().addAll(titleLabel, characterSelection, characterInfoLabel, nameBox, difficultyBox, confirmButton, warningLabel);
+    }
+
+    @Override
+    public void onSceneEnter() {
+
+    }
+
+    @Override
+    public void onSceneLeave() {
+
     }
 }

@@ -1,6 +1,5 @@
 package dev.typeracist.typeracist.scene;
 
-import dev.typeracist.typeracist.logic.global.BaseDynamicScene;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -31,6 +30,16 @@ public class DynamicSceneDemo extends BaseDynamicScene<StackPane> {
         }
 
         loadPane(currentIndex);
+    }
+
+    @Override
+    public void onSceneEnter() {
+        System.out.println("this is called on show (change scene)");
+    }
+
+    @Override
+    public void onSceneLeave() {
+        System.out.println("this is called on show (change scene)");
     }
 
     private StackPane createPane(int index) {

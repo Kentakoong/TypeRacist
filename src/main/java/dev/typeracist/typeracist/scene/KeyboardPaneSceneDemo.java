@@ -7,7 +7,6 @@ import dev.typeracist.typeracist.utils.DatasetName;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
@@ -19,7 +18,7 @@ import javafx.scene.text.FontWeight;
 
 import java.util.List;
 
-public class KeyboardPaneSceneDemo extends Scene {
+public class KeyboardPaneSceneDemo extends BaseScene {
 
     public KeyboardPaneSceneDemo(double width, double height) {
         super(new VBox(), width, height);
@@ -84,5 +83,15 @@ public class KeyboardPaneSceneDemo extends Scene {
         hardness.setAlignment(Pos.BOTTOM_LEFT);
 
         root.getChildren().addAll(hBox, typingPane, hardness);
+    }
+
+    @Override
+    public void onSceneEnter() {
+
+    }
+
+    @Override
+    public void onSceneLeave() {
+
     }
 }
