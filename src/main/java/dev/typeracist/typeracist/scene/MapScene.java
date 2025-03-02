@@ -161,7 +161,7 @@ public class MapScene extends BaseScene {
                     node2.getLayoutX() + 25, node2.getLayoutY() + 25
             );
             line.setStyle("-fx-stroke: white; -fx-stroke-width: 2;");
-            root.getChildren().add(0, line); // Add behind buttons
+            root.getChildren().addFirst(line); // Add behind buttons
         }
     }
 
