@@ -1,12 +1,15 @@
 package dev.typeracist.typeracist.logic.characters;
 
+import dev.typeracist.typeracist.logic.global.ResourceManager;
+import dev.typeracist.typeracist.utils.ResourceName;
+
 import java.util.Random;
 
 public class Assassin extends Character {
     private final Random random;
 
     public Assassin() {
-        super(5, 3); // ATK: 5, DEF: 3
+        super(5, 3, ResourceManager.getImage(ResourceName.ASSASSIN)); // ATK: 5, DEF: 3
         this.random = new Random();
     }
 
