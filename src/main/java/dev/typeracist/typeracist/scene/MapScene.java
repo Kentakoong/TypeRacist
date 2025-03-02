@@ -144,7 +144,7 @@ public class MapScene extends BaseScene {
 
     // Update Map Color
 
-    private void updateNodeColors() {
+    public void updateNodeColors() {
         for (MapNode node : mapNodes.values()) {
             node.updateStatusColor();
         }

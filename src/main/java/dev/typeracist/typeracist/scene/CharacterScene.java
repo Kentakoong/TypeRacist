@@ -23,6 +23,8 @@ public class CharacterScene extends BaseScene {
     private Character selectedCharacter; // Store selected character ID
     private Label warningLabel; // Label to display warning message
     private Label characterInfoLabel; // Label to display character name & description
+    private String selectedDifficulty = null;
+
 
     public CharacterScene(double width, double height) {
         super(new VBox(), width, height);
@@ -96,7 +98,16 @@ public class CharacterScene extends BaseScene {
         Button normalButton = new Button("Normal");
         Button hardButton = new Button("Hard");
         Button hellButton = new Button("Hell");
+
+
+        // Add event listeners for difficulty buttons
+        easyButton.setOnAction(e -> selectDifficulty("Easy", easyButton, normalButton, hardButton, hellButton));
+        normalButton.setOnAction(e -> selectDifficulty("Normal", easyButton, normalButton, hardButton, hellButton));
+        hardButton.setOnAction(e -> selectDifficulty("Hard", easyButton, normalButton, hardButton, hellButton));
+        hellButton.setOnAction(e -> selectDifficulty("Hell", easyButton, normalButton, hardButton, hellButton));
+
         difficultyBox.getChildren().addAll(difficultyLabel, easyButton, normalButton, hardButton, hellButton);
+
 
         // Confirm button
         Button confirmButton = getConfirmButton();
@@ -113,19 +124,31 @@ public class CharacterScene extends BaseScene {
     private Button getConfirmButton() {
         Button confirmButton = new Button("Confirm");
         confirmButton.setOnAction(event -> {
+            String playerName = nameField.getText().trim();
 
-            if (selectedCharacter != null) {
-                System.out.println("Character confirmed: " + selectedCharacter);
-                // set select character
-                GameLogic.getInstance().setSelectedCharacter(selectedCharacter);
-                System.out.println("Select THIS!! :" + GameLogic.getInstance().getSelectedCharacter());
-                GameLogic.getInstance().getSceneManager().setScene(SceneName.MAP);
-
-            } else {
-                // Show warning message in red
-                warningLabel.setText("Please select a character first!");
+            // Validate inputs
+            if (selectedCharacter == null) {
+                warningLabel.setText("Please select a character!");
                 warningLabel.setStyle("-fx-text-fill: red;");
+                return;
             }
+            if (playerName.isEmpty()) {
+                warningLabel.setText("Please enter a name!");
+                warningLabel.setStyle("-fx-text-fill: red;");
+                return;
+            }
+            if (selectedDifficulty == null) {
+                warningLabel.setText("Please select a difficulty!");
+                warningLabel.setStyle("-fx-text-fill: red;");
+                return;
+            }
+
+            // If all inputs are valid, proceed to MapScene
+            System.out.println("Character confirmed: " + selectedCharacter);
+            GameLogic.getInstance().setSelectedCharacter(selectedCharacter);
+            ((MapScene) GameLogic.getInstance().getSceneManager().getScene(SceneName.MAP)).updateNodeColors();
+            GameLogic.getInstance().getSceneManager().setScene(SceneName.MAP);
+            System.out.println("Selected Character: " + GameLogic.getInstance().getSelectedCharacter());
         });
         return confirmButton;
     }
@@ -146,6 +169,18 @@ public class CharacterScene extends BaseScene {
             characterInfoLabel.setText(characterName + " - " + characterDescription);
         });
         return characterView;
+    }
+
+    // Method to set selected difficulty and update button styles
+    private void selectDifficulty(String difficulty, Button... buttons) {
+        selectedDifficulty = difficulty;
+        for (Button button : buttons) {
+            if (button.getText().equals(difficulty)) {
+                button.setStyle("-fx-background-color: #FFD700;"); // Highlight selected
+            } else {
+                button.setStyle("-fx-background-color: transparent;"); // Reset others
+            }
+        }
     }
 
     @Override
