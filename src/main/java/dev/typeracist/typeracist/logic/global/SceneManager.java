@@ -1,5 +1,6 @@
 package dev.typeracist.typeracist.logic.global;
 
+import dev.typeracist.typeracist.scene.BaseScene;
 import javafx.animation.FadeTransition;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -9,7 +10,7 @@ import java.util.HashMap;
 
 public class SceneManager {
     private final Stage primaryStage;
-    private final HashMap<String, Scene> scenes;
+    private final HashMap<String, BaseScene> scenes;
     private final SceneHistoryManager sceneHistoryManager;
 
     public SceneManager(Stage primaryStage) {
@@ -18,7 +19,7 @@ public class SceneManager {
         this.sceneHistoryManager = new SceneHistoryManager();
     }
 
-    public void addScene(String name, Scene scene) {
+    public void addScene(String name, BaseScene scene) {
         scenes.put(name, scene);
     }
 
@@ -26,8 +27,12 @@ public class SceneManager {
         scenes.remove(name);
     }
 
-    public Scene getScene(String name) {
+    public BaseScene getScene(String name) {
         return scenes.get(name);
+    }
+
+    public BaseScene getCurrentScene() {
+        return (BaseScene) primaryStage.getScene();
     }
 
     public boolean sceneExists(String name) {
@@ -47,11 +52,14 @@ public class SceneManager {
         if (!sceneExists(name))
             throw new IllegalArgumentException("Scene " + name + " not found");
 
-        sceneHistoryManager.addSceneToHistory(name);
-        Scene newScene = scenes.get(name);
+        if (getCurrentScene() != null)
+            getCurrentScene().onSceneLeave();
 
-        // Smooth fade transition when switching scenes
+        sceneHistoryManager.addSceneToHistory(name);
+        BaseScene newScene = scenes.get(name);
         applyFadeTransition(primaryStage.getScene(), newScene);
+
+        newScene.onSceneEnter();
     }
 
     private void applyFadeTransition(Scene oldScene, Scene newScene) {

@@ -3,6 +3,8 @@ package dev.typeracist.typeracist.logic.global;
 import dev.typeracist.typeracist.logic.gameScene.Dataset;
 import dev.typeracist.typeracist.logic.gameScene.DatasetManager;
 import dev.typeracist.typeracist.utils.DatasetName;
+import dev.typeracist.typeracist.logic.characters.Character;
+import dev.typeracist.typeracist.logic.characters.Warrior;
 import javafx.stage.Stage;
 
 import java.util.HashSet;
@@ -12,13 +14,13 @@ public class GameLogic {
     private static GameLogic instance;
     private final SceneManager sceneManager;
     private final DatasetManager datasetManager;
-    private String selectedCharacter; // Store character image path or ID
     private final Set<String> clearedBattles = new HashSet<>();
+    private Character selectedCharacter; // Store character image path or ID
 
     private GameLogic(Stage primaryStage) {
         sceneManager = new SceneManager(primaryStage);
         datasetManager = new DatasetManager();
-        selectedCharacter = "/dev/typeracist/typeracist/image/character/warrior.png";
+        selectedCharacter = new Warrior();
     }
 
     public static void init(Stage primaryStage) {
@@ -55,13 +57,13 @@ public class GameLogic {
         return datasetManager;
     }
 
-    //intermediated pass variable  CharacterScene and Map
-    public void setSelectedCharacter(String character) {
-        this.selectedCharacter = character;
+    public Character getSelectedCharacter() {
+        return selectedCharacter;
     }
 
-    public String getSelectedCharacter() {
-        return selectedCharacter;
+    //intermediated pass variable  CharacterScene and Map
+    public void setSelectedCharacter(Character character) {
+        this.selectedCharacter = character;
     }
 
     public void clearBattle(String battleName) {
@@ -75,16 +77,26 @@ public class GameLogic {
     // Checks if a battle is playable based on previous battle clear status
     public boolean isBattleUnlocked(String battleName) {
         switch (battleName) {
-            case "BATTLE2": return isBattleCleared("BATTLE1");
-            case "BATTLE3": return isBattleCleared("BATTLE2");
-            case "BATTLE4": return isBattleCleared("BATTLE3");
-            case "BATTLE5": return isBattleCleared("BATTLE4");
-            case "BATTLE6": return isBattleCleared("BATTLE5");
-            case "BATTLE7": return isBattleCleared("BATTLE6");
-            case "BATTLE8": return isBattleCleared("BATTLE7");
-            case "BATTLE9": return isBattleCleared("BATTLE8");
-            case "BOSS": return isBattleCleared("BATTLE9");
-            default: return false;
+            case "BATTLE2":
+                return isBattleCleared("BATTLE1");
+            case "BATTLE3":
+                return isBattleCleared("BATTLE2");
+            case "BATTLE4":
+                return isBattleCleared("BATTLE3");
+            case "BATTLE5":
+                return isBattleCleared("BATTLE4");
+            case "BATTLE6":
+                return isBattleCleared("BATTLE5");
+            case "BATTLE7":
+                return isBattleCleared("BATTLE6");
+            case "BATTLE8":
+                return isBattleCleared("BATTLE7");
+            case "BATTLE9":
+                return isBattleCleared("BATTLE8");
+            case "BOSS":
+                return isBattleCleared("BATTLE9");
+            default:
+                return false;
         }
     }
 }

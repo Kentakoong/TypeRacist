@@ -3,14 +3,12 @@ package dev.typeracist.typeracist.scene;
 import dev.typeracist.typeracist.logic.global.GameLogic;
 import dev.typeracist.typeracist.utils.SceneName;
 import javafx.geometry.Pos;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
 
-public class MainScene extends Scene {
+public class MainScene extends BaseScene {
     public MainScene(double width, double height) {
         super(new VBox(), width, height);
 
@@ -57,5 +55,15 @@ public class MainScene extends Scene {
 
         buttonBar.getChildren().addAll(startButton, settingsButton, exitButton, testSceneButton, testKeyBoardPaneSceneButton);
         root.getChildren().addAll(titleLabel, buttonBar);
+    }
+
+    @Override
+    public void onSceneEnter() {
+
+    }
+
+    @Override
+    public void onSceneLeave() {
+
     }
 }

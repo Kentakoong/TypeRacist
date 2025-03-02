@@ -3,7 +3,6 @@ package dev.typeracist.typeracist.scene;
 import dev.typeracist.typeracist.logic.global.GameLogic;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
@@ -12,7 +11,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 
-public class SettingScene extends Scene {
+public class SettingScene extends BaseScene {
     public SettingScene(double width, double height) {
         super(new VBox(), width, height);
 
@@ -61,5 +60,15 @@ public class SettingScene extends Scene {
 
         // Add everything to the root
         root.getChildren().addAll(navigationBar, title, settingsTable);
+    }
+
+    @Override
+    public void onSceneEnter() {
+
+    }
+
+    @Override
+    public void onSceneLeave() {
+
     }
 }

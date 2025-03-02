@@ -1,11 +1,10 @@
-package dev.typeracist.typeracist.logic.global;
+package dev.typeracist.typeracist.scene;
 
-import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 
 import java.util.HashMap;
 
-public abstract class BaseDynamicScene<T extends Pane> extends Scene {
+public abstract class BaseDynamicScene<T extends Pane> extends BaseScene {
     protected final Pane rootPane;
     protected final HashMap<Integer, T> panes;
     protected int currentPaneId;
