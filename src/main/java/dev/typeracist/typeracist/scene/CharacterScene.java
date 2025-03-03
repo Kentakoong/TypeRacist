@@ -15,7 +15,11 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ButtonType;
 
+import java.util.Optional;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -143,12 +147,35 @@ public class CharacterScene extends BaseScene {
                 return;
             }
 
-            // If all inputs are valid, proceed to MapScene
-            System.out.println("Character confirmed: " + selectedCharacter);
-            GameLogic.getInstance().setSelectedCharacter(selectedCharacter);
-            ((MapScene) GameLogic.getInstance().getSceneManager().getScene(SceneName.MAP)).updateNodeColors();
-            GameLogic.getInstance().getSceneManager().setScene(SceneName.MAP);
-            System.out.println("Selected Character: " + GameLogic.getInstance().getSelectedCharacter());
+            // Show confirmation popup before proceeding
+            Alert confirmationAlert = new Alert(AlertType.CONFIRMATION);
+            confirmationAlert.setTitle("Confirm Selection");
+            confirmationAlert.setHeaderText("Confirm Your Character Choice");
+            confirmationAlert.setContentText(
+                    "Name: " + playerName + "\n" +
+                            "Character: " + characterData.get(selectedCharacter)[0] + "\n" +
+                            "Difficulty: " + selectedDifficulty + "\n\n" +
+                            "Are you sure you want to proceed?"
+            );
+
+            // Show character image in the alert
+            ImageView characterImageView = new ImageView(selectedCharacter.getImage());
+            characterImageView.setFitWidth(100);
+            characterImageView.setFitHeight(100);
+            confirmationAlert.setGraphic(characterImageView);
+
+            Optional<ButtonType> result = confirmationAlert.showAndWait();
+
+            if (result.isPresent() && result.get() == ButtonType.OK) {
+                // Proceed to MapScene
+                GameLogic.getInstance().setSelectedCharacter(selectedCharacter);
+                ((MapScene) GameLogic.getInstance().getSceneManager().getScene(SceneName.MAP)).updateNodeColors();
+                GameLogic.getInstance().getSceneManager().setScene(SceneName.MAP);
+                System.out.println("Selected Character: " + GameLogic.getInstance().getSelectedCharacter());
+            } else {
+                // Do nothing if the player cancels
+                System.out.println("Character selection canceled.");
+            }
         });
         return confirmButton;
     }
@@ -170,6 +197,7 @@ public class CharacterScene extends BaseScene {
         });
         return characterView;
     }
+
 
     // Method to set selected difficulty and update button styles
     private void selectDifficulty(String difficulty, Button... buttons) {
