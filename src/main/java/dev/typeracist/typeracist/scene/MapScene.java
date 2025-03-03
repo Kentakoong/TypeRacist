@@ -181,6 +181,9 @@ public class MapScene extends BaseScene {
         System.out.println("Target X: " + targetX);
         System.out.println("Target Y: " + targetY);
 
+        System.out.println(character.getLayoutX());
+        System.out.println(character.getLayoutY());
+
         // Get current position of the character
         double currentX = character.getLayoutX();
         double currentY = character.getLayoutY();
@@ -194,13 +197,16 @@ public class MapScene extends BaseScene {
         transition.setByX(deltaX);
         transition.setByY(deltaY);
         transition.play();
-
+        System.out.println("deltaX :"+deltaX);
+        System.out.println("deltaY :"+deltaY);
         // Ensure the layout position updates correctly after animation
         transition.setOnFinished(event -> {
             character.setLayoutX(targetX);
             character.setLayoutY(targetY);
-            System.out.println("resultX : "+targetX);
-            System.out.println("resultY :"+targetY);
+            character.setTranslateX(0); // Reset translateX to prevent stacking
+            character.setTranslateY(0); // Reset translateY to prevent stacking
+            System.out.println("resultX : "+character.getLayoutX());
+            System.out.println("resultY :"+character.getLayoutY());
         });
     }
 
