@@ -7,13 +7,16 @@ import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class MapNode extends Button {
     private final Circle statusCircle;
     private final String action;
+    private final List<MapNode> neighbors = new ArrayList<>(); // Store connected nodes
 
     public MapNode(double x, double y, Image image, String action) {
         super(); // Initialize the Button
-
         this.action = action;
 
         // Create status circle
@@ -32,6 +35,14 @@ public class MapNode extends Button {
         this.setStyle("-fx-background-color: transparent;");
         this.setLayoutX(x);
         this.setLayoutY(y);
+    }
+
+    public void addNeighbor(MapNode neighbor) {
+        neighbors.add(neighbor);
+    }
+
+    public List<MapNode> getNeighbors() {
+        return neighbors;
     }
 
     // Method to update the status color dynamically
