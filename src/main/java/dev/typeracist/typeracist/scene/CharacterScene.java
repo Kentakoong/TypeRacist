@@ -146,7 +146,6 @@ public class CharacterScene extends BaseScene {
                 warningLabel.setStyle("-fx-text-fill: red;");
                 return;
             }
-
             // Show confirmation popup before proceeding
             Alert confirmationAlert = new Alert(AlertType.CONFIRMATION);
             confirmationAlert.setTitle("Confirm Selection");
@@ -155,7 +154,7 @@ public class CharacterScene extends BaseScene {
                     "Name: " + playerName + "\n" +
                             "Character: " + characterData.get(selectedCharacter)[0] + "\n" +
                             "Difficulty: " + selectedDifficulty + "\n\n" +
-                            "Are you sure you want to proceed?"
+                            "Click OK to go to Arena Map"
             );
 
             // Show character image in the alert
