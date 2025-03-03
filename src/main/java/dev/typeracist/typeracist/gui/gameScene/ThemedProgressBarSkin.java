@@ -6,22 +6,22 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
-public class TimerProgressBarSkin extends SkinBase<ProgressBar> {
+public class ThemedProgressBarSkin extends SkinBase<ProgressBar> {
     private final Rectangle track;
     private final Rectangle bar;
     private final ProgressBar control;
 
-    public TimerProgressBarSkin(ProgressBar control) {
+    public ThemedProgressBarSkin(ProgressBar control, Color trackColor, Color barColor) {
         super(control);
         this.control = control;
 
         this.track = new Rectangle();
-        this.track.setFill(Color.web("#484848"));
-        this.track.setStroke(Color.web("#484848"));
+        this.track.setFill(trackColor);
+        this.track.setStroke(trackColor);
         this.track.setStrokeWidth(3);
 
         this.bar = new Rectangle();
-        this.bar.setFill(Color.LIMEGREEN);
+        this.bar.setFill(barColor);
 
         Pane container = new Pane(this.track, this.bar);
         getChildren().add(container);

@@ -1,9 +1,10 @@
 package dev.typeracist.typeracist.gui.gameScene;
 
 import javafx.scene.control.ProgressBar;
+import javafx.scene.paint.Color;
 
 public class CountdownProgressBar extends ProgressBar {
-    public static long DEFAULT_TOTAL_TIME = 60 * 1000;
+    public static long DEFAULT_TOTAL_TIME = 10 * 1000;
     private long totalTime;
 
     public CountdownProgressBar(long totalTime) {
@@ -12,7 +13,7 @@ public class CountdownProgressBar extends ProgressBar {
 
         setPrefHeight(9);
         setMaxWidth(Double.MAX_VALUE);
-        setSkin(new TimerProgressBarSkin(this));
+        setSkin(new ThemedProgressBarSkin(this, Color.web("#484848"), Color.LIMEGREEN));
     }
 
     public void updateProgress(long elapsedTime) {

@@ -1,0 +1,16 @@
+package dev.typeracist.typeracist.logic.gameScene;
+
+public enum BattlePaneState {
+    PLAYER_SHOP,
+    GAME_STATS_OPTION,
+    GAME_PLAYER_STATS_OPTION,
+    GAME_ENEMY_STATS_OPTION,
+    ENEMY_DESCRIPTION,
+    PLAYER_ATTACK,
+    PLAYER_ATTACK_RESULT,
+    ENEMY_BEFORE_ATTACK,
+    PLAYER_DEFENSE,
+    PLAYER_DEFENSE_RESULT,
+    GAME_WIN,
+    GAME_LOSE,
+}

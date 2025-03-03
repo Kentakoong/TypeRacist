@@ -1,35 +1,43 @@
-package dev.typeracist.typeracist.gui.gameScene.InformationPane;
+package dev.typeracist.typeracist.gui.gameScene.BattlePane.InformationPane;
 
 import dev.typeracist.typeracist.gui.gameScene.TimedTypingPane;
 import dev.typeracist.typeracist.logic.gameScene.TypedWordStatus;
 import dev.typeracist.typeracist.logic.global.GameLogic;
+import dev.typeracist.typeracist.logic.global.ResourceManager;
 import dev.typeracist.typeracist.utils.DatasetName;
+import dev.typeracist.typeracist.utils.ResourceName;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
 
-public class TypingInfoPane extends BaseInfoPane {
+public class TypingInfoPaneModifier extends BaseInfoPaneModifier {
     private TimedTypingPane typingPane;
     private Label progressLabel;
 
-    public TypingInfoPane(InformationPane subPaneNavigator) {
+    public TypingInfoPaneModifier(InformationPane subPaneNavigator) {
         super(subPaneNavigator);
-
-        initialize();
-        Platform.runLater(typingPane::requestFocus);
     }
 
     @Override
-    protected void initializeContent() {
+    protected void initialize() {
         setPadding(new Insets(8, 20, 8, 20));
 
         typingPane = createTypingPane();
         progressLabel = createProgressLabel();
 
         getChildren().addAll(progressLabel, typingPane);
+
+        Platform.runLater(typingPane::requestFocus);
+    }
+
+    public TimedTypingPane getTypingPane() {
+        return typingPane;
+    }
+
+    public Label getProgressLabel() {
+        return progressLabel;
     }
 
     private TimedTypingPane createTypingPane() {
@@ -40,7 +48,7 @@ public class TypingInfoPane extends BaseInfoPane {
         );
 
         pane.setHighlightColors(pane.getBaseColor(), Color.BLACK, Color.TOMATO, Color.DARKRED);
-        pane.setFont(Font.font(baseFont.getName(), 24));
+        pane.setFont(ResourceManager.getFont(ResourceName.FONT_DEPARTURE_MONO, 24));
         pane.setAlignment(Pos.CENTER_LEFT);
         pane.setSpacing(25);
 
@@ -56,15 +64,11 @@ public class TypingInfoPane extends BaseInfoPane {
             updateProgressLabel();
             return event;
         });
-
-        pane.setOnStop(event -> {
-            GameLogic.getInstance().getSceneManager().setToPreviousScene();
-        });
     }
 
     private Label createProgressLabel() {
         Label label = new Label("0/" + typingPane.getTypingTracker().getWords().size());
-        label.setFont(Font.font(baseFont.getName(), 18));
+        label.setFont(ResourceManager.getFont(ResourceName.FONT_DEPARTURE_MONO, 18));
         label.setAlignment(Pos.CENTER_RIGHT);
         label.setMaxWidth(Double.MAX_VALUE);
         return label;

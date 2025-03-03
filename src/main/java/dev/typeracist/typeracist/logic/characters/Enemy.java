@@ -21,6 +21,25 @@ public class Enemy extends Entity {
         this.dropCoin = 0;
     }
 
+    public int attack(Entity target, int extraDefense) {
+        int realDamage = Math.max(atk - extraDefense * target.getDef(), 0);
+        target.hp.damage(realDamage);
+
+        return realDamage;
+    }
+
+    public int getDropXP() {
+        return dropXP;
+    }
+
+    public int getDropCoin() {
+        return dropCoin;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
     @Override
     public void useAbility() {
 

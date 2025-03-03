@@ -17,11 +17,15 @@ public class GameLogic {
     private final DatasetManager datasetManager;
     private final Set<String> clearedBattles = new HashSet<>();
     private Character selectedCharacter; // Store character image path or ID
+    private String playerName;
 
     private GameLogic(Stage primaryStage) {
         sceneManager = new SceneManager(primaryStage);
         datasetManager = new DatasetManager();
         selectedCharacter = new Warrior();
+
+        // todo: remove this for start-pane to set it instead
+        playerName = "Oat Oat";
     }
 
     public static void init(Stage primaryStage) {
@@ -65,6 +69,10 @@ public class GameLogic {
     //intermediated pass variable  CharacterScene and Map
     public void setSelectedCharacter(Character character) {
         this.selectedCharacter = character;
+    }
+
+    public String getPlayerName() {
+        return playerName;
     }
 
     public void clearBattle(String battleName) {
