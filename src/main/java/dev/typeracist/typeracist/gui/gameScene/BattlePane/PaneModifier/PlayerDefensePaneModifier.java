@@ -14,6 +14,7 @@ public class PlayerDefensePaneModifier extends BasePaneModifier {
 
     @Override
     public void initialize(BattlePaneStateManager manager) {
+        battlePane.getStatsButton().setDisable(false);
         TypingInfoPaneModifier typingInfoPaneModifier =
                 (TypingInfoPaneModifier) battlePane.getInformationPane().setToPane(InfoPaneModifierType.TYPING_PANE);
 
@@ -30,7 +31,7 @@ public class PlayerDefensePaneModifier extends BasePaneModifier {
                     battlePane
                             .getStateContext()
                             .getCurrentTurnContext()
-                            .setRawDefenceScore((int) rawTypingScore);
+                            .setRawDefenseScore((int) rawTypingScore);
 
                     returnControl();
                 }
