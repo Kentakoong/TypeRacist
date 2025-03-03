@@ -27,6 +27,7 @@ public class PlayerDefenseResultPaneModifier extends BasePaneModifier {
 
     @Override
     public void initialize(BattlePaneStateManager manager) {
+        battlePane.getStatsButton().setDisable(false);
         battlePane.getInformationPane().getChildren().clear();
 
         int rawDefenseScore = battlePane.getStateContext().getCurrentTurnContext().getRawDefenseScore();

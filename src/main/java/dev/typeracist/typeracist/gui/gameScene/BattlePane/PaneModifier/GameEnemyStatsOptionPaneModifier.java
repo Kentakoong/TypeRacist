@@ -25,6 +25,7 @@ public class GameEnemyStatsOptionPaneModifier extends BasePaneModifier {
 
     @Override
     public void initialize(BattlePaneStateManager manager) {
+        battlePane.getStatsButton().setDisable(true);
         battlePane.getInformationPane().getChildren().clear();
 
         Label enemyStats = new Label(context.getEnemy().getName() + "-LEVEL: 0");

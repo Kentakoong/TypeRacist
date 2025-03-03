@@ -14,6 +14,7 @@ public class PlayerAttackPaneModifier extends BasePaneModifier {
 
     @Override
     public void initialize(BattlePaneStateManager manager) {
+        battlePane.getStatsButton().setDisable(false);
         battlePane.getAttackButton().setDisable(true);
 
         TypingInfoPaneModifier typingInfoPaneModifier =

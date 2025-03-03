@@ -18,6 +18,7 @@ public class EnemyDescriptionPaneModifier extends BasePaneModifier {
         battlePane.getInformationPane().getChildren().clear();
 
         battlePane.getAttackButton().setDisable(false);
+        battlePane.getStatsButton().setDisable(false);
 
         Label enemyDescriptionLabel = new Label("* " + context.getEnemy().getDescription());
         enemyDescriptionLabel.setFont(ResourceManager.getFont(ResourceName.FONT_DEPARTURE_MONO, 18));

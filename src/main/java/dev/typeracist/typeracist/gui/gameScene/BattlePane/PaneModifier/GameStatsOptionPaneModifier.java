@@ -14,6 +14,7 @@ public class GameStatsOptionPaneModifier extends BasePaneModifier {
 
     @Override
     public void initialize(BattlePaneStateManager manager) {
+        battlePane.getStatsButton().setDisable(true);
         StatsOptionInfoPaneModifier statsOptionInfoPaneModifier =
                 (StatsOptionInfoPaneModifier) battlePane.getInformationPane().setToPane(InfoPaneModifierType.STATS_OPTION_PANE);
 

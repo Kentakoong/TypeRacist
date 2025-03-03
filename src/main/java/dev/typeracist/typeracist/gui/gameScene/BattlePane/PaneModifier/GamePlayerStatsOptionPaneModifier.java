@@ -26,6 +26,7 @@ public class GamePlayerStatsOptionPaneModifier extends BasePaneModifier {
 
     @Override
     public void initialize(BattlePaneStateManager manager) {
+        battlePane.getStatsButton().setDisable(true);
         battlePane.getInformationPane().getChildren().clear();
 
         Label playerStats = new Label(GameLogic.getInstance().getPlayerName() + "-LEVEL: 0");
