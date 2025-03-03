@@ -98,7 +98,7 @@ public class CharacterScene extends BaseScene {
             VBox characterBox = new VBox(5, characterView, characterLabel);
             characterBox.setAlignment(Pos.CENTER);
             characterBox.setPadding(new Insets(10));
-            characterBox.setStyle("-fx-border-color: gray; -fx-border-width: 2px; -fx-border-radius: 10px;");
+            characterBox.setStyle("-fx-border-color: gray; -fx-border-width: 2px; -fx-border-radius: 10px; -fx-background-color: white;");
 
             // Store frame in the map
             characterFrames.put(character, characterBox);
@@ -115,9 +115,22 @@ public class CharacterScene extends BaseScene {
 
                 // Highlight selected character frame
                 for (VBox frame : characterFrames.values()) {
-                    frame.setStyle("-fx-border-color: gray; -fx-border-width: 2px; -fx-border-radius: 10px;"); // Reset others
+                    frame.setStyle("-fx-border-color: gray; -fx-border-width: 2px; -fx-border-radius: 10px; -fx-background-color: white;"); // Reset others
                 }
-                characterBox.setStyle("-fx-border-color: gold; -fx-border-width: 3px; -fx-border-radius: 10px;"); // Highlight selected
+                characterBox.setStyle("-fx-border-color: gold; -fx-border-width: 3px; -fx-border-radius: 10px; -fx-background-color: lightyellow;"); // Highlight selected
+            });
+
+            // Hover effect
+            characterBox.setOnMouseEntered(event -> {
+                if (selectedCharacter != character) { // Only apply if not selected
+                    characterBox.setStyle("-fx-border-color: blue; -fx-border-width: 2px; -fx-border-radius: 10px; -fx-background-color: lightgray; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 10, 0.5, 0, 3);");
+                }
+            });
+
+            characterBox.setOnMouseExited(event -> {
+                if (selectedCharacter != character) { // Only reset if not selected
+                    characterBox.setStyle("-fx-border-color: gray; -fx-border-width: 2px; -fx-border-radius: 10px; -fx-background-color: white;");
+                }
             });
 
             characterSelection.getChildren().add(characterBox);
