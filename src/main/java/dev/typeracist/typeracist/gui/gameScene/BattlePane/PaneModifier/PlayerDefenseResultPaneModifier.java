@@ -33,7 +33,13 @@ public class PlayerDefenseResultPaneModifier extends BasePaneModifier {
         int rawDefenseScore = battlePane.getStateContext().getCurrentTurnContext().getRawDefenseScore();
         assert rawDefenseScore != -1;
 
-        int damageTaken = context.getEnemy().attack(GameLogic.getInstance().getSelectedCharacter(), rawDefenseScore);
+        int damageTaken;
+        if (context.getCurrentTurnContext().isHadDefense()) {
+            damageTaken = context.getCurrentTurnContext().getDamageTaken();
+        } else {
+            damageTaken = context.getEnemy().attack(GameLogic.getInstance().getSelectedCharacter(), rawDefenseScore);
+            context.getCurrentTurnContext().setDamageTaken(damageTaken);
+        }
 
         Label rawAttackScoreLabel = new Label("Word typed: " + rawDefenseScore);
         rawAttackScoreLabel.setFont(ResourceManager.getFont(ResourceName.FONT_DEPARTURE_MONO, 24));
