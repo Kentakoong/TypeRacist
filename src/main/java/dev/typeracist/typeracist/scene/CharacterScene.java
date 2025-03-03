@@ -76,15 +76,51 @@ public class CharacterScene extends BaseScene {
                 "ATK : 3\n" +
                 "DEF : 3\nABIL : NONE" });
 
+        Map<Character, VBox> characterFrames = new HashMap<>(); // Store frames for updating selection effect
+
         // Label to display selected character info
         characterInfoLabel = new Label("");
         characterInfoLabel.setFont(Font.font(baseFont.getName(), 18));
         characterInfoLabel.setStyle("-fx-text-fill: black;");
 
         for (Character character : characterData.keySet()) {
-            ImageView characterView = getCharacterView(character, characterData);
+            // Character Image
+            ImageView characterView = new ImageView(character.getImage());
+            characterView.setFitWidth(80);
+            characterView.setFitHeight(80);
 
-            characterSelection.getChildren().add(characterView);
+            // Character Name Label
+            Label characterLabel = new Label(characterData.get(character)[0]);
+            characterLabel.setStyle("-fx-text-fill: black;");
+            characterLabel.setFont(Font.font(16));
+
+            // Character Frame (VBox with border)
+            VBox characterBox = new VBox(5, characterView, characterLabel);
+            characterBox.setAlignment(Pos.CENTER);
+            characterBox.setPadding(new Insets(10));
+            characterBox.setStyle("-fx-border-color: gray; -fx-border-width: 2px; -fx-border-radius: 10px;");
+
+            // Store frame in the map
+            characterFrames.put(character, characterBox);
+
+            // Selection event
+            characterView.setOnMouseClicked(event -> {
+                selectedCharacter = character;
+                warningLabel.setText(""); // Clear warning when character is selected
+
+                // Update character info label
+                String characterName = characterData.get(character)[0];
+                String characterDescription = characterData.get(character)[1];
+                characterInfoLabel.setText(characterName + " - " + characterDescription);
+
+                // Highlight selected character frame
+                for (VBox frame : characterFrames.values()) {
+                    frame.setStyle("-fx-border-color: gray; -fx-border-width: 2px; -fx-border-radius: 10px;"); // Reset others
+                }
+                characterBox.setStyle("-fx-border-color: gold; -fx-border-width: 3px; -fx-border-radius: 10px;"); // Highlight selected
+            });
+
+            characterSelection.getChildren().add(characterBox);
         }
 
         // Name input field
