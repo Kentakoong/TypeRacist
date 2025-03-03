@@ -69,8 +69,8 @@ public class EnemyBeforeAttackPaneModifier extends BasePaneModifier {
 
                                 battlePane.setOnKeyPressed(keyEvent -> {
                                     battlePane.setOnKeyPressed(keyPressEvent); // Restore previous state
-                                    manager.setReversibleState(BattlePaneState.ENEMY_BEFORE_ATTACK);
                                     returnControl();
+                                    manager.setReversibleState(BattlePaneState.ENEMY_BEFORE_ATTACK);
                                 });
                             });
                             pressAnyKeyToContinue.setVisible(true); // Ensure the node is visible

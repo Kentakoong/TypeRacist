@@ -53,6 +53,7 @@ public class BattlePaneStateManager {
     }
 
     public void setReversibleState(BattlePaneState reversibleState) {
+        System.out.println("set reversiable state: " + reversibleState);
         this.reversibleState = reversibleState;
     }
 
@@ -121,6 +122,7 @@ public class BattlePaneStateManager {
                 if (reversibleState != null) {
                     transitionToState(reversibleState);
                     System.out.println(currentState + " use reverisble state: " + reversibleState);
+                    reversibleState = null;
                 }
             }
         }
