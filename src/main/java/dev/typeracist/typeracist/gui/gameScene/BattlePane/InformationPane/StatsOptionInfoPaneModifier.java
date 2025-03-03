@@ -1,42 +1,47 @@
-package dev.typeracist.typeracist.gui.gameScene.InformationPane;
+package dev.typeracist.typeracist.gui.gameScene.BattlePane.InformationPane;
 
+import dev.typeracist.typeracist.logic.global.ResourceManager;
+import dev.typeracist.typeracist.utils.ResourceName;
 import javafx.application.Platform;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
 
-enum StatsOptionState {
-    PLAYER,
-    ENEMY
-}
+import java.util.function.Consumer;
 
-public class StatsOptionInfoPane extends BaseInfoPane {
+public class StatsOptionInfoPaneModifier extends BaseInfoPaneModifier {
     final private Label playerOption;
     final private Label enemyOption;
-    final private InformationPane subPaneNavigator;
-
     private StatsOptionState statsOptionState;
+    private Consumer<StatsOptionState> onChooseHandler;
 
-    public StatsOptionInfoPane(InformationPane subPaneNavigator) {
+    public StatsOptionInfoPaneModifier(InformationPane subPaneNavigator) {
         super(subPaneNavigator);
 
-        this.subPaneNavigator = subPaneNavigator;
         this.playerOption = new Label("* Player");
-        this.playerOption.setFont(Font.font(baseFont.getName(), 18));
+        this.playerOption.setFont(ResourceManager.getFont(ResourceName.FONT_DEPARTURE_MONO, 18));
         this.enemyOption = new Label("* Enemy");
-        this.enemyOption.setFont(Font.font(baseFont.getName(), 18));
+        this.enemyOption.setFont(ResourceManager.getFont(ResourceName.FONT_DEPARTURE_MONO, 18));
         this.statsOptionState = StatsOptionState.PLAYER;
-
-        setFocusTraversable(true);
-        initialize();
-        Platform.runLater(this::requestFocus);
     }
 
+    public Consumer<StatsOptionState> getOnChooseHandler() {
+        return onChooseHandler;
+    }
+
+    public void setOnChooseHandler(Consumer<StatsOptionState> onChooseHandler) {
+        this.onChooseHandler = onChooseHandler;
+    }
+
+    public StatsOptionState getStatsOptionState() {
+        return statsOptionState;
+    }
+
+
     @Override
-    protected void initializeContent() {
+    protected void initialize() {
         HBox hBox = new HBox();
 
         hBox.setAlignment(Pos.CENTER);
@@ -45,16 +50,9 @@ public class StatsOptionInfoPane extends BaseInfoPane {
 
         setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.ENTER) {
-                switch (statsOptionState) {
-                    case PLAYER -> {
-                        System.out.println("choose player stat");
-                    }
-                    case ENEMY -> {
-                        System.out.println("choose enemy stat");
-                    }
+                if (onChooseHandler != null) {
+                    onChooseHandler.accept(statsOptionState);
                 }
-
-                return;
             }
 
             boolean isValidKey = switch (event.getCode()) {
@@ -75,8 +73,10 @@ public class StatsOptionInfoPane extends BaseInfoPane {
             reRenderOptionsColor();
         });
 
+        setFocusTraversable(true);
         getChildren().add(hBox);
         reRenderOptionsColor();
+        Platform.runLater(this::requestFocus);
     }
 
     private void reRenderOptionsColor() {

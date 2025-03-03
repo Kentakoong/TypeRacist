@@ -20,6 +20,13 @@ public abstract class Character extends Entity {
         this(BASE_HP, atk, def, image);
     }
 
+    public int attack(Entity target, int rawDamage) {
+        int realDamage = Math.max(rawDamage * atk - target.def, 0);
+        target.hp.damage(realDamage);
+
+        return realDamage;
+    }
+
     public int getXp() {
         return xp;
     }
