@@ -163,37 +163,47 @@ public class MapScene extends BaseScene {
     }
 
     // Helper method to determine circle color
-    private Color getNodeColor(String action) {
-        if ("BOSS".equals(action)) {
-            return Color.RED; // Boss fights
-        } else if (GameLogic.getInstance().isBattleCleared(action)) {
-            return Color.GREEN; // Won battles
-        } else if (GameLogic.getInstance().isBattleUnlocked(action)) {
-            return Color.YELLOW; // Playable battles
-        } else {
-            return Color.WHITE; // Locked battles
-        }
-    }
+//    private Color getNodeColor(String action) {
+//        if ("BOSS".equals(action)) {
+//            return Color.RED; // Boss fights
+//        } else if (GameLogic.getInstance().isBattleCleared(action)) {
+//            return Color.GREEN; // Won battles
+//        } else if (GameLogic.getInstance().isBattleUnlocked(action)) {
+//            return Color.YELLOW; // Playable battles
+//        } else {
+//            return Color.WHITE; // Locked battles
+//        }
+//    }
 
     private void moveCharacter(double targetX, double targetY) {
-        // Center the character on the target
+        // Print debug info
         System.out.println("-----------");
-        System.out.println(targetX);
-        System.out.println(targetY);
-        double finalX = targetX + 0; // Adjust if needed
-        double finalY = targetY + 0;
+        System.out.println("Target X: " + targetX);
+        System.out.println("Target Y: " + targetY);
 
+        // Get current position of the character
+        double currentX = character.getLayoutX();
+        double currentY = character.getLayoutY();
+
+        // Calculate the difference (corrected)
+        double deltaX = targetX - currentX;
+        double deltaY = targetY - currentY;
+
+        // Move the character smoothly
         TranslateTransition transition = new TranslateTransition(Duration.millis(500), character);
-        transition.setToX(50);
-        transition.setToY(0);
+        transition.setByX(deltaX);
+        transition.setByY(deltaY);
         transition.play();
 
-        // Update character position after animation
+        // Ensure the layout position updates correctly after animation
         transition.setOnFinished(event -> {
-            character.setLayoutX(finalX);
-            character.setLayoutY(finalY);
+            character.setLayoutX(targetX);
+            character.setLayoutY(targetY);
+            System.out.println("resultX : "+targetX);
+            System.out.println("resultY :"+targetY);
         });
     }
+
 
     private void navigate(String action) {
         switch (action) {
