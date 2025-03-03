@@ -56,6 +56,10 @@ public class MainScene extends BaseScene {
         testKeyBoardPaneSceneButton.setPrefWidth(200);
         testKeyBoardPaneSceneButton.setOnAction(event -> GameLogic.getInstance().getSceneManager().setScene(SceneName.KEYBOARD_TEST));
 
+        Button testShopPaneSceneButton = new Button("Shop Test Scene");
+        testShopPaneSceneButton.setPrefWidth(200);
+        testShopPaneSceneButton.setOnAction(event -> GameLogic.getInstance().getSceneManager().setScene(SceneName.SHOP));
+
         Button testBattleScene = new Button("Battle Test Scene");
         testBattleScene.setPrefWidth(200);
         testBattleScene.setOnAction(event -> {
@@ -71,7 +75,7 @@ public class MainScene extends BaseScene {
                 }
         );
 
-        buttonBar.getChildren().addAll(startButton, settingsButton, exitButton, testSceneButton, testKeyBoardPaneSceneButton, testBattleScene);
+        buttonBar.getChildren().addAll(startButton, settingsButton, exitButton, testSceneButton, testKeyBoardPaneSceneButton, testBattleScene, testShopPaneSceneButton);
         root.getChildren().addAll(titleLabel, buttonBar);
     }
 

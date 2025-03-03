@@ -29,4 +29,12 @@ public class ResourceName {
     public static final String IMAGE_MAP_SWORD = ResourceBasePath.IMAGE_PATH + "/map/sword.png";
     public static final String IMAGE_MAP_SKULL = ResourceBasePath.IMAGE_PATH + "/map/skull.png";
     public static final String IMAGE_MAP_NEXT = ResourceBasePath.IMAGE_PATH + "/map/next.png";
+
+    public static final String IMAGE_SHOP_HEALING_POTION = ResourceBasePath.IMAGE_PATH + "/shop/healing_potion.png";
+    public static final String IMAGE_SHOP_TIME_POTION = ResourceBasePath.IMAGE_PATH + "/shop/time_potion.png";
+    public static final String IMAGE_SHOP_POTION_OF_TYPESWIFT = ResourceBasePath.IMAGE_PATH + "/shop/typeswift_potion.png";
+    public static final String IMAGE_SHOP_FRIED_CHICKEN = ResourceBasePath.IMAGE_PATH + "/shop/fried_chicken.png";
+    public static final String IMAGE_SHOP_WHIRLWIND_DAGGER = ResourceBasePath.IMAGE_PATH + "/shop/whirlwind_dagger.png";
+    public static final String IMAGE_SHOP_WOODEN_SHIELD = ResourceBasePath.IMAGE_PATH + "/shop/wooden_shield.png";
+    public static final String IMAGE_SHOP_TYPEWRITER = ResourceBasePath.IMAGE_PATH + "/shop/typewriter.png";
 }

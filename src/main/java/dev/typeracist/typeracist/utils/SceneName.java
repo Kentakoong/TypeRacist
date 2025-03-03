@@ -8,4 +8,5 @@ public class SceneName {
     final public static String KEYBOARD_TEST = "keyboard-pane-test";
     final public static String MAP = "map";
     final public static String BATTLE_TEST = "battle-pane-test";
+    final public static String SHOP = "shop";
 }
