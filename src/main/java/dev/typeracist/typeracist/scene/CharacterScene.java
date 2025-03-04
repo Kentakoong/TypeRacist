@@ -12,8 +12,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -32,19 +32,22 @@ public class CharacterScene extends BaseScene {
 
     public CharacterScene(double width, double height) {
         super(new VBox(), width, height);
-
         VBox root = (VBox) getRoot();
         root.setAlignment(Pos.CENTER);
         root.setSpacing(20);
         root.setPadding(new Insets(20));
+
+        //set background to grey
+        root.setBackground(new Background(new BackgroundFill(Color.web("#484848"), CornerRadii.EMPTY, Insets.EMPTY)));
+
 
         // Load font
         Font baseFont = ResourceManager.getFont(ResourceName.FONT_DEPARTURE_MONO, 36);
 
         // Title Label
         Label titleLabel = new Label("Choose Your Character");
-        titleLabel.setStyle("-fx-text-fill: black;");
-        titleLabel.setFont(Font.font(baseFont.getName(), 36));
+        titleLabel.setFont(baseFont);
+        titleLabel.setTextFill(Color.WHITE);
 
         // Character selection area
         HBox characterSelection = new HBox(10);
@@ -78,10 +81,9 @@ public class CharacterScene extends BaseScene {
 
         Map<Character, VBox> characterFrames = new HashMap<>(); // Store frames for updating selection effect
 
-        // Label to display selected character info
         characterInfoLabel = new Label("");
         characterInfoLabel.setFont(Font.font(baseFont.getName(), 18));
-        characterInfoLabel.setStyle("-fx-text-fill: black;");
+        characterInfoLabel.setTextFill(Color.WHITE);
 
         for (Character character : characterData.keySet()) {
             // Character Image
@@ -91,20 +93,21 @@ public class CharacterScene extends BaseScene {
 
             // Character Name Label
             Label characterLabel = new Label(characterData.get(character)[0]);
-            characterLabel.setStyle("-fx-text-fill: black;");
-            characterLabel.setFont(Font.font(16));
+            characterLabel.setFont(Font.font(baseFont.getName(), 16));
+            characterLabel.setTextFill(Color.BLACK);
 
             // Character Frame (VBox with border)
             VBox characterBox = new VBox(5, characterView, characterLabel);
             characterBox.setAlignment(Pos.CENTER);
             characterBox.setPadding(new Insets(10));
-            characterBox.setStyle("-fx-border-color: gray; -fx-border-width: 2px; -fx-border-radius: 10px; -fx-background-color: white;");
+            characterBox.setBackground(new Background(new BackgroundFill(Color.LIGHTGRAY, new CornerRadii(10), Insets.EMPTY)));
+            characterBox.setBorder(new Border(new BorderStroke(Color.GRAY, BorderStrokeStyle.SOLID, new CornerRadii(10), BorderWidths.DEFAULT)));
 
             // Store frame in the map
             characterFrames.put(character, characterBox);
 
-            // Selection event
-            characterView.setOnMouseClicked(event -> {
+            // Selection event (also works when clicking the background)
+            characterBox.setOnMouseClicked(event -> {
                 selectedCharacter = character;
                 warningLabel.setText(""); // Clear warning when character is selected
 
@@ -115,21 +118,21 @@ public class CharacterScene extends BaseScene {
 
                 // Highlight selected character frame
                 for (VBox frame : characterFrames.values()) {
-                    frame.setStyle("-fx-border-color: gray; -fx-border-width: 2px; -fx-border-radius: 10px; -fx-background-color: white;"); // Reset others
+                    frame.setStyle("-fx-border-color: gray; -fx-border-width: 2px; -fx-border-radius: 10px; -fx-background-color: white; -fx-background-radius: 10px;"); // Reset others
                 }
-                characterBox.setStyle("-fx-border-color: gold; -fx-border-width: 3px; -fx-border-radius: 10px; -fx-background-color: lightyellow;"); // Highlight selected
+                characterBox.setStyle("-fx-border   -color: gold; -fx-border-width: 3px; -fx-border-radius: 10px; -fx-background-color: lightyellow; -fx-background-radius: 10px;"); // Highlight selected
             });
 
             // Hover effect
             characterBox.setOnMouseEntered(event -> {
                 if (selectedCharacter != character) { // Only apply if not selected
-                    characterBox.setStyle("-fx-border-color: blue; -fx-border-width: 2px; -fx-border-radius: 10px; -fx-background-color: lightgray; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 10, 0.5, 0, 3);");
+                    characterBox.setStyle("-fx-border-color: blue; -fx-border-width: 2px; -fx-border-radius: 10px; -fx-background-color: lightgray; -fx-background-radius: 10px; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 10, 0.5, 0, 3);");
                 }
             });
 
             characterBox.setOnMouseExited(event -> {
                 if (selectedCharacter != character) { // Only reset if not selected
-                    characterBox.setStyle("-fx-border-color: gray; -fx-border-width: 2px; -fx-border-radius: 10px; -fx-background-color: white;");
+                    characterBox.setStyle("-fx-border-color: gray; -fx-border-width: 2px; -fx-border-radius: 10px; -fx-background-color: white; -fx-background-radius: 10px;");
                 }
             });
 
@@ -139,21 +142,25 @@ public class CharacterScene extends BaseScene {
         // Name input field
         HBox nameBox = new HBox(10);
         nameBox.setAlignment(Pos.CENTER);
-        Label nameLabel = new Label("Name :");
+        Label nameLabel = new Label("Name:");
+        nameLabel.setFont(Font.font(baseFont.getName(), 18));
+        nameLabel.setTextFill(Color.WHITE);
+
         TextField nameField = new TextField();
         nameBox.getChildren().addAll(nameLabel, nameField);
 
         // Difficulty selection buttons
         HBox difficultyBox = new HBox(10);
         difficultyBox.setAlignment(Pos.CENTER);
-        Label difficultyLabel = new Label("Difficulty :");
-        Button easyButton = new Button("Easy");
-        Button normalButton = new Button("Normal");
-        Button hardButton = new Button("Hard");
-        Button hellButton = new Button("Hell");
+        Label difficultyLabel = new Label("Difficulty:");
+        difficultyLabel.setFont(Font.font(baseFont.getName(), 18));
+        difficultyLabel.setTextFill(Color.WHITE);
 
+        Button easyButton = createStyledButton("Easy", baseFont);
+        Button normalButton = createStyledButton("Normal", baseFont);
+        Button hardButton = createStyledButton("Hard", baseFont);
+        Button hellButton = createStyledButton("Hell", baseFont);
 
-        // Add event listeners for difficulty buttons
         easyButton.setOnAction(e -> selectDifficulty("Easy", easyButton, normalButton, hardButton, hellButton));
         normalButton.setOnAction(e -> selectDifficulty("Normal", easyButton, normalButton, hardButton, hellButton));
         hardButton.setOnAction(e -> selectDifficulty("Hard", easyButton, normalButton, hardButton, hellButton));
@@ -163,75 +170,116 @@ public class CharacterScene extends BaseScene {
 
 
         // Confirm button
-        Button confirmButton = getConfirmButton();
 
-        // Warning Label (Initially empty)
-        warningLabel = new Label("");
-        warningLabel.setFont(Font.font(baseFont.getName(), 24));
-        warningLabel.setStyle("-fx-text-fill: red;");
-
-        root.getChildren().addAll(titleLabel, characterSelection, characterInfoLabel, nameBox, difficultyBox,
-                confirmButton, warningLabel);
-    }
-
-    private Button getConfirmButton() {
-        Button confirmButton = new Button("Confirm");
+        // Confirm Button
+        Button confirmButton = createStyledButton("Confirm", baseFont);
         confirmButton.setOnAction(event -> {
             String playerName = nameField.getText().trim();
 
             // Validate inputs
             if (selectedCharacter == null) {
                 warningLabel.setText("Please select a character!");
-                warningLabel.setStyle("-fx-text-fill: red;");
                 return;
             }
             if (playerName.isEmpty()) {
                 warningLabel.setText("Please enter a name!");
-                warningLabel.setStyle("-fx-text-fill: red;");
                 return;
             }
             if (selectedDifficulty == null) {
                 warningLabel.setText("Please select a difficulty!");
-                warningLabel.setStyle("-fx-text-fill: red;");
                 return;
             }
-            // Show confirmation popup before proceeding
-            Alert confirmationAlert = new Alert(AlertType.CONFIRMATION);
+
+            // Create the alert window
+            Alert confirmationAlert = new Alert(Alert.AlertType.CONFIRMATION);
             confirmationAlert.setTitle("Confirm Selection");
-            confirmationAlert.setHeaderText("Confirm Your Character Choice");
-            confirmationAlert.setContentText(
+            confirmationAlert.setHeaderText(null); // Remove default header
+
+// Set Background Color
+            confirmationAlert.getDialogPane().setBackground(new Background(
+                    new BackgroundFill(Color.web("#484848"), CornerRadii.EMPTY, Insets.EMPTY)
+            ));
+
+// Load Font
+            Font alertFont = ResourceManager.getFont(ResourceName.FONT_DEPARTURE_MONO, 18);
+
+// Create Custom VBox for Content
+            VBox contentBox = new VBox(10);
+            contentBox.setAlignment(Pos.CENTER);
+            contentBox.setPadding(new Insets(10));
+
+// Character Image
+            ImageView characterImageView = new ImageView(selectedCharacter.getImage());
+            characterImageView.setFitWidth(100);
+            characterImageView.setFitHeight(100);
+
+// Styled Labels
+            Label alertTitleLabel = new Label("Confirm Your Character Choice");
+            alertTitleLabel.setFont(Font.font(alertFont.getName(), 24));
+            alertTitleLabel.setTextFill(Color.WHITE);
+
+            Label contentLabel = new Label(
                     "Name: " + playerName + "\n" +
                             "Character: " + characterData.get(selectedCharacter)[0] + "\n" +
                             "Difficulty: " + selectedDifficulty + "\n\n" +
                             "Click OK to go to Arena Map"
             );
+            contentLabel.setFont(alertFont);
+            contentLabel.setTextFill(Color.WHITE);
+            contentLabel.setWrapText(true);
 
-            // Show character image in the alert
-            ImageView characterImageView = new ImageView(selectedCharacter.getImage());
-            characterImageView.setFitWidth(100);
-            characterImageView.setFitHeight(100);
-            confirmationAlert.setGraphic(characterImageView);
+// Add Elements to VBox
+            contentBox.getChildren().addAll(alertTitleLabel, characterImageView, contentLabel);
 
+// Set Custom Content
+            confirmationAlert.getDialogPane().setContent(contentBox);
+
+// Style Buttons
+            ButtonType okButton = ButtonType.OK;
+            ButtonType cancelButton = ButtonType.CANCEL;
+            confirmationAlert.getButtonTypes().setAll(okButton, cancelButton);
+
+            Button okBtn = (Button) confirmationAlert.getDialogPane().lookupButton(okButton);
+            Button cancelBtn = (Button) confirmationAlert.getDialogPane().lookupButton(cancelButton);
+
+            if (okBtn != null) {
+                okBtn.setFont(alertFont);
+                okBtn.setTextFill(Color.WHITE);
+                okBtn.setBackground(new Background(new BackgroundFill(Color.DIMGRAY, new CornerRadii(5), Insets.EMPTY)));
+
+                // Hover effect
+                okBtn.setOnMouseEntered(e -> okBtn.setBackground(new Background(new BackgroundFill(Color.LIGHTGRAY, new CornerRadii(5), Insets.EMPTY))));
+                okBtn.setOnMouseExited(e -> okBtn.setBackground(new Background(new BackgroundFill(Color.DIMGRAY, new CornerRadii(5), Insets.EMPTY))));
+            }
+
+            if (cancelBtn != null) {
+                cancelBtn.setFont(alertFont);
+                cancelBtn.setTextFill(Color.WHITE);
+                cancelBtn.setBackground(new Background(new BackgroundFill(Color.DIMGRAY, new CornerRadii(5), Insets.EMPTY)));
+
+                // Hover effect
+                cancelBtn.setOnMouseEntered(e -> cancelBtn.setBackground(new Background(new BackgroundFill(Color.LIGHTGRAY, new CornerRadii(5), Insets.EMPTY))));
+                cancelBtn.setOnMouseExited(e -> cancelBtn.setBackground(new Background(new BackgroundFill(Color.DIMGRAY, new CornerRadii(5), Insets.EMPTY))));
+            }
+
+// Show Alert
             Optional<ButtonType> result = confirmationAlert.showAndWait();
-
             if (result.isPresent() && result.get() == ButtonType.OK) {
                 // Proceed to MapScene
                 GameLogic.getInstance().setSelectedCharacter(selectedCharacter);
                 ((MapScene) GameLogic.getInstance().getSceneManager().getScene(SceneName.MAP)).updateNodeColors();
                 GameLogic.getInstance().getSceneManager().setScene(SceneName.MAP);
-                System.out.println("Selected Character: " + GameLogic.getInstance().getSelectedCharacter());
-            } else {
-                // Do nothing if the player cancels
-                System.out.println("Character selection canceled.");
             }
+
         });
         return confirmButton;
     }
 
-    private ImageView getCharacterView(Character character, Map<Character, String[]> characterData) {
-        ImageView characterView = new ImageView(character.getImage());
-        characterView.setFitWidth(80);
-        characterView.setFitHeight(80);
+        // Warning Label (Initially empty)
+
+        warningLabel = new Label("");
+        warningLabel.setFont(baseFont);
+        warningLabel.setTextFill(Color.RED);
 
         characterView.setOnMouseClicked(event -> {
             selectedCharacter = character;
@@ -246,6 +294,25 @@ public class CharacterScene extends BaseScene {
         return characterView;
     }
 
+    private Button createStyledButton(String text, Font font) {
+        Button button = new Button(text);
+        button.setFont(font);
+        button.setTextFill(Color.WHITE);
+        button.setBackground(new Background(new BackgroundFill(Color.DIMGRAY, new CornerRadii(5), Insets.EMPTY)));
+
+        // Hover effect: Change background color when hovered
+        button.setOnMouseEntered(event -> {
+            button.setBackground(new Background(new BackgroundFill(Color.LIGHTGRAY, new CornerRadii(5), Insets.EMPTY)));
+            button.setTextFill(Color.BLACK);
+        });
+
+        button.setOnMouseExited(event -> {
+            button.setBackground(new Background(new BackgroundFill(Color.DIMGRAY, new CornerRadii(5), Insets.EMPTY)));
+            button.setTextFill(Color.WHITE);
+        });
+
+        return button;
+    }
 
     // Method to set selected difficulty and update button styles
     private void selectDifficulty(String difficulty, Button... buttons) {
