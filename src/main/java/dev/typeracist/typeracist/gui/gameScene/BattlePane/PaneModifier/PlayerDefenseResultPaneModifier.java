@@ -1,7 +1,6 @@
 package dev.typeracist.typeracist.gui.gameScene.BattlePane.PaneModifier;
 
 import dev.typeracist.typeracist.gui.gameScene.BattlePane.BattlePane;
-import dev.typeracist.typeracist.logic.gameScene.BattlePaneState;
 import dev.typeracist.typeracist.logic.gameScene.BattlePaneStateContext;
 import dev.typeracist.typeracist.logic.gameScene.BattlePaneStateManager;
 import dev.typeracist.typeracist.logic.global.GameLogic;
@@ -81,7 +80,6 @@ public class PlayerDefenseResultPaneModifier extends BasePaneModifier {
 
                                 battlePane.setOnKeyPressed(keyEvent -> {
                                     battlePane.setOnKeyPressed(keyPressEvent); // Restore previous state
-                                    manager.setReversibleState(BattlePaneState.PLAYER_DEFENSE_RESULT);
                                     returnControl();
                                 });
                             });
