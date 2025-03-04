@@ -1,0 +1,26 @@
+package dev.typeracist.typeracist.logic.characters.enemies;
+
+import dev.typeracist.typeracist.logic.characters.Enemy;
+import dev.typeracist.typeracist.logic.characters.HP;
+import dev.typeracist.typeracist.logic.characters.RandomRange;
+import dev.typeracist.typeracist.logic.global.ResourceManager;
+import dev.typeracist.typeracist.utils.ResourceName;
+
+public class SlimeBlob extends Enemy {
+    private static final String[] DESCRIPTIONS = {
+            "Slime bob approaches.",
+            "It tries to reshape to something.",
+            "Looks like a green blob."
+    };
+    private static final RandomRange COIN_RANGE = new RandomRange(0, 3);
+    private static final RandomRange XP_RANGE = new RandomRange(5, 10);
+
+    public SlimeBlob() {
+        super(new HP(5), 2, 0,
+                ResourceManager.getImage(ResourceName.IMAGE_ENEMY_SLIME),
+                DESCRIPTIONS,
+                null,
+                COIN_RANGE,
+                XP_RANGE);
+    }
+}

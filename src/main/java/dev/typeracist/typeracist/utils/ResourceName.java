@@ -5,7 +5,6 @@ class ResourceBasePath {
     public static final String IMAGE_PATH = BASE_PATH + "/image";
     public static final String FONT_PATH = BASE_PATH + "/fonts";
     public static final String DATASET_PATH = BASE_PATH + "/datasets";
-
 }
 
 public class ResourceName {
@@ -14,6 +13,17 @@ public class ResourceName {
     public static final String IMAGE_CHARACTER_WIZARD = ResourceBasePath.IMAGE_PATH + "/character/wizard.png";
     public static final String IMAGE_CHARACTER_ASSASSIN = ResourceBasePath.IMAGE_PATH + "/character/assassin.png";
     public static final String IMAGE_CHARACTER_WRETCH = ResourceBasePath.IMAGE_PATH + "/character/wretch.png";
+
+    // Enemy images
+    public static final String IMAGE_ENEMY_SLIME = ResourceBasePath.IMAGE_PATH + "/enemy/slime.png";
+    public static final String IMAGE_ENEMY_GOBLIN = ResourceBasePath.IMAGE_PATH + "/enemy/goblin.png";
+    public static final String IMAGE_ENEMY_SKELETON = ResourceBasePath.IMAGE_PATH + "/enemy/skeleton.png";
+    public static final String IMAGE_ENEMY_BAT = ResourceBasePath.IMAGE_PATH + "/enemy/bat.png";
+    public static final String IMAGE_ENEMY_CREEPER = ResourceBasePath.IMAGE_PATH + "/enemy/creeper.png";
+    public static final String IMAGE_ENEMY_FIRE_GOLEM = ResourceBasePath.IMAGE_PATH + "/enemy/fire_golem.png";
+    public static final String IMAGE_ENEMY_SORCERER = ResourceBasePath.IMAGE_PATH + "/enemy/sorcerer.png";
+    public static final String IMAGE_ENEMY_SPIDER = ResourceBasePath.IMAGE_PATH + "/enemy/spider.png";
+    public static final String IMAGE_ENEMY_DRAGON = ResourceBasePath.IMAGE_PATH + "/enemy/dragon.png";
 
     public static final String FONT_DEPARTURE_MONO = ResourceBasePath.FONT_PATH + "/DepartureMono-Regular.otf";
 
