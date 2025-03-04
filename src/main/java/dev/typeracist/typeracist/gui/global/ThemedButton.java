@@ -84,7 +84,7 @@ public class ThemedButton extends Button {
 
         // Add subtle drop shadow
         DropShadow shadow = new DropShadow();
-        shadow.setColor(Color.DARKGRAY);
+        shadow.setColor(Color.web("#000000", 0.3));
         shadow.setRadius(5);
         shadow.setOffsetX(2);
         shadow.setOffsetY(2);
