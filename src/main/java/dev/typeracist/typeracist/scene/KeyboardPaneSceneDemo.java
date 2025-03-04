@@ -56,7 +56,8 @@ public class KeyboardPaneSceneDemo extends BaseScene {
         subHbox.getChildren().addAll(wpm, unit);
         hBox.getChildren().addAll(title, leftSpacer, rightSpacer, subHbox);
 
-        List<String> selectParagraph = GameLogic.getInstance().getDatasetManager().getDataSet(DatasetName.COMMON_WORDS_1K).getRandomWordsByScoreRange(4.5, 7, 50);
+        List<String> selectParagraph = GameLogic.getInstance().getDatasetManager()
+                .getDataSet(DatasetName.COMMON_WORDS_1K).getRandomWordsByScoreRange(4.5, 7, 50);
 
         TypingPane typingPane = new TypingPane(selectParagraph);
 
@@ -69,7 +70,8 @@ public class KeyboardPaneSceneDemo extends BaseScene {
                 while (typingPane.getTypingTracker().isRunning()) {
                     try {
                         Platform.runLater(() -> {
-                            wpm.setText(String.valueOf(Math.round(typingPane.getTypingTracker().calculateCorrectWPM() * 100.0) / 100.0));
+                            wpm.setText(String.valueOf(
+                                    Math.round(typingPane.getTypingTracker().calculateCorrectWPM() * 100.0) / 100.0));
                         });
                         Thread.sleep(1000);
                     } catch (InterruptedException e) {
@@ -79,7 +81,8 @@ public class KeyboardPaneSceneDemo extends BaseScene {
             }).start();
         });
 
-        Label hardness = new Label("paragraph hardness: " + TypingHardness.paragraphTypingHardness(selectParagraph, 50));
+        Label hardness = new Label(
+                "paragraph hardness: " + TypingHardness.paragraphTypingHardness(selectParagraph, 50));
         hardness.setFont(Font.font(baseFont.getName(), FontWeight.NORMAL, 18));
         hardness.setAlignment(Pos.BOTTOM_LEFT);
 

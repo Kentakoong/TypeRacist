@@ -23,12 +23,12 @@ public class GameWinPaneModifier extends BasePaneModifier {
         Label winMessage = new Label(context.getEnemy().getName() + "took the L");
         winMessage.setFont(ResourceManager.getFont(ResourceName.FONT_DEPARTURE_MONO, 24));
 
-        Label dropValuable = new Label("You earned " + context.getEnemy().getDropXP() + " EXP and " + context.getEnemy().getDropCoin() + "coins");
+        Label dropValuable = new Label("You earned " + context.getEnemy().getDropXP() + " EXP and "
+                + context.getEnemy().getDropCoin() + "coins");
         dropValuable.setFont(ResourceManager.getFont(ResourceName.FONT_DEPARTURE_MONO, 18));
 
         battlePane.getInformationPane().getChildren().addAll(
                 winMessage,
-                dropValuable
-        );
+                dropValuable);
     }
 }

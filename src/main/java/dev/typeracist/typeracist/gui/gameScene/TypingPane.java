@@ -115,7 +115,8 @@ public class TypingPane extends FlowPane {
             }
 
             if (dynamicColorWords.get(position.wordPosition) instanceof CursorDynamicColorText) {
-                ((CursorDynamicColorText) dynamicColorWords.get(position.wordPosition)).setCursorPosition(position.characterPosition + 1);
+                ((CursorDynamicColorText) dynamicColorWords.get(position.wordPosition))
+                        .setCursorPosition(position.characterPosition + 1);
             }
         });
     }
@@ -127,7 +128,6 @@ public class TypingPane extends FlowPane {
     public void setOnType(EventProcessor<KeyEvent> processor) {
         onTypeProcessor = processor;
     }
-
 
     public void setHighlightColors(Color baseColor, Color correctColor, Color wrongColor, Color outOfWordColor) {
         this.baseColor = baseColor;
@@ -141,7 +141,8 @@ public class TypingPane extends FlowPane {
     }
 
     public Color getHighlightCorrectColor() {
-        return highlightCorrectColor != null ? highlightCorrectColor : DEFAULT_DYNAMIC_COLOR_TEXT_HIGHLIGHT_CORRECT_COLOR;
+        return highlightCorrectColor != null ? highlightCorrectColor
+                : DEFAULT_DYNAMIC_COLOR_TEXT_HIGHLIGHT_CORRECT_COLOR;
     }
 
     public Color getHighlightWrongColor() {
@@ -149,9 +150,9 @@ public class TypingPane extends FlowPane {
     }
 
     public Color getHighlightOutOfWordColor() {
-        return highlightOutOfWordColor != null ? highlightOutOfWordColor : DEFAULT_DYNAMIC_COLOR_TEXT_HIGHLIGHT_OUTOFWORD_COLOR;
+        return highlightOutOfWordColor != null ? highlightOutOfWordColor
+                : DEFAULT_DYNAMIC_COLOR_TEXT_HIGHLIGHT_OUTOFWORD_COLOR;
     }
-
 
     public int getMaxVisibleRows() {
         return maxVisibleRows;
@@ -276,24 +277,25 @@ public class TypingPane extends FlowPane {
                 baseColor,
                 highlightCorrectColor,
                 highlightWrongColor,
-                highlightOutOfWordColor
-        );
+                highlightOutOfWordColor);
     }
 
     protected DynamicColorText renderWord(int index, Color baseColor, Color highlightCorrectColor,
-                                          Color highlightWrongColor, Color highlightOutOfWordColor) {
+            Color highlightWrongColor, Color highlightOutOfWordColor) {
         if (index < 0 || index >= typingTracker.getWords().size()) {
             throw new IllegalArgumentException("Invalid index");
         }
 
-        DynamicColorText newDynamicColorText = new CursorDynamicColorText(typingTracker.getWords().get(index), baseColor);
+        DynamicColorText newDynamicColorText = new CursorDynamicColorText(typingTracker.getWords().get(index),
+                baseColor);
         newDynamicColorText.setFont(font);
 
         if (index >= typingTracker.getTrackedWords().size()) {
             return newDynamicColorText;
         }
 
-        renderDynamicColorText(index, newDynamicColorText, baseColor, highlightCorrectColor, highlightWrongColor, highlightOutOfWordColor);
+        renderDynamicColorText(index, newDynamicColorText, baseColor, highlightCorrectColor, highlightWrongColor,
+                highlightOutOfWordColor);
 
         return newDynamicColorText;
     }
@@ -304,20 +306,22 @@ public class TypingPane extends FlowPane {
                 baseColor,
                 highlightCorrectColor,
                 highlightWrongColor,
-                highlightOutOfWordColor
-        );
+                highlightOutOfWordColor);
     }
 
-    protected void reRenderWord(int index, Color baseColor, Color highlightCorrectColor, Color highlightWrongColor, Color hightlightOutofWordColor) {
+    protected void reRenderWord(int index, Color baseColor, Color highlightCorrectColor, Color highlightWrongColor,
+            Color hightlightOutofWordColor) {
         if (index < 0 || index >= typingTracker.getWords().size()) {
             throw new IllegalArgumentException("Invalid index");
         }
 
         DynamicColorText dynamicColorWord = dynamicColorWords.get(index);
-        renderDynamicColorText(index, dynamicColorWord, baseColor, highlightCorrectColor, highlightWrongColor, hightlightOutofWordColor);
+        renderDynamicColorText(index, dynamicColorWord, baseColor, highlightCorrectColor, highlightWrongColor,
+                hightlightOutofWordColor);
     }
 
-    protected void renderDynamicColorText(int index, DynamicColorText dynamicColorText, Color baseColor, Color highlightCorrectColor, Color highlightWrongColor, Color hightlightOutofWordColor) {
+    protected void renderDynamicColorText(int index, DynamicColorText dynamicColorText, Color baseColor,
+            Color highlightCorrectColor, Color highlightWrongColor, Color hightlightOutofWordColor) {
         String currentTypedWord = typingTracker.getTrackedWords().get(index);
         String currentWord = typingTracker.getWords().get(index);
 
@@ -332,7 +336,8 @@ public class TypingPane extends FlowPane {
 
         assert dynamicColorText.length() == maxWordLength;
         for (int i = 0; i < maxWordLength; i++) {
-            // todo: find a better way to ensure that overflow word do not cause a row limit overflow
+            // todo: find a better way to ensure that overflow word do not cause a row limit
+            // overflow
             if (i >= currentWord.length()) {
                 updateRowVisibility(); // needed to be fixed
                 dynamicColorText.highlightCharacter(i, hightlightOutofWordColor);

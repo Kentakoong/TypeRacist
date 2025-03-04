@@ -44,7 +44,8 @@ public class PlayerAttackResultPaneModifier extends BasePaneModifier {
         Label rawAttackScoreLabel = new Label("Word typed: " + rawAttackScore);
         rawAttackScoreLabel.setFont(ResourceManager.getFont(ResourceName.FONT_DEPARTURE_MONO, 24));
 
-        Label attackScoreLabel = new Label("You attack " + context.getEnemy().getName() + " for " + attackScore + " damages");
+        Label attackScoreLabel = new Label(
+                "You attack " + context.getEnemy().getName() + " for " + attackScore + " damages");
         attackScoreLabel.setFont(ResourceManager.getFont(ResourceName.FONT_DEPARTURE_MONO, 18));
 
         Region spacing = new Region();
@@ -61,8 +62,7 @@ public class PlayerAttackResultPaneModifier extends BasePaneModifier {
                 rawAttackScoreLabel,
                 attackScoreLabel,
                 spacing,
-                pressAnyKeyToContinue
-        );
+                pressAnyKeyToContinue);
 
         battlePane.getPlayerHpBar().updateHealthBar();
         battlePane.getEnemyHpBar().updateHealthBar();
@@ -87,8 +87,7 @@ public class PlayerAttackResultPaneModifier extends BasePaneModifier {
                             });
                             pressAnyKeyToContinue.setVisible(true); // Ensure the node is visible
                             fadeIn.play();
-                        }
-                )
-        ).play();
+                        }))
+                .play();
     }
 }

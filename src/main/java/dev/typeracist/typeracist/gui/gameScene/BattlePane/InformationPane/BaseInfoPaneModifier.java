@@ -2,7 +2,6 @@ package dev.typeracist.typeracist.gui.gameScene.BattlePane.InformationPane;
 
 import javafx.scene.layout.VBox;
 
-
 public abstract class BaseInfoPaneModifier extends VBox {
     final protected InformationPane subPaneNavigator;
 

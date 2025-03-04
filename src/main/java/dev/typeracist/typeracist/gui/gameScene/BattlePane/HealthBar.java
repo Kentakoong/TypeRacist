@@ -45,10 +45,8 @@ public class HealthBar extends StackPane {
     private void animateProgressBar(double oldProgress, double newProgress) {
         Timeline timeline = new Timeline(
                 new KeyFrame(Duration.ZERO, new KeyValue(progressBar.progressProperty(), oldProgress)),
-                new KeyFrame(Duration.seconds(0.5), new KeyValue(progressBar.progressProperty(), newProgress))
-        );
+                new KeyFrame(Duration.seconds(0.5), new KeyValue(progressBar.progressProperty(), newProgress)));
         timeline.setCycleCount(1);
         timeline.play();
     }
 }
-

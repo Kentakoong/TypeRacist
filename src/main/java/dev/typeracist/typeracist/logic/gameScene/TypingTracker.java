@@ -53,7 +53,8 @@ public class TypingTracker {
     }
 
     public void addCharacter(String character) {
-        if (!isRunning) start(); // Auto-start if not running
+        if (!isRunning)
+            start(); // Auto-start if not running
 
         if (trackedWords.isEmpty()) {
             addNewWord();
@@ -77,7 +78,8 @@ public class TypingTracker {
         }
 
         // don't allow removing of typed corrected word
-        if (allowRemoveCorrectWord && getLastTypedWord().isEmpty() && trackedWords.size() >= 2 && checkWord(getTypingTrackedPosition().wordPosition - 1)) {
+        if (allowRemoveCorrectWord && getLastTypedWord().isEmpty() && trackedWords.size() >= 2
+                && checkWord(getTypingTrackedPosition().wordPosition - 1)) {
             return;
         }
 
@@ -102,7 +104,8 @@ public class TypingTracker {
 
     public double calculateCorrectWPM() {
         long elapsedTime = getElapsedTime();
-        if (elapsedTime == 0) return 0.0;
+        if (elapsedTime == 0)
+            return 0.0;
 
         int correctWordCount = 0;
         for (int i = 0; i < Math.min(words.size(), trackedWords.size()); i++) {
@@ -116,7 +119,8 @@ public class TypingTracker {
 
     public double calculateRawWPM() {
         long elapsedTime = getElapsedTime();
-        if (elapsedTime == 0) return 0.0;
+        if (elapsedTime == 0)
+            return 0.0;
 
         int totalTypedWords = trackedWords.size();
         return (totalTypedWords * 60000.0) / elapsedTime;

@@ -39,7 +39,6 @@ public class StatsOptionInfoPaneModifier extends BaseInfoPaneModifier {
         return statsOptionState;
     }
 
-
     @Override
     protected void initialize() {
         HBox hBox = new HBox();
@@ -88,6 +87,5 @@ public class StatsOptionInfoPaneModifier extends BaseInfoPaneModifier {
             case ENEMY -> enemyOption.setTextFill(Color.YELLOW);
         }
     }
-
 
 }
