@@ -1,18 +1,18 @@
 package dev.typeracist.typeracist.logic.characters;
 
+import dev.typeracist.typeracist.utils.RandomRange;
 import javafx.scene.image.Image;
+
 import java.util.Random;
 
-import dev.typeracist.typeracist.utils.RandomRange;
-
 public class Enemy extends Entity {
+    private static final Random random = new Random();
     protected int dropXP;
     protected int dropCoin;
     protected String description;
-    private static final Random random = new Random();
 
     public Enemy(HP hp, int atk, int def, Image image, String[] descriptions, Skill skill, RandomRange coinRange,
-            RandomRange xpRange) {
+                 RandomRange xpRange) {
         super(hp, atk, def, image, skill);
         this.description = getRandomDescription(descriptions);
         this.dropCoin = coinRange.getRandomValue();
@@ -20,7 +20,7 @@ public class Enemy extends Entity {
     }
 
     public Enemy(int atk, int def, Image image, String[] descriptions, Skill skill, RandomRange coinRange,
-            RandomRange xpRange) {
+                 RandomRange xpRange) {
         super(BASE_HP, atk, def, image, skill);
         this.description = getRandomDescription(descriptions);
         this.dropCoin = coinRange.getRandomValue();

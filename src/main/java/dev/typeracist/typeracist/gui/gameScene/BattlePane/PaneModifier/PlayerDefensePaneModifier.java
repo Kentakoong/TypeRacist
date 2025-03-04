@@ -5,7 +5,6 @@ import dev.typeracist.typeracist.gui.gameScene.BattlePane.InformationPane.InfoPa
 import dev.typeracist.typeracist.gui.gameScene.BattlePane.InformationPane.TypingInfoPaneModifier;
 import dev.typeracist.typeracist.logic.gameScene.BattlePaneStateContext;
 import dev.typeracist.typeracist.logic.gameScene.BattlePaneStateManager;
-import dev.typeracist.typeracist.logic.gameScene.TypedWordStatus;
 
 public class PlayerDefensePaneModifier extends BasePaneModifier {
     public PlayerDefensePaneModifier(BattlePane battlePane, BattlePaneStateContext context) {
@@ -18,14 +17,7 @@ public class PlayerDefensePaneModifier extends BasePaneModifier {
                 (TypingInfoPaneModifier) battlePane.getInformationPane().setToPane(InfoPaneModifierType.TYPING_PANE);
 
         typingInfoPaneModifier.getTypingPane().setOnStop(event -> {
-                    long rawTypingScore = typingInfoPaneModifier
-                            .getTypingPane()
-                            .getTypingTracker()
-                            .getTypedWordStatuses()
-                            .entrySet()
-                            .stream()
-                            .filter(record -> record.getValue() == TypedWordStatus.CORRECTED)
-                            .count();
+                    long rawTypingScore = typingInfoPaneModifier.countCompletedWords();
 
                     battlePane
                             .getStateContext()

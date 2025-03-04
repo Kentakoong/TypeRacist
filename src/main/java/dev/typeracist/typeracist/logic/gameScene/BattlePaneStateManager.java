@@ -3,17 +3,21 @@ package dev.typeracist.typeracist.logic.gameScene;
 import dev.typeracist.typeracist.gui.gameScene.BattlePane.BattlePane;
 import dev.typeracist.typeracist.gui.gameScene.BattlePane.PaneModifier.*;
 import dev.typeracist.typeracist.logic.global.GameLogic;
+import dev.typeracist.typeracist.logic.inventory.ActivateOnTurn;
+import dev.typeracist.typeracist.logic.inventory.ActivateOnTurnState;
+import dev.typeracist.typeracist.logic.inventory.Item;
+import dev.typeracist.typeracist.logic.inventory.item.WhirlwindDagger;
 import javafx.application.Platform;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
-import java.util.Stack;
 
 public class BattlePaneStateManager {
     private final BattlePane battlePane;
     private final BattlePaneStateContext context;
     private final Map<BattlePaneState, BasePaneModifier> stateModifiers = new HashMap<>();
-    private final Stack<BasePaneModifier> modifierStack = new Stack<>();
     private BasePaneModifier currentModifier;
 
     public BattlePaneStateManager(BattlePane battlePane, BattlePaneStateContext context) {
@@ -45,8 +49,8 @@ public class BattlePaneStateManager {
         BasePaneModifier modifier = stateModifiers.get(newState);
         if (modifier != null) {
             modifier.setManager(this);
-            modifierStack.push(modifier);
-            processNextModifier();
+            currentModifier = modifier;
+            processCurrentModifier();
         }
     }
 
@@ -67,22 +71,18 @@ public class BattlePaneStateManager {
         }
     }
 
-    private void processNextModifier() {
+    private void processCurrentModifier() {
         Platform.runLater(() -> {
-            if (!modifierStack.isEmpty()) {
-                currentModifier = modifierStack.pop(); // Pop from the stack (LIFO behavior)
+            if (currentModifier != null) {
                 currentModifier.initialize(this);
-            } else {
-                currentModifier = null;
             }
         });
     }
 
     public void notifyModifierComplete(BasePaneModifier modifier) {
-        if (modifier == currentModifier || currentModifier == null) {
+        if (modifier == currentModifier) {
             currentModifier = null;
             determineNextState(modifier);
-            processNextModifier();
         }
     }
 
@@ -91,8 +91,13 @@ public class BattlePaneStateManager {
 
         switch (currentState) {
             case ENEMY_DESCRIPTION -> transitionToState(BattlePaneState.PLAYER_BEFORE_ATTACK_ITEM_SELECTION);
-            case PLAYER_BEFORE_ATTACK_ITEM_SELECTION -> transitionToState(BattlePaneState.PLAYER_ATTACK);
-            case PLAYER_ATTACK -> transitionToState(BattlePaneState.PLAYER_ATTACK_RESULT);
+            case PLAYER_BEFORE_ATTACK_ITEM_SELECTION -> {
+                transitionToState(BattlePaneState.PLAYER_ATTACK);
+                applyItem(ActivateOnTurnState.BEFORE_ATTACK);
+            }
+            case PLAYER_ATTACK -> {
+                transitionToState(BattlePaneState.PLAYER_ATTACK_RESULT);
+            }
             case PLAYER_ATTACK_RESULT -> {
                 if (context.getEnemy().getHp().isDead()) {
                     transitionToState(BattlePaneState.GAME_WIN);
@@ -100,9 +105,22 @@ public class BattlePaneStateManager {
                     transitionToState(BattlePaneState.ENEMY_BEFORE_ATTACK);
                 }
             }
-            case ENEMY_BEFORE_ATTACK -> transitionToState(BattlePaneState.PLAYER_BEFORE_DEFENSE_ITEM_SELECTION);
-            case PLAYER_BEFORE_DEFENSE_ITEM_SELECTION -> transitionToState(BattlePaneState.PLAYER_DEFENSE);
-            case PLAYER_DEFENSE -> transitionToState(BattlePaneState.PLAYER_DEFENSE_RESULT);
+            case ENEMY_BEFORE_ATTACK -> {
+                transitionToState(BattlePaneState.PLAYER_BEFORE_DEFENSE_ITEM_SELECTION);
+            }
+            case PLAYER_BEFORE_DEFENSE_ITEM_SELECTION -> {
+                transitionToState(BattlePaneState.PLAYER_DEFENSE);
+
+                applyItem(ActivateOnTurnState.BEFORE_DEFENSE);
+                for (Item item : context.getCurrentTurnContext().getItemsUsed()) {
+                    if (item instanceof WhirlwindDagger) {
+                        transitionToState(BattlePaneState.PLAYER_DEFENSE_RESULT);
+                    }
+                }
+            }
+            case PLAYER_DEFENSE -> {
+                transitionToState(BattlePaneState.PLAYER_DEFENSE_RESULT);
+            }
             case PLAYER_DEFENSE_RESULT -> {
                 if (GameLogic.getInstance().getSelectedCharacter().getHp().isDead()) {
                     transitionToState(BattlePaneState.GAME_LOSE);
@@ -112,6 +130,21 @@ public class BattlePaneStateManager {
                 }
             }
         }
+    }
+
+    private void applyItem(ActivateOnTurnState currentState) {
+        List<Item> itemsUsed = new ArrayList<>(context.getCurrentTurnContext().getItemsUsed());
+        context.getCurrentTurnContext().getItemsUsed().clear();
+
+        for (Item item : itemsUsed) {
+            if (((ActivateOnTurn) item).getActivateOnTurnState() == currentState || ((ActivateOnTurn) item).getActivateOnTurnState() == ActivateOnTurnState.BOTH) {
+                ((ActivateOnTurn) item).activate(battlePane);
+            } else {
+                context.getCurrentTurnContext().getItemsUsed().add(item);
+            }
+        }
+
+        battlePane.updateHealthBars();
     }
 
     public BattlePaneStateContext getContext() {
