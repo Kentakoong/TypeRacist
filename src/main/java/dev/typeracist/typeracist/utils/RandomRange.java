@@ -1,4 +1,4 @@
-package dev.typeracist.typeracist.logic.characters;
+package dev.typeracist.typeracist.utils;
 
 import java.util.Random;
 

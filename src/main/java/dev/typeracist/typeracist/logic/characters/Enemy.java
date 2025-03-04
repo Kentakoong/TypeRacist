@@ -3,6 +3,8 @@ package dev.typeracist.typeracist.logic.characters;
 import javafx.scene.image.Image;
 import java.util.Random;
 
+import dev.typeracist.typeracist.utils.RandomRange;
+
 public class Enemy extends Entity {
     protected int dropXP;
     protected int dropCoin;
