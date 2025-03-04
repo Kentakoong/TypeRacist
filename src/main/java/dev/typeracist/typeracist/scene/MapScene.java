@@ -336,11 +336,11 @@ public class MapScene extends BaseScene {
                 }
                 break;
             case "STORE":
-                GameLogic.getInstance().getSceneManager().setScene("STORE_SCENE");
+                GameLogic.getInstance().getSceneManager().setScene(SceneName.SHOP);
                 break;
             case "UPGRADE":
                 if (GameLogic.getInstance().isBattleCleared("BATTLE5")) {
-                    GameLogic.getInstance().getSceneManager().setScene("forgePane");
+                    GameLogic.getInstance().getSceneManager().setScene(SceneName.ENCHANT);
                 } else {
                     infoLabel.setText("You must clear BATTLE5 first!");
                 }
@@ -361,7 +361,7 @@ public class MapScene extends BaseScene {
                 break;
             case "BOOK":
                 if (GameLogic.getInstance().isBattleCleared("BATTLE7")) {
-                    GameLogic.getInstance().getSceneManager().setScene("enchantPane");
+                    GameLogic.getInstance().getSceneManager().setScene(SceneName.ENCHANT);
                 } else {
                     infoLabel.setText("You must clear BATTLE7 first!");
                 }
