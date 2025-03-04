@@ -32,8 +32,8 @@ public class MapScene extends BaseScene {
         super(new Pane(), width, height);
         root = (Pane) getRoot();
 
-        // set background to grey
-        root.setStyle("-fx-background-color: grey;");
+        //set background to grey
+        root.setStyle("-fx-background-color: #484848;");
 
         // Load font
         Font baseFont = ResourceManager.getFont(ResourceName.FONT_DEPARTURE_MONO, 36);
@@ -173,20 +173,6 @@ public class MapScene extends BaseScene {
             root.getChildren().addFirst(line);
         }
     }
-
-    // Helper method to determine circle color
-//    private Color getNodeColor(String action) {
-//        if ("BOSS".equals(action)) {
-//            return Color.RED; // Boss fights
-//        } else if (GameLogic.getInstance().isBattleCleared(action)) {
-//            return Color.GREEN; // Won battles
-//        } else if (GameLogic.getInstance().isBattleUnlocked(action)) {
-//            return Color.YELLOW; // Playable battles
-//        } else {
-//            return Color.WHITE; // Locked battles
-//        }
-//    }
-
 
     private void moveCharacter(MapNode targetNode) {
         // Get starting node (character's current position)
