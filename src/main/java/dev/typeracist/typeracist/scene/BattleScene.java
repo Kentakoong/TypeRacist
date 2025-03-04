@@ -11,7 +11,6 @@ import dev.typeracist.typeracist.logic.global.ResourceManager;
 import dev.typeracist.typeracist.utils.DatasetName;
 import dev.typeracist.typeracist.utils.ResourceName;
 
-
 public class BattleScene extends BaseDynamicScene<BattlePane> {
     public BattleScene(double width, double height) {
         super(
@@ -22,14 +21,11 @@ public class BattleScene extends BaseDynamicScene<BattlePane> {
                                         30,
                                         15,
                                         ResourceManager.getImage(ResourceName.IMAGE_CHARACTER_ASSASSIN),
-                                        "Beware, An evil assassin have appear!."
-                                ),
-                                GameLogic.getInstance().getDatasetManager().getDataSet(DatasetName.COMMON_WORDS_1K)
-                        )
-                ),
+                                        "Beware, An evil assassin have appear!.",
+                                        null),
+                                GameLogic.getInstance().getDatasetManager().getDataSet(DatasetName.COMMON_WORDS_1K))),
                 width,
-                height
-        );
+                height);
 
     }
 
