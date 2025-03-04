@@ -49,4 +49,11 @@ public class ResourceName {
     public static final String IMAGE_SHOP_WOODEN_SHIELD = ResourceBasePath.IMAGE_PATH + "/shop/wooden_shield.png";
     public static final String IMAGE_SHOP_TYPEWRITER = ResourceBasePath.IMAGE_PATH + "/shop/typewriter.png";
     public static final String IMAGE_SHOP_SHOPMASTER = ResourceBasePath.IMAGE_PATH + "/shop/Shopmaster.jpg";
+
+    public static final String IMAGE_ENCHANT_PLUS = ResourceBasePath.IMAGE_PATH + "/enchant/enchant_plus.png";
+    public static final String IMAGE_ENCHANT_TO = ResourceBasePath.IMAGE_PATH + "/enchant/enchant_to.png";
+    public static final String IMAGE_ENCHANT_ENCHANTED_WEAPON = ResourceBasePath.IMAGE_PATH + "/enchant/enchanted_weapon.png";
+    public static final String IMAGE_ENCHANT_SCROLL = ResourceBasePath.IMAGE_PATH + "/enchant/scroll.png";
+    public static final String IMAGE_ENCHANT_WEAPON = ResourceBasePath.IMAGE_PATH + "/enchant/weapon.png";
+    public static final String IMAGE_ENCHANT_SPACE = ResourceBasePath.IMAGE_PATH + "/enchant/space.png";
 }
