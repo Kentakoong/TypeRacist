@@ -14,26 +14,26 @@ public class PlayerDefensePaneModifier extends BasePaneModifier {
 
     @Override
     public void initialize(BattlePaneStateManager manager) {
-        battlePane.getStatsButton().setDisable(false);
-        TypingInfoPaneModifier typingInfoPaneModifier = (TypingInfoPaneModifier) battlePane.getInformationPane()
-                .setToPane(InfoPaneModifierType.TYPING_PANE);
+        TypingInfoPaneModifier typingInfoPaneModifier =
+                (TypingInfoPaneModifier) battlePane.getInformationPane().setToPane(InfoPaneModifierType.TYPING_PANE);
 
         typingInfoPaneModifier.getTypingPane().setOnStop(event -> {
-            long rawTypingScore = typingInfoPaneModifier
-                    .getTypingPane()
-                    .getTypingTracker()
-                    .getTypedWordStatuses()
-                    .entrySet()
-                    .stream()
-                    .filter(record -> record.getValue() == TypedWordStatus.CORRECTED)
-                    .count();
+                    long rawTypingScore = typingInfoPaneModifier
+                            .getTypingPane()
+                            .getTypingTracker()
+                            .getTypedWordStatuses()
+                            .entrySet()
+                            .stream()
+                            .filter(record -> record.getValue() == TypedWordStatus.CORRECTED)
+                            .count();
 
-            battlePane
-                    .getStateContext()
-                    .getCurrentTurnContext()
-                    .setRawDefenseScore((int) rawTypingScore);
+                    battlePane
+                            .getStateContext()
+                            .getCurrentTurnContext()
+                            .setRawDefenseScore((int) rawTypingScore);
 
-            returnControl();
-        });
+                    returnControl();
+                }
+        );
     }
 }

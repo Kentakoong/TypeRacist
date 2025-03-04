@@ -15,9 +15,6 @@ public class GameWinPaneModifier extends BasePaneModifier {
     @Override
     public void initialize(BattlePaneStateManager manager) {
         battlePane.getCharacterImage().setImage(ResourceManager.getImage(ResourceName.IMAGE_MAP_ANVIL));
-        battlePane.getStatsButton().setDisable(true);
-        battlePane.getAttackButton().setDisable(true);
-        battlePane.getItemsButton().setDisable(true);
         battlePane.getInformationPane().getChildren().clear();
 
         Label winMessage = new Label(context.getEnemy().getName() + "took the L");
