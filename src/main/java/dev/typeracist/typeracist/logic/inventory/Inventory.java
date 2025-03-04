@@ -1,24 +1,33 @@
 package dev.typeracist.typeracist.logic.inventory;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Inventory {
-    private final List<Item> items;
+    private final Map<Item, Integer> items;
 
     public Inventory() {
-        this.items = new ArrayList<>();
+        this.items = new HashMap<>();
+    }
+
+    public void addItem(Item item, int amount) {
+        items.put(item, items.getOrDefault(item, 0) + amount);
     }
 
     public void addItem(Item item) {
-        items.add(item);
+        addItem(item, 1);
     }
 
-    public void removeItem(Item item) {
-        items.remove(item);
+    public void removeItem(Item item, int amount) {
+        items.computeIfPresent(item, (key, value) -> (value > amount) ? value - amount : null);
     }
 
-    public List<Item> getItems() {
-        return items;
+    public int getItemAmount(Item item) {
+        return items.getOrDefault(item, 0);
+    }
+
+    public Map<Item, Integer> getItems() {
+        return Collections.unmodifiableMap(items);
     }
 }

@@ -1,16 +1,26 @@
 package dev.typeracist.typeracist.logic.gameScene;
 
+import dev.typeracist.typeracist.logic.inventory.ActivateOnTurn;
+import dev.typeracist.typeracist.logic.inventory.Item;
+
+import java.util.ArrayList;
+import java.util.List;
+
 public class BattlePaneTurnContext {
+    private final List<Item> itemsUsed;
     private int rawAttackScore;
     private int rawDefenseScore;
     private int damageTaken;
     private int attackDamage;
     private boolean hadAttack;
     private boolean hadDefense;
+    private double wordMultiplier;
 
     public BattlePaneTurnContext() {
-        rawAttackScore = -1;
-        rawDefenseScore = -1;
+        itemsUsed = new ArrayList<>();
+        rawAttackScore = Integer.MIN_VALUE;
+        rawDefenseScore = Integer.MAX_VALUE;
+        wordMultiplier = 1;
         damageTaken = -1;
         attackDamage = -1;
         hadAttack = false;
@@ -67,4 +77,19 @@ public class BattlePaneTurnContext {
         this.rawAttackScore = rawAttackScore;
     }
 
+    public <T extends Item & ActivateOnTurn> void addItemUsed(T item) {
+        itemsUsed.add(item);
+    }
+
+    public List<Item> getItemsUsed() {
+        return itemsUsed;
+    }
+
+    public double getWordMultiplier() {
+        return wordMultiplier;
+    }
+
+    public void setWordMultiplier(double wordMultiplier) {
+        this.wordMultiplier = wordMultiplier;
+    }
 }

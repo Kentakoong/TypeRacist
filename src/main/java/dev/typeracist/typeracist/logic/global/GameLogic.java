@@ -4,6 +4,7 @@ import dev.typeracist.typeracist.logic.characters.entities.Character;
 import dev.typeracist.typeracist.logic.characters.entities.character.Warrior;
 import dev.typeracist.typeracist.logic.gameScene.Dataset;
 import dev.typeracist.typeracist.logic.gameScene.DatasetManager;
+import dev.typeracist.typeracist.logic.inventory.item.*;
 import dev.typeracist.typeracist.utils.DatasetName;
 import dev.typeracist.typeracist.utils.ResourceName;
 import javafx.stage.Stage;
@@ -23,6 +24,15 @@ public class GameLogic {
         sceneManager = new SceneManager(primaryStage);
         datasetManager = new DatasetManager();
         selectedCharacter = new Warrior();
+
+        // todo: remove this, it just for testing
+        selectedCharacter.getInventory().addItem(new FriedChicken(), 5);
+        selectedCharacter.getInventory().addItem(new Typewriter());
+        selectedCharacter.getInventory().addItem(new HealingPotion());
+        selectedCharacter.getInventory().addItem(new TimePotion());
+        selectedCharacter.getInventory().addItem(new PotionOfTypeswift());
+        selectedCharacter.getInventory().addItem(new WoodenShield(), 5);
+        selectedCharacter.getInventory().addItem(new WhirlwindDagger());
 
         // todo: remove this for start-pane to set it instead
         playerName = "Oat Oat";

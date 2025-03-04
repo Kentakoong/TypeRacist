@@ -1,6 +1,7 @@
 package dev.typeracist.typeracist.gui.gameScene.BattlePane.PaneModifier;
 
 import dev.typeracist.typeracist.gui.gameScene.BattlePane.BattlePane;
+import dev.typeracist.typeracist.gui.gameScene.BattlePane.InformationPane.InfoPaneModifierType;
 import dev.typeracist.typeracist.logic.gameScene.BattlePaneStateContext;
 import dev.typeracist.typeracist.logic.gameScene.BattlePaneStateManager;
 import dev.typeracist.typeracist.logic.global.GameLogic;
@@ -27,6 +28,7 @@ public class PlayerDefenseResultPaneModifier extends BasePaneModifier {
     @Override
     public void initialize(BattlePaneStateManager manager) {
         battlePane.getInformationPane().getChildren().clear();
+        battlePane.getInformationPane().setToPane(InfoPaneModifierType.TEXT);
 
         int rawDefenseScore = battlePane.getStateContext().getCurrentTurnContext().getRawDefenseScore();
         assert rawDefenseScore != -1;
@@ -59,7 +61,6 @@ public class PlayerDefenseResultPaneModifier extends BasePaneModifier {
         battlePane.getInformationPane().getChildren().addAll(
                 rawAttackScoreLabel,
                 attackedScoreLabel,
-                spacing,
                 pressAnyKeyToContinue);
 
         battlePane.getPlayerHpBar().updateHealthBar();

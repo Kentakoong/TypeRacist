@@ -4,6 +4,7 @@ import dev.typeracist.typeracist.logic.characters.Entity;
 import dev.typeracist.typeracist.logic.characters.HP;
 import dev.typeracist.typeracist.logic.characters.Skill;
 import dev.typeracist.typeracist.logic.characters.XP;
+import dev.typeracist.typeracist.logic.inventory.Inventory;
 import javafx.scene.image.Image;
 
 public abstract class Character extends Entity {
@@ -11,6 +12,7 @@ public abstract class Character extends Entity {
     protected static final int BASE_ATK = 4;
     protected static final int BASE_DEF = 5;
     protected static final int XP_TO_LEVEL_UP = 25;
+    protected final Inventory inventory;
     protected XP xp;
     protected int coin;
 
@@ -18,6 +20,7 @@ public abstract class Character extends Entity {
         super(hp, atk, def, image, skill);
         this.xp = new XP();
         this.coin = 0;
+        this.inventory = new Inventory();
     }
 
     public Character(int atk, int def, Image image, Skill skill) {
@@ -29,6 +32,10 @@ public abstract class Character extends Entity {
         target.getHp().damage(realDamage);
 
         return realDamage;
+    }
+
+    public Inventory getInventory() {
+        return inventory;
     }
 
     public int getCoin() {

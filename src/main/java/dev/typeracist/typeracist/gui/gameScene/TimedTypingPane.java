@@ -11,8 +11,8 @@ import java.util.function.Consumer;
 
 public class TimedTypingPane extends TypingPane {
     private final CountdownProgressBar countdownProgressBar;
-    private final double totalTime;
     private final StackPane progressBarContainer;
+    private double totalTime;
     private double spacing;
     private Consumer<Void> onStopCallback;
 
@@ -44,7 +44,7 @@ public class TimedTypingPane extends TypingPane {
 
                 try {
                     Platform.runLater(() -> countdownProgressBar.updateProgress(getTypingTracker().getElapsedTime()));
-                    Thread.sleep(50);
+                    Thread.sleep(25);
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
                 }
@@ -73,6 +73,14 @@ public class TimedTypingPane extends TypingPane {
         if (onStopCallback != null) {
             onStopCallback.accept(null);
         }
+    }
+
+    public double getTotalTime() {
+        return totalTime;
+    }
+
+    public void setTotalTime(double totalTime) {
+        this.totalTime = totalTime;
     }
 
     public double getSpacing() {
