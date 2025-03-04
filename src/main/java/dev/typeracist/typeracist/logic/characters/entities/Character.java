@@ -28,7 +28,7 @@ public abstract class Character extends Entity {
     }
 
     public int attack(Entity target, int rawDamage) {
-        int realDamage = Math.max(rawDamage * atk - target.getDef(), 0);
+        int realDamage = Math.max(rawDamage * getTotalAtk() - target.getTotalDef(), 0);
         target.getHp().damage(realDamage);
 
         return realDamage;
@@ -44,6 +44,10 @@ public abstract class Character extends Entity {
 
     public void gainCoin(int amount) {
         this.coin += amount;
+    }
+
+    public XP getXp() {
+        return xp;
     }
 
     public void spendCoin(int amount) {

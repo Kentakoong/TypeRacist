@@ -37,14 +37,16 @@ public class XP {
         this.expToLvlUp = expToLvlUp;
     }
 
-    public void gainXP(int amount) {
+    public boolean gainXP(int amount) {
         this.xp += amount;
         checkLevelUp();
+
+        return checkLevelUp();
     }
 
-    private void checkLevelUp() {
+    private boolean checkLevelUp() {
         if (xp < expToLvlUp)
-            return;
+            return false;
 
         level++;
         xp -= expToLvlUp;
@@ -56,6 +58,8 @@ public class XP {
                 .addAtk(2);
         GameLogic.getInstance().getSelectedCharacter()
                 .addDef(2);
+
+        return true;
     }
 
     public boolean canLevelUp() {

@@ -7,7 +7,10 @@ import dev.typeracist.typeracist.logic.inventory.ActivateOnTurn;
 import dev.typeracist.typeracist.logic.inventory.ActivateOnTurnState;
 import dev.typeracist.typeracist.logic.inventory.Item;
 import dev.typeracist.typeracist.logic.inventory.item.WhirlwindDagger;
+import dev.typeracist.typeracist.utils.SceneName;
 import javafx.application.Platform;
+import javafx.event.EventHandler;
+import javafx.scene.input.KeyEvent;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -57,7 +60,31 @@ public class BattlePaneStateManager {
     private void handleSpecialStateTransition(BattlePaneState newState) {
         switch (newState) {
             case GAME_WIN:
-                System.out.println("Game won! Handle any win logic here.");
+                int droppedCoin = context.getEnemy().getDropCoin();
+                int droppedEXP = context.getEnemy().getDropXP();
+
+                GameLogic.getInstance().getSelectedCharacter().gainCoin(droppedCoin);
+                if (GameLogic.getInstance().getSelectedCharacter().getXp().gainXP(droppedEXP)) {
+                    GameLogic.getInstance().getSceneManager().showBreadcrumb(
+                            "Level Up",
+                            "level " + GameLogic.getInstance().getSelectedCharacter().getXp().getLevel(),
+                            5000
+                    );
+                } else {
+                    GameLogic.getInstance().getSceneManager().showBreadcrumb(
+                            "Gain " + droppedEXP + " XP and " + droppedCoin + " Coins",
+                            "XP: " + GameLogic.getInstance().getSelectedCharacter().getXp().getXp() + " / " + GameLogic.getInstance().getSelectedCharacter().getXp().getExpToLvlUp() + ", Coins: " + GameLogic.getInstance().getSelectedCharacter().getCoin(),
+                            5000
+                    );
+                }
+
+                EventHandler<? super KeyEvent> keyPressEvent = battlePane.getOnKeyPressed();
+
+                battlePane.setOnKeyPressed(keyEvent -> {
+                    battlePane.setOnKeyPressed(keyPressEvent);
+                    GameLogic.getInstance().getSceneManager().setScene(SceneName.MAP);
+                });
+
                 break;
             case GAME_LOSE:
                 System.out.println("Game lost! Handle any lose logic here.");
@@ -114,6 +141,11 @@ public class BattlePaneStateManager {
                 applyItem(ActivateOnTurnState.BEFORE_DEFENSE);
                 for (Item item : context.getCurrentTurnContext().getItemsUsed()) {
                     if (item instanceof WhirlwindDagger) {
+                        GameLogic.getInstance().getSceneManager().showBreadcrumb(
+                                "WhirlwindDagger passive is activated",
+                                context.getEnemy().getName() + " is stunned for 1 turn.",
+                                3000
+                        );
                         transitionToState(BattlePaneState.PLAYER_DEFENSE_RESULT);
                     }
                 }

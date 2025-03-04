@@ -76,7 +76,6 @@ public class GameLogic {
         return selectedCharacter;
     }
 
-    // intermediated pass variable CharacterScene and Map
     public void setSelectedCharacter(Character character) {
         this.selectedCharacter = character;
     }
@@ -93,11 +92,10 @@ public class GameLogic {
         return clearedBattles.contains(battleName);
     }
 
-    // Checks if a battle is playable based on previous battle clear status
     public boolean isBattleUnlocked(String battleName) {
         switch (battleName) {
             case "BATTLE1":
-                return  true;
+                return true;
             case "BATTLE2":
                 return isBattleCleared("BATTLE1");
             case "BATTLE3":

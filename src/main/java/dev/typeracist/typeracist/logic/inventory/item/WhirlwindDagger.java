@@ -30,7 +30,7 @@ public class WhirlwindDagger extends Item implements ActivateNow, ActivateOnTurn
 
     @Override
     public void activate() {
-        GameLogic.getInstance().getSelectedCharacter().addAtk(6);
+        GameLogic.getInstance().getSelectedCharacter().addExtraAtk(6);
     }
 
     @Override
@@ -40,11 +40,8 @@ public class WhirlwindDagger extends Item implements ActivateNow, ActivateOnTurn
             for (int i = currentTurn; i <= currentTurn + 30; i++) {
                 if ((i - currentTurn) % 3 == 0) {
                     battlePane.getStateContext().ensureExistsGetTurnContext(i).addItemUsed(this);
-                    System.out.println("add item at turn: " + i);
                 }
             }
-        } else {
-            System.out.println("hello im activated");
         }
     }
 

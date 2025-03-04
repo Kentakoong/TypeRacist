@@ -40,6 +40,11 @@ public class FriedChicken extends Item implements ActivateNow, ActivateOnTurn {
             firstActive = false;
         } else {
             GameLogic.getInstance().getSelectedCharacter().getHp().heal(HEAL_AMOUNT);
+            GameLogic.getInstance().getSceneManager().showBreadcrumb(
+                    "FriedChicken passive is activated",
+                    GameLogic.getInstance().getPlayerName() + " is healed by " + HEAL_AMOUNT,
+                    3000
+            );
         }
     }
 

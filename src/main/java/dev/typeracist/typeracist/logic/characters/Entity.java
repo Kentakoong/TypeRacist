@@ -6,43 +6,85 @@ public class Entity {
     protected static final HP BASE_HP = new HP(50);
     protected static final int BASE_ATK = 2;
     protected static final int BASE_DEF = 5;
+
     protected final String name;
     protected final HP hp;
-    protected int atk;
-    protected int def;
     protected final Image image;
     protected final Skill skill;
 
+    protected int baseAtk;
+    protected int extraAtk;
+    protected int baseDef;
+    protected int extraDef;
+
     public Entity(String name, HP hp, int atk, int def, Image image, Skill skill) {
         this.name = name;
-        this.hp = hp;
-        this.atk = atk;
-        this.def = def;
+        this.hp = new HP(hp.getCurrentHP());
+        this.baseAtk = atk;
+        this.baseDef = def;
         this.image = image;
         this.skill = skill;
     }
 
     public Entity(HP hp, int atk, int def, Image image, Skill skill) {
         this.name = getClass().getSimpleName();
-        this.hp = hp;
-        this.atk = atk;
-        this.def = def;
+        this.hp = new HP(hp.getCurrentHP());
+        this.baseAtk = atk;
+        this.baseDef = def;
         this.image = image;
         this.skill = skill;
     }
 
-    /**
-     * Copy constructor to create a deep copy of an Entity
-     * 
-     * @param other The Entity to copy from
-     */
     public Entity(Entity other) {
-        this.name = new String(other.name);
+        this.name = other.name;
         this.hp = new HP(other.hp.getCurrentHP());
-        this.atk = other.atk;
-        this.def = other.def;
+        this.baseAtk = other.baseAtk;
+        this.baseDef = other.baseDef;
+        this.extraAtk = other.extraAtk;
+        this.extraDef = other.extraDef;
         this.image = other.image;
         this.skill = other.skill.copy();
+    }
+
+    public int getTotalAtk() {
+        return baseAtk + extraAtk;
+    }
+
+    public int getTotalDef() {
+        return baseDef + extraDef;
+    }
+
+    public void heal(int amount) {
+        this.hp.heal(amount);
+    }
+
+    public void addAtk(int atk) {
+        this.baseAtk += atk;
+    }
+
+    public void addDef(int def) {
+        this.baseDef += def;
+    }
+
+    public void addExtraAtk(int extraAtk) {
+        this.extraAtk += extraAtk;
+    }
+
+    public void addExtraDef(int extraDef) {
+        this.extraDef += extraDef;
+    }
+
+    public void resetBonuses() {
+        this.extraAtk = 0;
+        this.extraDef = 0;
+    }
+
+    public int attack(Entity target) {
+        int totalAtk = getTotalAtk();
+        int targetDef = target.getTotalDef();
+        int damageDealt = Math.max(totalAtk - targetDef, 0);
+        target.hp.damage(damageDealt);
+        return damageDealt;
     }
 
     public String getName() {
@@ -53,42 +95,43 @@ public class Entity {
         return hp;
     }
 
-    public int getAtk() {
-        return atk;
+    public int getBaseAtk() {
+        return baseAtk;
     }
 
-    public int getDef() {
-        return def;
+    public void setBaseAtk(int atk) {
+        this.baseAtk = atk;
+    }
+
+    public int getBaseDef() {
+        return baseDef;
+    }
+
+    public void setBaseDef(int def) {
+        this.baseDef = def;
     }
 
     public Image getImage() {
         return image;
     }
 
-    public void setHp(HP hp) {
-        this.hp.setCurrentHP(hp.getCurrentHP());
+    public Skill getSkill() {
+        return skill;
     }
 
-    public void setAtk(int atk) {
-        this.atk = atk;
+    public int getExtraAtk() {
+        return extraAtk;
     }
 
-    public void setDef(int def) {
-        this.def = def;
+    public void setExtraAtk(int extraAtk) {
+        this.extraAtk = extraAtk;
     }
 
-    public void addAtk(int atk) {
-        this.atk += atk;
+    public int getExtraDef() {
+        return extraDef;
     }
 
-    public void addDef(int def) {
-        this.def += def;
-    }
-
-    public int attack(Entity target) {
-        int realDamage = Math.max(atk - target.def, 0);
-        target.hp.damage(realDamage);
-
-        return realDamage;
+    public void setExtraDef(int extraDef) {
+        this.extraDef = extraDef;
     }
 }
