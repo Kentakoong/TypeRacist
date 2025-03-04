@@ -1,4 +1,4 @@
-package dev.typeracist.typeracist.logic.characters;
+package dev.typeracist.typeracist.logic.characters.entity;
 
 import dev.typeracist.typeracist.logic.global.ResourceManager;
 import dev.typeracist.typeracist.utils.ResourceName;

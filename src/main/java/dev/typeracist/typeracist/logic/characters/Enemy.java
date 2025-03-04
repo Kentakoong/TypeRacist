@@ -23,7 +23,7 @@ public class Enemy extends Entity {
 
     public int attack(Entity target, int extraDefense) {
         int realDamage = Math.max(atk - extraDefense * target.getDef(), 0);
-        target.hp.damage(realDamage);
+        target.getHp().damage(realDamage);
 
         return realDamage;
     }

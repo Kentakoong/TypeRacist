@@ -8,7 +8,6 @@ import java.io.InputStreamReader;
 import java.util.*;
 import java.util.stream.Collectors;
 
-
 public class Dataset {
     private final List<String> paragraphs;
     private final List<String> words;
@@ -91,20 +90,23 @@ public class Dataset {
 
     public String getRandomWordByScoreRange(double minScore, double maxScore) {
         List<String> wordsInRange = getWordsByScoreRange(minScore, maxScore);
-        if (wordsInRange.isEmpty()) return null;
+        if (wordsInRange.isEmpty())
+            return null;
         Random random = new Random();
         return wordsInRange.get(random.nextInt(wordsInRange.size()));
     }
 
     public List<String> getRandomParagraphByScoreRange(double minScore, double maxScore) {
         List<List<String>> paragraphsInRange = getParagraphsByScoreRange(minScore, maxScore);
-        if (paragraphsInRange.isEmpty()) return null;
+        if (paragraphsInRange.isEmpty())
+            return null;
         Random random = new Random();
         return paragraphsInRange.get(random.nextInt(paragraphsInRange.size()));
     }
 
     public List<String> getRandomWords(int count) {
-        if (words.isEmpty()) return Collections.emptyList();
+        if (words.isEmpty())
+            return Collections.emptyList();
         return random.ints(0, words.size())
                 .distinct()
                 .limit(count)
@@ -113,7 +115,8 @@ public class Dataset {
     }
 
     public List<List<String>> getRandomParagraphs(int count) {
-        if (paragraphs.isEmpty()) return Collections.emptyList();
+        if (paragraphs.isEmpty())
+            return Collections.emptyList();
         return random.ints(0, paragraphs.size())
                 .distinct()
                 .limit(count)
@@ -127,7 +130,8 @@ public class Dataset {
                 .map(Map.Entry::getKey)
                 .toList();
 
-        if (wordsInRange.isEmpty()) return Collections.emptyList();
+        if (wordsInRange.isEmpty())
+            return Collections.emptyList();
         return random.ints(0, wordsInRange.size())
                 .distinct()
                 .limit(count)
@@ -141,7 +145,8 @@ public class Dataset {
                 .map(Map.Entry::getKey)
                 .toList();
 
-        if (paragraphsInRange.isEmpty()) return Collections.emptyList();
+        if (paragraphsInRange.isEmpty())
+            return Collections.emptyList();
         return random.ints(0, paragraphsInRange.size())
                 .distinct()
                 .limit(count)
@@ -150,13 +155,15 @@ public class Dataset {
     }
 
     public String getRandomWord() {
-        if (words.isEmpty()) return null;
+        if (words.isEmpty())
+            return null;
         Random random = new Random();
         return words.get(random.nextInt(words.size()));
     }
 
     public List<String> getRandomParagraph() {
-        if (paragraphs.isEmpty()) return null;
+        if (paragraphs.isEmpty())
+            return null;
         Random random = new Random();
         String paragraph = paragraphs.get(random.nextInt(paragraphs.size()));
         return Arrays.asList(paragraph.split("\\s+")); // Convert to list of words
@@ -234,16 +241,14 @@ public class Dataset {
                         word -> word,
                         TypingHardness::wordTypingHardness,
                         (a, b) -> a,
-                        LinkedHashMap::new
-                ))
+                        LinkedHashMap::new))
                 .entrySet().stream()
                 .sorted(Map.Entry.comparingByValue())
                 .collect(Collectors.toMap(
                         Map.Entry::getKey,
                         Map.Entry::getValue,
                         (a, b) -> a,
-                        LinkedHashMap::new
-                ));
+                        LinkedHashMap::new));
     }
 
     private LinkedHashMap<String, Double> rankParagraphsByTypingHardness(List<String> paragraphs) {
@@ -252,15 +257,13 @@ public class Dataset {
                         paragraph -> paragraph,
                         TypingHardness::paragraphTypingHardness,
                         (a, b) -> a,
-                        LinkedHashMap::new
-                ))
+                        LinkedHashMap::new))
                 .entrySet().stream()
                 .sorted(Map.Entry.comparingByValue())
                 .collect(Collectors.toMap(
                         Map.Entry::getKey,
                         Map.Entry::getValue,
                         (a, b) -> a,
-                        LinkedHashMap::new
-                ));
+                        LinkedHashMap::new));
     }
 }

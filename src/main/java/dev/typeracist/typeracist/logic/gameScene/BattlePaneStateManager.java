@@ -25,14 +25,18 @@ public class BattlePaneStateManager {
 
     private void initializeStateModifiers() {
         stateModifiers.put(BattlePaneState.GAME_STATS_OPTION, new GameStatsOptionPaneModifier(battlePane, context));
-        stateModifiers.put(BattlePaneState.GAME_PLAYER_STATS_OPTION, new GamePlayerStatsOptionPaneModifier(battlePane, context));
-        stateModifiers.put(BattlePaneState.GAME_ENEMY_STATS_OPTION, new GameEnemyStatsOptionPaneModifier(battlePane, context));
+        stateModifiers.put(BattlePaneState.GAME_PLAYER_STATS_OPTION,
+                new GamePlayerStatsOptionPaneModifier(battlePane, context));
+        stateModifiers.put(BattlePaneState.GAME_ENEMY_STATS_OPTION,
+                new GameEnemyStatsOptionPaneModifier(battlePane, context));
         stateModifiers.put(BattlePaneState.ENEMY_DESCRIPTION, new EnemyDescriptionPaneModifier(battlePane, context));
         stateModifiers.put(BattlePaneState.PLAYER_ATTACK, new PlayerAttackPaneModifier(battlePane, context));
-        stateModifiers.put(BattlePaneState.PLAYER_ATTACK_RESULT, new PlayerAttackResultPaneModifier(battlePane, context));
+        stateModifiers.put(BattlePaneState.PLAYER_ATTACK_RESULT,
+                new PlayerAttackResultPaneModifier(battlePane, context));
         stateModifiers.put(BattlePaneState.ENEMY_BEFORE_ATTACK, new EnemyBeforeAttackPaneModifier(battlePane, context));
         stateModifiers.put(BattlePaneState.PLAYER_DEFENSE, new PlayerDefensePaneModifier(battlePane, context));
-        stateModifiers.put(BattlePaneState.PLAYER_DEFENSE_RESULT, new PlayerDefenseResultPaneModifier(battlePane, context));
+        stateModifiers.put(BattlePaneState.PLAYER_DEFENSE_RESULT,
+                new PlayerDefenseResultPaneModifier(battlePane, context));
         stateModifiers.put(BattlePaneState.GAME_WIN, new GameWinPaneModifier(battlePane, context));
         stateModifiers.put(BattlePaneState.GAME_LOSE, new GameLosePaneModifier(battlePane, context));
         stateModifiers.put(BattlePaneState.PLAYER_SHOP, new PlayerShopPaneModifier(battlePane, context));
