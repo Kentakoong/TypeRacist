@@ -24,11 +24,6 @@ public class BattlePaneStateManager {
     }
 
     private void initializeStateModifiers() {
-        stateModifiers.put(BattlePaneState.GAME_STATS_OPTION, new GameStatsOptionPaneModifier(battlePane, context));
-        stateModifiers.put(BattlePaneState.GAME_PLAYER_STATS_OPTION,
-                new GamePlayerStatsOptionPaneModifier(battlePane, context));
-        stateModifiers.put(BattlePaneState.GAME_ENEMY_STATS_OPTION,
-                new GameEnemyStatsOptionPaneModifier(battlePane, context));
         stateModifiers.put(BattlePaneState.ENEMY_DESCRIPTION, new EnemyDescriptionPaneModifier(battlePane, context));
         stateModifiers.put(BattlePaneState.PLAYER_ATTACK, new PlayerAttackPaneModifier(battlePane, context));
         stateModifiers.put(BattlePaneState.PLAYER_ATTACK_RESULT,
@@ -39,26 +34,19 @@ public class BattlePaneStateManager {
                 new PlayerDefenseResultPaneModifier(battlePane, context));
         stateModifiers.put(BattlePaneState.GAME_WIN, new GameWinPaneModifier(battlePane, context));
         stateModifiers.put(BattlePaneState.GAME_LOSE, new GameLosePaneModifier(battlePane, context));
-        stateModifiers.put(BattlePaneState.PLAYER_SHOP, new PlayerShopPaneModifier(battlePane, context));
     }
 
     public void transitionToState(BattlePaneState newState) {
         context.setCurrentState(newState);
 
-        // Handle any special transitions before applying the new state
         handleSpecialStateTransition(newState);
 
         BasePaneModifier modifier = stateModifiers.get(newState);
         if (modifier != null) {
             modifier.setManager(this);
-            modifierStack.push(modifier); // Push onto stack
+            modifierStack.push(modifier);
             processNextModifier();
         }
-    }
-
-    public void setReversibleState(BattlePaneState reversibleState) {
-        System.out.println("set reversiable state: " + reversibleState);
-        this.reversibleState = reversibleState;
     }
 
     private void handleSpecialStateTransition(BattlePaneState newState) {
@@ -99,11 +87,9 @@ public class BattlePaneStateManager {
 
     private void determineNextState(BasePaneModifier completedModifier) {
         BattlePaneState currentState = context.getCurrentState();
-        System.out.println("Current state: " + currentState);
 
         switch (currentState) {
-            case ENEMY_DESCRIPTION, GAME_STATS_OPTION -> {
-            }
+            case ENEMY_DESCRIPTION -> transitionToState(BattlePaneState.PLAYER_ATTACK);
             case PLAYER_ATTACK -> transitionToState(BattlePaneState.PLAYER_ATTACK_RESULT);
             case PLAYER_ATTACK_RESULT -> {
                 if (context.getEnemy().getHp().isDead()) {
@@ -120,13 +106,6 @@ public class BattlePaneStateManager {
                 } else {
                     context.incrementTurn();
                     transitionToState(BattlePaneState.ENEMY_DESCRIPTION);
-                }
-            }
-            default -> {
-                if (reversibleState != null) {
-                    transitionToState(reversibleState);
-                    System.out.println(currentState + " use reverisble state: " + reversibleState);
-                    reversibleState = null;
                 }
             }
         }

@@ -108,11 +108,11 @@ public class BattlePane extends VBox {
         });
 
         statsButton.setOnAction(event -> {
-            stateManager.transitionToState(BattlePaneState.GAME_STATS_OPTION);
+            System.out.println("pop up stats");
         });
 
         itemsButton.setOnAction(event -> {
-            stateManager.transitionToState(BattlePaneState.PLAYER_SHOP);
+            System.out.println("pop up items");
         });
     }
 
