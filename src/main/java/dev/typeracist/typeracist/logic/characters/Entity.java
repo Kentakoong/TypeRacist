@@ -8,8 +8,8 @@ public abstract class Entity {
     protected static final int BASE_DEF = 5;
     protected final String name;
     protected final HP hp;
-    protected final int atk;
-    protected final int def;
+    protected int atk;
+    protected int def;
     protected final Image image;
 
     public Entity(String name, HP hp, int atk, int def, Image image) {
@@ -46,6 +46,26 @@ public abstract class Entity {
 
     public Image getImage() {
         return image;
+    }
+
+    public void setHp(HP hp) {
+        this.hp.setCurrentHP(hp.getCurrentHP());
+    }
+
+    public void setAtk(int atk) {
+        this.atk = atk;
+    }
+
+    public void setDef(int def) {
+        this.def = def;
+    }
+
+    public void addAtk(int atk) {
+        this.atk += atk;
+    }
+
+    public void addDef(int def) {
+        this.def += def;
     }
 
     public int attack(Entity target) {

@@ -1,13 +1,11 @@
 package dev.typeracist.typeracist.logic.characters;
 
 public class HP {
-    private final int maxHP;
-    private final int minHP;
+    private int maxHP;
     private int currentHP;
 
     public HP(int maxHP, int currentHP) {
         this.maxHP = maxHP;
-        this.minHP = 0;
         this.currentHP = currentHP;
     }
 
@@ -20,7 +18,7 @@ public class HP {
     }
 
     public void setCurrentHP(int hp) {
-        this.currentHP = Math.min(Math.max(hp, minHP), maxHP);
+        this.currentHP = Math.min(Math.max(hp, 0), maxHP);
     }
 
     public void heal(int amount) {
@@ -32,14 +30,15 @@ public class HP {
     }
 
     public boolean isDead() {
-        return currentHP <= minHP;
+        return currentHP <= 0;
     }
 
     public int getMaxHP() {
         return maxHP;
     }
 
-    public int getMinHP() {
-        return minHP;
+    public void addMaxHp(int amount) {
+        this.maxHP += amount;
+        this.currentHP = Math.min(currentHP, maxHP);
     }
 }
