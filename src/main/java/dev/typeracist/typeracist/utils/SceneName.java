@@ -11,4 +11,5 @@ public class SceneName {
     final public static String SHOP = "shop";
     final public static String ENCHANT = "enchant";
     final public static String CHEST = "chest";
+    final public static String FORGE = "forge";
 }
