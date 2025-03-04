@@ -26,6 +26,7 @@ public class Main extends Application {
         sceneManager.addScene(SceneName.DYNAMIC_PANE_TEST, new DynamicSceneDemo(1000, 750));
         sceneManager.addScene(SceneName.MAP, new MapScene(1000, 750));
         sceneManager.addScene(SceneName.SHOP, new ShopScene(1000, 750));
+        sceneManager.addScene(SceneName.ENCHANT, new EnchantScene(1000, 750));
 
         // load dataset and keyboard pane, in other page.
         new Thread(() -> {
