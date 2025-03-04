@@ -1,7 +1,7 @@
 package dev.typeracist.typeracist.logic.global;
 
-import dev.typeracist.typeracist.logic.characters.entity.Character;
-import dev.typeracist.typeracist.logic.characters.entity.character.Warrior;
+import dev.typeracist.typeracist.logic.characters.entities.Character;
+import dev.typeracist.typeracist.logic.characters.entities.character.Warrior;
 import dev.typeracist.typeracist.logic.gameScene.Dataset;
 import dev.typeracist.typeracist.logic.gameScene.DatasetManager;
 import dev.typeracist.typeracist.utils.DatasetName;
