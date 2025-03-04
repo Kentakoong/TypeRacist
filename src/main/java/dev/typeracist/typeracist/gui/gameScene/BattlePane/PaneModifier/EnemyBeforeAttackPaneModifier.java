@@ -26,8 +26,6 @@ public class EnemyBeforeAttackPaneModifier extends BasePaneModifier {
 
     @Override
     public void initialize(BattlePaneStateManager manager) {
-        battlePane.getStatsButton().setDisable(false);
-
         battlePane.getInformationPane().getChildren().clear();
 
         Label defenseWarningLabel = new Label(

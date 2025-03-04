@@ -5,8 +5,8 @@ import javafx.scene.layout.VBox;
 public abstract class BaseInfoPaneModifier extends VBox {
     final protected InformationPane subPaneNavigator;
 
-    public BaseInfoPaneModifier(InformationPane subPaneNavigator) {
-        this.subPaneNavigator = subPaneNavigator;
+    public BaseInfoPaneModifier(InformationPane informationPane) {
+        this.subPaneNavigator = informationPane;
     }
 
     public void switchToPane(InfoPaneModifierType paneType) {
@@ -14,7 +14,6 @@ public abstract class BaseInfoPaneModifier extends VBox {
 
         BaseInfoPaneModifier newPane;
         switch (paneType) {
-            case STATS_OPTION_PANE -> newPane = new StatsOptionInfoPaneModifier(subPaneNavigator);
             case TYPING_PANE -> newPane = new TypingInfoPaneModifier(subPaneNavigator);
             default -> throw new IllegalArgumentException("Unknown pane type: " + paneType);
         }

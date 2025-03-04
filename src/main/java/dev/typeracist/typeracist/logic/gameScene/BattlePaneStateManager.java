@@ -15,7 +15,6 @@ public class BattlePaneStateManager {
     private final Map<BattlePaneState, BasePaneModifier> stateModifiers = new HashMap<>();
     private final Stack<BasePaneModifier> modifierStack = new Stack<>();
     private BasePaneModifier currentModifier;
-    private BattlePaneState reversibleState;
 
     public BattlePaneStateManager(BattlePane battlePane, BattlePaneStateContext context) {
         this.battlePane = battlePane;
@@ -24,6 +23,8 @@ public class BattlePaneStateManager {
     }
 
     private void initializeStateModifiers() {
+        stateModifiers.put(BattlePaneState.PLAYER_BEFORE_ATTACK_ITEM_SELECTION, new PlayerItemSelectionPaneModifier(battlePane, context));
+        stateModifiers.put(BattlePaneState.PLAYER_BEFORE_DEFENSE_ITEM_SELECTION, new PlayerItemSelectionPaneModifier(battlePane, context));
         stateModifiers.put(BattlePaneState.ENEMY_DESCRIPTION, new EnemyDescriptionPaneModifier(battlePane, context));
         stateModifiers.put(BattlePaneState.PLAYER_ATTACK, new PlayerAttackPaneModifier(battlePane, context));
         stateModifiers.put(BattlePaneState.PLAYER_ATTACK_RESULT,
@@ -89,7 +90,8 @@ public class BattlePaneStateManager {
         BattlePaneState currentState = context.getCurrentState();
 
         switch (currentState) {
-            case ENEMY_DESCRIPTION -> transitionToState(BattlePaneState.PLAYER_ATTACK);
+            case ENEMY_DESCRIPTION -> transitionToState(BattlePaneState.PLAYER_BEFORE_ATTACK_ITEM_SELECTION);
+            case PLAYER_BEFORE_ATTACK_ITEM_SELECTION -> transitionToState(BattlePaneState.PLAYER_ATTACK);
             case PLAYER_ATTACK -> transitionToState(BattlePaneState.PLAYER_ATTACK_RESULT);
             case PLAYER_ATTACK_RESULT -> {
                 if (context.getEnemy().getHp().isDead()) {
@@ -98,7 +100,8 @@ public class BattlePaneStateManager {
                     transitionToState(BattlePaneState.ENEMY_BEFORE_ATTACK);
                 }
             }
-            case ENEMY_BEFORE_ATTACK -> transitionToState(BattlePaneState.PLAYER_DEFENSE);
+            case ENEMY_BEFORE_ATTACK -> transitionToState(BattlePaneState.PLAYER_BEFORE_DEFENSE_ITEM_SELECTION);
+            case PLAYER_BEFORE_DEFENSE_ITEM_SELECTION -> transitionToState(BattlePaneState.PLAYER_DEFENSE);
             case PLAYER_DEFENSE -> transitionToState(BattlePaneState.PLAYER_DEFENSE_RESULT);
             case PLAYER_DEFENSE_RESULT -> {
                 if (GameLogic.getInstance().getSelectedCharacter().getHp().isDead()) {
