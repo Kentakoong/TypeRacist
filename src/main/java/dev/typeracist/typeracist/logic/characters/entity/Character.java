@@ -2,6 +2,7 @@ package dev.typeracist.typeracist.logic.characters.entity;
 
 import dev.typeracist.typeracist.logic.characters.Entity;
 import dev.typeracist.typeracist.logic.characters.HP;
+import dev.typeracist.typeracist.logic.characters.XP;
 import javafx.scene.image.Image;
 
 public abstract class Character extends Entity {
@@ -9,12 +10,12 @@ public abstract class Character extends Entity {
     protected static final int BASE_ATK = 4;
     protected static final int BASE_DEF = 5;
     protected static final int XP_TO_LEVEL_UP = 25;
-    protected int xp;
+    protected XP xp;
     protected int coin;
 
     public Character(HP hp, int atk, int def, Image image) {
         super(hp, atk, def, image);
-        this.xp = 0;
+        this.xp = new XP();
         this.coin = 0;
     }
 
@@ -27,18 +28,6 @@ public abstract class Character extends Entity {
         target.getHp().damage(realDamage);
 
         return realDamage;
-    }
-
-    public int getXp() {
-        return xp;
-    }
-
-    public void gainXp(int amount) {
-        this.xp += amount;
-    }
-
-    public boolean canLevelUp() {
-        return xp >= XP_TO_LEVEL_UP;
     }
 
     public int getCoin() {

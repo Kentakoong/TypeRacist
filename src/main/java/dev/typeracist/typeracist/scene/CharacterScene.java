@@ -1,6 +1,6 @@
 package dev.typeracist.typeracist.scene;
 
-import dev.typeracist.typeracist.logic.characters.entity.*;
+import dev.typeracist.typeracist.logic.characters.entity.character.*;
 import dev.typeracist.typeracist.logic.characters.entity.Character;
 import dev.typeracist.typeracist.logic.global.GameLogic;
 import dev.typeracist.typeracist.logic.global.ResourceManager;
