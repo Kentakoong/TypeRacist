@@ -1,5 +1,7 @@
-package dev.typeracist.typeracist.logic.characters;
+package dev.typeracist.typeracist.logic.characters.entity;
 
+import dev.typeracist.typeracist.logic.characters.Entity;
+import dev.typeracist.typeracist.logic.characters.HP;
 import javafx.scene.image.Image;
 
 public abstract class Character extends Entity {
@@ -21,8 +23,8 @@ public abstract class Character extends Entity {
     }
 
     public int attack(Entity target, int rawDamage) {
-        int realDamage = Math.max(rawDamage * atk - target.def, 0);
-        target.hp.damage(realDamage);
+        int realDamage = Math.max(rawDamage * atk - target.getDef(), 0);
+        target.getHp().damage(realDamage);
 
         return realDamage;
     }

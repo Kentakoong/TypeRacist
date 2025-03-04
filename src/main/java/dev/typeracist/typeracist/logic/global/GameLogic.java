@@ -1,7 +1,7 @@
 package dev.typeracist.typeracist.logic.global;
 
-import dev.typeracist.typeracist.logic.characters.Character;
-import dev.typeracist.typeracist.logic.characters.Warrior;
+import dev.typeracist.typeracist.logic.characters.entity.Character;
+import dev.typeracist.typeracist.logic.characters.entity.Warrior;
 import dev.typeracist.typeracist.logic.gameScene.Dataset;
 import dev.typeracist.typeracist.logic.gameScene.DatasetManager;
 import dev.typeracist.typeracist.utils.DatasetName;
@@ -66,7 +66,7 @@ public class GameLogic {
         return selectedCharacter;
     }
 
-    //intermediated pass variable  CharacterScene and Map
+    // intermediated pass variable CharacterScene and Map
     public void setSelectedCharacter(Character character) {
         this.selectedCharacter = character;
     }

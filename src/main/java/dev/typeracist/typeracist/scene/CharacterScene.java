@@ -1,7 +1,7 @@
 package dev.typeracist.typeracist.scene;
 
-import dev.typeracist.typeracist.logic.characters.Character;
-import dev.typeracist.typeracist.logic.characters.*;
+import dev.typeracist.typeracist.logic.characters.entity.*;
+import dev.typeracist.typeracist.logic.characters.entity.Character;
 import dev.typeracist.typeracist.logic.global.GameLogic;
 import dev.typeracist.typeracist.logic.global.ResourceManager;
 import dev.typeracist.typeracist.utils.ResourceName;
@@ -53,22 +53,22 @@ public class CharacterScene extends BaseScene {
 
         // Map character images to names and descriptions
         Map<Character, String[]> characterData = new HashMap<>();
-        characterData.put(warrior, new String[]{"Warrior", "A brave fighter with strong melee attacks." +
+        characterData.put(warrior, new String[] { "Warrior", "A brave fighter with strong melee attacks." +
                 "\n" + "ATK : 4\n" +
-                "DEF : 5\nABIL : NONE"});
-        characterData.put(archer, new String[]{"Archer", "A skilled marksman with excellent range." +
+                "DEF : 5\nABIL : NONE" });
+        characterData.put(archer, new String[] { "Archer", "A skilled marksman with excellent range." +
                 "\nATK : 4\n" +
-                "DEF : 3\nABIL : 50% to do double damage"});
-        characterData.put(wizard, new String[]{"Wizard", "A master of elemental magic and spells." +
+                "DEF : 3\nABIL : 50% to do double damage" });
+        characterData.put(wizard, new String[] { "Wizard", "A master of elemental magic and spells." +
                 "\nATK : 3\n" +
-                "DEF : 4\nABIL : Magic wand(item) stun enemy for 1 turn (usable every 3 turns)"});
-        characterData.put(assassin, new String[]{"Assassin", "A stealthy character with high critical damage." +
+                "DEF : 4\nABIL : Magic wand(item) stun enemy for 1 turn (usable every 3 turns)" });
+        characterData.put(assassin, new String[] { "Assassin", "A stealthy character with high critical damage." +
                 "\nATK : 5\n" +
-                "DEF : 3\nABIL : 20% to dodge attack"});
-        characterData.put(wretch, new String[]{"Wretch", "A mysterious wanderer with unknown abilities." +
+                "DEF : 3\nABIL : 20% to dodge attack" });
+        characterData.put(wretch, new String[] { "Wretch", "A mysterious wanderer with unknown abilities." +
                 "who wants challenge)\n" +
                 "ATK : 3\n" +
-                "DEF : 3\nABIL : NONE"});
+                "DEF : 3\nABIL : NONE" });
 
         // Label to display selected character info
         characterInfoLabel = new Label("");
@@ -76,20 +76,7 @@ public class CharacterScene extends BaseScene {
         characterInfoLabel.setStyle("-fx-text-fill: black;");
 
         for (Character character : characterData.keySet()) {
-            ImageView characterView = new ImageView(character.getImage());
-            characterView.setFitWidth(80);
-            characterView.setFitHeight(80);
-
-            characterView.setOnMouseClicked(event -> {
-                selectedCharacter = character;
-                System.out.println("Selected character: " + selectedCharacter);
-                warningLabel.setText(""); // Clear warning when character is selected
-
-                // Update character info label
-                String characterName = characterData.get(character)[0];
-                String characterDescription = characterData.get(character)[1];
-                characterInfoLabel.setText(characterName + " - " + characterDescription);
-            });
+            ImageView characterView = getCharacterView(character, characterData);
 
             characterSelection.getChildren().add(characterView);
         }
@@ -112,12 +99,24 @@ public class CharacterScene extends BaseScene {
         difficultyBox.getChildren().addAll(difficultyLabel, easyButton, normalButton, hardButton, hellButton);
 
         // Confirm button
+        Button confirmButton = getConfirmButton();
+
+        // Warning Label (Initially empty)
+        warningLabel = new Label("");
+        warningLabel.setFont(Font.font(baseFont.getName(), 24));
+        warningLabel.setStyle("-fx-text-fill: red;");
+
+        root.getChildren().addAll(titleLabel, characterSelection, characterInfoLabel, nameBox, difficultyBox,
+                confirmButton, warningLabel);
+    }
+
+    private Button getConfirmButton() {
         Button confirmButton = new Button("Confirm");
         confirmButton.setOnAction(event -> {
 
             if (selectedCharacter != null) {
                 System.out.println("Character confirmed: " + selectedCharacter);
-                //set select character
+                // set select character
                 GameLogic.getInstance().setSelectedCharacter(selectedCharacter);
                 System.out.println("Select THIS!! :" + GameLogic.getInstance().getSelectedCharacter());
                 GameLogic.getInstance().getSceneManager().setScene(SceneName.MAP);
@@ -128,13 +127,25 @@ public class CharacterScene extends BaseScene {
                 warningLabel.setStyle("-fx-text-fill: red;");
             }
         });
+        return confirmButton;
+    }
 
-        // Warning Label (Initially empty)
-        warningLabel = new Label("");
-        warningLabel.setFont(Font.font(baseFont.getName(), 24));
-        warningLabel.setStyle("-fx-text-fill: red;");
+    private ImageView getCharacterView(Character character, Map<Character, String[]> characterData) {
+        ImageView characterView = new ImageView(character.getImage());
+        characterView.setFitWidth(80);
+        characterView.setFitHeight(80);
 
-        root.getChildren().addAll(titleLabel, characterSelection, characterInfoLabel, nameBox, difficultyBox, confirmButton, warningLabel);
+        characterView.setOnMouseClicked(event -> {
+            selectedCharacter = character;
+            System.out.println("Selected character: " + selectedCharacter);
+            warningLabel.setText(""); // Clear warning when character is selected
+
+            // Update character info label
+            String characterName = characterData.get(character)[0];
+            String characterDescription = characterData.get(character)[1];
+            characterInfoLabel.setText(characterName + " - " + characterDescription);
+        });
+        return characterView;
     }
 
     @Override
