@@ -272,26 +272,16 @@ public class CharacterScene extends BaseScene {
             }
 
         });
-        return confirmButton;
-    }
+        // return confirmButton;
+
 
         // Warning Label (Initially empty)
 
         warningLabel = new Label("");
         warningLabel.setFont(baseFont);
         warningLabel.setTextFill(Color.RED);
+        root.getChildren().addAll(titleLabel, characterSelection, characterInfoLabel, nameBox, difficultyBox, confirmButton, warningLabel);
 
-        characterView.setOnMouseClicked(event -> {
-            selectedCharacter = character;
-            System.out.println("Selected character: " + selectedCharacter);
-            warningLabel.setText(""); // Clear warning when character is selected
-
-            // Update character info label
-            String characterName = characterData.get(character)[0];
-            String characterDescription = characterData.get(character)[1];
-            characterInfoLabel.setText(characterName + " - " + characterDescription);
-        });
-        return characterView;
     }
 
     private Button createStyledButton(String text, Font font) {
