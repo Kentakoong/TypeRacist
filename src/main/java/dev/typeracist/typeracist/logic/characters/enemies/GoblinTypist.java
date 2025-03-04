@@ -2,8 +2,8 @@ package dev.typeracist.typeracist.logic.characters.enemies;
 
 import dev.typeracist.typeracist.logic.characters.Enemy;
 import dev.typeracist.typeracist.logic.characters.HP;
-import dev.typeracist.typeracist.logic.characters.RandomRange;
 import dev.typeracist.typeracist.logic.global.ResourceManager;
+import dev.typeracist.typeracist.utils.RandomRange;
 import dev.typeracist.typeracist.utils.ResourceName;
 
 public class GoblinTypist extends Enemy {
