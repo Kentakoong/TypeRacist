@@ -51,17 +51,17 @@ public class ShopScene extends BaseScene {
         AnotherBackgroundPane.setLayoutY(105);
         root.getChildren().add(AnotherBackgroundPane);
         // Placeholder for shopmaster image
-//        ImageView shopMasterImage = new ImageView(ResourceManager.getImage(ResourceName.IMAGE_SHOPMASTER));
-//        shopMasterImage.setFitWidth(150);
-//        shopMasterImage.setFitHeight(150);
-//        shopMasterImage.setLayoutX(600);
-//        shopMasterImage.setLayoutY(100);
-//        root.getChildren().add(shopMasterImage);
+        ImageView shopMasterImage = new ImageView(ResourceManager.getImage(ResourceName.IMAGE_SHOP_SHOPMASTER));
+        shopMasterImage.setFitWidth(250);
+        shopMasterImage.setFitHeight(200);
+        shopMasterImage.setLayoutX(760);
+        shopMasterImage.setLayoutY(100);
+        root.getChildren().add(shopMasterImage);
 
-        Label shopMasterText = new Label("OHH, I'd buy the same \nif I were you.");
+        Label shopMasterText = new Label("Buy something,\nwould ya?.");
         shopMasterText.setStyle("-fx-text-fill: white;");
-        shopMasterText.setLayoutX(630);
-        shopMasterText.setLayoutY(295);
+        shopMasterText.setLayoutX(775);
+        shopMasterText.setLayoutY(310);
         shopMasterText.setFont(Font.font(baseFont.getName(), 20));
         root.getChildren().add(shopMasterText);
 

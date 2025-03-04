@@ -37,4 +37,5 @@ public class ResourceName {
     public static final String IMAGE_SHOP_WHIRLWIND_DAGGER = ResourceBasePath.IMAGE_PATH + "/shop/whirlwind_dagger.png";
     public static final String IMAGE_SHOP_WOODEN_SHIELD = ResourceBasePath.IMAGE_PATH + "/shop/wooden_shield.png";
     public static final String IMAGE_SHOP_TYPEWRITER = ResourceBasePath.IMAGE_PATH + "/shop/typewriter.png";
+    public static final String IMAGE_SHOP_SHOPMASTER = ResourceBasePath.IMAGE_PATH + "/shop/Shopmaster.jpg";
 }
