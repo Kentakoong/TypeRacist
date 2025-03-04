@@ -1,6 +1,6 @@
-package dev.typeracist.typeracist.logic.characters.entity.character;
+package dev.typeracist.typeracist.logic.characters.entities.character;
 
-import dev.typeracist.typeracist.logic.characters.entity.Character;
+import dev.typeracist.typeracist.logic.characters.entities.Character;
 import dev.typeracist.typeracist.logic.characters.skills.ShadowSlip;
 import dev.typeracist.typeracist.logic.global.ResourceManager;
 import dev.typeracist.typeracist.utils.ResourceName;

@@ -1,4 +1,4 @@
-package dev.typeracist.typeracist.logic.characters.entity;
+package dev.typeracist.typeracist.logic.characters.entities;
 
 import dev.typeracist.typeracist.logic.characters.Entity;
 import dev.typeracist.typeracist.logic.characters.HP;
