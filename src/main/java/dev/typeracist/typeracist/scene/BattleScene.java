@@ -27,7 +27,11 @@ public class BattleScene extends BaseDynamicScene<BattlePane> {
                                         new Evasion(),
                                         new RandomRange(10, 20),
                                         new RandomRange(10, 20)),
-                                GameLogic.getInstance().getDatasetManager().getDataSet(DatasetName.COMMON_WORDS_1K))),
+                                10 * 1000,
+                                GameLogic.getInstance().getDatasetManager().getDataSet(DatasetName.COMMON_WORDS_1K),
+                                dataset -> dataset.getRandomWordsByScoreRange(3, 7, 50)
+                        )
+                ),
                 width,
                 height);
 
@@ -38,9 +42,6 @@ public class BattleScene extends BaseDynamicScene<BattlePane> {
         BattlePane battlePane = (BattlePane) getRoot();
         BattlePaneStateManager sceneStateManager = new BattlePaneStateManager(battlePane, battlePane.getStateContext());
         sceneStateManager.transitionToState(BattlePaneState.ENEMY_DESCRIPTION);
-
-        battlePane.setupEventHandlers(sceneStateManager);
-        battlePane.getAttackButton().setOnMouseClicked(event -> sceneStateManager.transitionToState(BattlePaneState.PLAYER_ATTACK));
     }
 
     @Override

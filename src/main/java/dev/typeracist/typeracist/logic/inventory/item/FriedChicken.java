@@ -1,11 +1,17 @@
 package dev.typeracist.typeracist.logic.inventory.item;
 
+import dev.typeracist.typeracist.gui.gameScene.BattlePane.BattlePane;
+import dev.typeracist.typeracist.logic.global.GameLogic;
+import dev.typeracist.typeracist.logic.inventory.ActivateNow;
+import dev.typeracist.typeracist.logic.inventory.ActivateOnTurn;
+import dev.typeracist.typeracist.logic.inventory.ActivateOnTurnState;
 import dev.typeracist.typeracist.logic.inventory.Item;
 import dev.typeracist.typeracist.utils.ResourceName;
 
-public class FriedChicken extends Item {
+public class FriedChicken extends Item implements ActivateNow, ActivateOnTurn {
     private static final int HEAL_AMOUNT = 10;
     private static final int DURATION = 2;
+    private boolean firstActive = true;
 
     public FriedChicken() {
         super("Fried Chicken",
@@ -21,4 +27,25 @@ public class FriedChicken extends Item {
     public int getDuration() {
         return DURATION;
     }
+
+    @Override
+    public void activate() {
+        GameLogic.getInstance().getSelectedCharacter().getHp().heal(HEAL_AMOUNT);
+    }
+
+    @Override
+    public void activate(BattlePane battlePane) {
+        if (firstActive) {
+            battlePane.getStateContext().ensureExistsGetTurnContext(battlePane.getStateContext().getCurrentTurn() + 1).addItemUsed(this);
+            firstActive = false;
+        } else {
+            GameLogic.getInstance().getSelectedCharacter().getHp().heal(HEAL_AMOUNT);
+        }
+    }
+
+    @Override
+    public ActivateOnTurnState getActivateOnTurnState() {
+        return ActivateOnTurnState.BOTH;
+    }
+
 }

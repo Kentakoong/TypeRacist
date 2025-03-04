@@ -1,9 +1,11 @@
 package dev.typeracist.typeracist.logic.inventory.item;
 
+import dev.typeracist.typeracist.logic.global.GameLogic;
+import dev.typeracist.typeracist.logic.inventory.ActivateNow;
 import dev.typeracist.typeracist.logic.inventory.Item;
 import dev.typeracist.typeracist.utils.ResourceName;
 
-public class HealingPotion extends Item {
+public class HealingPotion extends Item implements ActivateNow {
     private static final int HEAL_AMOUNT = 20;
 
     public HealingPotion() {
@@ -15,5 +17,10 @@ public class HealingPotion extends Item {
 
     public int getHealAmount() {
         return HEAL_AMOUNT;
+    }
+
+    @Override
+    public void activate() {
+        GameLogic.getInstance().getSelectedCharacter().getHp().heal(HEAL_AMOUNT);
     }
 }

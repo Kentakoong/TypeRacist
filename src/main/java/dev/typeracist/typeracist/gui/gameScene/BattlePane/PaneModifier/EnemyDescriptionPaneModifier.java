@@ -1,6 +1,7 @@
 package dev.typeracist.typeracist.gui.gameScene.BattlePane.PaneModifier;
 
 import dev.typeracist.typeracist.gui.gameScene.BattlePane.BattlePane;
+import dev.typeracist.typeracist.gui.gameScene.BattlePane.InformationPane.InfoPaneModifierType;
 import dev.typeracist.typeracist.logic.gameScene.BattlePaneStateContext;
 import dev.typeracist.typeracist.logic.gameScene.BattlePaneStateManager;
 import dev.typeracist.typeracist.logic.global.ResourceManager;
@@ -26,6 +27,7 @@ public class EnemyDescriptionPaneModifier extends BasePaneModifier {
     @Override
     public void initialize(BattlePaneStateManager manager) {
         battlePane.getInformationPane().getChildren().clear();
+        battlePane.getInformationPane().setToPane(InfoPaneModifierType.TEXT);
 
         Label enemyDescriptionLabel = new Label("* " + context.getEnemy().getDescription());
         enemyDescriptionLabel.setFont(ResourceManager.getFont(ResourceName.FONT_DEPARTURE_MONO, 18));
@@ -42,7 +44,6 @@ public class EnemyDescriptionPaneModifier extends BasePaneModifier {
 
         battlePane.getInformationPane().getChildren().addAll(
                 enemyDescriptionLabel,
-                spacing,
                 pressAnyKeyToContinue
         );
 

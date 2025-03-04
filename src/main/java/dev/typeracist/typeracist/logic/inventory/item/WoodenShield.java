@@ -1,9 +1,11 @@
 package dev.typeracist.typeracist.logic.inventory.item;
 
+import dev.typeracist.typeracist.logic.global.GameLogic;
+import dev.typeracist.typeracist.logic.inventory.ActivateNow;
 import dev.typeracist.typeracist.logic.inventory.Item;
 import dev.typeracist.typeracist.utils.ResourceName;
 
-public class WoodenShield extends Item {
+public class WoodenShield extends Item implements ActivateNow {
     private static final int DEFENSE_BONUS = 2;
 
     public WoodenShield() {
@@ -15,5 +17,10 @@ public class WoodenShield extends Item {
 
     public int getDefenseBonus() {
         return DEFENSE_BONUS;
+    }
+
+    @Override
+    public void activate() {
+        GameLogic.getInstance().getSelectedCharacter().addDef(DEFENSE_BONUS);
     }
 }

@@ -47,7 +47,6 @@ public class EnemyBeforeAttackPaneModifier extends BasePaneModifier {
 
         battlePane.getInformationPane().getChildren().addAll(
                 defenseWarningLabel,
-                spacing,
                 pressAnyKeyToContinue);
 
         // 0.5 seconds delay before
