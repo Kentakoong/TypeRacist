@@ -86,6 +86,8 @@ public class GameLogic {
     // Checks if a battle is playable based on previous battle clear status
     public boolean isBattleUnlocked(String battleName) {
         switch (battleName) {
+            case "BATTLE1":
+                return  true;
             case "BATTLE2":
                 return isBattleCleared("BATTLE1");
             case "BATTLE3":

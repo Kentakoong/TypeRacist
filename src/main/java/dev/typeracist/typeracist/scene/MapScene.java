@@ -5,6 +5,7 @@ import dev.typeracist.typeracist.logic.global.GameLogic;
 import dev.typeracist.typeracist.logic.global.ResourceManager;
 import dev.typeracist.typeracist.utils.ResourceName;
 import dev.typeracist.typeracist.utils.SceneName;
+import javafx.animation.PauseTransition;
 import javafx.animation.TranslateTransition;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -16,8 +17,7 @@ import javafx.scene.shape.Line;
 import javafx.scene.text.Font;
 import javafx.util.Duration;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class MapScene extends BaseScene {
     private final Pane root;
@@ -26,13 +26,14 @@ public class MapScene extends BaseScene {
     private final ImageView character;
     private final Map<String, MapNode> mapNodes = new HashMap<>();
     private String selectedAction = null;
+    private MapNode currentNode;
 
     public MapScene(double width, double height) {
         super(new Pane(), width, height);
         root = (Pane) getRoot();
 
-        // set background to grey
-        root.setStyle("-fx-background-color: grey;");
+        //set background to grey
+        root.setStyle("-fx-background-color: #484848;");
 
         // Load font
         Font baseFont = ResourceManager.getFont(ResourceName.FONT_DEPARTURE_MONO, 36);
@@ -68,8 +69,9 @@ public class MapScene extends BaseScene {
         character = new ImageView(GameLogic.getInstance().getSelectedCharacter().getImage());
         character.setFitWidth(50); // Set character size
         character.setFitHeight(50);
-        character.setLayoutX(225); // Initial position (same as "castle")
-        character.setLayoutY(540);
+//        character.setLayoutX(225); // Initial position (same as "castle")
+//        character.setLayoutY(540);
+
 
         // Create nodes
         createNode("castle", 175, 540, ResourceManager.getImage(ResourceName.IMAGE_MAP_CASTLE), "START",
@@ -124,6 +126,10 @@ public class MapScene extends BaseScene {
         addWinButton("BOSS", 950, 700, "BOSS");
 
         root.getChildren().add(character);
+
+        currentNode = mapNodes.get("castle");
+        character.setLayoutX(currentNode.getLayoutX());
+        character.setLayoutY(currentNode.getLayoutY());
     }
 
     private void createNode(String id, double x, double y, Image image, String action, String description) {
@@ -133,7 +139,7 @@ public class MapScene extends BaseScene {
             selectedAction = action;
             infoLabel.setText(id.toUpperCase() + " - " + description);
             confirmButton.setDisable(false); // Enable confirm button
-            moveCharacter(x, y);
+            moveCharacter(node);
         });
 
         root.getChildren().add(node.getStatusCircle()); // Add circle
@@ -144,7 +150,7 @@ public class MapScene extends BaseScene {
 
     // Update Map Color
 
-    private void updateNodeColors() {
+    public void updateNodeColors() {
         for (MapNode node : mapNodes.values()) {
             node.updateStatusColor();
         }
@@ -153,45 +159,102 @@ public class MapScene extends BaseScene {
     private void connectNodes(String from, String to) {
         MapNode node1 = mapNodes.get(from);
         MapNode node2 = mapNodes.get(to);
+
         if (node1 != null && node2 != null) {
+            // Add neighbors for pathfinding
+            node1.addNeighbor(node2);
+            node2.addNeighbor(node1);
+
+            // Draw a line to connect them visually
             Line line = new Line(
                     node1.getLayoutX() + 25, node1.getLayoutY() + 25,
                     node2.getLayoutX() + 25, node2.getLayoutY() + 25);
             line.setStyle("-fx-stroke: white; -fx-stroke-width: 2;");
-            root.getChildren().addFirst(line); // Add behind buttons
+            root.getChildren().addFirst(line);
         }
     }
 
-    // Helper method to determine circle color
-    private Color getNodeColor(String action) {
-        if ("BOSS".equals(action)) {
-            return Color.RED; // Boss fights
-        } else if (GameLogic.getInstance().isBattleCleared(action)) {
-            return Color.GREEN; // Won battles
-        } else if (GameLogic.getInstance().isBattleUnlocked(action)) {
-            return Color.YELLOW; // Playable battles
-        } else {
-            return Color.WHITE; // Locked battles
-        }
+    private void moveCharacter(MapNode targetNode) {
+        // Get starting node (character's current position)
+        MapNode startNode = currentNode;
+        System.out.println(startNode);
+        if (startNode == null || targetNode == null) return;
+
+        // Find shortest path using BFS
+        List<MapNode> path = findShortestPath(startNode, targetNode);
+        if (path == null || path.isEmpty()) return;
+
+        // Animate movement along the path
+        moveAlongPath(path);
+        currentNode = targetNode;
     }
 
-    private void moveCharacter(double targetX, double targetY) {
-        // Center the character on the target
-        System.out.println("-----------");
-        System.out.println(targetX);
-        System.out.println(targetY);
-        double finalX = targetX + 0; // Adjust if needed
-        double finalY = targetY + 0;
+    // 🔥 BFS to find the shortest path
+    private List<MapNode> findShortestPath(MapNode start, MapNode target) {
+        Map<MapNode, MapNode> cameFrom = new HashMap<>();
+        Queue<MapNode> queue = new LinkedList<>();
+        queue.add(start);
+        cameFrom.put(start, null);
 
-        TranslateTransition transition = new TranslateTransition(Duration.millis(500), character);
-        transition.setToX(50);
-        transition.setToY(0);
+        while (!queue.isEmpty()) {
+            MapNode current = queue.poll();
+            if (current == target) break; // Found the target node
+
+            for (MapNode neighbor : current.getNeighbors()) {
+                if (!cameFrom.containsKey(neighbor)) {
+                    queue.add(neighbor);
+                    cameFrom.put(neighbor, current);
+                }
+            }
+        }
+
+        // Reconstruct the path
+        List<MapNode> path = new ArrayList<>();
+        for (MapNode node = target; node != null; node = cameFrom.get(node)) {
+            path.add(node);
+        }
+        Collections.reverse(path); // Reverse to get the correct order
+
+        System.out.println(path);
+        return path.size() > 1 ? path : null;
+    }
+
+    // 🔥 Move character through the path step-by-step
+    private void moveAlongPath(List<MapNode> path) {
+        if (path == null || path.isEmpty()) return;
+
+        Iterator<MapNode> iterator = path.iterator();
+        moveToNextNode(iterator, path.size());
+    }
+
+    private void moveToNextNode(Iterator<MapNode> iterator, int totalTraveled) {
+        if (!iterator.hasNext()) return;
+
+        MapNode nextNode = iterator.next();
+        double targetX = nextNode.getLayoutX();
+        double targetY = nextNode.getLayoutY();
+
+        double deltaX = targetX - character.getLayoutX();
+        double deltaY = targetY - character.getLayoutY();
+        double timeFactor = 1000;
+        if(totalTraveled<=3){
+            timeFactor = 500;
+        }
+        TranslateTransition transition = new TranslateTransition(Duration.millis((double) timeFactor / totalTraveled), character);
+        transition.setByX(deltaX);
+        transition.setByY(deltaY);
         transition.play();
 
-        // Update character position after animation
         transition.setOnFinished(event -> {
-            character.setLayoutX(finalX);
-            character.setLayoutY(finalY);
+            character.setLayoutX(targetX);
+            character.setLayoutY(targetY);
+            character.setTranslateX(0);
+            character.setTranslateY(0);
+
+            // Move to the next node in the path after a slight pause
+            PauseTransition pause = new PauseTransition(Duration.millis(50));
+            pause.setOnFinished(e -> moveToNextNode(iterator, totalTraveled));
+            pause.play();
         });
     }
 
@@ -273,11 +336,11 @@ public class MapScene extends BaseScene {
                 }
                 break;
             case "STORE":
-                GameLogic.getInstance().getSceneManager().setScene("STORE_SCENE");
+                GameLogic.getInstance().getSceneManager().setScene(SceneName.SHOP);
                 break;
             case "UPGRADE":
                 if (GameLogic.getInstance().isBattleCleared("BATTLE5")) {
-                    GameLogic.getInstance().getSceneManager().setScene("forgePane");
+                    GameLogic.getInstance().getSceneManager().setScene(SceneName.ENCHANT);
                 } else {
                     infoLabel.setText("You must clear BATTLE5 first!");
                 }
@@ -298,7 +361,7 @@ public class MapScene extends BaseScene {
                 break;
             case "BOOK":
                 if (GameLogic.getInstance().isBattleCleared("BATTLE7")) {
-                    GameLogic.getInstance().getSceneManager().setScene("enchantPane");
+                    GameLogic.getInstance().getSceneManager().setScene(SceneName.ENCHANT);
                 } else {
                     infoLabel.setText("You must clear BATTLE7 first!");
                 }
