@@ -2,6 +2,7 @@ package dev.typeracist.typeracist.logic.characters.entity;
 
 import dev.typeracist.typeracist.logic.characters.Entity;
 import dev.typeracist.typeracist.logic.characters.HP;
+import dev.typeracist.typeracist.logic.characters.Skill;
 import dev.typeracist.typeracist.logic.characters.XP;
 import javafx.scene.image.Image;
 
@@ -13,14 +14,14 @@ public abstract class Character extends Entity {
     protected XP xp;
     protected int coin;
 
-    public Character(HP hp, int atk, int def, Image image) {
-        super(hp, atk, def, image);
+    public Character(HP hp, int atk, int def, Image image, Skill skill) {
+        super(hp, atk, def, image, skill);
         this.xp = new XP();
         this.coin = 0;
     }
 
-    public Character(int atk, int def, Image image) {
-        this(BASE_HP, atk, def, image);
+    public Character(int atk, int def, Image image, Skill skill) {
+        this(BASE_HP, atk, def, image, skill);
     }
 
     public int attack(Entity target, int rawDamage) {

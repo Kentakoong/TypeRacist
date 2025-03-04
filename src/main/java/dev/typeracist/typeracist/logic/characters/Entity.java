@@ -2,7 +2,7 @@ package dev.typeracist.typeracist.logic.characters;
 
 import javafx.scene.image.Image;
 
-public abstract class Entity {
+public class Entity {
     protected static final HP BASE_HP = new HP(50);
     protected static final int BASE_ATK = 2;
     protected static final int BASE_DEF = 5;
@@ -11,21 +11,38 @@ public abstract class Entity {
     protected int atk;
     protected int def;
     protected final Image image;
+    protected final Skill skill;
 
-    public Entity(String name, HP hp, int atk, int def, Image image) {
+    public Entity(String name, HP hp, int atk, int def, Image image, Skill skill) {
         this.name = name;
         this.hp = hp;
         this.atk = atk;
         this.def = def;
         this.image = image;
+        this.skill = skill;
     }
 
-    public Entity(HP hp, int atk, int def, Image image) {
+    public Entity(HP hp, int atk, int def, Image image, Skill skill) {
         this.name = getClass().getSimpleName();
         this.hp = hp;
         this.atk = atk;
         this.def = def;
         this.image = image;
+        this.skill = skill;
+    }
+
+    /**
+     * Copy constructor to create a deep copy of an Entity
+     * 
+     * @param other The Entity to copy from
+     */
+    public Entity(Entity other) {
+        this.name = new String(other.name);
+        this.hp = new HP(other.hp.getCurrentHP());
+        this.atk = other.atk;
+        this.def = other.def;
+        this.image = other.image;
+        this.skill = other.skill.copy();
     }
 
     public String getName() {
@@ -74,7 +91,4 @@ public abstract class Entity {
 
         return realDamage;
     }
-
-    // Abstract method for character-specific ability
-    public abstract void useAbility();
 }

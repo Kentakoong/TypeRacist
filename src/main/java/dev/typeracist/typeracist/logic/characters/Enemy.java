@@ -7,15 +7,15 @@ public class Enemy extends Entity {
     protected int dropCoin;
     protected String description;
 
-    public Enemy(HP hp, int atk, int def, Image image, String description) {
-        super(hp, atk, def, image);
+    public Enemy(HP hp, int atk, int def, Image image, String description, Skill skill) {
+        super(hp, atk, def, image, skill);
         this.description = description;
         this.dropXP = 0;
         this.dropCoin = 0;
     }
 
-    public Enemy(int atk, int def, Image image, String description) {
-        super(BASE_HP, atk, def, image);
+    public Enemy(int atk, int def, Image image, String description, Skill skill) {
+        super(BASE_HP, atk, def, image, skill);
         this.description = description;
         this.dropXP = 0;
         this.dropCoin = 0;
@@ -38,10 +38,5 @@ public class Enemy extends Entity {
 
     public String getDescription() {
         return description;
-    }
-
-    @Override
-    public void useAbility() {
-
     }
 }
