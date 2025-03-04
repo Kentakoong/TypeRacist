@@ -8,7 +8,6 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.util.Duration;
 
-
 // Don't adjust the spacing of this class in any way!,
 // it will break the cursor position adjustment logic (that is not considering the spacing)
 
@@ -26,8 +25,7 @@ public class CursorDynamicColorText extends DynamicColorText {
 
         blinkAnimation = new Timeline(
                 new KeyFrame(Duration.seconds(0.5), e -> sharedCursor.setVisible(false)),
-                new KeyFrame(Duration.seconds(1), e -> sharedCursor.setVisible(true))
-        );
+                new KeyFrame(Duration.seconds(1), e -> sharedCursor.setVisible(true)));
         blinkAnimation.setCycleCount(Timeline.INDEFINITE);
         blinkAnimation.play();
 
@@ -63,10 +61,11 @@ public class CursorDynamicColorText extends DynamicColorText {
         }
 
         /*
-        if the cursor is at the end of the word, the first method will not work.
-        this method instead calculate the cursor position based on bounding box of the last character.
-        (this method will incorrect shift in non monospace font)
-        */
+         * if the cursor is at the end of the word, the first method will not work.
+         * this method instead calculate the cursor position based on bounding box of
+         * the last character.
+         * (this method will incorrect shift in non monospace font)
+         */
 
         else if (!getChildren().isEmpty()) {
             Node refNode = getChildren().getLast();

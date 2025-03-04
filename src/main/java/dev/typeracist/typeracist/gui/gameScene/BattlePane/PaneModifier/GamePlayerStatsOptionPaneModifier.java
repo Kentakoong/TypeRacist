@@ -45,8 +45,7 @@ public class GamePlayerStatsOptionPaneModifier extends BasePaneModifier {
         battlePane.getInformationPane().getChildren().addAll(
                 playerStats,
                 spacing,
-                pressAnyKeyToContinue
-        );
+                pressAnyKeyToContinue);
         battlePane.requestFocus();
 
         // 0.5 seconds delay before
@@ -68,8 +67,7 @@ public class GamePlayerStatsOptionPaneModifier extends BasePaneModifier {
                             });
                             pressAnyKeyToContinue.setVisible(true); // Ensure the node is visible
                             fadeIn.play();
-                        }
-                )
-        ).play();
+                        }))
+                .play();
     }
 }

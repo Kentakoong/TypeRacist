@@ -67,8 +67,7 @@ public class TimedTypingPane extends TypingPane {
                 true,
                 true,
                 true,
-                true)
-        );
+                true));
 
         // Call the onStop callback, if it's set
         if (onStopCallback != null) {

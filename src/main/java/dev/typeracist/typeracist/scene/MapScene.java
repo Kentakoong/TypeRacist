@@ -31,7 +31,7 @@ public class MapScene extends BaseScene {
         super(new Pane(), width, height);
         root = (Pane) getRoot();
 
-        //set background to grey
+        // set background to grey
         root.setStyle("-fx-background-color: grey;");
 
         // Load font
@@ -44,7 +44,6 @@ public class MapScene extends BaseScene {
         titleLabel.setLayoutY(10);
         titleLabel.setFont(Font.font(baseFont.getName(), 36));
         root.getChildren().add(titleLabel);
-
 
         // Info Label to show node descriptions
         infoLabel = new Label("Select a location.");
@@ -73,7 +72,8 @@ public class MapScene extends BaseScene {
         character.setLayoutY(540);
 
         // Create nodes
-        createNode("castle", 175, 540, ResourceManager.getImage(ResourceName.IMAGE_MAP_CASTLE), "START", "The starting point of your journey.");
+        createNode("castle", 175, 540, ResourceManager.getImage(ResourceName.IMAGE_MAP_CASTLE), "START",
+                "The starting point of your journey.");
         createNode("shop", 300, 570, ResourceManager.getImage(ResourceName.IMAGE_MAP_SHOP), "STORE", "tmp");
         createNode("book", 590, 130, ResourceManager.getImage(ResourceName.IMAGE_MAP_BOOK), "BOOK", "tmp");
         createNode("chest1", 275, 160, ResourceManager.getImage(ResourceName.IMAGE_MAP_CHEST), "REWARD1", "tmp");
@@ -126,7 +126,6 @@ public class MapScene extends BaseScene {
         root.getChildren().add(character);
     }
 
-
     private void createNode(String id, double x, double y, Image image, String action, String description) {
         MapNode node = new MapNode(x, y, image, action);
 
@@ -143,7 +142,7 @@ public class MapScene extends BaseScene {
         mapNodes.put(id, node);
     }
 
-    //Update Map Color
+    // Update Map Color
 
     private void updateNodeColors() {
         for (MapNode node : mapNodes.values()) {
@@ -151,15 +150,13 @@ public class MapScene extends BaseScene {
         }
     }
 
-
     private void connectNodes(String from, String to) {
         MapNode node1 = mapNodes.get(from);
         MapNode node2 = mapNodes.get(to);
         if (node1 != null && node2 != null) {
             Line line = new Line(
                     node1.getLayoutX() + 25, node1.getLayoutY() + 25,
-                    node2.getLayoutX() + 25, node2.getLayoutY() + 25
-            );
+                    node2.getLayoutX() + 25, node2.getLayoutY() + 25);
             line.setStyle("-fx-stroke: white; -fx-stroke-width: 2;");
             root.getChildren().addFirst(line); // Add behind buttons
         }
@@ -177,7 +174,6 @@ public class MapScene extends BaseScene {
             return Color.WHITE; // Locked battles
         }
     }
-
 
     private void moveCharacter(double targetX, double targetY) {
         // Center the character on the target

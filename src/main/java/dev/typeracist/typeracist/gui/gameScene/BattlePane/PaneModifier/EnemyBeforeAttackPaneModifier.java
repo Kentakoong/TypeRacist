@@ -34,8 +34,7 @@ public class EnemyBeforeAttackPaneModifier extends BasePaneModifier {
         Label defenseWarningLabel = new Label(
                 context.getEnemy().getName()
                         + " is going to attack you, "
-                        + GameLogic.getInstance().getPlayerName()
-        );
+                        + GameLogic.getInstance().getPlayerName());
 
         defenseWarningLabel.setFont(ResourceManager.getFont(ResourceName.FONT_DEPARTURE_MONO, 18));
 
@@ -52,8 +51,7 @@ public class EnemyBeforeAttackPaneModifier extends BasePaneModifier {
         battlePane.getInformationPane().getChildren().addAll(
                 defenseWarningLabel,
                 spacing,
-                pressAnyKeyToContinue
-        );
+                pressAnyKeyToContinue);
 
         // 0.5 seconds delay before
         new Timeline(
@@ -75,8 +73,7 @@ public class EnemyBeforeAttackPaneModifier extends BasePaneModifier {
                             });
                             pressAnyKeyToContinue.setVisible(true); // Ensure the node is visible
                             fadeIn.play();
-                        }
-                )
-        ).play();
+                        }))
+                .play();
     }
 }

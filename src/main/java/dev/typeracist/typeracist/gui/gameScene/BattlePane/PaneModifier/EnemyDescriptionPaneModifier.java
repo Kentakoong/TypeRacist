@@ -24,8 +24,7 @@ public class EnemyDescriptionPaneModifier extends BasePaneModifier {
         enemyDescriptionLabel.setFont(ResourceManager.getFont(ResourceName.FONT_DEPARTURE_MONO, 18));
 
         battlePane.getInformationPane().getChildren().addAll(
-                enemyDescriptionLabel
-        );
+                enemyDescriptionLabel);
 
         manager.setReversibleState(BattlePaneState.ENEMY_DESCRIPTION);
         returnControl();

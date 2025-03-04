@@ -62,7 +62,8 @@ public class DatasetManager {
         for (Dataset dataset : datasets.values()) {
             paragraphsInRange.addAll(dataset.getParagraphsByScoreRange(minScore, maxScore));
         }
-        return paragraphsInRange.isEmpty() ? null : paragraphsInRange.get(new Random().nextInt(paragraphsInRange.size()));
+        return paragraphsInRange.isEmpty() ? null
+                : paragraphsInRange.get(new Random().nextInt(paragraphsInRange.size()));
     }
 
     public List<String> getWordsByScoreRange(double minScore, double maxScore) {
@@ -94,7 +95,8 @@ public class DatasetManager {
         for (Dataset dataset : datasets.values()) {
             allParagraphs.addAll(dataset.getParagraphs());
         }
-        if (allParagraphs.isEmpty()) return null;
+        if (allParagraphs.isEmpty())
+            return null;
         return Arrays.asList(allParagraphs.get(new Random().nextInt(allParagraphs.size())).split("\\s+"));
     }
 }

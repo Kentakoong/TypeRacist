@@ -27,7 +27,6 @@ public class MainScene extends BaseScene {
         titleLabel.setLayoutY(10);
         titleLabel.setFont(Font.font(baseFont.getName(), 36));
 
-
         assert GameLogic.getInstance().getSceneManager().sceneExists(SceneName.CHARACTERS);
         assert GameLogic.getInstance().getSceneManager().sceneExists(SceneName.SETTINGS);
 
@@ -49,33 +48,35 @@ public class MainScene extends BaseScene {
 
         Button testSceneButton = new Button("Test Scene");
         testSceneButton.setPrefWidth(200);
-        testSceneButton.setOnAction(event -> GameLogic.getInstance().getSceneManager().setScene(SceneName.DYNAMIC_PANE_TEST));
-
+        testSceneButton
+                .setOnAction(event -> GameLogic.getInstance().getSceneManager().setScene(SceneName.DYNAMIC_PANE_TEST));
 
         Button testKeyBoardPaneSceneButton = new Button("Keyboard Test Scene");
         testKeyBoardPaneSceneButton.setPrefWidth(200);
-        testKeyBoardPaneSceneButton.setOnAction(event -> GameLogic.getInstance().getSceneManager().setScene(SceneName.KEYBOARD_TEST));
+        testKeyBoardPaneSceneButton
+                .setOnAction(event -> GameLogic.getInstance().getSceneManager().setScene(SceneName.KEYBOARD_TEST));
 
         Button testShopPaneSceneButton = new Button("Shop Test Scene");
         testShopPaneSceneButton.setPrefWidth(200);
-        testShopPaneSceneButton.setOnAction(event -> GameLogic.getInstance().getSceneManager().setScene(SceneName.SHOP));
+        testShopPaneSceneButton
+                .setOnAction(event -> GameLogic.getInstance().getSceneManager().setScene(SceneName.SHOP));
 
         Button testBattleScene = new Button("Battle Test Scene");
         testBattleScene.setPrefWidth(200);
         testBattleScene.setOnAction(event -> {
-                    try {
-                        GameLogic.getInstance().getSceneManager().setScene(SceneName.BATTLE_TEST);
-                    } catch (IllegalArgumentException e) {
-                        Alert alert = new Alert(Alert.AlertType.ERROR);
-                        alert.setTitle("Error");
-                        alert.setHeaderText("Scene is not loaded.");
-                        alert.setContentText("Please wait for scene to load, try again in a few seconds.");
-                        alert.showAndWait();
-                    }
-                }
-        );
+            try {
+                GameLogic.getInstance().getSceneManager().setScene(SceneName.BATTLE_TEST);
+            } catch (IllegalArgumentException e) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error");
+                alert.setHeaderText("Scene is not loaded.");
+                alert.setContentText("Please wait for scene to load, try again in a few seconds.");
+                alert.showAndWait();
+            }
+        });
 
-        buttonBar.getChildren().addAll(startButton, settingsButton, exitButton, testSceneButton, testKeyBoardPaneSceneButton, testBattleScene, testShopPaneSceneButton);
+        buttonBar.getChildren().addAll(startButton, settingsButton, exitButton, testSceneButton,
+                testKeyBoardPaneSceneButton, testBattleScene, testShopPaneSceneButton);
         root.getChildren().addAll(titleLabel, buttonBar);
     }
 

@@ -44,8 +44,7 @@ public class TypingInfoPaneModifier extends BaseInfoPaneModifier {
         TimedTypingPane pane = new TimedTypingPane(
                 GameLogic.getInstance().getDatasetManager()
                         .getDataSet(DatasetName.COMMON_WORDS_1K)
-                        .getRandomWordsByScoreRange(4, 7, 50)
-        );
+                        .getRandomWordsByScoreRange(4, 7, 50));
 
         pane.setHighlightColors(pane.getBaseColor(), Color.BLACK, Color.TOMATO, Color.DARKRED);
         pane.setFont(ResourceManager.getFont(ResourceName.FONT_DEPARTURE_MONO, 24));

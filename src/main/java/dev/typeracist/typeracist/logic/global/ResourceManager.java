@@ -1,6 +1,5 @@
 package dev.typeracist.typeracist.logic.global;
 
-
 import javafx.scene.image.Image;
 import javafx.scene.text.Font;
 

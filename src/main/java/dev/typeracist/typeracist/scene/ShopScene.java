@@ -39,14 +39,14 @@ public class ShopScene extends BaseScene {
 
         Pane BackgroundPane = new Pane();
         BackgroundPane.setStyle("-fx-background-color: #000000;");
-        BackgroundPane.setPrefSize(700,525);
+        BackgroundPane.setPrefSize(700, 525);
         BackgroundPane.setLayoutX(50);
         BackgroundPane.setLayoutY(100);
         root.getChildren().add(BackgroundPane);
 
         Pane AnotherBackgroundPane = new Pane();
         AnotherBackgroundPane.setStyle("-fx-background-color: #ABABAB;");
-        AnotherBackgroundPane.setPrefSize(690,515);
+        AnotherBackgroundPane.setPrefSize(690, 515);
         AnotherBackgroundPane.setLayoutX(55);
         AnotherBackgroundPane.setLayoutY(105);
         root.getChildren().add(AnotherBackgroundPane);
@@ -66,12 +66,18 @@ public class ShopScene extends BaseScene {
         root.getChildren().add(shopMasterText);
 
         // Creating shop items
-        createShopItem("Healing Potion", "Heal your character by 20 HP.", 15, 100, ResourceName.IMAGE_SHOP_HEALING_POTION);
-        createShopItem("Time Potion", "Increase the timer by 2.5 seconds. 1 turn.", 25, 170, ResourceName.IMAGE_SHOP_TIME_POTION);
-        createShopItem("Potion of Typeswift", "Increase your CPS by x1.25. 1 turn.", 30, 240, ResourceName.IMAGE_SHOP_POTION_OF_TYPESWIFT);
-        createShopItem("Fried Chicken", "Heal your character by 10 HP, lasts for 2 turns.", 20, 310, ResourceName.IMAGE_SHOP_FRIED_CHICKEN);
-        createShopItem("Whirlwind Dagger", "ATK +6. Stun enemy every 3 turns.", 34, 380, ResourceName.IMAGE_SHOP_WHIRLWIND_DAGGER);
-        createShopItem("Wooden Shield", "Reliable wooden shield. DEF +2.", 7, 450, ResourceName.IMAGE_SHOP_WOODEN_SHIELD);
+        createShopItem("Healing Potion", "Heal your character by 20 HP.", 15, 100,
+                ResourceName.IMAGE_SHOP_HEALING_POTION);
+        createShopItem("Time Potion", "Increase the timer by 2.5 seconds. 1 turn.", 25, 170,
+                ResourceName.IMAGE_SHOP_TIME_POTION);
+        createShopItem("Potion of Typeswift", "Increase your CPS by x1.25. 1 turn.", 30, 240,
+                ResourceName.IMAGE_SHOP_POTION_OF_TYPESWIFT);
+        createShopItem("Fried Chicken", "Heal your character by 10 HP, lasts for 2 turns.", 20, 310,
+                ResourceName.IMAGE_SHOP_FRIED_CHICKEN);
+        createShopItem("Whirlwind Dagger", "ATK +6. Stun enemy every 3 turns.", 34, 380,
+                ResourceName.IMAGE_SHOP_WHIRLWIND_DAGGER);
+        createShopItem("Wooden Shield", "Reliable wooden shield. DEF +2.", 7, 450,
+                ResourceName.IMAGE_SHOP_WOODEN_SHIELD);
         createShopItem("Typewriter", "Nothing, just a typewriter.", 696969, 520, ResourceName.IMAGE_SHOP_TYPEWRITER);
 
         Button returnButton = new Button("Return to Map");
@@ -79,7 +85,7 @@ public class ShopScene extends BaseScene {
         returnButton.setLayoutY(675);
         returnButton.setPrefWidth(150);
         returnButton.setPrefHeight(40);
-//        returnButton.setOnAction(event -> SceneManager.setScene(SceneName.MAP));
+        // returnButton.setOnAction(event -> SceneManager.setScene(SceneName.MAP));
         root.getChildren().add(returnButton);
     }
 
@@ -129,13 +135,10 @@ public class ShopScene extends BaseScene {
         root.getChildren().add(buyButton);
     }
 
-
-
-
-//    private void purchaseItem(String item) {
-//        GameLogic.getInstance().purchaseItem(item);
-//        infoLabel.setText(item + " purchased!");
-//    }
+    // private void purchaseItem(String item) {
+    // GameLogic.getInstance().purchaseItem(item);
+    // infoLabel.setText(item + " purchased!");
+    // }
 
     @Override
     public void onSceneEnter() {

@@ -14,13 +14,20 @@ public class TypingHardness {
     private static final Set<Character> PINKY_KEYS = new HashSet<>();
 
     static {
-        for (char c : "qwertasdfgzxcvb".toCharArray()) LEFT_HAND.add(c);
-        for (char c : "yuiophjklnm".toCharArray()) RIGHT_HAND.add(c);
-        for (char c : "qwertyuiop1234567890".toCharArray()) TOP_ROW.add(c);
-        for (char c : "zxcvbnm".toCharArray()) BOTTOM_ROW.add(c);
-        for (char c : "1234567890".toCharArray()) NUMBERS.add(c);
-        for (char c : "`~!@#$%^&*()-_=+[{]};:'\",<.>/?\\|".toCharArray()) SPECIAL_CHARS.add(c);
-        for (char c : "qazp;~!@_+{}[]|\\".toCharArray()) PINKY_KEYS.add(c);
+        for (char c : "qwertasdfgzxcvb".toCharArray())
+            LEFT_HAND.add(c);
+        for (char c : "yuiophjklnm".toCharArray())
+            RIGHT_HAND.add(c);
+        for (char c : "qwertyuiop1234567890".toCharArray())
+            TOP_ROW.add(c);
+        for (char c : "zxcvbnm".toCharArray())
+            BOTTOM_ROW.add(c);
+        for (char c : "1234567890".toCharArray())
+            NUMBERS.add(c);
+        for (char c : "`~!@#$%^&*()-_=+[{]};:'\",<.>/?\\|".toCharArray())
+            SPECIAL_CHARS.add(c);
+        for (char c : "qazp;~!@_+{}[]|\\".toCharArray())
+            PINKY_KEYS.add(c);
     }
 
     public static double paragraphTypingHardness(String paragraph) {
@@ -84,22 +91,29 @@ public class TypingHardness {
 
         for (char ch : word.toCharArray()) {
             boolean shiftNeeded = Character.isUpperCase(ch) || "!@#$%^&*()_+{}:\"<>?".indexOf(ch) != -1;
-            if (shiftNeeded) score += 1.5; // Shift key adds more difficulty
+            if (shiftNeeded)
+                score += 1.5; // Shift key adds more difficulty
 
-            if (NUMBERS.contains(ch)) score += 1; // Numbers are slightly harder to type
-            if (SPECIAL_CHARS.contains(ch)) score += 2; // Special characters are awkward to type
-            if (PINKY_KEYS.contains(Character.toLowerCase(ch))) score += 1; // Pinky finger is weaker
+            if (NUMBERS.contains(ch))
+                score += 1; // Numbers are slightly harder to type
+            if (SPECIAL_CHARS.contains(ch))
+                score += 2; // Special characters are awkward to type
+            if (PINKY_KEYS.contains(Character.toLowerCase(ch)))
+                score += 1; // Pinky finger is weaker
 
             // Determine row difficulty
-            if (BOTTOM_ROW.contains(Character.toLowerCase(ch))) score += 1; // Bottom row is harder
-            if (TOP_ROW.contains(Character.toLowerCase(ch))) score -= 0.1; // Top row is easier
+            if (BOTTOM_ROW.contains(Character.toLowerCase(ch)))
+                score += 1; // Bottom row is harder
+            if (TOP_ROW.contains(Character.toLowerCase(ch)))
+                score -= 0.1; // Top row is easier
 
             // Determine hand usage
-            String hand = LEFT_HAND.contains(Character.toLowerCase(ch)) ? "left" :
-                    RIGHT_HAND.contains(Character.toLowerCase(ch)) ? "right" : null;
+            String hand = LEFT_HAND.contains(Character.toLowerCase(ch)) ? "left"
+                    : RIGHT_HAND.contains(Character.toLowerCase(ch)) ? "right" : null;
 
             // Penalize for not alternating hands
-            if (prevHand != null && prevHand.equals(hand)) score += 0.5;
+            if (prevHand != null && prevHand.equals(hand))
+                score += 0.5;
 
             // Check for same-character repetition
             if (prevChar != null && prevChar == ch) {

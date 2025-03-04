@@ -9,7 +9,6 @@ abstract public class BasePaneModifier {
     protected BattlePaneStateContext context;
     private BattlePaneStateManager manager;
 
-
     public BasePaneModifier(BattlePane battlePane, BattlePaneStateContext context) {
         this.battlePane = battlePane;
         this.context = context;

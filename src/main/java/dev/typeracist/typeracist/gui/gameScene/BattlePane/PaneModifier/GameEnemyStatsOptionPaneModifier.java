@@ -44,8 +44,7 @@ public class GameEnemyStatsOptionPaneModifier extends BasePaneModifier {
         battlePane.getInformationPane().getChildren().addAll(
                 enemyStats,
                 spacing,
-                pressAnyKeyToContinue
-        );
+                pressAnyKeyToContinue);
 
         battlePane.requestFocus();
 
@@ -67,8 +66,7 @@ public class GameEnemyStatsOptionPaneModifier extends BasePaneModifier {
                             });
                             pressAnyKeyToContinue.setVisible(true); // Ensure the node is visible
                             fadeIn.play();
-                        }
-                )
-        ).play();
+                        }))
+                .play();
     }
 }
