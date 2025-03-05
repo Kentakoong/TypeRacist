@@ -357,11 +357,8 @@ public class BattlePane extends VBox {
         playerHealthBar.updateHealthBar(GameLogic.getInstance().getSelectedCharacter().getHp());
         enemyHealthBar.updateHealthBar(battlePaneStateContext.getEnemy().getHp());
 
-        System.out.println("statecontext: " + battlePaneStateContext.getEnemy());
-        System.out.println("character: " + GameLogic.getInstance().getSelectedCharacter().getHp());
     }
 
-    // Getters
     public BattlePaneStateContext getStateContext() {
         return battlePaneStateContext;
     }
