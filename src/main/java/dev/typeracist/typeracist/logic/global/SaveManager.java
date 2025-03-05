@@ -106,7 +106,7 @@ public class SaveManager {
 
     public static void loadSettings() {
         JSONObject saveData = loadExistingSave(SAVE_FILE_SETTINGS);
-        GameLogic.getInstance().getMusicPlayer().setVolumeLevel(saveData.optInt(SAVE_DIRECTORY, 3));
+        GameLogic.getInstance().getMusicPlayer().setVolumeLevel(saveData.optInt("volume", 3));
     }
 
     public static void saveSettings() {
