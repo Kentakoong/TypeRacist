@@ -147,7 +147,7 @@ public class ItemInfoPaneModifier extends BaseInfoPaneModifier {
                 battlePane.updateHealthBars();
             }
             if (item instanceof ActivateOnTurn) {
-                battlePane.getStateContext().getCurrentTurnContext().addItemUsed((Item & ActivateOnTurn) item);
+                battlePane.getStateContext().getCurrentTurnContext().addItemUsed((Item & ActivateOnTurn) item.copy());
             }
 
             if (GameLogic.getInstance().getSelectedCharacter().getInventory().getItemAmount(item) == 0) {

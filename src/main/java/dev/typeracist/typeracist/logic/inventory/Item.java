@@ -3,7 +3,7 @@ package dev.typeracist.typeracist.logic.inventory;
 import dev.typeracist.typeracist.logic.global.ResourceManager;
 import javafx.scene.image.Image;
 
-public class Item {
+public abstract class Item {
     private final String name;
     private final String description;
     private final int price;
@@ -31,4 +31,6 @@ public class Item {
     public Image getImage() {
         return image;
     }
+
+    public abstract Item copy();
 }

@@ -21,4 +21,9 @@ public class Typewriter extends Item implements ActivateNow {
                 3000
         );
     }
+
+    @Override
+    public Item copy() {
+        return new Typewriter();
+    }
 }
