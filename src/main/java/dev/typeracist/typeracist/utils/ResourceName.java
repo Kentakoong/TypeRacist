@@ -63,7 +63,7 @@ public class ResourceName {
     public static final String IMAGE_CHEST_OPENED = ResourceBasePath.IMAGE_PATH + "/chest/opened.png";
 
     // Music files
-    public static final String MUSIC_MAIN_THEME = ResourceBasePath.MUSIC_PATH + "/main_theme.mp3";
-    public static final String MUSIC_BATTLE_THEME = ResourceBasePath.MUSIC_PATH + "/battle_theme.mp3";
-    public static final String MUSIC_SHOP_THEME = ResourceBasePath.MUSIC_PATH + "/shop_theme.mp3";
+    public static final String MUSIC_MAIN_THEME = ResourceBasePath.MUSIC_PATH + "/main_theme.wav";
+    public static final String MUSIC_BATTLE_THEME = ResourceBasePath.MUSIC_PATH + "/battle_theme.wav";
+    public static final String MUSIC_SHOP_THEME = ResourceBasePath.MUSIC_PATH + "/shop_theme.wav";
 }
