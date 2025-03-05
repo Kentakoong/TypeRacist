@@ -88,13 +88,21 @@ public class SaveManager {
         characterData.put(currentDifficulty.name(), difficultyData);
         saveData.put(characterType, characterData);
 
-        // Write back to file
-        try (FileWriter file = new FileWriter(SAVE_FILE_CHARACTER)) {
+        // Ensure the directory exists before saving
+        File saveFile = new File(SAVE_FILE_CHARACTER);
+        File parentDir = saveFile.getParentFile(); // Get the parent directory
+
+        if (parentDir != null && !parentDir.exists()) {
+            parentDir.mkdirs(); // Create directories if they don't exist
+        }
+
+        try (FileWriter file = new FileWriter(saveFile)) {
             file.write(saveData.toString(2)); // Pretty print
             System.out.println("Character saved successfully to " + SAVE_FILE_CHARACTER);
         } catch (IOException e) {
             System.err.println("Error saving character: " + e.getMessage());
         }
+
     }
 
     private static JSONObject loadExistingSave(String fileName) {

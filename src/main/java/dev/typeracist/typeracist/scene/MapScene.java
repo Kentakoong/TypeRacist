@@ -372,47 +372,38 @@ public class MapScene extends BaseScene {
         // Format: action -> [targetScene, prerequisite, requireAllPrevious]
         // Battle scenes - third parameter indicates if all previous battles must be
         // cleared
-        navigationMap.put("BATTLE1", new Object[] { SceneName.BATTLE_SCENE1, null, false });
-        navigationMap.put("BATTLE2", new Object[] { SceneName.BATTLE_SCENE2, "BATTLE1", true });
-        navigationMap.put("BATTLE3", new Object[] { SceneName.BATTLE_SCENE3, "BATTLE2", true });
-        navigationMap.put("BATTLE4", new Object[] { SceneName.BATTLE_SCENE4, "BATTLE3", true });
-        navigationMap.put("BATTLE5", new Object[] { SceneName.BATTLE_SCENE5, "BATTLE4", true });
-        navigationMap.put("BATTLE6", new Object[] { SceneName.BATTLE_SCENE6, "BATTLE5", true });
-        navigationMap.put("BATTLE7", new Object[] { SceneName.BATTLE_SCENE7, "BATTLE6", true });
-        navigationMap.put("BATTLE8", new Object[] { SceneName.BATTLE_SCENE8, "BATTLE7", true });
-        navigationMap.put("BATTLE9", new Object[] { SceneName.BATTLE_SCENE9, "BATTLE8", true });
+        navigationMap.put("BATTLE1", new Object[] { SceneName.BATTLE_SCENE1, null });
+        navigationMap.put("BATTLE2", new Object[] { SceneName.BATTLE_SCENE2, "BATTLE1" });
+        navigationMap.put("BATTLE3", new Object[] { SceneName.BATTLE_SCENE3, "BATTLE2" });
+        navigationMap.put("BATTLE4", new Object[] { SceneName.BATTLE_SCENE4, "BATTLE3" });
+        navigationMap.put("BATTLE5", new Object[] { SceneName.BATTLE_SCENE5, "BATTLE4" });
+        navigationMap.put("BATTLE6", new Object[] { SceneName.BATTLE_SCENE6, "BATTLE5" });
+        navigationMap.put("BATTLE7", new Object[] { SceneName.BATTLE_SCENE7, "BATTLE6" });
+        navigationMap.put("BATTLE8", new Object[] { SceneName.BATTLE_SCENE8, "BATTLE7" });
+        navigationMap.put("BATTLE9", new Object[] { SceneName.BATTLE_SCENE9, "BATTLE8" });
 
         // Other scenes with prerequisites - some may require all previous battles to be
         // cleared
-        navigationMap.put("REWARD1", new Object[] { SceneName.CHEST, "BATTLE4", false });
-        navigationMap.put("REWARD2", new Object[] { SceneName.CHEST, "BATTLE9", false });
-        navigationMap.put("UPGRADE", new Object[] { SceneName.FORGE, "BATTLE5", false });
-        navigationMap.put("BOSS", new Object[] { SceneName.BOSS_SCENE, "BATTLE9", true });
-        navigationMap.put("NEXT", new Object[] { SceneName.NEXT_MAP, "BOSS", true });
-        navigationMap.put("BOOK", new Object[] { SceneName.ENCHANT, "BATTLE7", false });
+        navigationMap.put("REWARD1", new Object[] { SceneName.CHEST, "BATTLE4" });
+        navigationMap.put("REWARD2", new Object[] { SceneName.CHEST, "BATTLE9" });
+        navigationMap.put("UPGRADE", new Object[] { SceneName.FORGE, "BATTLE5" });
+        navigationMap.put("BOSS", new Object[] { SceneName.BOSS_SCENE, "BATTLE9" });
+        navigationMap.put("NEXT", new Object[] { SceneName.NEXT_MAP, "BOSS" });
+        navigationMap.put("BOOK", new Object[] { SceneName.ENCHANT, "BATTLE7" });
 
         // Process navigation based on the map
         Object[] rule = navigationMap.get(action);
         if (rule != null) {
             String targetScene = (String) rule[0];
             String prerequisite = (String) rule[1];
-            boolean requireAllPrevious = (boolean) rule[2];
 
             // Check if the battle is accessible
-            boolean canAccess = prerequisite == null ||
-                    (requireAllPrevious ? GameLogic.getInstance().areAllPreviousBattlesCleared(action)
-                            : GameLogic.getInstance().isBattleCleared(prerequisite));
+            boolean canAccess = prerequisite == null || GameLogic.getInstance().isBattleCleared(prerequisite);
 
             if (canAccess) {
                 GameLogic.getInstance().getSceneManager().setScene(targetScene);
             } else {
-                if (prerequisite != null) {
-                    if (requireAllPrevious) {
-                        infoLabel.setText("You must clear all previous battles first!");
-                    } else {
-                        infoLabel.setText("You must clear " + prerequisite + " first!");
-                    }
-                }
+                infoLabel.setText("You must clear " + prerequisite + " first!");
             }
         }
     }
