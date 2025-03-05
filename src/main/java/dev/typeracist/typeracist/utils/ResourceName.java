@@ -5,6 +5,7 @@ class ResourceBasePath {
     public static final String IMAGE_PATH = BASE_PATH + "/image";
     public static final String FONT_PATH = BASE_PATH + "/fonts";
     public static final String DATASET_PATH = BASE_PATH + "/datasets";
+    public static final String MUSIC_PATH = BASE_PATH + "/music";
 }
 
 public class ResourceName {
@@ -42,7 +43,8 @@ public class ResourceName {
 
     public static final String IMAGE_SHOP_HEALING_POTION = ResourceBasePath.IMAGE_PATH + "/shop/healing_potion.png";
     public static final String IMAGE_SHOP_TIME_POTION = ResourceBasePath.IMAGE_PATH + "/shop/time_potion.png";
-    public static final String IMAGE_SHOP_POTION_OF_TYPESWIFT = ResourceBasePath.IMAGE_PATH + "/shop/typeswift_potion.png";
+    public static final String IMAGE_SHOP_POTION_OF_TYPESWIFT = ResourceBasePath.IMAGE_PATH
+            + "/shop/typeswift_potion.png";
     public static final String IMAGE_SHOP_FRIED_CHICKEN = ResourceBasePath.IMAGE_PATH + "/shop/fried_chicken.png";
     public static final String IMAGE_SHOP_WHIRLWIND_DAGGER = ResourceBasePath.IMAGE_PATH + "/shop/whirlwind_dagger.png";
     public static final String IMAGE_SHOP_WOODEN_SHIELD = ResourceBasePath.IMAGE_PATH + "/shop/wooden_shield.png";
@@ -51,11 +53,17 @@ public class ResourceName {
 
     public static final String IMAGE_ENCHANT_PLUS = ResourceBasePath.IMAGE_PATH + "/enchant/enchant_plus.png";
     public static final String IMAGE_ENCHANT_TO = ResourceBasePath.IMAGE_PATH + "/enchant/enchant_to.png";
-    public static final String IMAGE_ENCHANT_ENCHANTED_WEAPON = ResourceBasePath.IMAGE_PATH + "/enchant/enchanted_weapon.png";
+    public static final String IMAGE_ENCHANT_ENCHANTED_WEAPON = ResourceBasePath.IMAGE_PATH
+            + "/enchant/enchanted_weapon.png";
     public static final String IMAGE_ENCHANT_SCROLL = ResourceBasePath.IMAGE_PATH + "/enchant/scroll.png";
     public static final String IMAGE_ENCHANT_WEAPON = ResourceBasePath.IMAGE_PATH + "/enchant/weapon.png";
     public static final String IMAGE_ENCHANT_SPACE = ResourceBasePath.IMAGE_PATH + "/enchant/space.png";
 
     public static final String IMAGE_CHEST_CLOSE = ResourceBasePath.IMAGE_PATH + "/chest/closed.png";
     public static final String IMAGE_CHEST_OPENED = ResourceBasePath.IMAGE_PATH + "/chest/opened.png";
+
+    // Music files
+    public static final String MUSIC_MAIN_THEME = ResourceBasePath.MUSIC_PATH + "/main_theme.mp3";
+    public static final String MUSIC_BATTLE_THEME = ResourceBasePath.MUSIC_PATH + "/battle_theme.mp3";
+    public static final String MUSIC_SHOP_THEME = ResourceBasePath.MUSIC_PATH + "/shop_theme.mp3";
 }

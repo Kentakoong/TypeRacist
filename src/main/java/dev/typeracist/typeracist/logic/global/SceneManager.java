@@ -45,8 +45,10 @@ public class SceneManager {
         popupLayout.setAlignment(Pos.CENTER);
         popupLayout.setPadding(new Insets(10));
         popupLayout.setMinSize(width, height);
-        popupLayout.setBackground(new Background(new BackgroundFill(Color.LIGHTGREY, new CornerRadii(10), Insets.EMPTY)));
-        popupLayout.setBorder(new Border(new BorderStroke(Color.DARKGRAY, BorderStrokeStyle.SOLID, new CornerRadii(10), new BorderWidths(2))));
+        popupLayout
+                .setBackground(new Background(new BackgroundFill(Color.LIGHTGREY, new CornerRadii(10), Insets.EMPTY)));
+        popupLayout.setBorder(new Border(
+                new BorderStroke(Color.DARKGRAY, BorderStrokeStyle.SOLID, new CornerRadii(10), new BorderWidths(2))));
         popupLayout.setOpacity(0);
 
         Button closeButton = new ThemedButton("Close", Color.web("#C3C3C3"));
@@ -123,8 +125,10 @@ public class SceneManager {
         content.setPadding(new Insets(20));
 
         // Initial Background Color (Light Grey)
-        Background defaultBackground = new Background(new BackgroundFill(Color.LIGHTGREY, new CornerRadii(10), Insets.EMPTY));
-        Background fadeBackground = new Background(new BackgroundFill(Color.DARKGRAY, new CornerRadii(10), Insets.EMPTY));
+        Background defaultBackground = new Background(
+                new BackgroundFill(Color.LIGHTGREY, new CornerRadii(10), Insets.EMPTY));
+        Background fadeBackground = new Background(
+                new BackgroundFill(Color.DARKGRAY, new CornerRadii(10), Insets.EMPTY));
 
         content.setBackground(defaultBackground);
         content.getChildren().addAll(titleLabel, descriptionLabel);
@@ -163,11 +167,9 @@ public class SceneManager {
 
                 // Hide popup after animation
                 new KeyFrame(Duration.millis(250 + data.durationInMilliseconds),
-                        event -> breadcrumb.hide())
-        );
+                        event -> breadcrumb.hide()));
         timeline.play();
     }
-
 
     public void addScene(String name, BaseScene scene) {
         scenes.put(name, scene);
@@ -208,6 +210,9 @@ public class SceneManager {
         sceneHistoryManager.addSceneToHistory(name);
         BaseScene newScene = scenes.get(name);
         applyFadeTransition(primaryStage.getScene(), newScene);
+
+        // Play appropriate music for the scene
+        GameLogic.getInstance().getMusicPlayer().playMusicForScene(name);
 
         newScene.onSceneEnter();
     }
