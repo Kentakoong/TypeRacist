@@ -1,5 +1,14 @@
 package dev.typeracist.typeracist.scene;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Queue;
+
 import dev.typeracist.typeracist.gui.gameScene.MapNode;
 import dev.typeracist.typeracist.logic.global.GameLogic;
 import dev.typeracist.typeracist.logic.global.ResourceManager;
@@ -12,12 +21,9 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import javafx.scene.text.Font;
 import javafx.util.Duration;
-
-import java.util.*;
 
 public class MapScene extends BaseScene {
     private final Pane root;
@@ -32,7 +38,7 @@ public class MapScene extends BaseScene {
         super(new Pane(), width, height);
         root = (Pane) getRoot();
 
-        //set background to grey
+        // set background to grey
         root.setStyle("-fx-background-color: #484848;");
 
         // Load font
@@ -69,9 +75,8 @@ public class MapScene extends BaseScene {
         character = new ImageView(GameLogic.getInstance().getSelectedCharacter().getImage());
         character.setFitWidth(50); // Set character size
         character.setFitHeight(50);
-//        character.setLayoutX(225); // Initial position (same as "castle")
-//        character.setLayoutY(540);
-
+        // character.setLayoutX(225); // Initial position (same as "castle")
+        // character.setLayoutY(540);
 
         // Create nodes
         createNode("castle", 175, 540, ResourceManager.getImage(ResourceName.IMAGE_MAP_CASTLE), "START",
@@ -178,11 +183,13 @@ public class MapScene extends BaseScene {
         // Get starting node (character's current position)
         MapNode startNode = currentNode;
         System.out.println(startNode);
-        if (startNode == null || targetNode == null) return;
+        if (startNode == null || targetNode == null)
+            return;
 
         // Find shortest path using BFS
         List<MapNode> path = findShortestPath(startNode, targetNode);
-        if (path == null || path.isEmpty()) return;
+        if (path == null || path.isEmpty())
+            return;
 
         // Animate movement along the path
         moveAlongPath(path);
@@ -198,7 +205,8 @@ public class MapScene extends BaseScene {
 
         while (!queue.isEmpty()) {
             MapNode current = queue.poll();
-            if (current == target) break; // Found the target node
+            if (current == target)
+                break; // Found the target node
 
             for (MapNode neighbor : current.getNeighbors()) {
                 if (!cameFrom.containsKey(neighbor)) {
@@ -221,14 +229,16 @@ public class MapScene extends BaseScene {
 
     // 🔥 Move character through the path step-by-step
     private void moveAlongPath(List<MapNode> path) {
-        if (path == null || path.isEmpty()) return;
+        if (path == null || path.isEmpty())
+            return;
 
         Iterator<MapNode> iterator = path.iterator();
         moveToNextNode(iterator, path.size());
     }
 
     private void moveToNextNode(Iterator<MapNode> iterator, int totalTraveled) {
-        if (!iterator.hasNext()) return;
+        if (!iterator.hasNext())
+            return;
 
         MapNode nextNode = iterator.next();
         double targetX = nextNode.getLayoutX();
@@ -237,10 +247,11 @@ public class MapScene extends BaseScene {
         double deltaX = targetX - character.getLayoutX();
         double deltaY = targetY - character.getLayoutY();
         double timeFactor = 1000;
-        if(totalTraveled<=3){
+        if (totalTraveled <= 3) {
             timeFactor = 500;
         }
-        TranslateTransition transition = new TranslateTransition(Duration.millis((double) timeFactor / totalTraveled), character);
+        TranslateTransition transition = new TranslateTransition(Duration.millis((double) timeFactor / totalTraveled),
+                character);
         transition.setByX(deltaX);
         transition.setByY(deltaY);
         transition.play();
@@ -263,60 +274,60 @@ public class MapScene extends BaseScene {
             case "START":
                 GameLogic.getInstance().getSceneManager().setScene(SceneName.CHARACTERS);
             case "BATTLE1":
-                GameLogic.getInstance().getSceneManager().setScene("BATTLE_SCENE1");
+                GameLogic.getInstance().getSceneManager().setScene(SceneName.BATTLE_SCENE1);
                 break;
             case "BATTLE2":
                 if (GameLogic.getInstance().isBattleCleared("BATTLE1")) {
-                    GameLogic.getInstance().getSceneManager().setScene("BATTLE_SCENE2");
+                    GameLogic.getInstance().getSceneManager().setScene(SceneName.BATTLE_SCENE2);
                 } else {
                     infoLabel.setText("You must clear BATTLE1 first!");
                 }
                 break;
             case "BATTLE3":
                 if (GameLogic.getInstance().isBattleCleared("BATTLE2")) {
-                    GameLogic.getInstance().getSceneManager().setScene("BATTLE_SCENE3");
+                    GameLogic.getInstance().getSceneManager().setScene(SceneName.BATTLE_SCENE3);
                 } else {
                     infoLabel.setText("You must clear BATTLE2 first!");
                 }
                 break;
             case "BATTLE4":
                 if (GameLogic.getInstance().isBattleCleared("BATTLE3")) {
-                    GameLogic.getInstance().getSceneManager().setScene("BATTLE_SCENE4");
+                    GameLogic.getInstance().getSceneManager().setScene(SceneName.BATTLE_SCENE4);
                 } else {
                     infoLabel.setText("You must clear BATTLE3 first!");
                 }
                 break;
             case "BATTLE5":
                 if (GameLogic.getInstance().isBattleCleared("BATTLE4")) {
-                    GameLogic.getInstance().getSceneManager().setScene("BATTLE_SCENE5");
+                    GameLogic.getInstance().getSceneManager().setScene(SceneName.BATTLE_SCENE5);
                 } else {
                     infoLabel.setText("You must clear BATTLE4 first!");
                 }
                 break;
             case "BATTLE6":
                 if (GameLogic.getInstance().isBattleCleared("BATTLE5")) {
-                    GameLogic.getInstance().getSceneManager().setScene("BATTLE_SCENE6");
+                    GameLogic.getInstance().getSceneManager().setScene(SceneName.BATTLE_SCENE6);
                 } else {
                     infoLabel.setText("You must clear BATTLE5 first!");
                 }
                 break;
             case "BATTLE7":
                 if (GameLogic.getInstance().isBattleCleared("BATTLE6")) {
-                    GameLogic.getInstance().getSceneManager().setScene("BATTLE_SCENE7");
+                    GameLogic.getInstance().getSceneManager().setScene(SceneName.BATTLE_SCENE7);
                 } else {
                     infoLabel.setText("You must clear BATTLE6 first!");
                 }
                 break;
             case "BATTLE8":
                 if (GameLogic.getInstance().isBattleCleared("BATTLE7")) {
-                    GameLogic.getInstance().getSceneManager().setScene("BATTLE_SCENE8");
+                    GameLogic.getInstance().getSceneManager().setScene(SceneName.BATTLE_SCENE8);
                 } else {
                     infoLabel.setText("You must clear BATTLE7 first!");
                 }
                 break;
             case "BATTLE9":
                 if (GameLogic.getInstance().isBattleCleared("BATTLE8")) {
-                    GameLogic.getInstance().getSceneManager().setScene("BATTLE_SCENE9");
+                    GameLogic.getInstance().getSceneManager().setScene(SceneName.BATTLE_SCENE9);
                 } else {
                     infoLabel.setText("You must clear BATTLE8 first!");
                 }
@@ -347,14 +358,14 @@ public class MapScene extends BaseScene {
                 break;
             case "BOSS":
                 if (GameLogic.getInstance().isBattleCleared("BATTLE9")) {
-                    GameLogic.getInstance().getSceneManager().setScene("BOSS_SCENE");
+                    GameLogic.getInstance().getSceneManager().setScene(SceneName.BOSS_SCENE);
                 } else {
                     infoLabel.setText("You must clear BATTLE9 first!");
                 }
                 break;
             case "NEXT":
                 if (GameLogic.getInstance().isBattleCleared("BOSS")) {
-                    GameLogic.getInstance().getSceneManager().setScene("NEXT_MAP");
+                    GameLogic.getInstance().getSceneManager().setScene(SceneName.NEXT_MAP);
                 } else {
                     infoLabel.setText("You must clear BOSS first!");
                 }
