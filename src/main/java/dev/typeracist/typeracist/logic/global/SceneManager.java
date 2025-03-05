@@ -16,11 +16,15 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.Queue;
 
 public class SceneManager {
     private final Stage primaryStage;
     private final HashMap<String, BaseScene> scenes;
     private final SceneHistoryManager sceneHistoryManager;
+    private final Queue<BreadcrumbData> breadcrumbQueue = new LinkedList<>();
+    private boolean isBreadcrumbPlaying = false;
     private Popup currentPopup;
     private boolean popUpOpen = false;
 
@@ -37,16 +41,14 @@ public class SceneManager {
         popUpOpen = true;
         Popup popup = new Popup();
 
-        // Create layout to contain content and close button
         VBox popupLayout = new VBox(10);
         popupLayout.setAlignment(Pos.CENTER);
         popupLayout.setPadding(new Insets(10));
         popupLayout.setMinSize(width, height);
         popupLayout.setBackground(new Background(new BackgroundFill(Color.LIGHTGREY, new CornerRadii(10), Insets.EMPTY)));
         popupLayout.setBorder(new Border(new BorderStroke(Color.DARKGRAY, BorderStrokeStyle.SOLID, new CornerRadii(10), new BorderWidths(2))));
-        popupLayout.setOpacity(0); // Start with opacity 0
+        popupLayout.setOpacity(0);
 
-        // Create close button
         Button closeButton = new ThemedButton("Close", Color.web("#C3C3C3"));
         closeButton.setOnAction(e -> closePopUp());
         closeButton.setTextFill(Color.BLACK);
@@ -56,7 +58,6 @@ public class SceneManager {
         currentPopup = popup;
         popup.show(primaryStage);
 
-        // Apply fade-in transition
         FadeTransition fadeIn = new FadeTransition(Duration.millis(200), popupLayout);
         fadeIn.setInterpolator(Interpolator.EASE_BOTH);
         fadeIn.setFromValue(0);
@@ -68,13 +69,15 @@ public class SceneManager {
         if (currentPopup != null) {
             VBox popupLayout = (VBox) currentPopup.getContent().get(0);
 
-            // Apply fade-out transition
             FadeTransition fadeOut = new FadeTransition(Duration.millis(200), popupLayout);
             fadeOut.setInterpolator(Interpolator.EASE_BOTH);
             fadeOut.setFromValue(1);
             fadeOut.setToValue(0);
             fadeOut.setOnFinished(e -> {
-                currentPopup.hide();
+                if (currentPopup != null) {
+                    currentPopup.hide();
+                }
+
                 currentPopup = null;
                 popUpOpen = false;
             });
@@ -83,72 +86,88 @@ public class SceneManager {
     }
 
     public void showBreadcrumb(String title, String description, long durationInMilliseconds) {
+        breadcrumbQueue.add(new BreadcrumbData(title, description, durationInMilliseconds));
+        startBreadcrumbScheduler();
+    }
+
+    private void startBreadcrumbScheduler() {
+        Timeline scheduler = new Timeline(new KeyFrame(Duration.millis(700), event -> {
+            if (!breadcrumbQueue.isEmpty()) {
+                playNextBreadcrumb();
+            }
+        }));
+
+        scheduler.setCycleCount(Animation.INDEFINITE); // Keep running indefinitely
+        scheduler.play();
+    }
+
+    private void playNextBreadcrumb() {
+        if (breadcrumbQueue.isEmpty()) {
+            return;
+        }
+
+        BreadcrumbData data = breadcrumbQueue.poll();
         Popup breadcrumb = new Popup();
 
-        // Create vertical layout for title and description
-        VBox content = new VBox(5); // 5 pixel spacing between elements
+        VBox content = new VBox(5);
         content.setAlignment(Pos.CENTER);
 
-        // Title Label
-        Label titleLabel = new Label(title);
+        Label titleLabel = new Label(data.title);
         titleLabel.setFont(ResourceManager.getFont(ResourceName.FONT_DEPARTURE_MONO, 20));
         titleLabel.setTextFill(Color.DARKBLUE);
-        titleLabel.setStyle("-fx-font-weight: bold;");
 
-        // Description Label
-        Label descriptionLabel = new Label(description);
+        Label descriptionLabel = new Label(data.description);
         descriptionLabel.setFont(ResourceManager.getFont(ResourceName.FONT_DEPARTURE_MONO, 16));
         descriptionLabel.setTextFill(Color.BLACK);
 
-        // Container styling
         content.setPadding(new Insets(20));
-        content.setBackground(new Background(new BackgroundFill(Color.LIGHTGREY, new CornerRadii(10), Insets.EMPTY)));
 
-        // Add labels to container
+        // Initial Background Color (Light Grey)
+        Background defaultBackground = new Background(new BackgroundFill(Color.LIGHTGREY, new CornerRadii(10), Insets.EMPTY));
+        Background fadeBackground = new Background(new BackgroundFill(Color.DARKGRAY, new CornerRadii(10), Insets.EMPTY));
+
+        content.setBackground(defaultBackground);
         content.getChildren().addAll(titleLabel, descriptionLabel);
 
-        // Wrap content in StackPane for better transition handling
         StackPane container = new StackPane(content);
         container.setPadding(new Insets(10));
 
         breadcrumb.getContent().add(container);
         breadcrumb.show(primaryStage);
 
-        // Position the popup
-        double initialX = primaryStage.getX() + primaryStage.getWidth() / 2 - container.getWidth() / 2;
-        double initialY = primaryStage.getY() + primaryStage.getHeight() / 2;
-        breadcrumb.setX(initialX);
-        breadcrumb.setY(initialY);
-
-        // Initial opacity and scale
+        // Position the popup at the center
+        double initialX = primaryStage.getX();
+        double initialY = primaryStage.getY();
+        breadcrumb.setX(initialX + 10);
+        breadcrumb.setY(initialY + 50);
         content.setOpacity(0);
+        content.setTranslateY(0); // Start at normal position
 
-        // Create timeline for animation
-        Timeline timeline = new Timeline();
+        Timeline timeline = new Timeline(
+                // Fade-in effect
+                new KeyFrame(Duration.millis(200),
+                        new KeyValue(content.opacityProperty(), 1, Interpolator.EASE_BOTH)),
 
-        // Fade-in and scale up
-        KeyFrame fadeIn = new KeyFrame(Duration.millis(300),
-                new KeyValue(content.opacityProperty(), 1, Interpolator.EASE_BOTH)
+                // Change background early before fading out
+                new KeyFrame(Duration.millis(100 + data.durationInMilliseconds),
+                        event -> content.setBackground(fadeBackground)),
+
+                new KeyFrame(Duration.millis(data.durationInMilliseconds)), // Hold visibility
+
+                // Fade-out + Move Up by (height * 2)
+                new KeyFrame(Duration.millis(200 + data.durationInMilliseconds),
+                        new KeyValue(content.opacityProperty(), 0, Interpolator.EASE_BOTH),
+                        new KeyValue(content.scaleXProperty(), 0.9, Interpolator.EASE_BOTH),
+                        new KeyValue(content.scaleYProperty(), 0.9, Interpolator.EASE_BOTH),
+                        new KeyValue(content.translateYProperty(), -75, Interpolator.EASE_OUT)),
+
+                // Hide popup after animation
+                new KeyFrame(Duration.millis(250 + data.durationInMilliseconds),
+                        event -> breadcrumb.hide())
         );
-
-        // Pause
-        KeyFrame pause = new KeyFrame(Duration.millis(300 + durationInMilliseconds));
-
-        // Fade-out and scale down
-        KeyFrame fadeOutAndScaleDown = new KeyFrame(Duration.millis(600 + durationInMilliseconds),
-                new KeyValue(content.opacityProperty(), 0, Interpolator.EASE_BOTH),
-                new KeyValue(content.scaleXProperty(), 0.9, Interpolator.EASE_BOTH),
-                new KeyValue(content.scaleYProperty(), 0.9, Interpolator.EASE_BOTH)
-        );
-
-        // Close popup after animation
-        KeyFrame close = new KeyFrame(Duration.millis(600 + durationInMilliseconds),
-                event -> breadcrumb.hide()
-        );
-
-        timeline.getKeyFrames().addAll(fadeIn, pause, fadeOutAndScaleDown, close);
         timeline.play();
     }
+
 
     public void addScene(String name, BaseScene scene) {
         scenes.put(name, scene);
@@ -223,5 +242,17 @@ public class SceneManager {
 
     public void closeStage() {
         primaryStage.close();
+    }
+
+    private static class BreadcrumbData {
+        String title;
+        String description;
+        long durationInMilliseconds;
+
+        BreadcrumbData(String title, String description, long durationInMilliseconds) {
+            this.title = title;
+            this.description = description;
+            this.durationInMilliseconds = durationInMilliseconds;
+        }
     }
 }

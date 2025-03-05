@@ -22,5 +22,10 @@ public class HealingPotion extends Item implements ActivateNow {
     @Override
     public void activate() {
         GameLogic.getInstance().getSelectedCharacter().getHp().heal(HEAL_AMOUNT);
+        GameLogic.getInstance().getSceneManager().showBreadcrumb(
+                "HealingPotion is activated",
+                GameLogic.getInstance().getPlayerName() + " is healed by " + HEAL_AMOUNT,
+                3000
+        );
     }
 }

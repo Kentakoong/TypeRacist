@@ -1,6 +1,7 @@
 package dev.typeracist.typeracist.logic.inventory.item;
 
-import dev.typeracist.typeracist.gui.gameScene.BattlePane.BattlePane;
+import dev.typeracist.typeracist.logic.gameScene.BattlePaneStateManager;
+import dev.typeracist.typeracist.logic.global.GameLogic;
 import dev.typeracist.typeracist.logic.inventory.ActivateOnTurn;
 import dev.typeracist.typeracist.logic.inventory.ActivateOnTurnState;
 import dev.typeracist.typeracist.logic.inventory.Item;
@@ -27,12 +28,17 @@ public class TimePotion extends Item implements ActivateOnTurn {
     }
 
     @Override
-    public void activate(BattlePane battlePane) {
+    public void activate(BattlePaneStateManager manager) {
         if (firstActive) {
-            battlePane.getStateContext().setTypingMaxTime(battlePane.getStateContext().getTypingMaxTime() + TIME_INCREASE);
-            battlePane.getStateContext().ensureExistsGetTurnContext(battlePane.getStateContext().getCurrentTurn() + DURATION).addItemUsed(this);
+            manager.getContext().setTypingMaxTime(manager.getContext().getTypingMaxTime() + TIME_INCREASE);
+            manager.getContext().ensureExistsGetTurnContext(manager.getContext().getCurrentTurn() + DURATION).addItemUsed(this);
+            GameLogic.getInstance().getSceneManager().showBreadcrumb(
+                    "Time Potion is activated",
+                    "typing time got extended to " + manager.getContext().getTypingMaxTime() / 1000.0 + " seconds",
+                    3000
+            );
         } else {
-            battlePane.getStateContext().setTypingMaxTime(battlePane.getStateContext().getTypingMaxTime() - TIME_INCREASE);
+            manager.getContext().setTypingMaxTime(manager.getContext().getTypingMaxTime() - TIME_INCREASE);
         }
     }
 

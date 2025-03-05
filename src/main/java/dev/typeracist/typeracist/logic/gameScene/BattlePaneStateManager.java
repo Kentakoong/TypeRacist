@@ -6,7 +6,6 @@ import dev.typeracist.typeracist.logic.global.GameLogic;
 import dev.typeracist.typeracist.logic.inventory.ActivateOnTurn;
 import dev.typeracist.typeracist.logic.inventory.ActivateOnTurnState;
 import dev.typeracist.typeracist.logic.inventory.Item;
-import dev.typeracist.typeracist.logic.inventory.item.WhirlwindDagger;
 import dev.typeracist.typeracist.utils.SceneName;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
@@ -137,18 +136,7 @@ public class BattlePaneStateManager {
             }
             case PLAYER_BEFORE_DEFENSE_ITEM_SELECTION -> {
                 transitionToState(BattlePaneState.PLAYER_DEFENSE);
-
                 applyItem(ActivateOnTurnState.BEFORE_DEFENSE);
-                for (Item item : context.getCurrentTurnContext().getItemsUsed()) {
-                    if (item instanceof WhirlwindDagger) {
-                        GameLogic.getInstance().getSceneManager().showBreadcrumb(
-                                "WhirlwindDagger passive is activated",
-                                context.getEnemy().getName() + " is stunned for 1 turn.",
-                                3000
-                        );
-                        transitionToState(BattlePaneState.PLAYER_DEFENSE_RESULT);
-                    }
-                }
             }
             case PLAYER_DEFENSE -> {
                 transitionToState(BattlePaneState.PLAYER_DEFENSE_RESULT);
@@ -170,7 +158,7 @@ public class BattlePaneStateManager {
 
         for (Item item : itemsUsed) {
             if (((ActivateOnTurn) item).getActivateOnTurnState() == currentState || ((ActivateOnTurn) item).getActivateOnTurnState() == ActivateOnTurnState.BOTH) {
-                ((ActivateOnTurn) item).activate(battlePane);
+                ((ActivateOnTurn) item).activate(this);
             } else {
                 context.getCurrentTurnContext().getItemsUsed().add(item);
             }

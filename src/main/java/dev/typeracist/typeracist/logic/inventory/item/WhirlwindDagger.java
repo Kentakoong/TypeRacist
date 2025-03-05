@@ -1,6 +1,7 @@
 package dev.typeracist.typeracist.logic.inventory.item;
 
-import dev.typeracist.typeracist.gui.gameScene.BattlePane.BattlePane;
+import dev.typeracist.typeracist.logic.gameScene.BattlePaneState;
+import dev.typeracist.typeracist.logic.gameScene.BattlePaneStateManager;
 import dev.typeracist.typeracist.logic.global.GameLogic;
 import dev.typeracist.typeracist.logic.inventory.ActivateNow;
 import dev.typeracist.typeracist.logic.inventory.ActivateOnTurn;
@@ -31,22 +32,34 @@ public class WhirlwindDagger extends Item implements ActivateNow, ActivateOnTurn
     @Override
     public void activate() {
         GameLogic.getInstance().getSelectedCharacter().addExtraAtk(6);
+        GameLogic.getInstance().getSceneManager().showBreadcrumb(
+                "WhirlwindDagger is activated",
+                GameLogic.getInstance().getPlayerName() + " atk got boost by " + ATTACK_BONUS,
+                3000
+        );
     }
 
     @Override
-    public void activate(BattlePane battlePane) {
+    public void activate(BattlePaneStateManager manager) {
         if (firstActivate) {
-            int currentTurn = battlePane.getStateContext().getCurrentTurn();
+            int currentTurn = manager.getContext().getCurrentTurn();
             for (int i = currentTurn; i <= currentTurn + 30; i++) {
-                if ((i - currentTurn) % 3 == 0) {
-                    battlePane.getStateContext().ensureExistsGetTurnContext(i).addItemUsed(this);
+                if ((i - currentTurn) % STUN_INTERVAL == 0) {
+                    manager.getContext().ensureExistsGetTurnContext(i).addItemUsed(this);
                 }
             }
         }
+
+        manager.transitionToState(BattlePaneState.PLAYER_DEFENSE_RESULT);
+        GameLogic.getInstance().getSceneManager().showBreadcrumb(
+                "WhirlwindDagger passive is activated",
+                manager.getContext().getEnemy().getName() + " is stunt for 1 turn",
+                3000
+        );
     }
 
     @Override
     public ActivateOnTurnState getActivateOnTurnState() {
-        return ActivateOnTurnState.BOTH;
+        return ActivateOnTurnState.BEFORE_DEFENSE;
     }
 }
