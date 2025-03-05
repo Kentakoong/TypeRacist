@@ -1,13 +1,16 @@
 package dev.typeracist.typeracist.logic.characters.skills;
 
-import dev.typeracist.typeracist.gui.gameScene.BattlePane.BattlePane;
 import dev.typeracist.typeracist.logic.characters.Skill;
+import dev.typeracist.typeracist.logic.characters.SkillActivationOnState;
+import dev.typeracist.typeracist.logic.characters.SkillOnEnvironment;
+import dev.typeracist.typeracist.logic.gameScene.BattlePaneStateManager;
 
-public class Hex extends SkillWithProbability {
+public class Hex extends SkillWithProbability implements SkillOnEnvironment {
     public Hex() {
         super("Hex",
-                "25% chance to cast every turn, if inflict player can't use their items",
-                0.25);
+                "48% chance to cast every turn, if inflict player can't use their items",
+                SkillActivationOnState.ACTIVATION_BEFORE_ITEM,
+                0.48);
     }
 
     @Override
@@ -16,8 +19,7 @@ public class Hex extends SkillWithProbability {
     }
 
     @Override
-    public void useSkill(BattlePane battlePane) {
-        // Hex effect will be handled in battle logic
-        super.useSkill(battlePane);
+    public void useSkill(BattlePaneStateManager manager) {
+        manager.getContext().getCurrentTurnContext().setItemSelectDisable(true);
     }
 }

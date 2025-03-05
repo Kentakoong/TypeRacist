@@ -159,7 +159,7 @@ public class GameLogic {
 
     /**
      * Checks if all battles up to and including the specified battle are cleared
-     * 
+     *
      * @param battleName The name of the battle to check
      * @return true if all previous battles are cleared, false otherwise
      */

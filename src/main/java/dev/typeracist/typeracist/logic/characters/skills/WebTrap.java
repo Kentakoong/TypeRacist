@@ -1,12 +1,17 @@
 package dev.typeracist.typeracist.logic.characters.skills;
 
-import dev.typeracist.typeracist.gui.gameScene.BattlePane.BattlePane;
 import dev.typeracist.typeracist.logic.characters.Skill;
+import dev.typeracist.typeracist.logic.characters.SkillActivationOnState;
+import dev.typeracist.typeracist.logic.characters.SkillOnEnvironment;
+import dev.typeracist.typeracist.logic.gameScene.BattlePaneStateManager;
 
-public class WebTrap extends Skill {
+public class WebTrap extends Skill implements SkillOnEnvironment {
     public WebTrap() {
         super("Web Trap",
-                "Player cannot use items for one turn.");
+                "Player cannot use items for one turn.",
+                SkillActivationOnState.ACTIVATION_BEFORE_ITEM,
+                8 // because of this skill is call 2 time for 1 turn
+        );
     }
 
     @Override
@@ -15,7 +20,7 @@ public class WebTrap extends Skill {
     }
 
     @Override
-    public void useSkill(BattlePane battlePane) {
-        // Web trap effect will be handled in battle logic
+    public void useSkill(BattlePaneStateManager manager) {
+        manager.getContext().getCurrentTurnContext().setItemSelectDisable(true);
     }
 }

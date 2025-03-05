@@ -17,7 +17,7 @@ public class SkeletonScribe extends Enemy {
     private static final RandomRange XP_RANGE = new RandomRange(7, 12);
 
     public SkeletonScribe() {
-        super(new HP(10), 3, 1,
+        super(new HP(100), 30, 1,
                 ResourceManager.getImage(ResourceName.IMAGE_ENEMY_SKELETON),
                 DESCRIPTIONS,
                 new UndeadEndurance(),

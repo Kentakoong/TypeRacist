@@ -2,11 +2,13 @@ package dev.typeracist.typeracist.gui.gameScene.BattlePane.PaneModifier;
 
 import dev.typeracist.typeracist.gui.gameScene.BattlePane.BattlePane;
 import dev.typeracist.typeracist.gui.gameScene.BattlePane.InformationPane.InfoPaneModifierType;
+import dev.typeracist.typeracist.logic.characters.SkillActivationOnState;
 import dev.typeracist.typeracist.logic.gameScene.BattlePaneStateContext;
 import dev.typeracist.typeracist.logic.gameScene.BattlePaneStateManager;
 import dev.typeracist.typeracist.logic.global.GameLogic;
 import dev.typeracist.typeracist.logic.global.ResourceManager;
 import dev.typeracist.typeracist.utils.ResourceName;
+import dev.typeracist.typeracist.utils.TurnOwnership;
 import javafx.animation.FadeTransition;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -33,11 +35,16 @@ public class PlayerAttackResultPaneModifier extends BasePaneModifier {
         int rawAttackScore = battlePane.getStateContext().getCurrentTurnContext().getRawAttackScore();
         assert rawAttackScore != -1;
 
-        int attackScore;
+        manager.activateSkill(SkillActivationOnState.ACTIVATION_AFTER_ATTACK, TurnOwnership.PLAYER);
+        manager.activateSkill(SkillActivationOnState.ACTIVATION_AFTER_DEFENSE, TurnOwnership.PLAYER);
+
+        int attackScore = 0;
         if (context.getCurrentTurnContext().isHadAttack()) {
             attackScore = context.getCurrentTurnContext().getAttackDamage();
         } else {
-            attackScore = GameLogic.getInstance().getSelectedCharacter().attack(context.getEnemy(), rawAttackScore);
+            attackScore = GameLogic.getInstance().getSelectedCharacter().getTotalAtk() * rawAttackScore;
+            attackScore += context.getCurrentTurnContext().getPlayerAttackModifier();
+            attackScore = context.getEnemy().damage(attackScore);
             context.getCurrentTurnContext().setAttackDamage(attackScore);
         }
 

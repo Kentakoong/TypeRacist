@@ -17,7 +17,7 @@ public class GiantSpider extends Enemy {
     private static final RandomRange XP_RANGE = new RandomRange(30, 45);
 
     public GiantSpider() {
-        super(new HP(50), 10, 12,
+        super(new HP(450), 40, 1,
                 ResourceManager.getImage(ResourceName.IMAGE_ENEMY_SPIDER),
                 DESCRIPTIONS,
                 new WebTrap(),

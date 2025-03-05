@@ -1,28 +1,29 @@
 package dev.typeracist.typeracist.logic.characters;
 
-import dev.typeracist.typeracist.gui.gameScene.BattlePane.BattlePane;
-
 public abstract class Skill {
     protected final String name;
     protected final String description;
-
+    protected final SkillActivationOnState activationOnState;
     protected final int cooldown;
     protected int currentCooldownTurns;
 
-    public Skill(String name, String description, int cooldown) {
+    public Skill(String name, String description, SkillActivationOnState activationOnState, int cooldown) {
         this.name = name;
         this.description = description;
         this.cooldown = cooldown;
         this.currentCooldownTurns = 0;
+        this.activationOnState = activationOnState;
     }
 
-    public Skill(String name, String description) {
-        this(name, description, 0);
+    public Skill(String name, String description, SkillActivationOnState activationOnState) {
+        this(name, description, activationOnState, 0);
     }
 
     public abstract Skill copy();
 
-    public abstract void useSkill(BattlePane battlePane);
+    public SkillActivationOnState getActivationOnState() {
+        return activationOnState;
+    }
 
     public String getName() {
         return name;
@@ -34,6 +35,10 @@ public abstract class Skill {
 
     public int getCooldownTurns() {
         return cooldown;
+    }
+
+    public int getCurrentCooldownTurns() {
+        return currentCooldownTurns;
     }
 
     public boolean isOnCooldown() {

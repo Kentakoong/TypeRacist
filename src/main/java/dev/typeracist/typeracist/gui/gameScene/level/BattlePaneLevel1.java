@@ -18,15 +18,12 @@ public class BattlePaneLevel1 extends BattlePane {
 
     public static BattlePaneStateContext initializeContext() {
         Enemy enemy = new SlimeBlob();
-        Dataset dataset = new Dataset(
-                GameLogic
+        Dataset dataset = GameLogic
                 .getInstance()
                 .getDatasetManager()
-                .getDataSet(DatasetName.COMMON_WORDS_1K),
-                true,
-                true,
-                true
-        );
+                .getDataSet(DatasetName.COMMON_WORDS_1K)
+                .transform(true, true, true);
+       
         DatasetWordsExtractor extractor = new DatasetWordsExtractor() {
             @Override
             public List<String> extractWord(Dataset dataset) {

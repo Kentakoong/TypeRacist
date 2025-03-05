@@ -58,6 +58,13 @@ public class Entity {
         this.hp.heal(amount);
     }
 
+    public int damage(int amount) {
+        int damageDealt = Math.max(amount - getTotalDef(), 0);
+        this.hp.damage(damageDealt);
+
+        return damageDealt;
+    }
+
     public void addAtk(int atk) {
         this.baseAtk += atk;
     }

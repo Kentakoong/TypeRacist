@@ -17,7 +17,7 @@ public class FireDragon extends Enemy {
     private static final RandomRange XP_RANGE = new RandomRange(30, 45);
 
     public FireDragon() {
-        super(new HP(75), 15, 20,
+        super(new HP(750), 55, 20,
                 ResourceManager.getImage(ResourceName.IMAGE_ENEMY_DRAGON),
                 DESCRIPTIONS,
                 new FireWhirlwind(),

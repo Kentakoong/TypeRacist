@@ -2,11 +2,14 @@ package dev.typeracist.typeracist.logic.gameScene;
 
 import dev.typeracist.typeracist.gui.gameScene.BattlePane.BattlePane;
 import dev.typeracist.typeracist.gui.gameScene.BattlePane.PaneModifier.*;
+import dev.typeracist.typeracist.logic.characters.*;
+import dev.typeracist.typeracist.logic.characters.skills.SkillWithProbability;
 import dev.typeracist.typeracist.logic.global.GameLogic;
 import dev.typeracist.typeracist.logic.inventory.ActivateOnTurn;
 import dev.typeracist.typeracist.logic.inventory.ActivateOnTurnState;
 import dev.typeracist.typeracist.logic.inventory.Item;
 import dev.typeracist.typeracist.utils.SceneName;
+import dev.typeracist.typeracist.utils.TurnOwnership;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.scene.input.KeyEvent;
@@ -15,6 +18,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 
 public class BattlePaneStateManager {
     private final BattlePane battlePane;
@@ -116,7 +120,14 @@ public class BattlePaneStateManager {
         BattlePaneState currentState = context.getCurrentState();
 
         switch (currentState) {
-            case ENEMY_DESCRIPTION -> transitionToState(BattlePaneState.PLAYER_BEFORE_ATTACK_ITEM_SELECTION);
+            case ENEMY_DESCRIPTION -> {
+                activateSkill(SkillActivationOnState.ACTIVATION_BEFORE_ATTACK, TurnOwnership.PLAYER);
+                activateSkill(SkillActivationOnState.ACTIVATION_BEFORE_DEFENSE, TurnOwnership.ENEMY);
+                activateSkill(SkillActivationOnState.ACTIVATION_BEFORE_ITEM, TurnOwnership.PLAYER);
+                activateSkill(SkillActivationOnState.ACTIVATION_BEFORE_ITEM, TurnOwnership.ENEMY);
+
+                transitionToState(BattlePaneState.PLAYER_BEFORE_ATTACK_ITEM_SELECTION);
+            }
             case PLAYER_BEFORE_ATTACK_ITEM_SELECTION -> {
                 transitionToState(BattlePaneState.PLAYER_ATTACK);
                 applyItem(ActivateOnTurnState.BEFORE_ATTACK);
@@ -132,6 +143,10 @@ public class BattlePaneStateManager {
                 }
             }
             case ENEMY_BEFORE_ATTACK -> {
+                activateSkill(SkillActivationOnState.ACTIVATION_BEFORE_ATTACK, TurnOwnership.ENEMY);
+                activateSkill(SkillActivationOnState.ACTIVATION_BEFORE_DEFENSE, TurnOwnership.PLAYER);
+                activateSkill(SkillActivationOnState.ACTIVATION_BEFORE_ITEM, TurnOwnership.PLAYER);
+                activateSkill(SkillActivationOnState.ACTIVATION_BEFORE_ITEM, TurnOwnership.ENEMY);
                 transitionToState(BattlePaneState.PLAYER_BEFORE_DEFENSE_ITEM_SELECTION);
             }
             case PLAYER_BEFORE_DEFENSE_ITEM_SELECTION -> {
@@ -152,6 +167,67 @@ public class BattlePaneStateManager {
         }
     }
 
+    public void activateSkill(SkillActivationOnState skillActivationOnState, TurnOwnership turnOwnership) {
+        Entity owner = switch (turnOwnership) {
+            case PLAYER -> GameLogic.getInstance().getSelectedCharacter();
+            case ENEMY -> context.getEnemy();
+        };
+
+        Entity target = switch (turnOwnership) {
+            case PLAYER -> context.getEnemy();
+            case ENEMY -> GameLogic.getInstance().getSelectedCharacter();
+        };
+
+        String ownerName = owner.getName();
+        String targetName = target.getName();
+
+        if (turnOwnership == TurnOwnership.PLAYER) {
+            ownerName = GameLogic.getInstance().getSelectedCharacter().getName();
+        } else {
+            targetName = GameLogic.getInstance().getSelectedCharacter().getName();
+        }
+
+        Skill ownerSkill = owner.getSkill();
+
+        if (ownerSkill == null) {
+            return;
+        }
+
+        if (ownerSkill.isOnCooldown()) {
+            ownerSkill.tickCooldown();
+            return;
+        }
+
+        if (ownerSkill instanceof SkillWithProbability && !((SkillWithProbability) ownerSkill).isProbability()) {
+            return;
+        }
+
+        if (ownerSkill.getActivationOnState() != skillActivationOnState) {
+            return;
+        }
+
+        if (ownerSkill instanceof SkillOnEntity) {
+            ((SkillOnEntity) ownerSkill).useSkill(target);
+            GameLogic.getInstance().getSceneManager().showBreadcrumb(
+                    ownerName + " use " + ownerSkill.getName() + " on " + targetName,
+                    ownerSkill.getDescription(),
+                    2000
+            );
+            ownerSkill.resetCooldown();
+        }
+
+        if (ownerSkill instanceof SkillOnEnvironment) {
+            ((SkillOnEnvironment) ownerSkill).useSkill(this);
+            GameLogic.getInstance().getSceneManager().showBreadcrumb(
+                    ownerName + " use " + ownerSkill.getName(),
+                    ownerSkill.getDescription(),
+                    2000
+            );
+            ownerSkill.resetCooldown();
+        }
+
+    }
+
     private void applyItem(ActivateOnTurnState currentState) {
         List<Item> itemsUsed = new ArrayList<>(context.getCurrentTurnContext().getItemsUsed());
         context.getCurrentTurnContext().getItemsUsed().clear();
@@ -170,4 +246,5 @@ public class BattlePaneStateManager {
     public BattlePaneStateContext getContext() {
         return context;
     }
+
 }

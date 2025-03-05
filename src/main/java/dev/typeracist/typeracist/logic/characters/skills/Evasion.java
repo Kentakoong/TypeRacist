@@ -1,13 +1,16 @@
 package dev.typeracist.typeracist.logic.characters.skills;
 
-import dev.typeracist.typeracist.gui.gameScene.BattlePane.BattlePane;
 import dev.typeracist.typeracist.logic.characters.Skill;
+import dev.typeracist.typeracist.logic.characters.SkillActivationOnState;
+import dev.typeracist.typeracist.logic.characters.SkillOnEnvironment;
+import dev.typeracist.typeracist.logic.gameScene.BattlePaneStateManager;
 
-public class Evasion extends SkillWithProbability {
+public class Evasion extends SkillWithProbability implements SkillOnEnvironment {
     public Evasion() {
         super("Evasion",
-                "15% chance to dodge the player's attack.",
-                0.15);
+                "40% chance to dodge the player's attack.",
+                SkillActivationOnState.ACTIVATION_ON_DEFENSE,
+                0.40);
     }
 
     @Override
@@ -16,8 +19,7 @@ public class Evasion extends SkillWithProbability {
     }
 
     @Override
-    public void useSkill(BattlePane battlePane) {
-        // Dodge logic will be handled in damage calculation
-        super.useSkill(battlePane);
+    public void useSkill(BattlePaneStateManager manager) {
+        manager.getContext().getCurrentTurnContext().addPlayerAttackModifier(-Integer.MAX_VALUE);
     }
 }

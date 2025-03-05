@@ -47,14 +47,6 @@ public class Dataset {
         applyTransformations(lowerCase, noPunctuation, noNumber);
     }
 
-    public Dataset(Dataset dataset, boolean lowerCase, boolean noPunctuation, boolean noNumber) {
-        this.paragraphs = new ArrayList<>(dataset.paragraphs);
-        this.words = new ArrayList<>(dataset.words);
-        this.rankedWords = new LinkedHashMap<>(dataset.rankedWords);
-        this.rankedParagraphs = new LinkedHashMap<>(dataset.rankedParagraphs);
-        applyTransformations(lowerCase, noPunctuation, noNumber);
-    }
-
     private static List<String> readJsonFile(String filePath) {
         List<String> paragraphs = new ArrayList<>();
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(
@@ -73,6 +65,13 @@ public class Dataset {
             throw new RuntimeException("Failed to load dataset from file: " + filePath, e);
         }
         return paragraphs;
+    }
+
+    public Dataset transform(boolean lowerCase, boolean noPunctuation, boolean noNumber) {
+        Dataset dataset = new Dataset(this.paragraphs, lowerCase, noPunctuation, noNumber);
+        dataset.initializeWithRanking();
+
+        return dataset;
     }
 
     public void initializeWithRanking() {

@@ -69,6 +69,13 @@ public class ItemInfoPaneModifier extends BaseInfoPaneModifier {
             button.setOnAction(event ->
                     GameLogic.getInstance().getSceneManager().showPopUp(createItemContent(entry, button), 400, 450)
             );
+
+            if (battlePane.getStateContext().getCurrentTurnContext().isItemSelectDisable()) {
+                button.setDisable(true);
+                button.setOpacity(0.5);
+            } else {
+                button.setDisable(false);
+            }
         }
 
         skipButton = createRoundedButton("Skip", ResourceManager.getImage(ResourceName.IMAGE_MAP_NEXT), 50, 50);

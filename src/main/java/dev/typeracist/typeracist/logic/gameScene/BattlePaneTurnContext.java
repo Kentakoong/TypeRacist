@@ -16,6 +16,10 @@ public class BattlePaneTurnContext {
     private boolean hadDefense;
     private double wordMultiplier;
 
+    private int playerAttackModifier;
+    private int enemyAttackModifier;
+    private boolean itemSelectDisable;
+
     public BattlePaneTurnContext() {
         itemsUsed = new ArrayList<>();
         rawAttackScore = Integer.MIN_VALUE;
@@ -23,8 +27,43 @@ public class BattlePaneTurnContext {
         wordMultiplier = 1;
         damageTaken = -1;
         attackDamage = -1;
+        playerAttackModifier = 0;
+        enemyAttackModifier = 0;
+        itemSelectDisable = false;
         hadAttack = false;
         hadDefense = false;
+    }
+
+    public boolean isItemSelectDisable() {
+        return itemSelectDisable;
+    }
+
+    public void setItemSelectDisable(boolean itemSelectDisable) {
+        this.itemSelectDisable = itemSelectDisable;
+    }
+
+    public int getEnemyAttackModifier() {
+        return enemyAttackModifier;
+    }
+
+    public void setEnemyAttackModifier(int enemyAttackModifier) {
+        this.enemyAttackModifier = enemyAttackModifier;
+    }
+
+    public void addEnemyAttackModifier(int enemyAttackModifier) {
+        this.enemyAttackModifier += enemyAttackModifier;
+    }
+
+    public int getPlayerAttackModifier() {
+        return playerAttackModifier;
+    }
+
+    public void setPlayerAttackModifier(int playerAttackModifier) {
+        this.playerAttackModifier = playerAttackModifier;
+    }
+
+    public void addPlayerAttackModifier(int playerAttackModifier) {
+        this.playerAttackModifier += playerAttackModifier;
     }
 
     public int getAttackDamage() {

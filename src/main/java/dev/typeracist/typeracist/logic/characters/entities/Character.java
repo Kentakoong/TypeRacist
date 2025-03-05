@@ -39,12 +39,12 @@ public abstract class Character extends Entity {
         this(BASE_HP, atk, def, image, skill);
     }
 
-    public int attack(Entity target, int rawDamage) {
-        int realDamage = Math.max(rawDamage * getTotalAtk() - target.getTotalDef(), 0);
-        target.getHp().damage(realDamage);
-
-        return realDamage;
-    }
+//    public int attack(Entity target, int rawDamage) {
+//        int realDamage = Math.max(rawDamage * getTotalAtk() - target.getTotalDef(), 0);
+//        target.getHp().damage(realDamage);
+//
+//        return realDamage;
+//    }
 
     public Inventory getInventory() {
         return inventory;

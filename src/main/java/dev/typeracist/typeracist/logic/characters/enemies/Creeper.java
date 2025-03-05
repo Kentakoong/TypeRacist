@@ -3,6 +3,7 @@ package dev.typeracist.typeracist.logic.characters.enemies;
 import dev.typeracist.typeracist.logic.characters.Enemy;
 import dev.typeracist.typeracist.logic.characters.HP;
 import dev.typeracist.typeracist.logic.characters.skills.CreeperExplosion;
+import dev.typeracist.typeracist.logic.global.GameLogic;
 import dev.typeracist.typeracist.logic.global.ResourceManager;
 import dev.typeracist.typeracist.utils.RandomRange;
 import dev.typeracist.typeracist.utils.ResourceName;
@@ -23,5 +24,21 @@ public class Creeper extends Enemy {
                 new CreeperExplosion(),
                 COIN_RANGE,
                 XP_RANGE);
+    }
+
+    @Override
+    public int damage(int amount) {
+        int damage = super.damage(amount);
+        if (hp.isDead()) {
+            ((CreeperExplosion) skill).useSkill(GameLogic.getInstance().getSelectedCharacter());
+        }
+
+        GameLogic.getInstance().getSceneManager().showBreadcrumb(
+                "Ahh mann.. dfjasdjf aiojEXPLOSONdinfsBOmm!!!",
+                "Creeper exploded dealt a amazing " + new CreeperExplosion().getExplosionDamage() + " damage!",
+                3000
+        );
+
+        return damage;
     }
 }
