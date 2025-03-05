@@ -56,23 +56,26 @@ public class MusicPlayer {
         sceneMusicMap.put(SceneName.CHARACTERS, "main_theme");
         sceneMusicMap.put(SceneName.SETTINGS, "main_theme");
         sceneMusicMap.put(SceneName.MAP, "main_theme");
-        sceneMusicMap.put(SceneName.SHOP, "shop_theme");
-        sceneMusicMap.put(SceneName.BATTLE_TEST, "battle_theme");
         sceneMusicMap.put(SceneName.ENCHANT, "main_theme");
         sceneMusicMap.put(SceneName.CHEST, "main_theme");
         sceneMusicMap.put(SceneName.FORGE, "main_theme");
+        sceneMusicMap.put(SceneName.NEXT_MAP, "main_theme");
+
+        sceneMusicMap.put(SceneName.SHOP, "shop_theme");
 
         // Add battle scenes
-        sceneMusicMap.put("BATTLE_SCENE1", "battle_theme");
-        sceneMusicMap.put("BATTLE_SCENE2", "battle_theme");
-        sceneMusicMap.put("BATTLE_SCENE3", "battle_theme");
-        sceneMusicMap.put("BATTLE_SCENE4", "battle_theme");
-        sceneMusicMap.put("BATTLE_SCENE5", "battle_theme");
-        sceneMusicMap.put("BATTLE_SCENE6", "battle_theme");
-        sceneMusicMap.put("BATTLE_SCENE7", "battle_theme");
-        sceneMusicMap.put("BATTLE_SCENE8", "battle_theme");
-        sceneMusicMap.put("BATTLE_SCENE9", "battle_theme");
-        sceneMusicMap.put("BOSS_SCENE", "battle_theme");
+        sceneMusicMap.put(SceneName.BATTLE_TEST, "battle_theme");
+
+        sceneMusicMap.put(SceneName.BATTLE_SCENE1, "battle_theme");
+        sceneMusicMap.put(SceneName.BATTLE_SCENE2, "battle_theme");
+        sceneMusicMap.put(SceneName.BATTLE_SCENE3, "battle_theme");
+        sceneMusicMap.put(SceneName.BATTLE_SCENE4, "battle_theme");
+        sceneMusicMap.put(SceneName.BATTLE_SCENE5, "battle_theme");
+        sceneMusicMap.put(SceneName.BATTLE_SCENE6, "battle_theme");
+        sceneMusicMap.put(SceneName.BATTLE_SCENE7, "battle_theme");
+        sceneMusicMap.put(SceneName.BATTLE_SCENE8, "battle_theme");
+        sceneMusicMap.put(SceneName.BATTLE_SCENE9, "battle_theme");
+        sceneMusicMap.put(SceneName.BOSS_SCENE, "battle_theme");
     }
 
     public static MusicPlayer getInstance() {
