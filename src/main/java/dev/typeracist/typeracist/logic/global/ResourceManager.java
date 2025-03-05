@@ -17,6 +17,10 @@ public class ResourceManager {
     }
 
     private static Image loadImage(String path) {
+        if (path == null) {
+            return null;
+        }
+
         InputStream stream = ResourceManager.class.getResourceAsStream(path);
         if (stream != null) {
             return new Image(stream);

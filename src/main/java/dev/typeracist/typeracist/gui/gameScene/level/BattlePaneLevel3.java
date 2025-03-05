@@ -18,19 +18,16 @@ public class BattlePaneLevel3 extends BattlePane {
 
     public static BattlePaneStateContext initializeContext() {
         Enemy enemy = new SkeletonScribe();
-        Dataset dataset = new Dataset(
-                GameLogic
-                        .getInstance()
-                        .getDatasetManager()
-                        .getDataSet(DatasetName.POPULAR_BOOKS),
-                true,
-                true,
-                true
-        );
+        Dataset dataset = GameLogic
+                .getInstance()
+                .getDatasetManager()
+                .getDataSet(DatasetName.POPULAR_BOOKS)
+                .transform(true, true, true);
+
         DatasetWordsExtractor extractor = new DatasetWordsExtractor() {
             @Override
             public List<String> extractWord(Dataset dataset) {
-                return dataset.getRandomParagraphByScoreRange(4, 5);
+                return dataset.getRandomParagraphByScoreRange(4.5, 5);
             }
         };
 

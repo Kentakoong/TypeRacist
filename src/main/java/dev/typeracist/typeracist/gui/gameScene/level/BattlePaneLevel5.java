@@ -18,15 +18,12 @@ public class BattlePaneLevel5 extends BattlePane {
 
     public static BattlePaneStateContext initializeContext() {
         Enemy enemy = new Creeper();
-        Dataset dataset = new Dataset(
-                GameLogic
-                        .getInstance()
-                        .getDatasetManager()
-                        .getDataSet(DatasetName.COMMON_WORDS_1K),
-                true,
-                true,
-                true
-        );
+        Dataset dataset = GameLogic
+                .getInstance()
+                .getDatasetManager()
+                .getDataSet(DatasetName.COMMON_WORDS_1K)
+                .transform(true, true, true);
+
         DatasetWordsExtractor extractor = new DatasetWordsExtractor() {
             @Override
             public List<String> extractWord(Dataset dataset) {

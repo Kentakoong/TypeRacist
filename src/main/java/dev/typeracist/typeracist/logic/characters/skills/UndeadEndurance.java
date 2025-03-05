@@ -1,29 +1,39 @@
 package dev.typeracist.typeracist.logic.characters.skills;
 
-import dev.typeracist.typeracist.gui.gameScene.BattlePane.BattlePane;
 import dev.typeracist.typeracist.logic.characters.Skill;
+import dev.typeracist.typeracist.logic.characters.SkillActivationOnState;
+import dev.typeracist.typeracist.logic.characters.SkillOnEnvironment;
+import dev.typeracist.typeracist.logic.gameScene.BattlePaneStateManager;
+import dev.typeracist.typeracist.logic.global.GameLogic;
 
-public class UndeadEndurance extends SkillWithProbability {
+public class UndeadEndurance extends Skill implements SkillOnEnvironment {
     private static final double DAMAGE_REDUCTION = 0.2; // 20% damage reduction
 
     public UndeadEndurance() {
         super("Undead Endurance",
                 "Takes 20% less damage from normal attacks.",
-                1.0); // Always active
+                SkillActivationOnState.ACTIVATION_ON_DEFENSE
+        );
     }
 
-    @Override
     public Skill copy() {
         return new UndeadEndurance();
     }
 
-    @Override
-    public void useSkill(BattlePane battlePane) {
-        // Passive skill, implementation handled in damage calculation
-        super.useSkill(battlePane);
-    }
-
     public double getDamageReduction() {
         return DAMAGE_REDUCTION;
+    }
+
+    @Override
+    public void useSkill(BattlePaneStateManager manager) {
+        int playerAttack = manager.getContext().getCurrentTurnContext().getRawAttackScore()
+                * GameLogic.getInstance().getSelectedCharacter().getTotalAtk();
+
+        manager.getContext().getCurrentTurnContext().addPlayerAttackModifier(
+                (int) Math.floor(-(playerAttack * DAMAGE_REDUCTION))
+        );
+
+        System.out.println(
+                (int) Math.floor(-(playerAttack * DAMAGE_REDUCTION)));
     }
 }

@@ -17,7 +17,7 @@ public class CursedSorcerer extends Enemy {
     private static final RandomRange XP_RANGE = new RandomRange(15, 20);
 
     public CursedSorcerer() {
-        super(new HP(25), 5, 2,
+        super(new HP(125), 50, 5,
                 ResourceManager.getImage(ResourceName.IMAGE_ENEMY_SORCERER),
                 DESCRIPTIONS,
                 new Hex(),
