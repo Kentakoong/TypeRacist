@@ -56,6 +56,7 @@ public class GameLogic {
 
     public static void init(Stage primaryStage) {
         instance = new GameLogic(primaryStage);
+        SaveManager.loadSettings();
 
         // todo: remove this
         SaveManager.saveCharacter();
@@ -107,6 +108,11 @@ public class GameLogic {
                 difficultyMap.put(character.getClass().getSimpleName(), character);
             }
         }
+    }
+
+    public void resetSelected() {
+        selectedCharacter = null;
+        currentDifficulty = null;
     }
 
     public Map<String, Character> getCharacters() {
