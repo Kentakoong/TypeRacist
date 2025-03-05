@@ -172,8 +172,14 @@ public class ItemInfoPaneModifier extends BaseInfoPaneModifier {
             }
         });
 
-        VBox contentLayout = new VBox(10);
-        contentLayout.getChildren().addAll(imageView, nameLabel, descriptionLabel, useItemButton);
+        Button closeButton = new ThemedButton("close");
+        closeButton.setTextFill(Color.BLACK);
+        closeButton.setOnMouseClicked(mouseEvent -> {
+            GameLogic.getInstance().getSceneManager().closePopUp();
+        });
+
+         VBox contentLayout = new VBox(10);
+        contentLayout.getChildren().addAll(imageView, nameLabel, descriptionLabel, useItemButton, closeButton);
         contentLayout.setAlignment(Pos.CENTER);
 
         return contentLayout;
