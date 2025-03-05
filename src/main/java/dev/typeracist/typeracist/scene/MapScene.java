@@ -14,6 +14,8 @@ import dev.typeracist.typeracist.logic.characters.entities.Character;
 import dev.typeracist.typeracist.logic.global.GameLogic;
 import dev.typeracist.typeracist.logic.global.ResourceManager;
 import dev.typeracist.typeracist.logic.global.SaveManager;
+import dev.typeracist.typeracist.logic.global.BattleInfo;
+import dev.typeracist.typeracist.logic.global.BattleNavigation;
 import dev.typeracist.typeracist.utils.ResourceName;
 import dev.typeracist.typeracist.utils.SceneName;
 import javafx.animation.PauseTransition;
@@ -83,102 +85,55 @@ public class MapScene extends BaseScene {
             }
         });
         root.getChildren().add(confirmButton);
+        // Create nodes
+        for (BattleInfo battleInfo : BattleNavigation.getAllBattleInfo()) {
+            createNode(battleInfo.getBattleName(), battleInfo.getNodeX(), battleInfo.getNodeY(),
+                    battleInfo.getBattleImage(), battleInfo, battleInfo.getBattleDescription());
+        }
+
+        // Connect nodes visually
+        for (BattleInfo battleInfo : BattleNavigation.getAllBattleInfo()) {
+            for (String connectedNodeId : battleInfo.getConnectedNodes()) {
+                connectNodes(battleInfo.getBattleName(), connectedNodeId);
+            }
+        }
 
         character = new ImageView(GameLogic.getInstance().getSelectedCharacter().getImage());
         character.setFitWidth(50); // Set character size
         character.setFitHeight(50);
-        // character.setLayoutX(225); // Initial position (same as "castle")
-        // character.setLayoutY(540);
+        // Add character to the scene
+        root.getChildren().add(character);
 
-        // Create nodes
-        createNode("castle", 175, 540, ResourceManager.getImage(ResourceName.IMAGE_MAP_CASTLE), "START",
-                "The starting point of your journey.");
-        createNode("shop", 300, 570, ResourceManager.getImage(ResourceName.IMAGE_MAP_SHOP), "STORE",
-                "The shop of the town, where you can buy items and upgrade your equipment.");
-        createNode("book", 590, 130, ResourceManager.getImage(ResourceName.IMAGE_MAP_BOOK), "BOOK",
-                "The book of the town, where you can learn about the world and the characters.");
-        createNode("chest1", 275, 160, ResourceManager.getImage(ResourceName.IMAGE_MAP_CHEST), "REWARD1",
-                "The chest of the town, where you can find items and coins.");
-        createNode("chest2", 775, 280, ResourceManager.getImage(ResourceName.IMAGE_MAP_CHEST), "REWARD2",
-                "The chest of the town, where you can find items and coins.");
-        createNode("anvil1", 400, 160, ResourceManager.getImage(ResourceName.IMAGE_MAP_ANVIL), "UPGRADE",
-                "The anvil of the town, where you can upgrade your equipment.");
-        createNode("BATTLE1", 235, 425, ResourceManager.getImage(ResourceName.IMAGE_MAP_SWORD), "BATTLE1",
-                "Unforseen World - You have stepped out of the portal, what could have been waiting for you?");
-        createNode("BATTLE2", 300, 350, ResourceManager.getImage(ResourceName.IMAGE_MAP_SWORD), "BATTLE2",
-                "Rural Dirt Road - Next, you have wandered beside the dirt road to somewhere. But something is waiting for you.");
-        createNode("BATTLE3", 350, 450, ResourceManager.getImage(ResourceName.IMAGE_MAP_SWORD), "BATTLE3",
-                "Fogbound Cemetery - The path lead you to the cemetery, spooky...");
-        createNode("BATTLE4", 175, 250, ResourceManager.getImage(ResourceName.IMAGE_MAP_SWORD), "BATTLE4",
-                "Wondering in the Woods - And you're walking into the Wailing Woods, you think there's a clue there?");
-        createNode("BATTLE5", 450, 250, ResourceManager.getImage(ResourceName.IMAGE_MAP_SWORD), "BATTLE5",
-                "Deep down to the Doom - Some clues led you to this cave...");
-        createNode("BATTLE6", 600, 225, ResourceManager.getImage(ResourceName.IMAGE_MAP_SWORD), "BATTLE6",
-                "Temple of Purgation - Deeper to the cave you go, seeing that there is a underground temple.");
-        createNode("BATTLE7", 685, 160, ResourceManager.getImage(ResourceName.IMAGE_MAP_SWORD), "BATTLE7",
-                "Meet your Maker? - Maybe you have meet the Creator of the Fire Golem...");
-        createNode("BATTLE8", 800, 160, ResourceManager.getImage(ResourceName.IMAGE_MAP_SWORD), "BATTLE8",
-                "Enchanted Grove - The talisman of the sorcerer teleport you to the Strange place?");
-        createNode("BATTLE9", 700, 350, ResourceManager.getImage(ResourceName.IMAGE_MAP_SWORD), "BATTLE9",
-                "Scorched Cliff -  You've touch the runic sign and you found yourself at the tallest cliff, what could've gone wrong?");
-        createNode("BOSS", 625, 490, ResourceManager.getImage(ResourceName.IMAGE_MAP_SKULL), "BOSS",
-                "Last Battle???");
-        createNode("next", 800, 550, ResourceManager.getImage(ResourceName.IMAGE_MAP_NEXT), "NEXT",
-                "The End - You have reached the end of the map, what could have been waiting for you?");
-
-        // Connect nodes visually
-        connectNodes("castle", "shop");
-        connectNodes("castle", "BATTLE1");
-        connectNodes("BATTLE4", "chest1");
-        connectNodes("BATTLE9", "chest2");
-        connectNodes("BATTLE5", "anvil1");
-        connectNodes("BATTLE1", "BATTLE3");
-        connectNodes("BATTLE1", "BATTLE2");
-        connectNodes("BATTLE2", "BATTLE4");
-        connectNodes("BATTLE2", "BATTLE5");
-        connectNodes("BATTLE2", "BATTLE5");
-        connectNodes("BATTLE5", "BATTLE6");
-        connectNodes("BATTLE6", "BATTLE7");
-        connectNodes("BATTLE7", "BATTLE8");
-        connectNodes("BATTLE6", "BATTLE9");
-        connectNodes("BOSS", "BATTLE9");
-        connectNodes("BOSS", "next");
-        connectNodes("BATTLE7", "book");
-        System.out.println("teat1");
-
-        // Test buttons to win battles - create them in a loop
-        String[] battleNames = {
-                "BATTLE1", "BATTLE2", "BATTLE3", "BATTLE4", "BATTLE5",
-                "BATTLE6", "BATTLE7", "BATTLE8", "BATTLE9", "BOSS"
-        };
-
+        // Add test buttons for clearing battles
+        String[] battleNames = { "BATTLE1", "BATTLE2", "BATTLE3", "BATTLE4", "BATTLE5", "BATTLE6", "BATTLE7", "BATTLE8",
+                "BATTLE9", "BOSS" };
         for (int i = 0; i < battleNames.length; i++) {
             addWinButton("Win " + battleNames[i], 50 + (i * 100), 700, battleNames[i]);
         }
 
-        root.getChildren().add(character);
-
-        currentNode = mapNodes.get("castle");
-        character.setLayoutX(currentNode.getLayoutX());
-        character.setLayoutY(currentNode.getLayoutY());
+        currentNode = mapNodes.get("START");
+        if (currentNode != null) {
+            character.setLayoutX(currentNode.getLayoutX());
+            character.setLayoutY(currentNode.getLayoutY());
+        }
     }
 
     /**
-     * Creates a map node with the specified properties and adds it to the scene
+     * Creates a map node with the specified properties
      * 
      * @param id          Unique identifier for the node
      * @param x           X-coordinate position
      * @param y           Y-coordinate position
-     * @param image       Image to display for the node
-     * @param action      Action identifier for navigation
+     * @param image       Visual representation image
+     * @param battleInfo  BattleInfo object containing navigation details
      * @param description Description text for the node
      */
-    private void createNode(String id, double x, double y, Image image, String action, String description) {
-        MapNode node = new MapNode(x, y, image, action);
+    private void createNode(String id, double x, double y, Image image, BattleInfo battleInfo, String description) {
+        MapNode node = new MapNode(x, y, image, battleInfo);
 
         // Set up the node's click behavior
         node.setOnAction(event -> {
-            selectedAction = action;
+            selectedAction = battleInfo.getBattleName();
             infoLabel.setText(id.toUpperCase() + " - " + description);
             confirmButton.setDisable(false); // Enable confirm button
             moveCharacter(node);
@@ -357,51 +312,28 @@ public class MapScene extends BaseScene {
     private void navigate(String action) {
         // Special cases with no prerequisites
         if ("START".equals(action)) {
-            GameLogic.getInstance().getSceneManager().setScene(SceneName.CHARACTERS);
+            GameLogic.getInstance().getSceneManager().setScene(SceneName.CHARACTERS.toString());
             return;
         }
 
         if ("STORE".equals(action)) {
-            GameLogic.getInstance().getSceneManager().setScene(SceneName.SHOP);
+            GameLogic.getInstance().getSceneManager().setScene(SceneName.SHOP.toString());
             return;
         }
 
-        // Map actions to their target scenes and prerequisites
-        Map<String, Object[]> navigationMap = new HashMap<>();
+        // Use the new BattleNavigation utility class
+        BattleInfo navigationDetails = BattleNavigation.getNavigationDetails(action);
 
-        // Format: action -> [targetScene, prerequisite, requireAllPrevious]
-        // Battle scenes - third parameter indicates if all previous battles must be
-        // cleared
-        navigationMap.put("BATTLE1", new Object[] { SceneName.BATTLE_SCENE1, null });
-        navigationMap.put("BATTLE2", new Object[] { SceneName.BATTLE_SCENE2, "BATTLE1" });
-        navigationMap.put("BATTLE3", new Object[] { SceneName.BATTLE_SCENE3, "BATTLE2" });
-        navigationMap.put("BATTLE4", new Object[] { SceneName.BATTLE_SCENE4, "BATTLE3" });
-        navigationMap.put("BATTLE5", new Object[] { SceneName.BATTLE_SCENE5, "BATTLE4" });
-        navigationMap.put("BATTLE6", new Object[] { SceneName.BATTLE_SCENE6, "BATTLE5" });
-        navigationMap.put("BATTLE7", new Object[] { SceneName.BATTLE_SCENE7, "BATTLE6" });
-        navigationMap.put("BATTLE8", new Object[] { SceneName.BATTLE_SCENE8, "BATTLE7" });
-        navigationMap.put("BATTLE9", new Object[] { SceneName.BATTLE_SCENE9, "BATTLE8" });
-
-        // Other scenes with prerequisites - some may require all previous battles to be
-        // cleared
-        navigationMap.put("REWARD1", new Object[] { SceneName.CHEST, "BATTLE4" });
-        navigationMap.put("REWARD2", new Object[] { SceneName.CHEST, "BATTLE9" });
-        navigationMap.put("UPGRADE", new Object[] { SceneName.FORGE, "BATTLE5" });
-        navigationMap.put("BOSS", new Object[] { SceneName.BOSS_SCENE, "BATTLE9" });
-        navigationMap.put("NEXT", new Object[] { SceneName.NEXT_MAP, "BOSS" });
-        navigationMap.put("BOOK", new Object[] { SceneName.ENCHANT, "BATTLE7" });
-
-        // Process navigation based on the map
-        Object[] rule = navigationMap.get(action);
-        if (rule != null) {
-            String targetScene = (String) rule[0];
-            String prerequisite = (String) rule[1];
+        if (navigationDetails != null) {
+            String targetScene = navigationDetails.getSceneName();
+            String prerequisite = navigationDetails.getPrerequisiteBattle();
 
             // Check if the battle is accessible
-            boolean canAccess = prerequisite == null || GameLogic.getInstance().isBattleCleared(prerequisite);
+            boolean canAccess = prerequisite == null ||
+                    GameLogic.getInstance().isBattleCleared(prerequisite);
 
             if (canAccess) {
-                GameLogic.getInstance().getSceneManager().setScene(targetScene);
+                GameLogic.getInstance().getSceneManager().setScene(targetScene.toString());
             } else {
                 infoLabel.setText("You must clear " + prerequisite + " first!");
             }
@@ -459,10 +391,12 @@ public class MapScene extends BaseScene {
             character.setLayoutX(currentNode.getLayoutX());
             character.setLayoutY(currentNode.getLayoutY());
         } else {
-            // Default to castle if no current node
-            currentNode = mapNodes.get("castle");
-            character.setLayoutX(currentNode.getLayoutX());
-            character.setLayoutY(currentNode.getLayoutY());
+            // Default to START if no current node
+            currentNode = mapNodes.get("START");
+            if (currentNode != null) {
+                character.setLayoutX(currentNode.getLayoutX());
+                character.setLayoutY(currentNode.getLayoutY());
+            }
         }
 
         // Update node colors based on battle status
