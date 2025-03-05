@@ -157,8 +157,8 @@ public class GameLogic {
      * @param battleName The name of the battle to check
      * @return true if all previous battles are cleared, false otherwise
      */
-    public boolean areAllPreviousBattlesCleared(String battleName) {
-        return selectedCharacter != null && selectedCharacter.areAllPreviousBattlesCleared(battleName);
+    public boolean isPreviousBattleCleared(String battleName) {
+        return selectedCharacter != null && selectedCharacter.isPreviousBattleCleared(battleName);
     }
 
     public MusicPlayer getMusicPlayer() {

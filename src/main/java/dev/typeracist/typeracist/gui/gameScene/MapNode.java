@@ -1,6 +1,8 @@
 package dev.typeracist.typeracist.gui.gameScene;
 
 import dev.typeracist.typeracist.logic.global.GameLogic;
+import dev.typeracist.typeracist.logic.global.BattleInfo;
+import dev.typeracist.typeracist.logic.global.BattleNavigation;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -12,10 +14,10 @@ import java.util.List;
 
 public class MapNode extends Button {
     private final Circle statusCircle;
-    private final String action;
+    private final BattleInfo action;
     private final List<MapNode> neighbors = new ArrayList<>(); // Store connected nodes
 
-    public MapNode(double x, double y, Image image, String action) {
+    public MapNode(double x, double y, Image image, BattleInfo action) {
         super(); // Initialize the Button
         this.action = action;
 
@@ -55,29 +57,26 @@ public class MapNode extends Button {
         return statusCircle;
     }
 
-    public String getAction() {
+    public BattleInfo getAction() {
         return action;
     }
 
     // Helper method to determine the correct color
-    private Color getNodeColor(String action) {
-        if (GameLogic.getInstance().isBattleCleared(action)) {
-            return Color.GREEN; // Cleared
-        } else if (GameLogic.getInstance().isBattleUnlocked(action)) {
-            // Check if all previous battles are cleared for sequential battles
-            if (action.startsWith("BATTLE") || action.equals("BOSS")) {
-                if (GameLogic.getInstance().areAllPreviousBattlesCleared(action)) {
-                    return Color.YELLOW; // Fully unlocked - all prerequisites cleared
-                } else {
-                    return Color.ORANGE; // Partially unlocked - immediate prerequisite cleared but not all previous
-                }
-            } else {
-                return Color.YELLOW; // Non-battle node that's unlocked
-            }
-        } else if (action.equals("BOSS")) {
-            return Color.RED; // Boss battle - locked
-        } else {
-            return Color.GRAY; // Locked
+    private Color getNodeColor(BattleInfo action) {
+        // Check if the action is a battle using BattleNavigation
+
+        if (!action.isBattle()) {
+            return Color.GRAY;
         }
+
+        if (GameLogic.getInstance().isBattleCleared(action.getBattleName())) {
+            return Color.GREEN; // Cleared
+        } else if (GameLogic.getInstance().isPreviousBattleCleared(action.getBattleName())) {
+            return Color.YELLOW;
+        } else if (action.getBattleName().equals("BOSS")) {
+            return Color.RED; // Boss battle - locked
+        }
+
+        return Color.GRAY; // Locked
     }
 }

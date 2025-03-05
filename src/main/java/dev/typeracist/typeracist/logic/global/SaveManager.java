@@ -5,15 +5,14 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Map;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import dev.typeracist.typeracist.logic.characters.entities.Character;
-import dev.typeracist.typeracist.utils.Difficulty;
 import dev.typeracist.typeracist.logic.inventory.Item;
-import java.util.List;
-import java.util.Map;
+import dev.typeracist.typeracist.utils.Difficulty;
 
 public class SaveManager {
     private static final String SAVE_DIRECTORY = System.getProperty("user.home") + File.separator + ".typeracist";
@@ -103,6 +102,30 @@ public class SaveManager {
             System.err.println("Error saving character: " + e.getMessage());
         }
 
+    }
+
+    public static void loadSettings() {
+        JSONObject saveData = loadExistingSave(SAVE_FILE_SETTINGS);
+        GameLogic.getInstance().getMusicPlayer().setVolumeLevel(saveData.optInt(SAVE_DIRECTORY, 3));
+    }
+
+    public static void saveSettings() {
+        JSONObject saveData = loadExistingSave(SAVE_FILE_SETTINGS);
+        saveData.put("volume", GameLogic.getInstance().getMusicPlayer().getVolumeLevel());
+
+        File saveFile = new File(SAVE_FILE_SETTINGS);
+        File parentDir = saveFile.getParentFile(); // Get the parent directory
+
+        if (parentDir != null && !parentDir.exists()) {
+            parentDir.mkdirs(); // Create directories if they don't exist
+        }
+
+        try (FileWriter file = new FileWriter(saveFile)) {
+            file.write(saveData.toString(2));
+            System.out.println("Settings saved successfully to " + SAVE_FILE_SETTINGS);
+        } catch (IOException e) {
+            System.err.println("Error saving settings: " + e.getMessage());
+        }
     }
 
     private static JSONObject loadExistingSave(String fileName) {
