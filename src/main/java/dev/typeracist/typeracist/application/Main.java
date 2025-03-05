@@ -20,21 +20,21 @@ public class Main extends Application {
 
         SceneManager sceneManager = GameLogic.getInstance().getSceneManager();
 
-        sceneManager.addScene(SceneName.MAIN, new MainScene(1000, 750));
-        sceneManager.addScene(SceneName.SETTINGS, new SettingScene(1000, 750));
-        sceneManager.addScene(SceneName.CHARACTERS, new CharacterScene(1000, 750));
-        sceneManager.addScene(SceneName.DYNAMIC_PANE_TEST, new DynamicSceneDemo(1000, 750));
-        sceneManager.addScene(SceneName.MAP, new MapScene(1000, 750));
-        sceneManager.addScene(SceneName.SHOP, new ShopScene(1000, 750));
-        sceneManager.addScene(SceneName.ENCHANT, new EnchantScene(1000, 750));
-        sceneManager.addScene(SceneName.CHEST, new ChestScene(1000, 750));
-        sceneManager.addScene(SceneName.FORGE, new ForgeScene(1000, 750));
+        sceneManager.addScene(SceneName.MAIN, new MainScene(1000, 850));
+        sceneManager.addScene(SceneName.SETTINGS, new SettingScene(1000, 850));
+        sceneManager.addScene(SceneName.CHARACTERS, new CharacterScene(1000, 850));
+        sceneManager.addScene(SceneName.DYNAMIC_PANE_TEST, new DynamicSceneDemo(1000, 850));
+        sceneManager.addScene(SceneName.MAP, new MapScene(1000, 850));
+        sceneManager.addScene(SceneName.SHOP, new ShopScene(1000, 850));
+        sceneManager.addScene(SceneName.ENCHANT, new EnchantScene(1000, 850));
+        sceneManager.addScene(SceneName.CHEST, new ChestScene(1000, 850));
+        sceneManager.addScene(SceneName.FORGE, new ForgeScene(1000, 850));
 
         // load dataset and keyboard pane, in other page.
         new Thread(() -> {
             GameLogic.initializeDatasets();
-            sceneManager.addScene(SceneName.BATTLE_TEST, new BattleScene(1000, 750));
-            sceneManager.addScene(SceneName.KEYBOARD_TEST, new KeyboardPaneSceneDemo(1000, 750));
+            sceneManager.addScene(SceneName.BATTLE_TEST, new BattleScene(1000, 850));
+            sceneManager.addScene(SceneName.KEYBOARD_TEST, new KeyboardPaneSceneDemo(1000, 850));
         }).start();
 
         sceneManager.setScene(SceneName.MAIN);

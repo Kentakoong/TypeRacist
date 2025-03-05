@@ -11,111 +11,199 @@ import java.util.Queue;
 
 import dev.typeracist.typeracist.gui.gameScene.MapNode;
 import dev.typeracist.typeracist.logic.characters.entities.Character;
+import dev.typeracist.typeracist.logic.global.BattleInfo;
+import dev.typeracist.typeracist.logic.global.BattleNavigation;
 import dev.typeracist.typeracist.logic.global.GameLogic;
 import dev.typeracist.typeracist.logic.global.ResourceManager;
 import dev.typeracist.typeracist.logic.global.SaveManager;
-import dev.typeracist.typeracist.logic.global.BattleInfo;
-import dev.typeracist.typeracist.logic.global.BattleNavigation;
 import dev.typeracist.typeracist.utils.ResourceName;
 import dev.typeracist.typeracist.utils.SceneName;
 import javafx.animation.PauseTransition;
 import javafx.animation.TranslateTransition;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.Region;
+import javafx.scene.layout.VBox;
 import javafx.scene.shape.Line;
 import javafx.scene.text.Font;
 import javafx.util.Duration;
 
 public class MapScene extends BaseScene {
-    private final Pane root;
-    private final Label infoLabel;
-    private final Button confirmButton;
-    private final ImageView character;
+    private final VBox root;
+    private Label infoLabel;
+    private Button confirmButton;
+    private ImageView character;
     private final Map<String, MapNode> mapNodes = new HashMap<>();
     private String selectedAction = null;
     private MapNode currentNode;
 
-    public MapScene(double width, double height) {
-        super(new Pane(), width, height);
-        root = (Pane) getRoot();
+    private VBox topContainer;
+    private Pane mapContainer;
+    private HBox bottomContainer;
 
-        // set background to grey
+    public MapScene(double width, double height) {
+        super(new VBox(), width, height);
+        root = (VBox) getRoot();
         root.setStyle("-fx-background-color: #484848;");
+        root.setAlignment(Pos.CENTER);
+        root.setSpacing(10); // Adds spacing between UI elements
 
         // Load font
         Font baseFont = ResourceManager.getFont(ResourceName.FONT_DEPARTURE_MONO, 36);
 
-        // title label
+        // Create UI elements
+        topContainer = createTopContainer(width, baseFont);
+
+        // Create spacers
+        Region topSpacer = new Region();
+        Region bottomSpacer = new Region();
+        VBox.setVgrow(topSpacer, Priority.ALWAYS); // Pushes mapContainer to center
+        VBox.setVgrow(bottomSpacer, Priority.ALWAYS); // Pushes buttons to bottom
+
+        mapContainer = createNodesAndConnections(height);
+
+        bottomContainer = createBottomButtonContainer(width, height, baseFont);
+
+        // Add all elements with spacers to the VBox layout
+        root.getChildren().addAll(topContainer, topSpacer, mapContainer, bottomSpacer, bottomContainer);
+    }
+
+    /**
+     * Creates the top container including the title, info label, confirm button,
+     * and home button.
+     */
+    private VBox createTopContainer(double width, Font baseFont) {
+        VBox topContainer = new VBox();
+        topContainer.setAlignment(Pos.TOP_LEFT);
+        topContainer.setSpacing(10);
+        topContainer.setPadding(new Insets(10));
+        topContainer.setPrefWidth(width);
+        topContainer.setLayoutX(0);
+        topContainer.setLayoutY(10);
+
+        // Create the top bar (Title & Home Button)
+        HBox topBar = new HBox();
+        topBar.setAlignment(Pos.CENTER_LEFT);
+        topBar.setSpacing(10);
+        topBar.setPrefWidth(width - 100);
+
         Label titleLabel = new Label("Arena Map");
         titleLabel.setStyle("-fx-text-fill: white;");
-        titleLabel.setLayoutX(50);
-        titleLabel.setLayoutY(10);
         titleLabel.setFont(Font.font(baseFont.getName(), 36));
-        root.getChildren().add(titleLabel);
 
-        // Home button at top right
+        Region spacer = new Region();
+        HBox.setHgrow(spacer, Priority.ALWAYS);
+
         Button homeButton = new Button("Home");
         homeButton.setFont(Font.font(baseFont.getName(), 18));
-        homeButton.setLayoutX(width - 100); // Position at top right
-        homeButton.setLayoutY(10);
-        homeButton.setOnAction(event -> {
-            GameLogic.getInstance().getSceneManager().setScene(SceneName.MAIN);
-        });
-        root.getChildren().add(homeButton);
+        homeButton.setOnAction(event -> GameLogic.getInstance().getSceneManager().setScene(SceneName.MAIN));
 
-        // Info Label to show node descriptions
+        topBar.getChildren().addAll(titleLabel, spacer, homeButton);
+
+        // Info Label
         infoLabel = new Label("Select a location.");
         infoLabel.setFont(Font.font(baseFont.getName(), 24));
         infoLabel.setStyle("-fx-text-fill: white;");
-        infoLabel.setLayoutX(50);
-        infoLabel.setLayoutY(60);
-        root.getChildren().add(infoLabel);
+        infoLabel.setWrapText(true);
+        infoLabel.setMaxWidth(width - 100);
 
         // Confirm Button
         confirmButton = new Button("Confirm");
-        confirmButton.setLayoutX(50);
-        confirmButton.setLayoutY(100);
-        confirmButton.setDisable(true); // Disabled until a selection is made
+        confirmButton.setFont(Font.font(baseFont.getName(), 18));
+        confirmButton.setDisable(true);
         confirmButton.setOnAction(event -> {
             if (selectedAction != null) {
                 navigate(selectedAction);
             }
         });
-        root.getChildren().add(confirmButton);
-        // Create nodes
+
+        topContainer.getChildren().addAll(topBar, infoLabel, confirmButton);
+
+        return topContainer;
+    }
+
+    /**
+     * Creates nodes and connects them visually.
+     */
+    private Pane createNodesAndConnections(double height) {
+        mapContainer = new Pane();
+
+        mapContainer.setPrefSize(625, height * 0.6);
+        mapContainer.setMaxWidth(625);
+        mapContainer.setStyle("-fx-background-color: #484848;"); // Match background color
+
         for (BattleInfo battleInfo : BattleNavigation.getAllBattleInfo()) {
             createNode(battleInfo.getBattleName(), battleInfo.getNodeX(), battleInfo.getNodeY(),
                     battleInfo.getBattleImage(), battleInfo, battleInfo.getBattleDescription());
         }
 
-        // Connect nodes visually
         for (BattleInfo battleInfo : BattleNavigation.getAllBattleInfo()) {
             for (String connectedNodeId : battleInfo.getConnectedNodes()) {
                 connectNodes(battleInfo.getBattleName(), connectedNodeId);
             }
         }
 
-        character = new ImageView(GameLogic.getInstance().getSelectedCharacter().getImage());
-        character.setFitWidth(50); // Set character size
-        character.setFitHeight(50);
-        // Add character to the scene
-        root.getChildren().add(character);
+        mapContainer.setMaxWidth(625);
+        mapContainer.setStyle("-fx-background-color: #484848;"); // Match background color
 
-        // Add test buttons for clearing battles
+        createCharacter();
+
+        return mapContainer;
+    }
+
+    /**
+     * Creates the character image and adds it to the scene.
+     */
+    private void createCharacter() {
+        character = new ImageView(GameLogic.getInstance().getSelectedCharacter().getImage());
+        character.setFitWidth(50);
+        character.setFitHeight(50);
+        mapContainer.getChildren().add(character);
+    }
+
+    /**
+     * Creates the bottom button container and adds win buttons.
+     */
+    private HBox createBottomButtonContainer(double width, double height, Font baseFont) {
+        HBox bottomButtonContainer = new HBox();
+        bottomButtonContainer.setAlignment(Pos.CENTER);
+        bottomButtonContainer.setSpacing(10);
+        bottomButtonContainer.setPrefWidth(width);
+        bottomButtonContainer.setPadding(new Insets(10));
+
         String[] battleNames = { "BATTLE1", "BATTLE2", "BATTLE3", "BATTLE4", "BATTLE5", "BATTLE6", "BATTLE7", "BATTLE8",
                 "BATTLE9", "BOSS" };
-        for (int i = 0; i < battleNames.length; i++) {
-            addWinButton("Win " + battleNames[i], 50 + (i * 100), 700, battleNames[i]);
+
+        for (String battleName : battleNames) {
+            Button winButton = new Button("Win " + battleName);
+            winButton.setFont(Font.font(baseFont.getName(), 14));
+            winButton.setOnAction(event -> {
+                // Clear the battle in game logic
+                GameLogic.getInstance().clearBattle(battleName);
+
+                // Update UI feedback
+                infoLabel.setText(battleName + " cleared!");
+
+                // Refresh node colors to reflect new game state
+                updateNodeColors();
+
+                // Save the game
+                SaveManager.saveCharacter();
+            });
+
+            bottomButtonContainer.getChildren().add(winButton);
         }
 
-        currentNode = mapNodes.get("START");
-        if (currentNode != null) {
-            character.setLayoutX(currentNode.getLayoutX());
-            character.setLayoutY(currentNode.getLayoutY());
-        }
+        VBox.setVgrow(bottomButtonContainer, Priority.NEVER); // Keep it at the bottom
+
+        return bottomButtonContainer;
     }
 
     /**
@@ -140,8 +228,8 @@ public class MapScene extends BaseScene {
         });
 
         // Add visual elements to the scene
-        root.getChildren().add(node.getStatusCircle()); // Add status indicator circle
-        root.getChildren().add(node); // Add the node itself
+        mapContainer.getChildren().add(node.getStatusCircle()); // Add status indicator circle
+        mapContainer.getChildren().add(node); // Add the node itself
 
         // Store the node for later reference
         mapNodes.put(id, node);
@@ -183,7 +271,7 @@ public class MapScene extends BaseScene {
             line.setStyle("-fx-stroke: white; -fx-stroke-width: 2;");
 
             // Add the line to the bottom layer so it appears behind nodes
-            root.getChildren().addFirst(line);
+            mapContainer.getChildren().addFirst(line);
         }
     }
 
@@ -340,38 +428,6 @@ public class MapScene extends BaseScene {
         }
     }
 
-    /**
-     * Creates a test button that marks a battle as cleared when clicked
-     * 
-     * @param text       Button label text
-     * @param x          X-coordinate position
-     * @param y          Y-coordinate position
-     * @param battleName Name of the battle to mark as cleared
-     */
-    private void addWinButton(String text, double x, double y, String battleName) {
-        Button winButton = new Button(text);
-        winButton.setLayoutX(x);
-        winButton.setLayoutY(y);
-
-        System.out.println("battleName: " + battleName);
-
-        winButton.setOnAction(event -> {
-            // Clear the battle in game logic
-            GameLogic.getInstance().clearBattle(battleName);
-
-            // Update UI feedback
-            infoLabel.setText(battleName + " cleared!");
-
-            // Refresh node colors to reflect new game state
-            updateNodeColors();
-
-            // Save the game
-            SaveManager.saveCharacter();
-        });
-
-        root.getChildren().add(winButton);
-    }
-
     @Override
     public void onSceneEnter() {
         // Load the saved game data to ensure battle statuses are up-to-date
@@ -391,7 +447,6 @@ public class MapScene extends BaseScene {
             character.setLayoutX(currentNode.getLayoutX());
             character.setLayoutY(currentNode.getLayoutY());
         } else {
-            // Default to START if no current node
             currentNode = mapNodes.get("START");
             if (currentNode != null) {
                 character.setLayoutX(currentNode.getLayoutX());
