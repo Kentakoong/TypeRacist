@@ -11,6 +11,7 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
@@ -120,7 +121,7 @@ public class CharacterScene extends BaseScene {
                 for (VBox frame : characterFrames.values()) {
                     frame.setStyle("-fx-border-color: gray; -fx-border-width: 2px; -fx-border-radius: 10px; -fx-background-color: white; -fx-background-radius: 10px;"); // Reset others
                 }
-                characterBox.setStyle("-fx-border   -color: gold; -fx-border-width: 3px; -fx-border-radius: 10px; -fx-background-color: lightyellow; -fx-background-radius: 10px;"); // Highlight selected
+                characterBox.setStyle("-fx-border-color: gold; -fx-border-width: 3px; -fx-border-radius: 10px; -fx-background-color: lightyellow; -fx-background-radius: 10px;"); // Highlight selected
             });
 
             // Hover effect
@@ -156,10 +157,10 @@ public class CharacterScene extends BaseScene {
         difficultyLabel.setFont(Font.font(baseFont.getName(), 18));
         difficultyLabel.setTextFill(Color.WHITE);
 
-        Button easyButton = createStyledButton("Easy", baseFont);
-        Button normalButton = createStyledButton("Normal", baseFont);
-        Button hardButton = createStyledButton("Hard", baseFont);
-        Button hellButton = createStyledButton("Hell", baseFont);
+        Button easyButton = createStyledDifficultyButton("Easy", baseFont);
+        Button normalButton = createStyledDifficultyButton("Normal", baseFont);
+        Button hardButton = createStyledDifficultyButton("Hard", baseFont);
+        Button hellButton = createStyledDifficultyButton("Hell", baseFont);
 
         easyButton.setOnAction(e -> selectDifficulty("Easy", easyButton, normalButton, hardButton, hellButton));
         normalButton.setOnAction(e -> selectDifficulty("Normal", easyButton, normalButton, hardButton, hellButton));
@@ -195,25 +196,25 @@ public class CharacterScene extends BaseScene {
             confirmationAlert.setTitle("Confirm Selection");
             confirmationAlert.setHeaderText(null); // Remove default header
 
-// Set Background Color
+            // Set Background Color
             confirmationAlert.getDialogPane().setBackground(new Background(
                     new BackgroundFill(Color.web("#484848"), CornerRadii.EMPTY, Insets.EMPTY)
             ));
 
-// Load Font
+            // Load Font
             Font alertFont = ResourceManager.getFont(ResourceName.FONT_DEPARTURE_MONO, 18);
 
-// Create Custom VBox for Content
+            // Create Custom VBox for Content
             VBox contentBox = new VBox(10);
             contentBox.setAlignment(Pos.CENTER);
             contentBox.setPadding(new Insets(10));
 
-// Character Image
+            // Character Image
             ImageView characterImageView = new ImageView(selectedCharacter.getImage());
             characterImageView.setFitWidth(100);
             characterImageView.setFitHeight(100);
 
-// Styled Labels
+            // Styled Labels
             Label alertTitleLabel = new Label("Confirm Your Character Choice");
             alertTitleLabel.setFont(Font.font(alertFont.getName(), 24));
             alertTitleLabel.setTextFill(Color.WHITE);
@@ -228,13 +229,13 @@ public class CharacterScene extends BaseScene {
             contentLabel.setTextFill(Color.WHITE);
             contentLabel.setWrapText(true);
 
-// Add Elements to VBox
+            // Add Elements to VBox
             contentBox.getChildren().addAll(alertTitleLabel, characterImageView, contentLabel);
 
-// Set Custom Content
+            // Set Custom Content
             confirmationAlert.getDialogPane().setContent(contentBox);
 
-// Style Buttons
+            // Style Buttons
             ButtonType okButton = ButtonType.OK;
             ButtonType cancelButton = ButtonType.CANCEL;
             confirmationAlert.getButtonTypes().setAll(okButton, cancelButton);
@@ -262,7 +263,7 @@ public class CharacterScene extends BaseScene {
                 cancelBtn.setOnMouseExited(e -> cancelBtn.setBackground(new Background(new BackgroundFill(Color.DIMGRAY, new CornerRadii(5), Insets.EMPTY))));
             }
 
-// Show Alert
+        // Show Alert
             Optional<ButtonType> result = confirmationAlert.showAndWait();
             if (result.isPresent() && result.get() == ButtonType.OK) {
                 // Proceed to MapScene
@@ -304,17 +305,70 @@ public class CharacterScene extends BaseScene {
         return button;
     }
 
+    private Button createStyledDifficultyButton(String text, Font font) {
+        Button button = new Button(text);
+        button.setFont(font);
+        button.setTextFill(Color.WHITE);
+        button.setBackground(new Background(new BackgroundFill(Color.DIMGRAY, new CornerRadii(5), Insets.EMPTY)));
+
+        // Default shadow effect (matches confirm button)
+        DropShadow defaultShadow = new DropShadow();
+        defaultShadow.setColor(Color.BLACK);
+        defaultShadow.setRadius(5);
+        button.setEffect(defaultShadow);
+
+        // Store original style
+        final String defaultStyle = "-fx-background-color: dimgray; -fx-border-color: gold; -fx-border-width: 3px; -fx-border-radius: 5px; -fx-text-fill: white;";
+        button.setStyle(defaultStyle);
+
+        // Hover effect (only if not selected)
+        button.setOnMouseEntered(event -> {
+            if (!button.getStyle().contains("#FFD700")) { // Don't change color if it's selected
+                if (text.equals("Easy")) {
+                    button.setStyle("-fx-background-color: lightgreen; -fx-border-color: gold; -fx-border-width: 3px; -fx-border-radius: 5px;");
+                } else if (text.equals("Normal")) {
+                    button.setStyle("-fx-background-color: yellow; -fx-border-color: gold; -fx-border-width: 3px; -fx-border-radius: 5px;");
+                } else if (text.equals("Hard")) {
+                    button.setStyle("-fx-background-color: red; -fx-border-color: gold; -fx-border-width: 3px; -fx-border-radius: 5px;");
+                } else if (text.equals("Hell")) {
+                    button.setStyle("-fx-background-color: red; -fx-border-color: gold; -fx-border-width: 3px; -fx-border-radius: 5px;");
+
+                    // Fire effect for Hell difficulty
+                    DropShadow fireEffect = new DropShadow();
+                    fireEffect.setColor(Color.ORANGERED);
+                    fireEffect.setRadius(15);
+                    fireEffect.setSpread(0.7);
+                    button.setEffect(fireEffect);
+                }
+                button.setTextFill(Color.BLACK);
+            }
+        });
+
+        // Reset to original if not selected
+        button.setOnMouseExited(event -> {
+            if (!button.getStyle().contains("#FFD700")) { // Keep color if selected
+                button.setStyle(defaultStyle);
+                button.setEffect(defaultShadow);
+            }
+            button.setTextFill(Color.WHITE);
+        });
+
+        return button;
+    }
+
     // Method to set selected difficulty and update button styles
     private void selectDifficulty(String difficulty, Button... buttons) {
         selectedDifficulty = difficulty;
         for (Button button : buttons) {
             if (button.getText().equals(difficulty)) {
-                button.setStyle("-fx-background-color: #FFD700;"); // Highlight selected
+                button.setStyle("-fx-background-color: #FFD700; -fx-border-color: gold; -fx-border-width: 3px; -fx-border-radius: 5px; -fx-text-fill: black;");
             } else {
-                button.setStyle("-fx-background-color: transparent;"); // Reset others
+                button.setStyle("-fx-background-color: dimgray; -fx-border-color: gold; -fx-border-width: 3px; -fx-border-radius: 5px; -fx-text-fill: white;");
             }
         }
     }
+
+
 
     @Override
     public void onSceneEnter() {
