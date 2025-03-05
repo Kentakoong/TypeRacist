@@ -46,4 +46,9 @@ public class TimePotion extends Item implements ActivateOnTurn {
     public ActivateOnTurnState getActivateOnTurnState() {
         return ActivateOnTurnState.BOTH;
     }
+
+    @Override
+    public Item copy() {
+        return new TimePotion();
+    }
 }

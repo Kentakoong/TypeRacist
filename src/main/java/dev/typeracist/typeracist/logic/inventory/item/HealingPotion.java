@@ -28,4 +28,9 @@ public class HealingPotion extends Item implements ActivateNow {
                 3000
         );
     }
+
+    @Override
+    public Item copy() {
+        return new HealingPotion();
+    }
 }

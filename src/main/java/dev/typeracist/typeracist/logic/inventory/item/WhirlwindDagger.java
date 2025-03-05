@@ -62,4 +62,9 @@ public class WhirlwindDagger extends Item implements ActivateNow, ActivateOnTurn
     public ActivateOnTurnState getActivateOnTurnState() {
         return ActivateOnTurnState.BEFORE_DEFENSE;
     }
+
+    @Override
+    public Item copy() {
+        return new WhirlwindDagger();
+    }
 }

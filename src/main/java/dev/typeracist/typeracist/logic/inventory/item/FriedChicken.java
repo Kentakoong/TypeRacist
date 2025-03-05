@@ -58,4 +58,8 @@ public class FriedChicken extends Item implements ActivateNow, ActivateOnTurn {
         return ActivateOnTurnState.BOTH;
     }
 
+    @Override
+    public Item copy() {
+        return new FriedChicken();
+    }
 }
