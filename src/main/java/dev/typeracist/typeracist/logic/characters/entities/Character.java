@@ -5,7 +5,6 @@ import dev.typeracist.typeracist.logic.characters.HP;
 import dev.typeracist.typeracist.logic.characters.Skill;
 import dev.typeracist.typeracist.logic.characters.XP;
 import dev.typeracist.typeracist.logic.inventory.Inventory;
-import dev.typeracist.typeracist.utils.SceneName;
 import javafx.scene.image.Image;
 
 import java.io.FileWriter;
@@ -35,19 +34,18 @@ public abstract class Character extends Entity {
 
     // Initialize the battle prerequisites map
     static {
-        BATTLE_PREREQUISITES.put(SceneName.BATTLE_SCENE1, null); // First battle has no prerequisites
-        BATTLE_PREREQUISITES.put(SceneName.BATTLE_SCENE2, SceneName.BATTLE_SCENE1);
-        BATTLE_PREREQUISITES.put(SceneName.BATTLE_SCENE3, SceneName.BATTLE_SCENE2);
-        BATTLE_PREREQUISITES.put(SceneName.BATTLE_SCENE4, SceneName.BATTLE_SCENE3);
-        BATTLE_PREREQUISITES.put(SceneName.BATTLE_SCENE5, SceneName.BATTLE_SCENE4);
-        BATTLE_PREREQUISITES.put(SceneName.BATTLE_SCENE6, SceneName.BATTLE_SCENE5);
-        BATTLE_PREREQUISITES.put(SceneName.BATTLE_SCENE7, SceneName.BATTLE_SCENE6);
-        BATTLE_PREREQUISITES.put(SceneName.BATTLE_SCENE8, SceneName.BATTLE_SCENE7);
-        BATTLE_PREREQUISITES.put(SceneName.BATTLE_SCENE9, SceneName.BATTLE_SCENE8);
-        BATTLE_PREREQUISITES.put(SceneName.BOSS_SCENE, SceneName.BATTLE_SCENE9);
+        BATTLE_PREREQUISITES.put("BATTLE1", null); // First battle has no prerequisites
+        BATTLE_PREREQUISITES.put("BATTLE2", "BATTLE1");
+        BATTLE_PREREQUISITES.put("BATTLE3", "BATTLE2");
+        BATTLE_PREREQUISITES.put("BATTLE4", "BATTLE3");
+        BATTLE_PREREQUISITES.put("BATTLE5", "BATTLE4");
+        BATTLE_PREREQUISITES.put("BATTLE6", "BATTLE5");
+        BATTLE_PREREQUISITES.put("BATTLE7", "BATTLE6");
+        BATTLE_PREREQUISITES.put("BATTLE8", "BATTLE7");
+        BATTLE_PREREQUISITES.put("BATTLE9", "BATTLE8");
+        BATTLE_PREREQUISITES.put("BOSS", "BATTLE9");
         // Add other battle prerequisites as needed
     }
-
 
     public Character(HP hp, int atk, int def, Image image, Skill skill) {
         super(hp, atk, def, image, skill);
