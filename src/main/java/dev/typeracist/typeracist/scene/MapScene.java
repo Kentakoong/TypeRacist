@@ -323,14 +323,14 @@ public class MapScene extends BaseScene {
                 break;
             case "REWARD1":
                 if (GameLogic.getInstance().isBattleCleared("BATTLE4")) {
-                    GameLogic.getInstance().getSceneManager().setScene("REWARD_SCENE1");
+                    GameLogic.getInstance().getSceneManager().setScene(SceneName.CHEST);
                 } else {
                     infoLabel.setText("You must clear BATTLE4 first!");
                 }
                 break;
             case "REWARD2":
                 if (GameLogic.getInstance().isBattleCleared("BATTLE9")) {
-                    GameLogic.getInstance().getSceneManager().setScene("REWARD_SCENE2");
+                    GameLogic.getInstance().getSceneManager().setScene(SceneName.CHEST);
                 } else {
                     infoLabel.setText("You must clear BATTLE9 first!");
                 }
@@ -340,7 +340,7 @@ public class MapScene extends BaseScene {
                 break;
             case "UPGRADE":
                 if (GameLogic.getInstance().isBattleCleared("BATTLE5")) {
-                    GameLogic.getInstance().getSceneManager().setScene(SceneName.ENCHANT);
+                    GameLogic.getInstance().getSceneManager().setScene(SceneName.FORGE);
                 } else {
                     infoLabel.setText("You must clear BATTLE5 first!");
                 }

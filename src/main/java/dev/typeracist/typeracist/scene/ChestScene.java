@@ -1,7 +1,9 @@
 package dev.typeracist.typeracist.scene;
 
+import dev.typeracist.typeracist.logic.global.GameLogic;
 import dev.typeracist.typeracist.logic.global.ResourceManager;
 import dev.typeracist.typeracist.utils.ResourceName;
+import dev.typeracist.typeracist.utils.SceneName;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
@@ -91,7 +93,7 @@ public class ChestScene extends BaseScene {
         returnButton.setLayoutY(675);
         returnButton.setPrefWidth(150);
         returnButton.setPrefHeight(40);
-//      returnButton.setOnAction(event -> SceneManager.setScene(SceneName.MAP));
+        returnButton.setOnAction(event -> GameLogic.getInstance().getSceneManager().setScene(SceneName.MAP));
 
         root.getChildren().addAll(title, closeChestIcon, openedChestIcon, openButton, returnButton, rewardPane);
     }
