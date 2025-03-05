@@ -62,13 +62,22 @@ public class MapNode extends Button {
     // Helper method to determine the correct color
     private Color getNodeColor(String action) {
         if (GameLogic.getInstance().isBattleCleared(action)) {
-            return Color.GREEN; // Won
+            return Color.GREEN; // Cleared
         } else if (GameLogic.getInstance().isBattleUnlocked(action)) {
-            return Color.YELLOW; // Playable
+            // Check if all previous battles are cleared for sequential battles
+            if (action.startsWith("BATTLE") || action.equals("BOSS")) {
+                if (GameLogic.getInstance().areAllPreviousBattlesCleared(action)) {
+                    return Color.YELLOW; // Fully unlocked - all prerequisites cleared
+                } else {
+                    return Color.ORANGE; // Partially unlocked - immediate prerequisite cleared but not all previous
+                }
+            } else {
+                return Color.YELLOW; // Non-battle node that's unlocked
+            }
         } else if (action.equals("BOSS")) {
-            return Color.RED; // Boss
+            return Color.RED; // Boss battle - locked
         } else {
-            return Color.WHITE; // Locked
+            return Color.GRAY; // Locked
         }
     }
 }
