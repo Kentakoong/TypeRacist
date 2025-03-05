@@ -21,10 +21,10 @@ public class ShopScene extends BaseScene {
         private final ShopPane shopPane;
         private final Label coinLabel;
 
-        public ShopScene(double width, double height, Character playerCharacter) {
+        public ShopScene(double width, double height) {
                 super(new Pane(), width, height);
                 this.root = (Pane) getRoot();
-                this.playerCharacter = playerCharacter;
+                this.playerCharacter = GameLogic.getInstance().getSelectedCharacter();
                 root.setStyle("-fx-background-color: #333;");
 
                 Font baseFont = ResourceManager.getFont(ResourceName.FONT_DEPARTURE_MONO, 36);
