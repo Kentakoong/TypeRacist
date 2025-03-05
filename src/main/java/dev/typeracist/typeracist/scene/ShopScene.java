@@ -3,6 +3,7 @@ package dev.typeracist.typeracist.scene;
 import dev.typeracist.typeracist.logic.characters.entities.Character;
 import dev.typeracist.typeracist.logic.global.GameLogic;
 import dev.typeracist.typeracist.logic.global.ResourceManager;
+import dev.typeracist.typeracist.logic.global.SaveManager;
 import dev.typeracist.typeracist.logic.inventory.Inventory;
 import dev.typeracist.typeracist.logic.inventory.Item;
 import dev.typeracist.typeracist.logic.inventory.item.*;
@@ -159,6 +160,7 @@ public class ShopScene extends BaseScene {
                         playerCharacter.spendCoin(itemPrice);
                         inventory.addItem(item);
                         shopPane.showPopup("You bought " + item.getName() + "!");
+                        SaveManager.saveCharacter();
                 } else {
                         shopPane.showPopup("Not enough coins to buy " + item.getName() + "!");
                 }
