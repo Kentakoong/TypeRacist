@@ -1,35 +1,46 @@
 package dev.typeracist.typeracist.scene;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
+
 import dev.typeracist.typeracist.logic.characters.entities.Character;
-import dev.typeracist.typeracist.logic.characters.entities.character.*;
+import dev.typeracist.typeracist.logic.characters.entities.character.Archer;
+import dev.typeracist.typeracist.logic.characters.entities.character.Assassin;
+import dev.typeracist.typeracist.logic.characters.entities.character.Warrior;
+import dev.typeracist.typeracist.logic.characters.entities.character.Wizard;
+import dev.typeracist.typeracist.logic.characters.entities.character.Wretch;
 import dev.typeracist.typeracist.logic.global.GameLogic;
 import dev.typeracist.typeracist.logic.global.ResourceManager;
 import dev.typeracist.typeracist.utils.ResourceName;
 import dev.typeracist.typeracist.utils.SceneName;
+import dev.typeracist.typeracist.utils.Difficulty;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.*;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.Border;
+import javafx.scene.layout.BorderStroke;
+import javafx.scene.layout.BorderStrokeStyle;
+import javafx.scene.layout.BorderWidths;
+import javafx.scene.layout.CornerRadii;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.ButtonType;
-
-import java.util.Optional;
-import java.util.HashMap;
-import java.util.Map;
 
 public class CharacterScene extends BaseScene {
     private Character selectedCharacter; // Store selected character ID
     private Label warningLabel; // Label to display warning message
     private Label characterInfoLabel; // Label to display character name & description
-    private String selectedDifficulty = null;
-
+    private Difficulty selectedDifficulty = null;
 
     public CharacterScene(double width, double height) {
         super(new VBox(), width, height);
@@ -38,9 +49,8 @@ public class CharacterScene extends BaseScene {
         root.setSpacing(20);
         root.setPadding(new Insets(20));
 
-        //set background to grey
+        // set background to grey
         root.setBackground(new Background(new BackgroundFill(Color.web("#484848"), CornerRadii.EMPTY, Insets.EMPTY)));
-
 
         // Load font
         Font baseFont = ResourceManager.getFont(ResourceName.FONT_DEPARTURE_MONO, 36);
@@ -101,8 +111,10 @@ public class CharacterScene extends BaseScene {
             VBox characterBox = new VBox(5, characterView, characterLabel);
             characterBox.setAlignment(Pos.CENTER);
             characterBox.setPadding(new Insets(10));
-            characterBox.setBackground(new Background(new BackgroundFill(Color.LIGHTGRAY, new CornerRadii(10), Insets.EMPTY)));
-            characterBox.setBorder(new Border(new BorderStroke(Color.GRAY, BorderStrokeStyle.SOLID, new CornerRadii(10), BorderWidths.DEFAULT)));
+            characterBox.setBackground(
+                    new Background(new BackgroundFill(Color.LIGHTGRAY, new CornerRadii(10), Insets.EMPTY)));
+            characterBox.setBorder(new Border(
+                    new BorderStroke(Color.GRAY, BorderStrokeStyle.SOLID, new CornerRadii(10), BorderWidths.DEFAULT)));
 
             // Store frame in the map
             characterFrames.put(character, characterBox);
@@ -119,21 +131,27 @@ public class CharacterScene extends BaseScene {
 
                 // Highlight selected character frame
                 for (VBox frame : characterFrames.values()) {
-                    frame.setStyle("-fx-border-color: gray; -fx-border-width: 2px; -fx-border-radius: 10px; -fx-background-color: white; -fx-background-radius: 10px;"); // Reset others
+                    frame.setStyle(
+                            "-fx-border-color: gray; -fx-border-width: 2px; -fx-border-radius: 10px; -fx-background-color: white; -fx-background-radius: 10px;"); // Reset
+                                                                                                                                                                  // others
                 }
-                characterBox.setStyle("-fx-border-color: gold; -fx-border-width: 3px; -fx-border-radius: 10px; -fx-background-color: lightyellow; -fx-background-radius: 10px;"); // Highlight selected
+                characterBox.setStyle(
+                        "-fx-border-color: gold; -fx-border-width: 3px; -fx-border-radius: 10px; -fx-background-color: lightyellow; -fx-background-radius: 10px;"); // Highlight
+                                                                                                                                                                    // selected
             });
 
             // Hover effect
             characterBox.setOnMouseEntered(event -> {
                 if (selectedCharacter != character) { // Only apply if not selected
-                    characterBox.setStyle("-fx-border-color: blue; -fx-border-width: 2px; -fx-border-radius: 10px; -fx-background-color: lightgray; -fx-background-radius: 10px; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 10, 0.5, 0, 3);");
+                    characterBox.setStyle(
+                            "-fx-border-color: blue; -fx-border-width: 2px; -fx-border-radius: 10px; -fx-background-color: lightgray; -fx-background-radius: 10px; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 10, 0.5, 0, 3);");
                 }
             });
 
             characterBox.setOnMouseExited(event -> {
                 if (selectedCharacter != character) { // Only reset if not selected
-                    characterBox.setStyle("-fx-border-color: gray; -fx-border-width: 2px; -fx-border-radius: 10px; -fx-background-color: white; -fx-background-radius: 10px;");
+                    characterBox.setStyle(
+                            "-fx-border-color: gray; -fx-border-width: 2px; -fx-border-radius: 10px; -fx-background-color: white; -fx-background-radius: 10px;");
                 }
             });
 
@@ -169,7 +187,6 @@ public class CharacterScene extends BaseScene {
 
         difficultyBox.getChildren().addAll(difficultyLabel, easyButton, normalButton, hardButton, hellButton);
 
-
         // Confirm button
 
         // Confirm Button
@@ -198,8 +215,7 @@ public class CharacterScene extends BaseScene {
 
             // Set Background Color
             confirmationAlert.getDialogPane().setBackground(new Background(
-                    new BackgroundFill(Color.web("#484848"), CornerRadii.EMPTY, Insets.EMPTY)
-            ));
+                    new BackgroundFill(Color.web("#484848"), CornerRadii.EMPTY, Insets.EMPTY)));
 
             // Load Font
             Font alertFont = ResourceManager.getFont(ResourceName.FONT_DEPARTURE_MONO, 18);
@@ -222,9 +238,8 @@ public class CharacterScene extends BaseScene {
             Label contentLabel = new Label(
                     "Name: " + playerName + "\n" +
                             "Character: " + characterData.get(selectedCharacter)[0] + "\n" +
-                            "Difficulty: " + selectedDifficulty + "\n\n" +
-                            "Click OK to go to Arena Map"
-            );
+                            "Difficulty: " + selectedDifficulty.getDisplayName() + "\n\n" +
+                            "Click OK to go to Arena Map");
             contentLabel.setFont(alertFont);
             contentLabel.setTextFill(Color.WHITE);
             contentLabel.setWrapText(true);
@@ -246,28 +261,42 @@ public class CharacterScene extends BaseScene {
             if (okBtn != null) {
                 okBtn.setFont(alertFont);
                 okBtn.setTextFill(Color.WHITE);
-                okBtn.setBackground(new Background(new BackgroundFill(Color.DIMGRAY, new CornerRadii(5), Insets.EMPTY)));
+                okBtn.setBackground(
+                        new Background(new BackgroundFill(Color.DIMGRAY, new CornerRadii(5), Insets.EMPTY)));
 
                 // Hover effect
-                okBtn.setOnMouseEntered(e -> okBtn.setBackground(new Background(new BackgroundFill(Color.LIGHTGRAY, new CornerRadii(5), Insets.EMPTY))));
-                okBtn.setOnMouseExited(e -> okBtn.setBackground(new Background(new BackgroundFill(Color.DIMGRAY, new CornerRadii(5), Insets.EMPTY))));
+                okBtn.setOnMouseEntered(e -> okBtn.setBackground(
+                        new Background(new BackgroundFill(Color.LIGHTGRAY, new CornerRadii(5), Insets.EMPTY))));
+                okBtn.setOnMouseExited(e -> okBtn.setBackground(
+                        new Background(new BackgroundFill(Color.DIMGRAY, new CornerRadii(5), Insets.EMPTY))));
             }
 
             if (cancelBtn != null) {
                 cancelBtn.setFont(alertFont);
                 cancelBtn.setTextFill(Color.WHITE);
-                cancelBtn.setBackground(new Background(new BackgroundFill(Color.DIMGRAY, new CornerRadii(5), Insets.EMPTY)));
+                cancelBtn.setBackground(
+                        new Background(new BackgroundFill(Color.DIMGRAY, new CornerRadii(5), Insets.EMPTY)));
 
                 // Hover effect
-                cancelBtn.setOnMouseEntered(e -> cancelBtn.setBackground(new Background(new BackgroundFill(Color.LIGHTGRAY, new CornerRadii(5), Insets.EMPTY))));
-                cancelBtn.setOnMouseExited(e -> cancelBtn.setBackground(new Background(new BackgroundFill(Color.DIMGRAY, new CornerRadii(5), Insets.EMPTY))));
+                cancelBtn.setOnMouseEntered(e -> cancelBtn.setBackground(
+                        new Background(new BackgroundFill(Color.LIGHTGRAY, new CornerRadii(5), Insets.EMPTY))));
+                cancelBtn.setOnMouseExited(e -> cancelBtn.setBackground(
+                        new Background(new BackgroundFill(Color.DIMGRAY, new CornerRadii(5), Insets.EMPTY))));
             }
 
-        // Show Alert
+            // Show Alert
             Optional<ButtonType> result = confirmationAlert.showAndWait();
             if (result.isPresent() && result.get() == ButtonType.OK) {
-                // Proceed to MapScene
+                // Set player name
+                GameLogic.getInstance().setPlayerName(playerName);
+
+                // Set current difficulty
+                GameLogic.getInstance().setCurrentDifficulty(selectedDifficulty);
+
+                // Set selected character (this will also add it to the characters map)
                 GameLogic.getInstance().setSelectedCharacter(selectedCharacter);
+
+                // Update map and navigate to it
                 ((MapScene) GameLogic.getInstance().getSceneManager().getScene(SceneName.MAP)).updateNodeColors();
                 GameLogic.getInstance().getSceneManager().setScene(SceneName.MAP);
             }
@@ -275,13 +304,13 @@ public class CharacterScene extends BaseScene {
         });
         // return confirmButton;
 
-
         // Warning Label (Initially empty)
 
         warningLabel = new Label("");
         warningLabel.setFont(baseFont);
         warningLabel.setTextFill(Color.RED);
-        root.getChildren().addAll(titleLabel, characterSelection, characterInfoLabel, nameBox, difficultyBox, confirmButton, warningLabel);
+        root.getChildren().addAll(titleLabel, characterSelection, characterInfoLabel, nameBox, difficultyBox,
+                confirmButton, warningLabel);
 
     }
 
@@ -325,13 +354,17 @@ public class CharacterScene extends BaseScene {
         button.setOnMouseEntered(event -> {
             if (!button.getStyle().contains("#FFD700")) { // Don't change color if it's selected
                 if (text.equals("Easy")) {
-                    button.setStyle("-fx-background-color: lightgreen; -fx-border-color: gold; -fx-border-width: 3px; -fx-border-radius: 5px;");
+                    button.setStyle(
+                            "-fx-background-color: lightgreen; -fx-border-color: gold; -fx-border-width: 3px; -fx-border-radius: 5px;");
                 } else if (text.equals("Normal")) {
-                    button.setStyle("-fx-background-color: yellow; -fx-border-color: gold; -fx-border-width: 3px; -fx-border-radius: 5px;");
+                    button.setStyle(
+                            "-fx-background-color: yellow; -fx-border-color: gold; -fx-border-width: 3px; -fx-border-radius: 5px;");
                 } else if (text.equals("Hard")) {
-                    button.setStyle("-fx-background-color: red; -fx-border-color: gold; -fx-border-width: 3px; -fx-border-radius: 5px;");
+                    button.setStyle(
+                            "-fx-background-color: red; -fx-border-color: gold; -fx-border-width: 3px; -fx-border-radius: 5px;");
                 } else if (text.equals("Hell")) {
-                    button.setStyle("-fx-background-color: red; -fx-border-color: gold; -fx-border-width: 3px; -fx-border-radius: 5px;");
+                    button.setStyle(
+                            "-fx-background-color: red; -fx-border-color: gold; -fx-border-width: 3px; -fx-border-radius: 5px;");
 
                     // Fire effect for Hell difficulty
                     DropShadow fireEffect = new DropShadow();
@@ -357,22 +390,21 @@ public class CharacterScene extends BaseScene {
     }
 
     // Method to set selected difficulty and update button styles
-    private void selectDifficulty(String difficulty, Button... buttons) {
-        selectedDifficulty = difficulty;
+    private void selectDifficulty(String difficultyName, Button... buttons) {
+        selectedDifficulty = Difficulty.fromDisplayName(difficultyName);
         for (Button button : buttons) {
-            if (button.getText().equals(difficulty)) {
-                button.setStyle("-fx-background-color: #FFD700; -fx-border-color: gold; -fx-border-width: 3px; -fx-border-radius: 5px; -fx-text-fill: black;");
+            if (button.getText().equals(difficultyName)) {
+                button.setStyle(
+                        "-fx-background-color: #FFD700; -fx-border-color: gold; -fx-border-width: 3px; -fx-border-radius: 5px; -fx-text-fill: black;");
             } else {
-                button.setStyle("-fx-background-color: dimgray; -fx-border-color: gold; -fx-border-width: 3px; -fx-border-radius: 5px; -fx-text-fill: white;");
+                button.setStyle(
+                        "-fx-background-color: dimgray; -fx-border-color: gold; -fx-border-width: 3px; -fx-border-radius: 5px; -fx-text-fill: white;");
             }
         }
     }
 
-
-
     @Override
     public void onSceneEnter() {
-
     }
 
     @Override
