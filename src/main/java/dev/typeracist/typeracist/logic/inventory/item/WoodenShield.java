@@ -22,5 +22,10 @@ public class WoodenShield extends Item implements ActivateNow {
     @Override
     public void activate() {
         GameLogic.getInstance().getSelectedCharacter().addExtraDef(DEFENSE_BONUS);
+        GameLogic.getInstance().getSceneManager().showBreadcrumb(
+                "WoodenShield is activated",
+                GameLogic.getInstance().getPlayerName() + " def got boost by " + DEFENSE_BONUS,
+                3000
+        );
     }
 }

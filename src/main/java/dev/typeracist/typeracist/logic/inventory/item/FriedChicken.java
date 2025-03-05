@@ -1,6 +1,6 @@
 package dev.typeracist.typeracist.logic.inventory.item;
 
-import dev.typeracist.typeracist.gui.gameScene.BattlePane.BattlePane;
+import dev.typeracist.typeracist.logic.gameScene.BattlePaneStateManager;
 import dev.typeracist.typeracist.logic.global.GameLogic;
 import dev.typeracist.typeracist.logic.inventory.ActivateNow;
 import dev.typeracist.typeracist.logic.inventory.ActivateOnTurn;
@@ -31,12 +31,17 @@ public class FriedChicken extends Item implements ActivateNow, ActivateOnTurn {
     @Override
     public void activate() {
         GameLogic.getInstance().getSelectedCharacter().getHp().heal(HEAL_AMOUNT);
+        GameLogic.getInstance().getSceneManager().showBreadcrumb(
+                "FriedChicken is activated",
+                GameLogic.getInstance().getPlayerName() + " is healed by " + HEAL_AMOUNT,
+                3000
+        );
     }
 
     @Override
-    public void activate(BattlePane battlePane) {
+    public void activate(BattlePaneStateManager manager) {
         if (firstActive) {
-            battlePane.getStateContext().ensureExistsGetTurnContext(battlePane.getStateContext().getCurrentTurn() + 1).addItemUsed(this);
+            manager.getContext().ensureExistsGetTurnContext(manager.getContext().getCurrentTurn() + 1).addItemUsed(this);
             firstActive = false;
         } else {
             GameLogic.getInstance().getSelectedCharacter().getHp().heal(HEAL_AMOUNT);

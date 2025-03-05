@@ -1,6 +1,7 @@
 package dev.typeracist.typeracist.logic.inventory.item;
 
-import dev.typeracist.typeracist.gui.gameScene.BattlePane.BattlePane;
+import dev.typeracist.typeracist.logic.gameScene.BattlePaneStateManager;
+import dev.typeracist.typeracist.logic.global.GameLogic;
 import dev.typeracist.typeracist.logic.inventory.ActivateOnTurn;
 import dev.typeracist.typeracist.logic.inventory.ActivateOnTurnState;
 import dev.typeracist.typeracist.logic.inventory.Item;
@@ -26,9 +27,13 @@ public class PotionOfTypeswift extends Item implements ActivateOnTurn {
     }
 
     @Override
-    public void activate(BattlePane battlePane) {
-        battlePane.getStateContext().getCurrentTurnContext().setWordMultiplier(CPS_MULTIPLIER);
-        System.out.println(battlePane.getStateContext().getCurrentTurnContext().getWordMultiplier());
+    public void activate(BattlePaneStateManager manager) {
+        manager.getContext().getCurrentTurnContext().setWordMultiplier(CPS_MULTIPLIER);
+        GameLogic.getInstance().getSceneManager().showBreadcrumb(
+                "Potion of type swift is activated",
+                GameLogic.getInstance().getPlayerName() + " got boost by x" + CPS_MULTIPLIER,
+                3000
+        );
     }
 
     @Override

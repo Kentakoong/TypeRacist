@@ -1,9 +1,9 @@
 package dev.typeracist.typeracist.logic.inventory;
 
-import dev.typeracist.typeracist.gui.gameScene.BattlePane.BattlePane;
+import dev.typeracist.typeracist.logic.gameScene.BattlePaneStateManager;
 
 public interface ActivateOnTurn {
-    void activate(BattlePane battlePane);
+    void activate(BattlePaneStateManager manager);
 
     ActivateOnTurnState getActivateOnTurnState();
 }
