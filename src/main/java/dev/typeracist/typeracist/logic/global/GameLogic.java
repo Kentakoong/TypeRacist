@@ -19,11 +19,15 @@ public class GameLogic {
     private final Set<String> clearedBattles = new HashSet<>();
     private Character selectedCharacter; // Store character image path or ID
     private String playerName;
+    private final MusicPlayer musicPlayer;
 
     private GameLogic(Stage primaryStage) {
         sceneManager = new SceneManager(primaryStage);
         datasetManager = new DatasetManager();
         selectedCharacter = new Warrior();
+        musicPlayer = MusicPlayer.getInstance();
+
+        // Music will be played when the first scene is set in the SceneManager
 
         // todo: remove this, it just for testing
         selectedCharacter.getInventory().addItem(new FriedChicken(), 5);
@@ -117,5 +121,9 @@ public class GameLogic {
             default:
                 return false;
         }
+    }
+
+    public MusicPlayer getMusicPlayer() {
+        return musicPlayer;
     }
 }
