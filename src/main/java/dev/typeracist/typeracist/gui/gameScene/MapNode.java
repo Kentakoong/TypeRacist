@@ -71,7 +71,8 @@ public class MapNode extends Button {
 
         if (GameLogic.getInstance().isBattleCleared(action.getBattleName())) {
             return Color.GREEN; // Cleared
-        } else if (GameLogic.getInstance().isPreviousBattleCleared(action.getBattleName())) {
+        } else if (GameLogic.getInstance().isPreviousBattleCleared(action.getBattleName())
+                || action.getPrerequisiteBattle() == null) {
             return Color.YELLOW;
         } else if (action.getBattleName().equals("BOSS")) {
             return Color.RED; // Boss battle - locked
