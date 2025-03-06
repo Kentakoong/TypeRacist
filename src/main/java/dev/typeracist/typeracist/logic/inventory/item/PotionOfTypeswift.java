@@ -14,7 +14,7 @@ public class PotionOfTypeswift extends Item implements ActivateOnTurn {
     public PotionOfTypeswift() {
         super("Potion of Typeswift",
                 "Increase your CPS by x2. 1 turn.",
-                75,
+                30,
                 ResourceName.IMAGE_SHOP_POTION_OF_TYPESWIFT);
     }
 
