@@ -16,7 +16,7 @@ public class FriedChicken extends Item implements ActivateNow, ActivateOnTurn {
     public FriedChicken() {
         super("Fried Chicken",
                 "Heal your character by 15 HP, lasts for 3 turns.",
-                40,
+                20,
                 ResourceName.IMAGE_SHOP_FRIED_CHICKEN);
     }
 

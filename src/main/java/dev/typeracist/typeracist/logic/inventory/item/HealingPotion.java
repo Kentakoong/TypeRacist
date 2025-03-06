@@ -11,7 +11,7 @@ public class HealingPotion extends Item implements ActivateNow {
     public HealingPotion() {
         super("Healing Potion",
                 "Heal your character by 30 HP.",
-                35,
+                15,
                 ResourceName.IMAGE_SHOP_HEALING_POTION);
     }
 

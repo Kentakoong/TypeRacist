@@ -15,7 +15,7 @@ public class TimePotion extends Item implements ActivateOnTurn {
     public TimePotion() {
         super("Time Potion",
                 "Increase the timer by 5.0 seconds. 1 turn.",
-                50,
+                25,
                 ResourceName.IMAGE_SHOP_TIME_POTION);
     }
 
