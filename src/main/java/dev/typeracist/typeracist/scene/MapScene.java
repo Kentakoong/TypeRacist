@@ -165,8 +165,8 @@ public class MapScene extends BaseScene {
         bottomButtonContainer.setPrefWidth(width);
         bottomButtonContainer.setPadding(new Insets(10));
 
-        String[] battleNames = {"BATTLE1", "BATTLE2", "BATTLE3", "BATTLE4", "BATTLE5", "BATTLE6", "BATTLE7", "BATTLE8",
-                "BATTLE9", "BOSS"};
+        String[] battleNames = { "BATTLE1", "BATTLE2", "BATTLE3", "BATTLE4", "BATTLE5", "BATTLE6", "BATTLE7", "BATTLE8",
+                "BATTLE9", "BOSS" };
 
         for (String battleName : battleNames) {
             Button winButton = new Button("Win " + battleName);
@@ -386,12 +386,12 @@ public class MapScene extends BaseScene {
 
     private void navigate(String action) {
         // Special cases with no prerequisites
-        if ("START".equals(action)) {
+        if (action.equals(SceneName.START)) {
             GameLogic.getInstance().getSceneManager().setScene(SceneName.CHARACTERS.toString());
             return;
         }
 
-        if ("STORE".equals(action)) {
+        if (action.equals(SceneName.STORE)) {
             GameLogic.getInstance().getSceneManager().setScene(SceneName.SHOP.toString());
             return;
         }
@@ -408,10 +408,11 @@ public class MapScene extends BaseScene {
                     GameLogic.getInstance().isBattleCleared(prerequisite);
 
             if (canAccess) {
-                if ("BOSS".equals(action)) {
-                    BattleScene battleScene = (BattleScene) GameLogic.getInstance().getSceneManager().getScene(SceneName.BATTLE_SCENE);
+                if (action.equals(SceneName.BOSS_SCENE)) {
+                    BattleScene battleScene = (BattleScene) GameLogic.getInstance().getSceneManager()
+                            .getScene(SceneName.BATTLE_SCENE);
                     battleScene.loadPane(9);
-                    GameLogic.getInstance().getSceneManager().setScene(SceneName.BATTLE_SCENE);
+                    GameLogic.getInstance().getSceneManager().setScene(targetScene);
                     return;
                 }
 
@@ -422,12 +423,13 @@ public class MapScene extends BaseScene {
 
                     BattleScene battleScene = (BattleScene) GameLogic.getInstance().getSceneManager().getScene(action);
                     battleScene.loadPane(battleSceneIndex - 1);
-                    GameLogic.getInstance().getSceneManager().setScene(SceneName.BATTLE_SCENE);
+                    GameLogic.getInstance().getSceneManager().setScene(targetScene);
                 }
             } else {
                 infoLabel.setText("You must clear " + prerequisite + " first!");
             }
         }
+
     }
 
     private int convertToBattleSceneIndex(String battleName) {

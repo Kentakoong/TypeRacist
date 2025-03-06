@@ -18,89 +18,92 @@ public final class BattleNavigation {
         // Static initializer for battle progression
         static {
                 // Create all nodes first
-                createNode("BATTLE1",
+                createNode(SceneName.BATTLE_SCENE1,
                                 "Unforseen World - You have stepped out of the portal, what could have been waiting for you?",
                                 ResourceManager.getImage(ResourceName.IMAGE_MAP_SWORD),
                                 SceneName.BATTLE_SCENE1, null, true, 60, 295);
 
-                createNode("BATTLE2",
+                createNode(SceneName.BATTLE_SCENE2,
                                 "Rural Dirt Road - Next, you have wandered beside the dirt road to somewhere. But something is waiting for you.",
                                 ResourceManager.getImage(ResourceName.IMAGE_MAP_SWORD),
-                                SceneName.BATTLE_SCENE2, "BATTLE1", true, 125, 220);
+                                SceneName.BATTLE_SCENE2, SceneName.BATTLE_SCENE1, true, 125, 220);
 
-                createNode("BATTLE3", "Fogbound Cemetery - The path lead you to the cemetery, spooky...",
+                createNode(SceneName.BATTLE_SCENE3,
+                                "Fogbound Cemetery - The path lead you to the cemetery, spooky...",
                                 ResourceManager.getImage(ResourceName.IMAGE_MAP_SWORD),
-                                SceneName.BATTLE_SCENE3, "BATTLE2", true, 175, 320);
+                                SceneName.BATTLE_SCENE3, SceneName.BATTLE_SCENE2, true, 175, 320);
 
-                createNode("BATTLE4",
+                createNode(SceneName.BATTLE_SCENE4,
                                 "Wondering in the Woods - And you're walking into the Wailing Woods, you think there's a clue there?",
                                 ResourceManager.getImage(ResourceName.IMAGE_MAP_SWORD),
-                                SceneName.BATTLE_SCENE4, "BATTLE3", true, 0, 120);
+                                SceneName.BATTLE_SCENE4, SceneName.BATTLE_SCENE3, true, 0, 120);
 
-                createNode("BATTLE5", "Deep down to the Doom - Some clues led you to this cave...",
+                createNode(SceneName.BATTLE_SCENE5,
+                                "Deep down to the Doom - Some clues led you to this cave...",
                                 ResourceManager.getImage(ResourceName.IMAGE_MAP_SWORD),
-                                SceneName.BATTLE_SCENE5, "BATTLE4", true, 275, 120);
+                                SceneName.BATTLE_SCENE5, SceneName.BATTLE_SCENE4, true, 275, 120);
 
-                createNode("BATTLE6",
+                createNode(SceneName.BATTLE_SCENE6,
                                 "Temple of Purgation - Deeper to the cave you go, seeing that there is a underground temple.",
                                 ResourceManager.getImage(ResourceName.IMAGE_MAP_SWORD),
-                                SceneName.BATTLE_SCENE6, "BATTLE5", true, 425, 95);
+                                SceneName.BATTLE_SCENE6, SceneName.BATTLE_SCENE5, true, 425, 95);
 
-                createNode("BATTLE7", "Meet your Maker? - Maybe you have meet the Creator of the Fire Golem...",
+                createNode(SceneName.BATTLE_SCENE7,
+                                "Meet your Maker? - Maybe you have meet the Creator of the Fire Golem...",
                                 ResourceManager.getImage(ResourceName.IMAGE_MAP_SWORD),
-                                SceneName.BATTLE_SCENE7, "BATTLE6", true, 510, 30);
+                                SceneName.BATTLE_SCENE7, SceneName.BATTLE_SCENE6, true, 510, 30);
 
-                createNode("BATTLE8",
+                createNode(SceneName.BATTLE_SCENE8,
                                 "Enchanted Grove - The talisman of the sorcerer teleport you to the Strange place?",
                                 ResourceManager.getImage(ResourceName.IMAGE_MAP_SWORD),
-                                SceneName.BATTLE_SCENE8, "BATTLE7", true, 625, 30);
+                                SceneName.BATTLE_SCENE8, SceneName.BATTLE_SCENE7, true, 625, 30);
 
-                createNode("BATTLE9",
+                createNode(SceneName.BATTLE_SCENE9,
                                 "Scorched Cliff -  You've touch the runic sign and you found yourself at the tallest cliff, what could've gone wrong?",
                                 ResourceManager.getImage(ResourceName.IMAGE_MAP_SWORD),
-                                SceneName.BATTLE_SCENE9, "BATTLE8", true, 525, 220);
+                                SceneName.BATTLE_SCENE9, SceneName.BATTLE_SCENE8, true, 525, 220);
 
-                createNode("BOSS", "Last Battle???",
+                createNode(SceneName.BOSS_SCENE, "Last Battle???",
                                 ResourceManager.getImage(ResourceName.IMAGE_MAP_SKULL),
-                                SceneName.BOSS_SCENE, "BATTLE9", true, 450, 360);
+                                SceneName.BOSS_SCENE, SceneName.BATTLE_SCENE9, true, 450, 360);
 
                 // Other scenes with prerequisites
-                createNode("REWARD1", "The chest of the town, where you can find items and coins.",
+                createNode(SceneName.REWARD1, "The chest of the town, where you can find items and coins.",
                                 ResourceManager.getImage(ResourceName.IMAGE_MAP_CHEST),
-                                SceneName.CHEST, "BATTLE4", false, 100, 30);
+                                SceneName.CHEST, SceneName.BATTLE_SCENE4, false, 100, 30);
 
-                createNode("REWARD2", "The chest of the town, where you can find items and coins.",
+                createNode(SceneName.REWARD2, "The chest of the town, where you can find items and coins.",
                                 ResourceManager.getImage(ResourceName.IMAGE_MAP_CHEST),
-                                SceneName.CHEST, "BATTLE9", false, 600, 150);
+                                SceneName.CHEST, SceneName.BATTLE_SCENE9, false, 600, 150);
 
-                createNode("NEXT",
+                createNode(SceneName.NEXT_MAP,
                                 "The End - You have reached the end of the map, what could have been waiting for you?",
                                 ResourceManager.getImage(ResourceName.IMAGE_MAP_NEXT),
-                                SceneName.NEXT_MAP, "BOSS", false, 625, 420);
+                                SceneName.NEXT_MAP, SceneName.BOSS_SCENE, false, 625, 420);
 
-                createNode("START", "The starting point of your journey.",
+                createNode(SceneName.START, "The starting point of your journey.",
                                 ResourceManager.getImage(ResourceName.IMAGE_MAP_CASTLE),
                                 SceneName.CHARACTERS, null, false, 0, 410);
 
-                createNode("STORE", "The shop of the town, where you can buy items and upgrade your equipment.",
+                createNode(SceneName.STORE, "The shop of the town, where you can buy items and upgrade your equipment.",
                                 ResourceManager.getImage(ResourceName.IMAGE_MAP_SHOP),
                                 SceneName.SHOP, null, false, 125, 440);
 
                 // Connect nodes
-                connectNodes("START", "STORE");
-                connectNodes("START", "BATTLE1");
-                connectNodes("BATTLE4", "REWARD1");
-                connectNodes("BATTLE9", "REWARD2");
-                connectNodes("BATTLE1", "BATTLE3");
-                connectNodes("BATTLE1", "BATTLE2");
-                connectNodes("BATTLE2", "BATTLE4");
-                connectNodes("BATTLE2", "BATTLE5");
-                connectNodes("BATTLE5", "BATTLE6");
-                connectNodes("BATTLE6", "BATTLE7");
-                connectNodes("BATTLE7", "BATTLE8");
-                connectNodes("BATTLE6", "BATTLE9");
-                connectNodes("BOSS", "BATTLE9");
-                connectNodes("BOSS", "NEXT");
+                connectNodes(SceneName.START, SceneName.STORE);
+                connectNodes(SceneName.START, SceneName.BATTLE_SCENE1);
+                connectNodes(SceneName.BATTLE_SCENE4, SceneName.REWARD1);
+                connectNodes(SceneName.BATTLE_SCENE9, SceneName.REWARD2);
+                connectNodes(SceneName.BATTLE_SCENE1, SceneName.BATTLE_SCENE3);
+                connectNodes(SceneName.BATTLE_SCENE1, SceneName.BATTLE_SCENE2);
+                connectNodes(SceneName.BATTLE_SCENE2, SceneName.BATTLE_SCENE4);
+                connectNodes(SceneName.BATTLE_SCENE2, SceneName.BATTLE_SCENE5);
+                connectNodes(SceneName.BATTLE_SCENE5, SceneName.BATTLE_SCENE6);
+                connectNodes(SceneName.BATTLE_SCENE6, SceneName.BATTLE_SCENE7);
+                connectNodes(SceneName.BATTLE_SCENE7, SceneName.BATTLE_SCENE8);
+                connectNodes(SceneName.BATTLE_SCENE6, SceneName.BATTLE_SCENE9);
+                connectNodes(SceneName.BOSS_SCENE, SceneName.BATTLE_SCENE9);
+                connectNodes(SceneName.BOSS_SCENE, SceneName.NEXT_MAP);
         }
 
         /**
