@@ -46,42 +46,7 @@ public class MainScene extends BaseScene {
                 ThemedButton exitButton = new ThemedButton("Exit");
                 exitButton.setOnAction(event -> GameLogic.getInstance().getSceneManager().closeStage());
 
-                ThemedButton testSceneButton = new ThemedButton("Test Scene");
-                testSceneButton
-                                .setOnAction(event -> GameLogic.getInstance().getSceneManager()
-                                                .setScene(SceneName.DYNAMIC_PANE_TEST));
-
-                ThemedButton testKeyBoardPaneSceneButton = new ThemedButton("Keyboard Test Scene");
-                testKeyBoardPaneSceneButton
-                                .setOnAction(event -> GameLogic.getInstance().getSceneManager()
-                                                .setScene(SceneName.KEYBOARD_TEST));
-
-                ThemedButton testShopPaneSceneButton = new ThemedButton("Shop Test Scene");
-                testShopPaneSceneButton
-                                .setOnAction(event -> GameLogic.getInstance().getSceneManager()
-                                                .setScene(SceneName.SHOP));
-
-                ThemedButton testChestPaneSceneButton = new ThemedButton("Chest Test Scene");
-                testChestPaneSceneButton
-                                .setOnAction(event -> GameLogic.getInstance().getSceneManager()
-                                                .setScene(SceneName.CHEST));
-
-                ThemedButton testBattleScene = new ThemedButton("Battle Test Scene");
-                testBattleScene.setOnAction(event -> {
-                        try {
-                                GameLogic.getInstance().getSceneManager().setScene(SceneName.BATTLE_TEST);
-                        } catch (IllegalArgumentException e) {
-                                Alert alert = new Alert(Alert.AlertType.ERROR);
-                                alert.setTitle("Error");
-                                alert.setHeaderText("Scene is not loaded.");
-                                alert.setContentText("Please wait for scene to load, try again in a few seconds.");
-                                alert.showAndWait();
-                        }
-                });
-
-                buttonBar.getChildren().addAll(startButton, settingsButton, exitButton, testSceneButton,
-                                testKeyBoardPaneSceneButton, testBattleScene, testShopPaneSceneButton,
-                                testChestPaneSceneButton);
+                buttonBar.getChildren().addAll(startButton, settingsButton, exitButton);
                 for (Node button : buttonBar.getChildren()) {
                         ((ThemedButton) button).setPrefWidth(300);
                 }
