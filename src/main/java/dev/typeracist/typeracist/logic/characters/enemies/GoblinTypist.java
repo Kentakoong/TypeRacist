@@ -12,11 +12,11 @@ public class GoblinTypist extends Enemy {
             "It swings its mace, scary.",
             "Bro tryna steal your coins from your pocket."
     };
-    private static final RandomRange COIN_RANGE = new RandomRange(2, 5);
-    private static final RandomRange XP_RANGE = new RandomRange(5, 10);
+    private static final RandomRange COIN_RANGE = new RandomRange(5, 15);
+    private static final RandomRange XP_RANGE = new RandomRange(15, 30);
 
     public GoblinTypist() {
-        super(new HP(7), 2, 1,
+        super(new HP(50), 25, 5,
                 ResourceManager.getImage(ResourceName.IMAGE_ENEMY_GOBLIN),
                 DESCRIPTIONS,
                 null,

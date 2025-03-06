@@ -8,9 +8,9 @@ import dev.typeracist.typeracist.logic.gameScene.BattlePaneStateManager;
 public class Hex extends SkillWithProbability implements SkillOnEnvironment {
     public Hex() {
         super("Hex",
-                "48% chance to cast every turn, if inflict player can't use their items",
+                "50% chance to cast every turn, if inflict player can't use their items",
                 SkillActivationOnState.ACTIVATION_BEFORE_ITEM,
-                0.48);
+                0.50);
     }
 
     @Override

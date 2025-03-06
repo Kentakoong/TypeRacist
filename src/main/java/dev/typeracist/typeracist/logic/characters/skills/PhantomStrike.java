@@ -25,7 +25,7 @@ public class PhantomStrike extends SkillWithProbability implements SkillOnEnviro
                 * GameLogic.getInstance().getSelectedCharacter().getTotalAtk();
 
         manager.getContext().getCurrentTurnContext().addPlayerAttackModifier(
-                playerAttack * 2
+                playerAttack
         );
     }
 

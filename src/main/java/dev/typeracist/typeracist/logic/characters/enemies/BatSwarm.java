@@ -13,11 +13,11 @@ public class BatSwarm extends Enemy {
             "It's flapping its wing.",
             "Screaming Echolocation."
     };
-    private static final RandomRange COIN_RANGE = new RandomRange(5, 8);
-    private static final RandomRange XP_RANGE = new RandomRange(7, 12);
+    private static final RandomRange COIN_RANGE = new RandomRange(25, 60);
+    private static final RandomRange XP_RANGE = new RandomRange(100, 150);
 
     public BatSwarm() {
-        super(new HP(12), 3, 2,
+        super(new HP(75), 50, 20,
                 ResourceManager.getImage(ResourceName.IMAGE_ENEMY_BAT),
                 DESCRIPTIONS,
                 new Evasion(),

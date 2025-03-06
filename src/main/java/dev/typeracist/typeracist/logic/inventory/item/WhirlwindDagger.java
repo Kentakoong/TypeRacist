@@ -10,14 +10,14 @@ import dev.typeracist.typeracist.logic.inventory.Item;
 import dev.typeracist.typeracist.utils.ResourceName;
 
 public class WhirlwindDagger extends Item implements ActivateNow, ActivateOnTurn {
-    private static final int ATTACK_BONUS = 6;
+    private static final int ATTACK_BONUS = 5;
     private static final int STUN_INTERVAL = 3;
     private boolean firstActivate = true;
 
     public WhirlwindDagger() {
         super("Whirlwind Dagger",
-                "ATK +6. Stun enemy every 3 turns, for 30 turns.",
-                34,
+                "ATK +5. Stun enemy every 3 turns, for 30 turns.",
+                50,
                 ResourceName.IMAGE_SHOP_WHIRLWIND_DAGGER);
     }
 

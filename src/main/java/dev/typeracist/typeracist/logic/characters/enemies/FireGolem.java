@@ -13,11 +13,11 @@ public class FireGolem extends Enemy {
             "Bro stands there, menacingly...",
             "It's hot in here."
     };
-    private static final RandomRange COIN_RANGE = new RandomRange(15, 20);
-    private static final RandomRange XP_RANGE = new RandomRange(15, 20);
+    private static final RandomRange COIN_RANGE = new RandomRange(50, 150);
+    private static final RandomRange XP_RANGE = new RandomRange(250, 500);
 
     public FireGolem() {
-        super(new HP(300), 10, 7,
+        super(new HP(300), 55, 30,
                 ResourceManager.getImage(ResourceName.IMAGE_ENEMY_FIRE_GOLEM),
                 DESCRIPTIONS,
                 new FlamePunch(),

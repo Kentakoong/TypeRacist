@@ -11,7 +11,7 @@ public class WoodenShield extends Item implements ActivateNow {
     public WoodenShield() {
         super("Wooden Shield",
                 "Reliable wooden shield. DEF +2.",
-                7,
+                30,
                 ResourceName.IMAGE_SHOP_WOODEN_SHIELD);
     }
 

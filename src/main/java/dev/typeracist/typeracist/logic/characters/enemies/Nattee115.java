@@ -13,8 +13,8 @@ public class Nattee115 extends Enemy {
             "It too easy!!",
             "Calm down, calm down, breath.."
     };
-    private static final RandomRange COIN_RANGE = new RandomRange(115, 1150000);
-    private static final RandomRange XP_RANGE = new RandomRange(115, 1150000);
+    private static final RandomRange COIN_RANGE = new RandomRange(115, 11500);
+    private static final RandomRange XP_RANGE = new RandomRange(115, 11500);
 
     public Nattee115() {
         super(

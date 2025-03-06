@@ -41,13 +41,13 @@ public class GameLogic {
         // Music will be played when the first scene is set in the SceneManager
 
         // todo: remove this, it just for testing
-        selectedCharacter.getInventory().addItem(new FriedChicken(), 5);
-        selectedCharacter.getInventory().addItem(new Typewriter());
-        selectedCharacter.getInventory().addItem(new HealingPotion());
-        selectedCharacter.getInventory().addItem(new TimePotion());
-        selectedCharacter.getInventory().addItem(new PotionOfTypeswift());
-        selectedCharacter.getInventory().addItem(new WoodenShield(), 5);
-        selectedCharacter.getInventory().addItem(new WhirlwindDagger());
+//        selectedCharacter.getInventory().addItem(new FriedChicken(), 5);
+//        selectedCharacter.getInventory().addItem(new Typewriter());
+//        selectedCharacter.getInventory().addItem(new HealingPotion());
+//        selectedCharacter.getInventory().addItem(new TimePotion());
+//        selectedCharacter.getInventory().addItem(new PotionOfTypeswift());
+//        selectedCharacter.getInventory().addItem(new WoodenShield(), 5);
+//        selectedCharacter.getInventory().addItem(new WhirlwindDagger());
 
         // todo: remove this for start-pane to set it instead
         playerName = "Oat Oat";

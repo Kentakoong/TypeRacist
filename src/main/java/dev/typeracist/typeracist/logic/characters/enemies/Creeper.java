@@ -14,11 +14,11 @@ public class Creeper extends Enemy {
             "HSSSS SHHSHSSH",
             "Is it blowing up?"
     };
-    private static final RandomRange COIN_RANGE = new RandomRange(8, 15);
-    private static final RandomRange XP_RANGE = new RandomRange(10, 12);
+    private static final RandomRange COIN_RANGE = new RandomRange(30, 100);
+    private static final RandomRange XP_RANGE = new RandomRange(150, 200);
 
     public Creeper() {
-        super(new HP(20), 4, 3,
+        super(new HP(100), 50, 25,
                 ResourceManager.getImage(ResourceName.IMAGE_ENEMY_CREEPER),
                 DESCRIPTIONS,
                 new CreeperExplosion(),

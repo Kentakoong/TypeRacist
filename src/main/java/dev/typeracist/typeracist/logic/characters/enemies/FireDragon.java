@@ -13,11 +13,11 @@ public class FireDragon extends Enemy {
             "Bro's wingspan is bigger than your future…",
             "Flames roar. Nowhere to run."
     };
-    private static final RandomRange COIN_RANGE = new RandomRange(40, 50);
-    private static final RandomRange XP_RANGE = new RandomRange(30, 45);
+    private static final RandomRange COIN_RANGE = new RandomRange(300, 500);
+    private static final RandomRange XP_RANGE = new RandomRange(2500, 5000);
 
     public FireDragon() {
-        super(new HP(750), 55, 20,
+        super(new HP(750), 75, 50,
                 ResourceManager.getImage(ResourceName.IMAGE_ENEMY_DRAGON),
                 DESCRIPTIONS,
                 new FireWhirlwind(),

@@ -8,14 +8,14 @@ import dev.typeracist.typeracist.logic.inventory.Item;
 import dev.typeracist.typeracist.utils.ResourceName;
 
 public class TimePotion extends Item implements ActivateOnTurn {
-    private static final long TIME_INCREASE = (long) 5.0 * 1000;
+    private static final long TIME_INCREASE = (long) 10.0 * 1000;
     private static final int DURATION = 1;
     private boolean firstActive = true;
 
     public TimePotion() {
         super("Time Potion",
                 "Increase the timer by 5.0 seconds. 1 turn.",
-                25,
+                50,
                 ResourceName.IMAGE_SHOP_TIME_POTION);
     }
 
