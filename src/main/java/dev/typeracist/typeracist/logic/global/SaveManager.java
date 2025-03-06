@@ -64,7 +64,7 @@ public class SaveManager {
                 }
 
                 if (difficultyData.optInt("hp") != currentCharacter.getHp().getCurrentHP()) {
-                    currentCharacter.setHp(difficultyData.optInt("hp"));
+                    currentCharacter.getHp().setCurrentHP(difficultyData.optInt("hp"));
                 }
 
                 if (difficultyData.optInt("maxHP") != currentCharacter.getHp().getMaxHP()) {
