@@ -1,6 +1,5 @@
 package dev.typeracist.typeracist.scene;
 
-import dev.typeracist.typeracist.gui.gameScene.ShopPane;
 import dev.typeracist.typeracist.gui.global.ThemedButton;
 import dev.typeracist.typeracist.logic.global.GameLogic;
 import dev.typeracist.typeracist.logic.global.ResourceManager;
@@ -20,7 +19,6 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
@@ -28,25 +26,18 @@ import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 
 public class ShopScene extends BaseScene {
-    private final AnchorPane root;
-    private final ShopPane shopPane;
+    private final VBox root;
     private Label coinLabel;
 
     public ShopScene(double width, double height) {
-        super(new AnchorPane(), width, height);
-        this.root = (AnchorPane) getRoot();
+        super(new VBox(), width, height);
+        this.root = (VBox) getRoot();
         root.setStyle("-fx-background-color: #333;");
         root.setPadding(new Insets(50));
 
-        VBox contentContainer = new VBox();
-        contentContainer.setAlignment(Pos.TOP_CENTER);
-        contentContainer.setSpacing(20);
-        contentContainer.setPrefWidth(width);
-
-        AnchorPane.setTopAnchor(contentContainer, 0.0);
-        AnchorPane.setLeftAnchor(contentContainer, 0.0);
-        AnchorPane.setRightAnchor(contentContainer, 0.0);
-        AnchorPane.setBottomAnchor(contentContainer, 0.0);
+        root.setAlignment(Pos.TOP_CENTER);
+        root.setSpacing(20);
+        root.setPrefWidth(width);
 
         HBox header = createShopHeader();
 
@@ -62,15 +53,10 @@ public class ShopScene extends BaseScene {
 
         shopContainer.getChildren().addAll(shopItemContainer, shopMasterContainer);
 
-        // Return button (smaller size)
         ThemedButton returnButton = new ThemedButton("Return to Map");
         returnButton.setOnAction(event -> GameLogic.getInstance().getSceneManager().setScene(SceneName.MAP));
 
-        shopPane = new ShopPane(width, height);
-
-        contentContainer.getChildren().addAll(header, shopContainer, returnButton);
-
-        root.getChildren().addAll(contentContainer, shopPane);
+        root.getChildren().addAll(header, shopContainer, returnButton);
     }
 
     private HBox createShopHeader() {
@@ -204,10 +190,12 @@ public class ShopScene extends BaseScene {
         if (playerCoins >= itemPrice) {
             GameLogic.getInstance().getSelectedCharacter().spendCoin(itemPrice);
             inventory.addItem(item);
-            shopPane.showPopup("You bought " + item.getName() + "!");
+
+            GameLogic.getInstance().getSceneManager().showBreadcrumb("You bought " + item.getName() + "!", "", 1000);
             SaveManager.saveCharacter();
         } else {
-            shopPane.showPopup("Not enough coins to buy " + item.getName() + "!");
+            GameLogic.getInstance().getSceneManager().showBreadcrumb("Not enough coins to buy " + item.getName() + "!",
+                    "", 1000);
         }
 
         // Update coin display
