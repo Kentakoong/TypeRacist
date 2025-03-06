@@ -47,8 +47,29 @@ public class SaveManager {
                 currentCharacter.getInventory().loadItems(difficultyData.optJSONObject("inventory"));
 
                 // Load coin and XP
-                currentCharacter.gainCoin(difficultyData.optInt("coin", 0) - currentCharacter.getCoin());
-                currentCharacter.getXp().setXp(difficultyData.optInt("xp", 0));
+                if (difficultyData.optInt("coin") != currentCharacter.getCoin()) {
+                    currentCharacter.gainCoin(difficultyData.optInt("coin", 0) - currentCharacter.getCoin());
+                }
+
+                if (difficultyData.optInt("xp") != currentCharacter.getXp().getXp()) {
+                    currentCharacter.getXp().setXp(difficultyData.optInt("xp"));
+                }
+
+                if (difficultyData.optInt("atk") != currentCharacter.getBaseAtk()) {
+                    currentCharacter.setBaseAtk(difficultyData.optInt("atk"));
+                }
+
+                if (difficultyData.optInt("def") != currentCharacter.getBaseDef()) {
+                    currentCharacter.setBaseDef(difficultyData.optInt("def"));
+                }
+
+                if (difficultyData.optInt("hp") != currentCharacter.getHp().getCurrentHP()) {
+                    currentCharacter.setHp(difficultyData.optInt("hp"));
+                }
+
+                if (difficultyData.optInt("maxHP") != currentCharacter.getHp().getMaxHP()) {
+                    currentCharacter.getHp().setMaxHP(difficultyData.optInt("maxHP"));
+                }
 
                 System.out.println("Character loaded successfully from " + SAVE_FILE_CHARACTER);
             }
@@ -82,6 +103,10 @@ public class SaveManager {
 
         difficultyData.put("coin", currentCharacter.getCoin());
         difficultyData.put("xp", currentCharacter.getXp().getXp());
+        difficultyData.put("atk", currentCharacter.getBaseAtk());
+        difficultyData.put("def", currentCharacter.getBaseDef());
+        difficultyData.put("hp", currentCharacter.getHp().getCurrentHP());
+        difficultyData.put("maxHP", currentCharacter.getHp().getMaxHP());
 
         // Update or add difficulty-specific data
         characterData.put(currentDifficulty.name(), difficultyData);
