@@ -1,9 +1,25 @@
 package dev.typeracist.typeracist.scene;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Queue;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import dev.typeracist.typeracist.gui.gameScene.MapNode;
+import dev.typeracist.typeracist.gui.gameScene.BattlePane.StatsDisplayManager;
 import dev.typeracist.typeracist.gui.global.ThemedButton;
 import dev.typeracist.typeracist.logic.characters.entities.Character;
-import dev.typeracist.typeracist.logic.global.*;
+import dev.typeracist.typeracist.logic.global.BattleInfo;
+import dev.typeracist.typeracist.logic.global.BattleNavigation;
+import dev.typeracist.typeracist.logic.global.GameLogic;
+import dev.typeracist.typeracist.logic.global.ResourceManager;
+import dev.typeracist.typeracist.logic.global.SaveManager;
 import dev.typeracist.typeracist.utils.ResourceName;
 import dev.typeracist.typeracist.utils.SceneName;
 import javafx.animation.PauseTransition;
@@ -13,14 +29,19 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.*;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundImage;
+import javafx.scene.layout.BackgroundPosition;
+import javafx.scene.layout.BackgroundRepeat;
+import javafx.scene.layout.BackgroundSize;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.Region;
+import javafx.scene.layout.VBox;
 import javafx.scene.shape.Line;
 import javafx.scene.text.Font;
 import javafx.util.Duration;
-
-import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class MapScene extends BaseScene {
     private final VBox root;
@@ -162,34 +183,32 @@ public class MapScene extends BaseScene {
      */
     private HBox createBottomButtonContainer(double width, double height, Font baseFont) {
         HBox bottomButtonContainer = new HBox();
-        bottomButtonContainer.setAlignment(Pos.CENTER);
+        bottomButtonContainer.setAlignment(Pos.BOTTOM_RIGHT);
         bottomButtonContainer.setSpacing(10);
         bottomButtonContainer.setPrefWidth(width);
         bottomButtonContainer.setPadding(new Insets(10));
 
-        String[] battleNames = { "BATTLE1", "BATTLE2", "BATTLE3", "BATTLE4", "BATTLE5", "BATTLE6", "BATTLE7", "BATTLE8",
-                "BATTLE9", "BOSS" };
+        // Create stats button
+        ThemedButton statsButton = new ThemedButton("Show Stats");
+        statsButton.setFont(Font.font(baseFont.getName(), 14));
+        statsButton.setOnAction(event -> {
+            // Create stats box
+            VBox statsBox = StatsDisplayManager.createCharacterStatsBox();
 
-        for (String battleName : battleNames) {
-            ThemedButton winButton = new ThemedButton("Win " + battleName);
-            winButton.setFont(Font.font(baseFont.getName(), 14));
-            winButton.setOnAction(event -> {
-                // Clear the battle in game logic
-                GameLogic.getInstance().clearBattle(battleName);
+            // Create close button
+            ThemedButton closeButton = new ThemedButton("Close");
+            closeButton.setOnAction(e -> GameLogic.getInstance().getSceneManager().closePopUp());
 
-                // Update UI feedback
-                infoLabel.setText(battleName + " cleared!");
+            // Create container
+            VBox container = new VBox(20);
+            container.setAlignment(Pos.CENTER);
+            container.getChildren().addAll(statsBox, closeButton);
 
-                // Refresh node colors to reflect new game state
-                updateNodeColors();
+            // Show popup
+            GameLogic.getInstance().getSceneManager().showPopUp(container, width - 100, height - 100);
+        });
 
-                // Save the game
-                SaveManager.saveCharacter();
-            });
-
-            bottomButtonContainer.getChildren().add(winButton);
-        }
-
+        bottomButtonContainer.getChildren().add(statsButton);
         VBox.setVgrow(bottomButtonContainer, Priority.NEVER); // Keep it at the bottom
 
         return bottomButtonContainer;
