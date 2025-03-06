@@ -359,6 +359,7 @@ public class BattlePane extends VBox {
 
     }
 
+    // Getters
     public BattlePaneStateContext getStateContext() {
         return battlePaneStateContext;
     }
