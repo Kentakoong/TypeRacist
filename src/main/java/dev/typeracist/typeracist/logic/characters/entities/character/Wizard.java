@@ -12,7 +12,7 @@ public class Wizard extends Character {
                 2,
                 ResourceManager.getImage(ResourceName.IMAGE_CHARACTER_WIZARD),
                 new MagicWand(),
-                "A master of elemental magic and spells.\nATK : 3\nDEF : 4\nABIL : Magic wand(item) stun enemy for 1 turn (usable every 3 turns)");
+                "A master of elemental magic and spells.\nABIL : Magic wand(item) stun enemy for 1 turn (usable every 3 turns)");
     }
 
 }

@@ -12,6 +12,6 @@ public class Assassin extends Character {
                 3,
                 ResourceManager.getImage(ResourceName.IMAGE_CHARACTER_ASSASSIN),
                 new ShadowSlip(0.2),
-                "A stealthy character with high critical damage.\nATK : 5\nDEF : 3\nABIL : 20% to dodge attack");
+                "A stealthy character with high critical damage.\nABIL : 20% to dodge attack");
     }
 }

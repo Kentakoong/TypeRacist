@@ -11,6 +11,6 @@ public class Archer extends Character {
                 3,
                 ResourceManager.getImage(ResourceName.IMAGE_CHARACTER_ARCHER),
                 new PhantomStrike(0.5),
-                "A skilled marksman with excellent range.\nATK : 4\nDEF : 3\nABIL : 50% to do double damage");
+                "A skilled marksman with excellent range.\nABIL : 50% to do double damage");
     }
 }
