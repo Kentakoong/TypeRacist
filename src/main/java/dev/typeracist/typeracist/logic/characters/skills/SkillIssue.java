@@ -11,7 +11,7 @@ public class SkillIssue extends Skill implements SkillOnEntity {
                 "Skill issue",
                 "take half of your life span",
                 SkillActivationOnState.ACTIVATION_ON_ATTACK,
-                5);
+                2);
     }
 
     @Override

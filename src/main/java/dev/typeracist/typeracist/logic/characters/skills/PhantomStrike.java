@@ -9,7 +9,7 @@ import dev.typeracist.typeracist.logic.global.GameLogic;
 public class PhantomStrike extends SkillWithProbability implements SkillOnEnvironment {
     public PhantomStrike(double probability) {
         super("Phantom Strike",
-                "A deadly assassin technique that allows for a 50% chance to unleash a devastating double-damage attack, striking with supernatural precision.",
+                "A deadly assassin technique that allows for a 25% chance to unleash a devastating double-damage attack, striking with supernatural precision.",
                 SkillActivationOnState.ACTIVATION_ON_ATTACK,
                 probability);
     }

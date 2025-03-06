@@ -17,7 +17,7 @@ public class WhirlwindDagger extends Item implements ActivateNow, ActivateOnTurn
     public WhirlwindDagger() {
         super("Whirlwind Dagger",
                 "ATK +5. Stun enemy every 3 turns, for 30 turns.",
-                25,
+                100,
                 ResourceName.IMAGE_SHOP_WHIRLWIND_DAGGER);
     }
 

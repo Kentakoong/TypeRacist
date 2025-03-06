@@ -6,7 +6,7 @@ import dev.typeracist.typeracist.logic.inventory.Item;
 import dev.typeracist.typeracist.utils.ResourceName;
 
 public class HealingPotion extends Item implements ActivateNow {
-    private static final int HEAL_AMOUNT = 30;
+    private static final int HEAL_AMOUNT = 10;
 
     public HealingPotion() {
         super("Healing Potion",
