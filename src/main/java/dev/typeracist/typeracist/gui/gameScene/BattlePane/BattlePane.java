@@ -5,6 +5,7 @@ import dev.typeracist.typeracist.gui.global.ThemedButton;
 import dev.typeracist.typeracist.logic.characters.Enemy;
 import dev.typeracist.typeracist.logic.characters.Entity;
 import dev.typeracist.typeracist.logic.characters.Skill;
+import dev.typeracist.typeracist.logic.characters.entities.Character;
 import dev.typeracist.typeracist.logic.gameScene.BattlePaneStateContext;
 import dev.typeracist.typeracist.logic.global.GameLogic;
 import dev.typeracist.typeracist.logic.global.ResourceManager;
@@ -290,24 +291,43 @@ public class BattlePane extends VBox {
     }
 
     private VBox createCharacterStatsBox() {
-        Entity player = GameLogic.getInstance().getSelectedCharacter();
+        Character player = GameLogic.getInstance().getSelectedCharacter();
 
         VBox statsBox = createStatsBoxBase();
 
+        // Character image
         ImageView characterImage = new ImageView(player.getImage());
         characterImage.setFitWidth(225);
         characterImage.setFitHeight(225);
 
+        // Character name label
         Label characterNameLabel = createNameLabel(GameLogic.getInstance().getPlayerName());
 
+        // Player's level
+        int playerLevel = player.getXp().getLevel();
+        Label playerLevelLabel = new Label("Level " + playerLevel);
+        playerLevelLabel.setFont(ResourceManager.getFont(ResourceName.FONT_DEPARTURE_MONO, 16));
+        playerLevelLabel.setTextFill(Color.ORANGERED);  // Set level color to orange
+
+        // Player's current XP and XP to level up
+        int currentXP = player.getXp().getXp();
+        int expToLevelUp = player.getXp().getExpToLvlUp();
+        Label xpLabel = new Label("XP: " + currentXP + " / " + expToLevelUp);
+        xpLabel.setFont(ResourceManager.getFont(ResourceName.FONT_DEPARTURE_MONO, 10));
+
+        HBox characterNameLabelContainer = new HBox(characterNameLabel, playerLevelLabel, xpLabel);
+        characterNameLabelContainer.setAlignment(Pos.BASELINE_CENTER);
+        characterNameLabelContainer.setSpacing(10);
+
+        // Stat labels
         TextFlow attackLabel = createStatLabel("ATK", player.getTotalAtk(),
                 player.getBaseAtk(), player.getExtraAtk());
         TextFlow healthLabel = createStatLabel("HP", player.getHp().getCurrentHP(), 0, 0);
         TextFlow defenseLabel = createStatLabel("DEF", player.getTotalDef(),
                 player.getBaseDef(), player.getExtraDef());
 
-        statsBox.getChildren().addAll(characterImage, characterNameLabel,
-                attackLabel, healthLabel, defenseLabel);
+        // Add the new labels to the stats box
+        statsBox.getChildren().addAll(characterImage, characterNameLabelContainer, attackLabel, healthLabel, defenseLabel);
 
         return statsBox;
     }

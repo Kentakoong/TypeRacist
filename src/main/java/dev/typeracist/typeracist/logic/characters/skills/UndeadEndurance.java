@@ -32,8 +32,5 @@ public class UndeadEndurance extends Skill implements SkillOnEnvironment {
         manager.getContext().getCurrentTurnContext().addPlayerAttackModifier(
                 (int) Math.floor(-(playerAttack * DAMAGE_REDUCTION))
         );
-
-        System.out.println(
-                (int) Math.floor(-(playerAttack * DAMAGE_REDUCTION)));
     }
 }

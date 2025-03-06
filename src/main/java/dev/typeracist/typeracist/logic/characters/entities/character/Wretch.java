@@ -6,6 +6,6 @@ import dev.typeracist.typeracist.utils.ResourceName;
 
 public class Wretch extends Character {
     public Wretch() {
-        super(3, 3, ResourceManager.getImage(ResourceName.IMAGE_CHARACTER_WRETCH), null);
+        super(6, 3, ResourceManager.getImage(ResourceName.IMAGE_CHARACTER_WRETCH), null);
     }
 }

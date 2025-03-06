@@ -1,6 +1,7 @@
 package dev.typeracist.typeracist.scene;
 
 import dev.typeracist.typeracist.gui.gameScene.MapNode;
+import dev.typeracist.typeracist.logic.characters.entities.Character;
 import dev.typeracist.typeracist.logic.global.*;
 import dev.typeracist.typeracist.utils.ResourceName;
 import dev.typeracist.typeracist.utils.SceneName;
@@ -407,13 +408,21 @@ public class MapScene extends BaseScene {
                     GameLogic.getInstance().isBattleCleared(prerequisite);
 
             if (canAccess) {
+                if ("BOSS".equals(action)) {
+                    BattleScene battleScene = (BattleScene) GameLogic.getInstance().getSceneManager().getScene(SceneName.BATTLE_SCENE);
+                    battleScene.loadPane(9);
+                    GameLogic.getInstance().getSceneManager().setScene(SceneName.BATTLE_SCENE);
+                    return;
+                }
+
                 int battleSceneIndex = convertToBattleSceneIndex(action);
 
                 if (battleSceneIndex != -1) {
-                    BattleScene battleScene = (BattleScene) GameLogic.getInstance().getSceneManager().getScene(SceneName.BATTLE);
-                    System.out.println("go to" + (battleSceneIndex - 1));
+                    System.out.println(action);
+
+                    BattleScene battleScene = (BattleScene) GameLogic.getInstance().getSceneManager().getScene(action);
                     battleScene.loadPane(battleSceneIndex - 1);
-                    GameLogic.getInstance().getSceneManager().setScene(SceneName.BATTLE);
+                    GameLogic.getInstance().getSceneManager().setScene(SceneName.BATTLE_SCENE);
                 }
             } else {
                 infoLabel.setText("You must clear " + prerequisite + " first!");
@@ -430,12 +439,12 @@ public class MapScene extends BaseScene {
     @Override
     public void onSceneEnter() {
         // Load the saved game data to ensure battle statuses are up-to-date
-//        if (SaveManager.saveFileExists(SaveManager.SAVE_FILE_CHARACTER)) {
-//
-//            Character selectedCharacter = GameLogic.getInstance().getSelectedCharacter();
-//            selectedCharacter = SaveManager.getCharacter();
-//            GameLogic.getInstance().setSelectedCharacter(selectedCharacter);
-//        }
+        if (SaveManager.saveFileExists(SaveManager.SAVE_FILE_CHARACTER)) {
+
+            Character selectedCharacter = GameLogic.getInstance().getSelectedCharacter();
+            selectedCharacter = SaveManager.getCharacter();
+            GameLogic.getInstance().setSelectedCharacter(selectedCharacter);
+        }
 
         // Set character image
         character.setImage(GameLogic.getInstance().getSelectedCharacter().getImage());

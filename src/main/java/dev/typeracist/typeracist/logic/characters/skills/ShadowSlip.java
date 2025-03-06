@@ -8,7 +8,7 @@ import dev.typeracist.typeracist.logic.gameScene.BattlePaneStateManager;
 public class ShadowSlip extends SkillWithProbability implements SkillOnEnvironment {
     public ShadowSlip(double probability) {
         super("Shadow Slip",
-                "A cunning technique that allows the assassin to momentarily phase out of an incoming attack, granting a 20% chance to completely avoid damage.",
+                "A technique that gives a 20% chance to evade damage.",
                 SkillActivationOnState.ACTIVATION_ON_DEFENSE,
                 probability);
     }
@@ -20,7 +20,7 @@ public class ShadowSlip extends SkillWithProbability implements SkillOnEnvironme
 
     @Override
     public void useSkill(BattlePaneStateManager manager) {
-        manager.getContext().getCurrentTurnContext().addEnemyAttackModifier(Integer.MIN_VALUE);
+        manager.getContext().getCurrentTurnContext().addEnemyAttackModifier((int) -1e9);
     }
 
 }

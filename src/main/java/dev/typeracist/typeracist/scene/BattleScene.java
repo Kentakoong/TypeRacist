@@ -33,6 +33,7 @@ public class BattleScene extends BaseDynamicScene<BattlePane> {
         addPane(6, BattlePaneLevel7::initializeContext);
         addPane(7, BattlePaneLevel8::initializeContext);
         addPane(8, BattlePaneLevel9::initializeContext);
+        addPane(9, BattlePaneLevelBoss::initializeContext);
     }
 
     public void addPane(int id, Supplier<BattlePaneStateContext> paneState) {
