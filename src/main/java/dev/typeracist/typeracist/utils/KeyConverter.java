@@ -6,12 +6,16 @@ import javafx.scene.input.KeyEvent;
 import java.awt.*;
 
 public class KeyConverter {
-    private static boolean isWindow = System.getProperty("os.name").toLowerCase().startsWith("Windows");
+    private static boolean isWindow = System.getProperty("os.name").toLowerCase().startsWith("windows");
 
     // Method to convert key code to actual character considering CapsLock and Shift
     public static String convertKeyToText(KeyEvent event) {
         if (!isWindow) {
             return event.getCode().getName();
+        }
+
+        if (event.getText().isEmpty()) {
+            return "";
         }
 
         KeyCode keyCode = event.getCode();
