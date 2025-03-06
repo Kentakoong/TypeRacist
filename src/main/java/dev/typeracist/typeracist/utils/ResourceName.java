@@ -25,12 +25,16 @@ public class ResourceName {
     public static final String IMAGE_ENEMY_SORCERER = ResourceBasePath.IMAGE_PATH + "/enemy/sorcerer.png";
     public static final String IMAGE_ENEMY_SPIDER = ResourceBasePath.IMAGE_PATH + "/enemy/spider.png";
     public static final String IMAGE_ENEMY_DRAGON = ResourceBasePath.IMAGE_PATH + "/enemy/dragon.png";
+    public static final String IMAGE_ENEMY_NATTEE_1 = ResourceBasePath.IMAGE_PATH + "/enemy/nattee1.png";
+    public static final String IMAGE_ENEMY_NATTEE_2 = ResourceBasePath.IMAGE_PATH + "/enemy/nattee2.png";
+
 
     public static final String FONT_DEPARTURE_MONO = ResourceBasePath.FONT_PATH + "/DepartureMono-Regular.otf";
 
     public static final String DATASET_COMMON_WORDS_1K = ResourceBasePath.DATASET_PATH + "/commonWords1k.json";
     public static final String DATASET_COMMON_WORDS_25K = ResourceBasePath.DATASET_PATH + "/commonWords25k.json";
     public static final String DATASET_POPULAR_BOOKS = ResourceBasePath.DATASET_PATH + "/popularBooks.json";
+    public static final String DATASET_DATA_STRUCTURE_AND_ALGORITHM = ResourceBasePath.DATASET_PATH + "/dsa.json";
 
     public static final String IMAGE_MAP_CASTLE = ResourceBasePath.IMAGE_PATH + "/map/castle.png";
     public static final String IMAGE_MAP_SHOP = ResourceBasePath.IMAGE_PATH + "/map/shop.png";
@@ -67,4 +71,5 @@ public class ResourceName {
     public static final String MUSIC_MAIN_THEME = ResourceBasePath.MUSIC_PATH + "/main_theme.wav";
     public static final String MUSIC_BATTLE_THEME = ResourceBasePath.MUSIC_PATH + "/battle_theme.wav";
     public static final String MUSIC_SHOP_THEME = ResourceBasePath.MUSIC_PATH + "/shop_theme.wav";
+    public static final String MUSIC_BOSS_THEME = ResourceBasePath.MUSIC_PATH + "/boss_theme.wav";
 }

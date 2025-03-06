@@ -3,6 +3,7 @@ package dev.typeracist.typeracist.logic.global;
 import dev.typeracist.typeracist.gui.global.ThemedButton;
 import dev.typeracist.typeracist.scene.BaseScene;
 import dev.typeracist.typeracist.utils.ResourceName;
+import dev.typeracist.typeracist.utils.SceneName;
 import javafx.animation.*;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -119,6 +120,7 @@ public class SceneManager {
         Label descriptionLabel = new Label(data.description);
         descriptionLabel.setFont(ResourceManager.getFont(ResourceName.FONT_DEPARTURE_MONO, 16));
         descriptionLabel.setTextFill(Color.BLACK);
+        descriptionLabel.setMaxWidth(getCurrentScene().getWidth() - 100);
 
         content.setPadding(new Insets(20));
 
@@ -178,6 +180,10 @@ public class SceneManager {
     }
 
     public BaseScene getScene(String name) {
+        if (name.startsWith(SceneName.BATTLE_SCENE)) {
+            return scenes.get(SceneName.BATTLE_SCENE);
+        }
+
         return scenes.get(name);
     }
 
@@ -198,9 +204,15 @@ public class SceneManager {
             setScene(getPreviousScene());
     }
 
-    public void setScene(String name) {
+    public void setScene(String rawName) {
+        String name = rawName;
+
+        if (rawName.startsWith(SceneName.BATTLE_SCENE)) {
+            name = SceneName.BATTLE_SCENE;
+        }
+
         if (!sceneExists(name))
-            throw new IllegalArgumentException("Scene " + name + " not found");
+            throw new IllegalArgumentException("Scene " + rawName + " not found");
 
         if (getCurrentScene() != null)
             getCurrentScene().onSceneLeave();
@@ -209,9 +221,7 @@ public class SceneManager {
         BaseScene newScene = scenes.get(name);
         applyFadeTransition(primaryStage.getScene(), newScene);
 
-        // Play appropriate music for the scene
-        GameLogic.getInstance().getMusicPlayer().playMusicForScene(name);
-
+        GameLogic.getInstance().getMusicPlayer().playMusicForScene(rawName);
         newScene.onSceneEnter();
     }
 

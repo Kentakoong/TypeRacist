@@ -8,6 +8,7 @@ import dev.typeracist.typeracist.logic.gameScene.BattlePaneStateManager;
 import dev.typeracist.typeracist.logic.global.GameLogic;
 import dev.typeracist.typeracist.logic.global.ResourceManager;
 import dev.typeracist.typeracist.utils.ResourceName;
+import dev.typeracist.typeracist.utils.ShakeTransition;
 import dev.typeracist.typeracist.utils.TurnOwnership;
 import javafx.animation.FadeTransition;
 import javafx.animation.KeyFrame;
@@ -29,6 +30,8 @@ public class PlayerDefenseResultPaneModifier extends BasePaneModifier {
 
     @Override
     public void initialize(BattlePaneStateManager manager) {
+        System.out.println("init");
+
         battlePane.getInformationPane().getChildren().clear();
         battlePane.getInformationPane().setToPane(InfoPaneModifierType.TEXT);
 
@@ -44,8 +47,14 @@ public class PlayerDefenseResultPaneModifier extends BasePaneModifier {
         } else {
             damageTaken += context.getEnemy().getTotalAtk() + context.getCurrentTurnContext().getEnemyAttackModifier()
                     - GameLogic.getInstance().getSelectedCharacter().getTotalDef() * rawDefenseScore;
+
+            System.out.println("damageTaken: " + damageTaken);
             damageTaken = GameLogic.getInstance().getSelectedCharacter().damage(damageTaken);
             context.getCurrentTurnContext().setDamageTaken(damageTaken);
+        }
+
+        if (damageTaken != 0) {
+            new ShakeTransition(battlePane);
         }
 
         Label rawAttackScoreLabel = new Label("Word typed: " + rawDefenseScore);

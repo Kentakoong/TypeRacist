@@ -17,7 +17,7 @@ public class GameWinPaneModifier extends BasePaneModifier {
         battlePane.getCharacterImage().setImage(ResourceManager.getImage(ResourceName.IMAGE_MAP_ANVIL));
         battlePane.getInformationPane().getChildren().clear();
 
-        Label winMessage = new Label(context.getEnemy().getName() + "took the L");
+        Label winMessage = new Label(context.getEnemy().getName() + " took the L");
         winMessage.setFont(ResourceManager.getFont(ResourceName.FONT_DEPARTURE_MONO, 24));
 
         Label dropValuable = new Label("You earned " + context.getEnemy().getDropXP() + " EXP and "

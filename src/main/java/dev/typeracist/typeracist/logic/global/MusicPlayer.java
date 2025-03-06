@@ -14,17 +14,16 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class MusicPlayer {
+    private static final int FADE_DURATION_MS = 1000; // 1 second fade
     private static MusicPlayer instance;
+    private final Map<String, String> musicTracks = new HashMap<>();
+    // Map scene names to music tracks
+    private final Map<String, String> sceneMusicMap = new HashMap<>();
     private MediaPlayer mediaPlayer;
     private MediaPlayer nextMediaPlayer;
     private String currentTrack;
     private boolean isPlaying = false;
     private int volumeLevel = 3; // Default volume level (0-5)
-    private final Map<String, String> musicTracks = new HashMap<>();
-    private static final int FADE_DURATION_MS = 1000; // 1 second fade
-
-    // Map scene names to music tracks
-    private final Map<String, String> sceneMusicMap = new HashMap<>();
 
     private MusicPlayer() {
         // Initialize music tracks
@@ -33,11 +32,19 @@ public class MusicPlayer {
         initializeSceneMusicMap();
     }
 
+    public static MusicPlayer getInstance() {
+        if (instance == null) {
+            instance = new MusicPlayer();
+        }
+        return instance;
+    }
+
     private void initializeMusicTracks() {
         // Add music tracks to the map using ResourceName constants
         URL mainThemeUrl = getClass().getResource(ResourceName.MUSIC_MAIN_THEME);
         URL battleThemeUrl = getClass().getResource(ResourceName.MUSIC_BATTLE_THEME);
         URL shopThemeUrl = getClass().getResource(ResourceName.MUSIC_SHOP_THEME);
+        URL bossThemeUrl = getClass().getResource(ResourceName.MUSIC_BOSS_THEME);
 
         if (mainThemeUrl != null) {
             musicTracks.put("main_theme", mainThemeUrl.toExternalForm());
@@ -47,6 +54,9 @@ public class MusicPlayer {
         }
         if (shopThemeUrl != null) {
             musicTracks.put("shop_theme", shopThemeUrl.toExternalForm());
+        }
+        if (bossThemeUrl != null) {
+            musicTracks.put("boss_theme", bossThemeUrl.toExternalForm());
         }
     }
 
@@ -75,19 +85,12 @@ public class MusicPlayer {
         sceneMusicMap.put(SceneName.BATTLE_SCENE7, "battle_theme");
         sceneMusicMap.put(SceneName.BATTLE_SCENE8, "battle_theme");
         sceneMusicMap.put(SceneName.BATTLE_SCENE9, "battle_theme");
-        sceneMusicMap.put(SceneName.BOSS_SCENE, "battle_theme");
-    }
-
-    public static MusicPlayer getInstance() {
-        if (instance == null) {
-            instance = new MusicPlayer();
-        }
-        return instance;
+        sceneMusicMap.put(SceneName.BOSS_SCENE, "boss_theme");
     }
 
     /**
      * Play music based on the current scene with volume fade
-     * 
+     *
      * @param sceneName The name of the current scene
      */
     public void playMusicForScene(String sceneName) {
@@ -206,7 +209,7 @@ public class MusicPlayer {
 
     /**
      * Play music immediately without fading
-     * 
+     *
      * @param trackName The name of the track to play
      */
     public void playMusic(String trackName) {
@@ -268,15 +271,15 @@ public class MusicPlayer {
         }
     }
 
+    public int getVolumeLevel() {
+        return volumeLevel;
+    }
+
     public void setVolumeLevel(int level) {
         if (level >= 0 && level <= 5) {
             volumeLevel = level;
             updateVolume();
         }
-    }
-
-    public int getVolumeLevel() {
-        return volumeLevel;
     }
 
     private void updateVolume() {

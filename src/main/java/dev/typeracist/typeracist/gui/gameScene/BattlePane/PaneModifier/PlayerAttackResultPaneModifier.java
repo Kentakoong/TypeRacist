@@ -8,6 +8,7 @@ import dev.typeracist.typeracist.logic.gameScene.BattlePaneStateManager;
 import dev.typeracist.typeracist.logic.global.GameLogic;
 import dev.typeracist.typeracist.logic.global.ResourceManager;
 import dev.typeracist.typeracist.utils.ResourceName;
+import dev.typeracist.typeracist.utils.ShakeTransition;
 import dev.typeracist.typeracist.utils.TurnOwnership;
 import javafx.animation.FadeTransition;
 import javafx.animation.KeyFrame;
@@ -72,6 +73,8 @@ public class PlayerAttackResultPaneModifier extends BasePaneModifier {
 
         battlePane.updateHealthBars();
         battlePane.requestFocus();
+
+        new ShakeTransition(battlePane.getCharacterImage());
 
         // 0.5 seconds delay before
         new Timeline(

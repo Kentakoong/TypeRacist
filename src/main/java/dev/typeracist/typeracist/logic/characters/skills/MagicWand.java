@@ -21,7 +21,9 @@ public class MagicWand extends Skill implements SkillOnEnvironment {
 
     @Override
     public void useSkill(BattlePaneStateManager manager) {
-        manager.getContext().getCurrentTurnContext().addEnemyAttackModifier(Integer.MIN_VALUE);
+        System.out.println("activated here");
+
+        manager.getContext().getCurrentTurnContext().addEnemyAttackModifier(-(int) 1e9);
         manager.transitionToState(BattlePaneState.PLAYER_DEFENSE_RESULT);
     }
 

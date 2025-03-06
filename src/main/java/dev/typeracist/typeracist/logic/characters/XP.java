@@ -55,9 +55,9 @@ public class XP {
         GameLogic.getInstance().getSelectedCharacter()
                 .getHp().addMaxHp(5);
         GameLogic.getInstance().getSelectedCharacter()
-                .addAtk(2);
+                .addAtk(1);
         GameLogic.getInstance().getSelectedCharacter()
-                .addDef(2);
+                .addDef(1);
 
         return true;
     }

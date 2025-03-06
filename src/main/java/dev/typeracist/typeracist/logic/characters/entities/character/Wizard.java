@@ -9,7 +9,7 @@ public class Wizard extends Character {
 
     public Wizard() {
         super(3,
-                4,
+                2,
                 ResourceManager.getImage(ResourceName.IMAGE_CHARACTER_WIZARD),
                 new MagicWand());
     }

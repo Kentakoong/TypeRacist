@@ -1,8 +1,5 @@
 package dev.typeracist.typeracist.logic.global;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import dev.typeracist.typeracist.logic.characters.entities.Character;
 import dev.typeracist.typeracist.logic.characters.entities.character.Warrior;
 import dev.typeracist.typeracist.logic.gameScene.Dataset;
@@ -13,16 +10,19 @@ import dev.typeracist.typeracist.utils.Difficulty;
 import dev.typeracist.typeracist.utils.ResourceName;
 import javafx.stage.Stage;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class GameLogic {
     private static GameLogic instance;
     private final SceneManager sceneManager;
     private final DatasetManager datasetManager;
     private final Map<String, Character> characters = new HashMap<>();
     private final Map<Difficulty, Map<String, Character>> charactersByDifficulty = new HashMap<>();
+    private final MusicPlayer musicPlayer;
     private Character selectedCharacter; // Store character image path or ID
     private String playerName;
     private Difficulty currentDifficulty;
-    private final MusicPlayer musicPlayer;
 
     private GameLogic(Stage primaryStage) {
         sceneManager = new SceneManager(primaryStage);
@@ -72,9 +72,13 @@ public class GameLogic {
         Dataset commonWords1k = new Dataset(ResourceName.DATASET_COMMON_WORDS_1K);
         commonWords1k.initializeWithRanking();
 
+        Dataset dataStructureAndAlgorithm = new Dataset(ResourceName.DATASET_DATA_STRUCTURE_AND_ALGORITHM);
+        dataStructureAndAlgorithm.initializeWithRanking();
+
         getInstance().datasetManager.addDataset(DatasetName.POPULAR_BOOKS, popularBooks);
         getInstance().datasetManager.addDataset(DatasetName.COMMON_WORDS_1K, commonWords1k);
         getInstance().datasetManager.addDataset(DatasetName.COMMON_WORDS_25K, commonWords25k);
+        getInstance().datasetManager.addDataset(DatasetName.DATA_STRUCTURE_AND_ALGORITHM, dataStructureAndAlgorithm);
     }
 
     public static GameLogic getInstance() {

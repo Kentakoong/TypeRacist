@@ -22,8 +22,8 @@ public class BattlePaneTurnContext {
 
     public BattlePaneTurnContext() {
         itemsUsed = new ArrayList<>();
-        rawAttackScore = Integer.MIN_VALUE;
-        rawDefenseScore = Integer.MAX_VALUE;
+        rawAttackScore = 0;
+        rawDefenseScore = 0;
         wordMultiplier = 1;
         damageTaken = -1;
         attackDamage = -1;

@@ -5,6 +5,7 @@ import dev.typeracist.typeracist.gui.gameScene.BattlePane.InformationPane.InfoPa
 import dev.typeracist.typeracist.gui.gameScene.BattlePane.InformationPane.ItemInfoPaneModifier;
 import dev.typeracist.typeracist.logic.gameScene.BattlePaneStateContext;
 import dev.typeracist.typeracist.logic.gameScene.BattlePaneStateManager;
+import dev.typeracist.typeracist.logic.global.GameLogic;
 
 public class PlayerItemSelectionPaneModifier extends BasePaneModifier {
     public PlayerItemSelectionPaneModifier(BattlePane battlePane, BattlePaneStateContext context) {
@@ -16,6 +17,11 @@ public class PlayerItemSelectionPaneModifier extends BasePaneModifier {
         ItemInfoPaneModifier itemInfoPaneModifier =
                 (ItemInfoPaneModifier) battlePane.getInformationPane().setToPane(InfoPaneModifierType.ITEM_SELECTION_PANE);
 
-        itemInfoPaneModifier.getSkipButton().setOnAction(event -> returnControl());
+        if (GameLogic.getInstance().getSelectedCharacter().getInventory().getItems().isEmpty()) {
+            returnControl();
+        } else {
+            itemInfoPaneModifier.getSkipButton().setOnAction(event -> returnControl());
+        }
+
     }
 }

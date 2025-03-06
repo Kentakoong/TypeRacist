@@ -31,13 +31,12 @@ public class Creeper extends Enemy {
         int damage = super.damage(amount);
         if (hp.isDead()) {
             ((CreeperExplosion) skill).useSkill(GameLogic.getInstance().getSelectedCharacter());
+            GameLogic.getInstance().getSceneManager().showBreadcrumb(
+                    "Ahh mann.. dfjasdjf aiojEXPLOSONdinfsBOmm!!!",
+                    "Creeper exploded dealt a amazing " + new CreeperExplosion().getExplosionDamage() + " damage!",
+                    3000
+            );
         }
-
-        GameLogic.getInstance().getSceneManager().showBreadcrumb(
-                "Ahh mann.. dfjasdjf aiojEXPLOSONdinfsBOmm!!!",
-                "Creeper exploded dealt a amazing " + new CreeperExplosion().getExplosionDamage() + " damage!",
-                3000
-        );
 
         return damage;
     }
