@@ -19,17 +19,17 @@ public class Enemy extends Entity {
         System.out.println(getName() + " " + GameLogic.getInstance().getCurrentDifficulty());
         switch (GameLogic.getInstance().getCurrentDifficulty()) {
             case EASY -> {
-                this.hp.setCurrentHP((int) Math.floor(hp.getMaxHP() * 0.8));
+                this.getHp().setMaxHP((int) Math.floor(hp.getMaxHP() * 0.8));
                 this.baseAtk = (int) Math.floor(atk * 0.8);
                 this.baseDef = (int) Math.floor(def * 0.8);
             }
             case HARD -> {
-                this.hp.setCurrentHP((int) Math.floor(hp.getMaxHP() * 1.5));
+                this.getHp().setMaxHP((int) Math.floor(hp.getMaxHP() * 1.5));
                 this.baseAtk = (int) Math.floor(atk * 1.5);
                 this.baseDef = (int) Math.floor(def * 1.5);
             }
             case HELL -> {
-                this.hp.setMaxHP(hp.getMaxHP() * 2);
+                this.getHp().setMaxHP(hp.getMaxHP() * 2);
                 this.baseAtk *= 2;
                 this.baseDef *= 2;
             }
