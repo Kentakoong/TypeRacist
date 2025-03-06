@@ -115,8 +115,8 @@ public class CharacterScene extends BaseScene {
         for (Character character : characterData.keySet()) {
             // Character Image
             ImageView characterView = new ImageView(character.getImage());
-            characterView.setFitWidth(80);
-            characterView.setFitHeight(80);
+            characterView.setFitWidth(200);
+            characterView.setFitHeight(200);
 
             // Character Name Label
             Label characterLabel = new Label(characterData.get(character)[0]);
@@ -250,7 +250,7 @@ public class CharacterScene extends BaseScene {
 
     private Button createStyledButton(String text, Font font) {
         Button button = new Button(text);
-        button.setFont(font);
+        button.setFont(Font.font(font.getFamily(), 16));
         button.setTextFill(Color.WHITE);
         button.setBackground(new Background(new BackgroundFill(Color.DIMGRAY, new CornerRadii(5), Insets.EMPTY)));
 
@@ -270,9 +270,10 @@ public class CharacterScene extends BaseScene {
 
     private Button createStyledDifficultyButton(String text, Font font) {
         Button button = new Button(text);
-        button.setFont(font);
+        button.setFont(Font.font(font.getFamily(), 16)); // Set font size to 16
         button.setTextFill(Color.WHITE);
         button.setBackground(new Background(new BackgroundFill(Color.DIMGRAY, new CornerRadii(5), Insets.EMPTY)));
+
 
         // Default shadow effect (matches confirm button)
         DropShadow defaultShadow = new DropShadow();

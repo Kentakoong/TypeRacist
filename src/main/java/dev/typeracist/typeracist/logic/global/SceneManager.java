@@ -52,11 +52,8 @@ public class SceneManager {
                 new BorderStroke(Color.DARKGRAY, BorderStrokeStyle.SOLID, new CornerRadii(10), new BorderWidths(2))));
         popupLayout.setOpacity(0);
 
-        Button closeButton = new ThemedButton("Close", Color.web("#C3C3C3"));
-        closeButton.setOnAction(e -> closePopUp());
-        closeButton.setTextFill(Color.BLACK);
 
-        popupLayout.getChildren().addAll(content, closeButton);
+        popupLayout.getChildren().addAll(content);
         popup.getContent().add(popupLayout);
         currentPopup = popup;
         popup.show(primaryStage);
