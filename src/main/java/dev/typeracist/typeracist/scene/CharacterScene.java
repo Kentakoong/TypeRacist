@@ -1,13 +1,13 @@
 package dev.typeracist.typeracist.scene;
 
-import dev.typeracist.typeracist.gui.gameScene.ConfirmationPane;
+import dev.typeracist.typeracist.gui.game.ConfirmationPane;
 import dev.typeracist.typeracist.gui.global.ThemedButton;
-import dev.typeracist.typeracist.logic.characters.entities.Character;
-import dev.typeracist.typeracist.logic.characters.entities.character.Archer;
-import dev.typeracist.typeracist.logic.characters.entities.character.Assassin;
-import dev.typeracist.typeracist.logic.characters.entities.character.Warrior;
-import dev.typeracist.typeracist.logic.characters.entities.character.Wizard;
-import dev.typeracist.typeracist.logic.characters.entities.character.Wretch;
+import dev.typeracist.typeracist.logic.characters.Character;
+import dev.typeracist.typeracist.logic.characters.entities.Archer;
+import dev.typeracist.typeracist.logic.characters.entities.Assassin;
+import dev.typeracist.typeracist.logic.characters.entities.Warrior;
+import dev.typeracist.typeracist.logic.characters.entities.Wizard;
+import dev.typeracist.typeracist.logic.characters.entities.Wretch;
 import dev.typeracist.typeracist.logic.global.GameLogic;
 import dev.typeracist.typeracist.logic.global.ResourceManager;
 import dev.typeracist.typeracist.logic.global.SaveManager;

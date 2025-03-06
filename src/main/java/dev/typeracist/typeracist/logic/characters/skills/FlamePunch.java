@@ -3,7 +3,7 @@ package dev.typeracist.typeracist.logic.characters.skills;
 import dev.typeracist.typeracist.logic.characters.Skill;
 import dev.typeracist.typeracist.logic.characters.SkillActivationOnState;
 import dev.typeracist.typeracist.logic.characters.SkillOnEnvironment;
-import dev.typeracist.typeracist.logic.gameScene.BattlePaneStateManager;
+import dev.typeracist.typeracist.logic.game.battle.BattlePaneStateManager;
 import dev.typeracist.typeracist.logic.inventory.item.FireGolemDebris;
 
 import java.util.Random;
