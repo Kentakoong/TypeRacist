@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import dev.typeracist.typeracist.gui.gameScene.ConfirmationPane;
+import dev.typeracist.typeracist.gui.global.ThemedButton;
 import dev.typeracist.typeracist.logic.characters.entities.Character;
 import dev.typeracist.typeracist.logic.characters.entities.character.Archer;
 import dev.typeracist.typeracist.logic.characters.entities.character.Assassin;
@@ -17,10 +18,8 @@ import dev.typeracist.typeracist.utils.ResourceName;
 import dev.typeracist.typeracist.utils.SceneName;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.effect.DropShadow;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
@@ -55,8 +54,7 @@ public class CharacterScene extends BaseScene {
         topBar.setPadding(new Insets(10));
         topBar.setPrefWidth(width);
 
-        Button homeButton = new Button("Home");
-        homeButton.setFont(ResourceManager.getFont(ResourceName.FONT_DEPARTURE_MONO, 18));
+        ThemedButton homeButton = new ThemedButton("Home");
         homeButton.setOnAction(event -> GameLogic.getInstance().getSceneManager().setScene(SceneName.MAIN));
 
         topBar.getChildren().add(homeButton);
@@ -180,39 +178,39 @@ public class CharacterScene extends BaseScene {
         // Difficulty selection buttons
         HBox difficultyBox = new HBox(10);
         difficultyBox.setAlignment(Pos.CENTER);
+
         Label difficultyLabel = new Label("Difficulty:");
         difficultyLabel.setFont(ResourceManager.getFont(ResourceName.FONT_DEPARTURE_MONO, 18));
         difficultyLabel.setTextFill(Color.WHITE);
 
-        Button easyButton = createStyledDifficultyButton(Difficulty.EASY,
-                ResourceManager.getFont(ResourceName.FONT_DEPARTURE_MONO, 18));
-        Button normalButton = createStyledDifficultyButton(Difficulty.NORMAL,
-                ResourceManager.getFont(ResourceName.FONT_DEPARTURE_MONO, 18));
-        Button hardButton = createStyledDifficultyButton(Difficulty.HARD,
-                ResourceManager.getFont(ResourceName.FONT_DEPARTURE_MONO, 18));
-        Button hellButton = createStyledDifficultyButton(Difficulty.HELL,
-                ResourceManager.getFont(ResourceName.FONT_DEPARTURE_MONO, 18));
+        // Create a radio button group for difficulties
+        ThemedButton.RadioButtonGroup difficultyGroup = new ThemedButton.RadioButtonGroup();
 
-        easyButton
-                .setOnAction(e -> selectDifficulty(Difficulty.EASY, easyButton, normalButton, hardButton, hellButton));
-        normalButton.setOnAction(
-                e -> selectDifficulty(Difficulty.NORMAL, easyButton, normalButton, hardButton, hellButton));
-        hardButton
-                .setOnAction(e -> selectDifficulty(Difficulty.HARD, easyButton, normalButton, hardButton, hellButton));
-        hellButton
-                .setOnAction(e -> selectDifficulty(Difficulty.HELL, easyButton, normalButton, hardButton, hellButton));
+        for (Difficulty difficulty : Difficulty.values()) {
+            ThemedButton difficultyButton = createStyledDifficultyButton(difficulty,
+                    ResourceManager.getFont(ResourceName.FONT_DEPARTURE_MONO, 18));
 
-        difficultyBox.getChildren().addAll(difficultyLabel, easyButton, normalButton, hardButton, hellButton);
+            // Add to radio button group
+            difficultyGroup.addButton(difficultyButton);
 
-        // Confirm button
+            difficultyButton.setOnAction(e -> {
+                selectedDifficulty = difficulty;
+            });
+
+            difficultyBox.getChildren().add(difficultyButton);
+        }
+
+        // Optionally, set a default selection (e.g., NORMAL)
+        difficultyGroup.getButtons().stream()
+                .filter(btn -> btn.getText().equals(Difficulty.NORMAL.getDisplayName()))
+                .findFirst()
+                .ifPresent(btn -> btn.setSelected(true));
 
         // Confirm Button
-        Button confirmButton = createStyledButton("Confirm",
-                ResourceManager.getFont(ResourceName.FONT_DEPARTURE_MONO, 18));
+        ThemedButton confirmButton = new ThemedButton("Confirm");
         confirmButton.setOnAction(event -> {
             String playerName = nameField.getText().trim();
 
-            // Validate inputs
             if (selectedCharacter == null) {
                 warningLabel.setText("Please select a character!");
                 return;
@@ -256,99 +254,35 @@ public class CharacterScene extends BaseScene {
         root.getChildren().addAll(topBar, topSpacer, centerContainer, bottomSpacer, warningLabel);
     }
 
-    private Button createStyledButton(String text, Font font) {
-        Button button = new Button(text);
-        button.setFont(Font.font(font.getFamily(), 16));
-        button.setTextFill(Color.WHITE);
-        button.setBackground(new Background(new BackgroundFill(Color.DIMGRAY, new CornerRadii(5), Insets.EMPTY)));
-
-        // Hover effect: Change background color when hovered
-        button.setOnMouseEntered(event -> {
-            button.setBackground(new Background(new BackgroundFill(Color.LIGHTGRAY, new CornerRadii(5), Insets.EMPTY)));
-            button.setTextFill(Color.BLACK);
-        });
-
-        button.setOnMouseExited(event -> {
-            button.setBackground(new Background(new BackgroundFill(Color.DIMGRAY, new CornerRadii(5), Insets.EMPTY)));
-            button.setTextFill(Color.WHITE);
-        });
-
-        return button;
-    }
-
-    private Button createStyledDifficultyButton(Difficulty difficulty, Font font) {
-        Button button = new Button(difficulty.getDisplayName());
+    private ThemedButton createStyledDifficultyButton(Difficulty difficulty, Font font) {
+        ThemedButton button = new ThemedButton(difficulty.getDisplayName());
         button.setFont(Font.font(font.getFamily(), 16)); // Set font size to 16
-        button.setTextFill(Color.WHITE);
-        button.setBackground(new Background(new BackgroundFill(Color.DIMGRAY, new CornerRadii(5), Insets.EMPTY)));
 
-        // Default shadow effect (matches confirm button)
-        DropShadow defaultShadow = new DropShadow();
-        defaultShadow.setColor(Color.BLACK);
-        defaultShadow.setRadius(5);
-        button.setEffect(defaultShadow);
-
-        // Store original style
-        final String defaultStyle = "-fx-background-color: dimgray; -fx-border-color: gold; -fx-border-width: 3px; -fx-border-radius: 5px; -fx-text-fill: white;";
-        button.setStyle(defaultStyle);
-
-        // Hover effect (only if not selected)
-        button.setOnMouseEntered(event -> {
-            if (!button.getStyle().contains("#FFD700")) {
-                switch (difficulty) {
-                    case EASY:
-                        button.setStyle(
-                                "-fx-background-color: lightgreen; -fx-border-color: gold; -fx-border-width: 3px; -fx-border-radius: 5px;");
-                        break;
-                    case NORMAL:
-                        button.setStyle(
-                                "-fx-background-color: yellow; -fx-border-color: gold; -fx-border-width: 3px; -fx-border-radius: 5px;");
-                        break;
-                    case HARD:
-                        button.setStyle(
-                                "-fx-background-color: red; -fx-border-color: gold; -fx-border-width: 3px; -fx-border-radius: 5px;");
-                        break;
-                    case HELL:
-                        button.setStyle(
-                                "-fx-background-color: red; -fx-border-color: gold; -fx-border-width: 3px; -fx-border-radius: 5px;");
-
-                        DropShadow fireEffect = new DropShadow();
-                        fireEffect.setColor(Color.ORANGERED);
-                        fireEffect.setRadius(15);
-                        fireEffect.setSpread(0.7);
-                        button.setEffect(fireEffect);
-                        break;
-                    default:
-                        break;
-                }
-                button.setTextFill(Color.BLACK);
-            }
-        });
-
-        // Reset to original if not selected
-        button.setOnMouseExited(event -> {
-            if (!button.getStyle().contains("#FFD700")) { // Keep color if selected
-                button.setStyle(defaultStyle);
-                button.setEffect(defaultShadow);
-            }
-            button.setTextFill(Color.WHITE);
-        });
+        // Set base colors based on difficulty
+        switch (difficulty) {
+            case EASY:
+                button.setBorderColor(Color.LIGHTGREEN)
+                        .setHoverColor(Color.GREEN)
+                        .setPressedColor(Color.DARKGREEN);
+                break;
+            case NORMAL:
+                button.setBorderColor(Color.YELLOW)
+                        .setHoverColor(Color.GOLDENROD)
+                        .setPressedColor(Color.DARKGOLDENROD);
+                break;
+            case HARD:
+                button.setBorderColor(Color.RED)
+                        .setHoverColor(Color.DARKRED)
+                        .setPressedColor(Color.MAROON);
+                break;
+            case HELL:
+                button.setBorderColor(Color.DARKRED)
+                        .setHoverColor(Color.FIREBRICK)
+                        .setPressedColor(Color.ORANGERED);
+                break;
+        }
 
         return button;
-    }
-
-    // Method to set selected difficulty and update button styles
-    private void selectDifficulty(Difficulty difficulty, Button... buttons) {
-        selectedDifficulty = difficulty;
-        for (Button button : buttons) {
-            if (button.getText().equals(difficulty.getDisplayName())) {
-                button.setStyle(
-                        "-fx-background-color: #FFD700; -fx-border-color: gold; -fx-border-width: 3px; -fx-border-radius: 5px; -fx-text-fill: black;");
-            } else {
-                button.setStyle(
-                        "-fx-background-color: dimgray; -fx-border-color: gold; -fx-border-width: 3px; -fx-border-radius: 5px; -fx-text-fill: white;");
-            }
-        }
     }
 
     @Override
