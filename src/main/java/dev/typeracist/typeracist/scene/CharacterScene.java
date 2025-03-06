@@ -24,6 +24,7 @@ import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import javafx.scene.text.TextAlignment;
 
 public class CharacterScene extends BaseScene {
     private Character selectedCharacter; // Store selected character ID
@@ -82,6 +83,7 @@ public class CharacterScene extends BaseScene {
         Label titleLabel = new Label("Choose Your Character");
         titleLabel.setFont(ResourceManager.getFont(ResourceName.FONT_DEPARTURE_MONO, 36));
         titleLabel.setTextFill(Color.WHITE);
+        titleLabel.setAlignment(Pos.CENTER);
 
         // Character selection area
         HBox characterSelection = new HBox(10);
@@ -99,16 +101,18 @@ public class CharacterScene extends BaseScene {
         characterInfoLabel = new Label("");
         characterInfoLabel.setFont(ResourceManager.getFont(ResourceName.FONT_DEPARTURE_MONO, 18));
         characterInfoLabel.setTextFill(Color.WHITE);
+        characterInfoLabel.setTextAlignment(TextAlignment.CENTER);
 
         // Name input field
         HBox nameBox = new HBox(10);
-        nameBox.setAlignment(Pos.CENTER_LEFT);
         Label nameLabel = new Label("Name:");
         nameLabel.setFont(ResourceManager.getFont(ResourceName.FONT_DEPARTURE_MONO, 18));
         nameLabel.setTextFill(Color.WHITE);
+        nameLabel.setAlignment(Pos.CENTER);
 
         TextField nameField = new TextField();
         nameBox.getChildren().addAll(nameLabel, nameField);
+        nameBox.setAlignment(Pos.CENTER);
 
         // Difficulty selection buttons
         HBox difficultyBox = new HBox(10);

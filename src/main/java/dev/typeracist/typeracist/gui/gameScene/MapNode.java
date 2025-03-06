@@ -1,17 +1,16 @@
 package dev.typeracist.typeracist.gui.gameScene;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import dev.typeracist.typeracist.logic.global.BattleInfo;
 import dev.typeracist.typeracist.logic.global.GameLogic;
 import dev.typeracist.typeracist.utils.SceneName;
-import dev.typeracist.typeracist.logic.global.BattleInfo;
-import dev.typeracist.typeracist.logic.global.BattleNavigation;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class MapNode extends Button {
     private final Circle statusCircle;
