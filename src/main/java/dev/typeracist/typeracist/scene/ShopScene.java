@@ -9,144 +9,189 @@ import dev.typeracist.typeracist.logic.inventory.Item;
 import dev.typeracist.typeracist.logic.inventory.item.*;
 import dev.typeracist.typeracist.utils.ResourceName;
 import dev.typeracist.typeracist.utils.SceneName;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.Region;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 
 public class ShopScene extends BaseScene {
-    private final Pane root;
+    private final AnchorPane root;
     private final ShopPane shopPane;
-    private final Label coinLabel;
+    private Label coinLabel;
 
     public ShopScene(double width, double height) {
-        super(new Pane(), width, height);
-        this.root = (Pane) getRoot();
+        super(new AnchorPane(), width, height);
+        this.root = (AnchorPane) getRoot();
         root.setStyle("-fx-background-color: #333;");
+        root.setPadding(new Insets(50));
 
-        Font baseFont = ResourceManager.getFont(ResourceName.FONT_DEPARTURE_MONO, 36);
+        VBox contentContainer = new VBox();
+        contentContainer.setAlignment(Pos.TOP_CENTER);
+        contentContainer.setSpacing(20);
+        contentContainer.setPrefWidth(width);
+
+        AnchorPane.setTopAnchor(contentContainer, 0.0);
+        AnchorPane.setLeftAnchor(contentContainer, 0.0);
+        AnchorPane.setRightAnchor(contentContainer, 0.0);
+        AnchorPane.setBottomAnchor(contentContainer, 0.0);
+
+        HBox header = createShopHeader();
+
+        HBox shopContainer = new HBox();
+        shopContainer.setAlignment(Pos.CENTER);
+        shopContainer.setSpacing(10);
+        shopContainer.setPadding(new Insets(10));
+
+        VBox shopItemContainer = createShopContainer();
+        VBox.setVgrow(shopItemContainer, Priority.ALWAYS);
+
+        VBox shopMasterContainer = createShopMaster();
+
+        shopContainer.getChildren().addAll(shopItemContainer, shopMasterContainer);
+
+        // Return button (smaller size)
+        Button returnButton = createStyledButton("Return to Map");
+        returnButton.setOnAction(event -> GameLogic.getInstance().getSceneManager().setScene(SceneName.MAP));
+
+        shopPane = new ShopPane(width, height);
+
+        contentContainer.getChildren().addAll(header, shopContainer, returnButton);
+
+        root.getChildren().addAll(contentContainer, shopPane);
+    }
+
+    private HBox createShopHeader() {
+
+        HBox header = new HBox();
+
+        // placeholder for left side of header
+        Pane leftSide = new Pane();
+
+        // Create spacers
+        Region leftSpacer = new Region();
+        Region rightSpacer = new Region();
+        HBox.setHgrow(leftSpacer, Priority.ALWAYS);
+        HBox.setHgrow(rightSpacer, Priority.ALWAYS);
 
         Label titleLabel = new Label("SHOP");
         titleLabel.setStyle("-fx-text-fill: white;");
-        titleLabel.setLayoutX(400);
-        titleLabel.setLayoutY(25);
-        titleLabel.setFont(Font.font(baseFont.getName(), 48));
-        root.getChildren().add(titleLabel);
+        titleLabel.setFont(ResourceManager.getFont(ResourceName.FONT_DEPARTURE_MONO, 48));
 
         ImageView shopIcon = new ImageView(ResourceManager.getImage(ResourceName.IMAGE_MAP_SHOP));
         shopIcon.setFitWidth(75);
         shopIcon.setFitHeight(75);
-        shopIcon.setLayoutX(550);
-        shopIcon.setLayoutY(20);
-        root.getChildren().add(shopIcon);
 
-        Pane backgroundPane = new Pane();
-        backgroundPane.setStyle("-fx-background-color: #000000;");
-        backgroundPane.setPrefSize(700, 525);
-        backgroundPane.setLayoutX(50);
-        backgroundPane.setLayoutY(100);
-        root.getChildren().add(backgroundPane);
+        HBox rightSide = new HBox();
 
-        Pane anotherBackgroundPane = new Pane();
-        anotherBackgroundPane.setStyle("-fx-background-color: #6B6869;");
-        anotherBackgroundPane.setPrefSize(690, 515);
-        anotherBackgroundPane.setLayoutX(55);
-        anotherBackgroundPane.setLayoutY(105);
-        root.getChildren().add(anotherBackgroundPane);
-
-        ImageView shopMasterImage = new ImageView(ResourceManager.getImage(ResourceName.IMAGE_SHOP_SHOPMASTER));
-        shopMasterImage.setFitWidth(250);
-        shopMasterImage.setFitHeight(200);
-        shopMasterImage.setLayoutX(760);
-        shopMasterImage.setLayoutY(100);
-        root.getChildren().add(shopMasterImage);
-
-        Label shopMasterText = new Label("Buy something,\nwould ya?");
-        shopMasterText.setStyle("-fx-text-fill: white;");
-        shopMasterText.setLayoutX(775);
-        shopMasterText.setLayoutY(310);
-        shopMasterText.setFont(Font.font(baseFont.getName(), 20));
-        root.getChildren().add(shopMasterText);
-
-        // Show player coin balance at top-right
         ImageView coinIcon = new ImageView(ResourceManager.getImage(ResourceName.IMAGE_SHOP_COIN));
         coinIcon.setFitWidth(30);
         coinIcon.setFitHeight(30);
-        coinIcon.setLayoutX(870);
-        coinIcon.setLayoutY(30);
-        root.getChildren().add(coinIcon);
 
         coinLabel = new Label(getPlayerCoinsText());
-        coinLabel.setFont(Font.font(baseFont.getName(), 20));
+        coinLabel.setFont(ResourceManager.getFont(ResourceName.FONT_DEPARTURE_MONO, 20));
         coinLabel.setStyle("-fx-text-fill: gold;");
-        coinLabel.setLayoutX(910);
-        coinLabel.setLayoutY(30);
-        root.getChildren().add(coinLabel);
 
-        // Creating shop items
-        createShopItem(new HealingPotion(), 100);
-        createShopItem(new TimePotion(), 170);
-        createShopItem(new PotionOfTypeswift(), 240);
-        createShopItem(new FriedChicken(), 310);
-        createShopItem(new WhirlwindDagger(), 380);
-        createShopItem(new WoodenShield(), 450);
-        createShopItem(new Typewriter(), 520);
+        rightSide.getChildren().addAll(coinIcon, coinLabel);
 
-        // Return button (smaller size)
-        Button returnButton = createStyledButton("Return to Map");
-        returnButton.setLayoutX(810);
-        returnButton.setLayoutY(675);
-        returnButton.setOnAction(event -> GameLogic.getInstance().getSceneManager().setScene(SceneName.MAP));
-        root.getChildren().add(returnButton);
+        header.getChildren().addAll(leftSide, leftSpacer, titleLabel, shopIcon, rightSpacer, rightSide);
+        header.setAlignment(Pos.CENTER);
+        header.setSpacing(20);
 
-        // Initialize and add the pop-up pane
-        shopPane = new ShopPane(width, height);
-        root.getChildren().add(shopPane);
+        return header;
     }
 
-    private void createShopItem(Item item, double y) {
-        Pane imageBackground = new Pane();
-        imageBackground.setStyle("-fx-background-color: white;");
-        imageBackground.setPrefSize(60, 60);
-        imageBackground.setLayoutX(75);
-        imageBackground.setLayoutY(y + 20);
-        root.getChildren().add(imageBackground);
+    private HBox createShopItem(Item item) {
+        HBox itemContainer = new HBox();
+        itemContainer.setAlignment(Pos.CENTER_LEFT);
+        itemContainer.setSpacing(10);
+        itemContainer.setPadding(new Insets(10));
 
         ImageView itemImage = new ImageView(item.getImage());
         itemImage.setFitWidth(50);
         itemImage.setFitHeight(50);
-        itemImage.setLayoutX(80);
-        itemImage.setLayoutY(y + 25);
-        root.getChildren().add(itemImage);
 
-        Font baseFont = ResourceManager.getFont(ResourceName.FONT_DEPARTURE_MONO, 36);
+        VBox itemInfoContainer = new VBox();
+        itemInfoContainer.setAlignment(Pos.CENTER_LEFT);
+        itemInfoContainer.setSpacing(5);
+        HBox.setHgrow(itemInfoContainer, Priority.ALWAYS);
 
         Label itemLabel = new Label();
-        itemLabel.setText("DESC : " + item.getDescription() + " \nCOST : " + item.getPrice() + " Golds");
-        itemLabel.setStyle("-fx-text-fill: white; -fx-font-weight: normal;");
+        itemLabel.setText("DESC : " + item.getDescription());
+        itemLabel.setStyle("-fx-text-fill: white;");
+        itemLabel.setFont(ResourceManager.getFont(ResourceName.FONT_DEPARTURE_MONO, 12));
 
         Label nameLabel = new Label(item.getName());
-        nameLabel.setStyle("-fx-text-fill: black; -fx-font-weight: bold;");
+        nameLabel.setStyle("-fx-text-fill: white");
+        nameLabel.setFont(ResourceManager.getFont(ResourceName.FONT_DEPARTURE_MONO, 14));
 
-        nameLabel.setLayoutX(150);
-        nameLabel.setLayoutY(y + 20);
-        itemLabel.setLayoutX(150);
-        itemLabel.setLayoutY(y + 40);
+        itemInfoContainer.getChildren().addAll(nameLabel, itemLabel);
 
-        nameLabel.setFont(Font.font(baseFont.getName(), 12));
-        itemLabel.setFont(Font.font(baseFont.getName(), 12));
+        ImageView coinIcon = new ImageView(ResourceManager.getImage(ResourceName.IMAGE_SHOP_COIN));
+        coinIcon.setFitWidth(15);
+        coinIcon.setFitHeight(15);
 
-        root.getChildren().addAll(nameLabel, itemLabel);
+        Label costLabel = new Label(String.valueOf(item.getPrice()));
+        costLabel.setStyle("-fx-text-fill: gold;");
+        costLabel.setFont(ResourceManager.getFont(ResourceName.FONT_DEPARTURE_MONO, 16));
 
-        // Buy button (shifted a little to the left)
         Button buyButton = createStyledButton("BUY");
-        buyButton.setLayoutX(600); // Moved to the left
-        buyButton.setLayoutY(y + 37.5);
         buyButton.setOnAction(event -> purchaseItem(item));
-        root.getChildren().add(buyButton);
+
+        itemContainer.getChildren().addAll(itemImage, itemInfoContainer, coinIcon, costLabel, buyButton);
+
+        return itemContainer;
     }
 
+    private VBox createShopContainer() {
+        VBox shopItemContainer = new VBox();
+        shopItemContainer.setAlignment(Pos.CENTER);
+        shopItemContainer.setSpacing(10);
+        shopItemContainer.setPadding(new Insets(10));
+        shopItemContainer.setStyle("-fx-background-color: #484848; -fx-border-color: black; -fx-border-width: 2;");
+
+        HBox.setHgrow(shopItemContainer, Priority.ALWAYS);
+
+        shopItemContainer.getChildren().addAll(
+                createShopItem(new HealingPotion()),
+                createShopItem(new TimePotion()),
+                createShopItem(new PotionOfTypeswift()),
+                createShopItem(new FriedChicken()),
+                createShopItem(new WhirlwindDagger()),
+                createShopItem(new WoodenShield()),
+                createShopItem(new Typewriter()));
+
+        return shopItemContainer;
+    }
+
+    private VBox createShopMaster() {
+
+        VBox shopMasterContainer = new VBox();
+        shopMasterContainer.setAlignment(Pos.TOP_LEFT);
+        shopMasterContainer.setSpacing(10);
+        shopMasterContainer.setPadding(new Insets(10));
+
+        ImageView shopMasterImage = new ImageView(ResourceManager.getImage(ResourceName.IMAGE_SHOP_SHOPMASTER));
+        shopMasterImage.setFitWidth(250);
+        shopMasterImage.setFitHeight(200);
+
+        Label shopMasterText = new Label("Buy something,\nwould ya?");
+        shopMasterText.setStyle("-fx-text-fill: white;");
+        shopMasterText.setFont(ResourceManager.getFont(ResourceName.FONT_DEPARTURE_MONO, 20));
+
+        shopMasterContainer.getChildren().addAll(shopMasterImage, shopMasterText);
+
+        return shopMasterContainer;
+    }
 
     private void purchaseItem(Item item) {
         int playerCoins = GameLogic.getInstance().getSelectedCharacter().getCoin();
@@ -167,15 +212,16 @@ public class ShopScene extends BaseScene {
     }
 
     private Button createStyledButton(String text) {
-        Font baseFont = ResourceManager.getFont(ResourceName.FONT_DEPARTURE_MONO, 36);
         Button button = new Button(text);
-        button.setFont(Font.font(baseFont.getName(), 16));
-        button.setStyle("-fx-background-color: #484848; -fx-text-fill: white; -fx-border-color: white; -fx-border-width: 2;");
-        button.setPrefWidth(120);
-        button.setPrefHeight(35);
+        button.setFont(ResourceManager.getFont(ResourceName.FONT_DEPARTURE_MONO, 16));
+        button.setStyle(
+                "-fx-background-color: #484848; -fx-text-fill: white; -fx-border-color: white; -fx-border-width: 2;");
+        button.setMinHeight(35);
 
-        button.setOnMouseEntered(e -> button.setStyle("-fx-background-color: #606060; -fx-text-fill: white; -fx-border-color: white; -fx-border-width: 2;"));
-        button.setOnMouseExited(e -> button.setStyle("-fx-background-color: #484848; -fx-text-fill: white; -fx-border-color: white; -fx-border-width: 2;"));
+        button.setOnMouseEntered(e -> button.setStyle(
+                "-fx-background-color: #606060; -fx-text-fill: white; -fx-border-color: white; -fx-border-width: 2;"));
+        button.setOnMouseExited(e -> button.setStyle(
+                "-fx-background-color: #484848; -fx-text-fill: white; -fx-border-color: white; -fx-border-width: 2;"));
 
         return button;
     }
