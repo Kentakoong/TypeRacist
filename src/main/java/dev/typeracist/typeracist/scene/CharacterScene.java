@@ -2,7 +2,6 @@ package dev.typeracist.typeracist.scene;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
 
 import dev.typeracist.typeracist.gui.gameScene.ConfirmationPane;
 import dev.typeracist.typeracist.logic.characters.entities.Character;
@@ -13,14 +12,12 @@ import dev.typeracist.typeracist.logic.characters.entities.character.Wizard;
 import dev.typeracist.typeracist.logic.characters.entities.character.Wretch;
 import dev.typeracist.typeracist.logic.global.GameLogic;
 import dev.typeracist.typeracist.logic.global.ResourceManager;
+import dev.typeracist.typeracist.utils.Difficulty;
 import dev.typeracist.typeracist.utils.ResourceName;
 import dev.typeracist.typeracist.utils.SceneName;
-import dev.typeracist.typeracist.utils.Difficulty;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.effect.DropShadow;
@@ -33,10 +30,11 @@ import javafx.scene.layout.BorderStrokeStyle;
 import javafx.scene.layout.BorderWidths;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
 
 public class CharacterScene extends BaseScene {
     private Character selectedCharacter; // Store selected character ID
@@ -50,30 +48,25 @@ public class CharacterScene extends BaseScene {
         root.setAlignment(Pos.CENTER);
         root.setSpacing(20);
         root.setPadding(new Insets(20));
+        root.setStyle("-fx-background-color: #484848;");
 
-        // set background to grey
-        root.setBackground(new Background(new BackgroundFill(Color.web("#484848"), CornerRadii.EMPTY, Insets.EMPTY)));
-
-        // Load font
-        Font baseFont = ResourceManager.getFont(ResourceName.FONT_DEPARTURE_MONO, 36);
-
-        // Create a top-right aligned HBox for the Home button
         HBox topBar = new HBox();
         topBar.setAlignment(Pos.TOP_RIGHT);
         topBar.setPadding(new Insets(10));
         topBar.setPrefWidth(width);
 
-        // Home Button
         Button homeButton = new Button("Home");
-        homeButton.setFont(Font.font(baseFont.getName(), 18));
+        homeButton.setFont(ResourceManager.getFont(ResourceName.FONT_DEPARTURE_MONO, 18));
         homeButton.setOnAction(event -> GameLogic.getInstance().getSceneManager().setScene(SceneName.MAIN));
 
         topBar.getChildren().add(homeButton);
-        root.getChildren().add(topBar);
 
-        // Title Label
+        VBox centerContainer = new VBox();
+        centerContainer.setAlignment(Pos.CENTER);
+        centerContainer.setSpacing(20);
+
         Label titleLabel = new Label("Choose Your Character");
-        titleLabel.setFont(baseFont);
+        titleLabel.setFont(ResourceManager.getFont(ResourceName.FONT_DEPARTURE_MONO, 36));
         titleLabel.setTextFill(Color.WHITE);
 
         // Character selection area
@@ -109,7 +102,7 @@ public class CharacterScene extends BaseScene {
         Map<Character, VBox> characterFrames = new HashMap<>(); // Store frames for updating selection effect
 
         characterInfoLabel = new Label("");
-        characterInfoLabel.setFont(Font.font(baseFont.getName(), 18));
+        characterInfoLabel.setFont(ResourceManager.getFont(ResourceName.FONT_DEPARTURE_MONO, 18));
         characterInfoLabel.setTextFill(Color.WHITE);
 
         for (Character character : characterData.keySet()) {
@@ -120,7 +113,7 @@ public class CharacterScene extends BaseScene {
 
             // Character Name Label
             Label characterLabel = new Label(characterData.get(character)[0]);
-            characterLabel.setFont(Font.font(baseFont.getName(), 16));
+            characterLabel.setFont(ResourceManager.getFont(ResourceName.FONT_DEPARTURE_MONO, 16));
             characterLabel.setTextFill(Color.BLACK);
 
             // Character Frame (VBox with border)
@@ -178,7 +171,7 @@ public class CharacterScene extends BaseScene {
         HBox nameBox = new HBox(10);
         nameBox.setAlignment(Pos.CENTER);
         Label nameLabel = new Label("Name:");
-        nameLabel.setFont(Font.font(baseFont.getName(), 18));
+        nameLabel.setFont(ResourceManager.getFont(ResourceName.FONT_DEPARTURE_MONO, 18));
         nameLabel.setTextFill(Color.WHITE);
 
         TextField nameField = new TextField();
@@ -188,25 +181,34 @@ public class CharacterScene extends BaseScene {
         HBox difficultyBox = new HBox(10);
         difficultyBox.setAlignment(Pos.CENTER);
         Label difficultyLabel = new Label("Difficulty:");
-        difficultyLabel.setFont(Font.font(baseFont.getName(), 18));
+        difficultyLabel.setFont(ResourceManager.getFont(ResourceName.FONT_DEPARTURE_MONO, 18));
         difficultyLabel.setTextFill(Color.WHITE);
 
-        Button easyButton = createStyledDifficultyButton("Easy", baseFont);
-        Button normalButton = createStyledDifficultyButton("Normal", baseFont);
-        Button hardButton = createStyledDifficultyButton("Hard", baseFont);
-        Button hellButton = createStyledDifficultyButton("Hell", baseFont);
+        Button easyButton = createStyledDifficultyButton(Difficulty.EASY,
+                ResourceManager.getFont(ResourceName.FONT_DEPARTURE_MONO, 18));
+        Button normalButton = createStyledDifficultyButton(Difficulty.NORMAL,
+                ResourceManager.getFont(ResourceName.FONT_DEPARTURE_MONO, 18));
+        Button hardButton = createStyledDifficultyButton(Difficulty.HARD,
+                ResourceManager.getFont(ResourceName.FONT_DEPARTURE_MONO, 18));
+        Button hellButton = createStyledDifficultyButton(Difficulty.HELL,
+                ResourceManager.getFont(ResourceName.FONT_DEPARTURE_MONO, 18));
 
-        easyButton.setOnAction(e -> selectDifficulty("Easy", easyButton, normalButton, hardButton, hellButton));
-        normalButton.setOnAction(e -> selectDifficulty("Normal", easyButton, normalButton, hardButton, hellButton));
-        hardButton.setOnAction(e -> selectDifficulty("Hard", easyButton, normalButton, hardButton, hellButton));
-        hellButton.setOnAction(e -> selectDifficulty("Hell", easyButton, normalButton, hardButton, hellButton));
+        easyButton
+                .setOnAction(e -> selectDifficulty(Difficulty.EASY, easyButton, normalButton, hardButton, hellButton));
+        normalButton.setOnAction(
+                e -> selectDifficulty(Difficulty.NORMAL, easyButton, normalButton, hardButton, hellButton));
+        hardButton
+                .setOnAction(e -> selectDifficulty(Difficulty.HARD, easyButton, normalButton, hardButton, hellButton));
+        hellButton
+                .setOnAction(e -> selectDifficulty(Difficulty.HELL, easyButton, normalButton, hardButton, hellButton));
 
         difficultyBox.getChildren().addAll(difficultyLabel, easyButton, normalButton, hardButton, hellButton);
 
         // Confirm button
 
         // Confirm Button
-        Button confirmButton = createStyledButton("Confirm", baseFont);
+        Button confirmButton = createStyledButton("Confirm",
+                ResourceManager.getFont(ResourceName.FONT_DEPARTURE_MONO, 18));
         confirmButton.setOnAction(event -> {
             String playerName = nameField.getText().trim();
 
@@ -224,28 +226,34 @@ public class CharacterScene extends BaseScene {
                 return;
             }
 
+            ConfirmationPane confirmationPane = new ConfirmationPane(playerName, selectedCharacter, selectedDifficulty,
+                    () -> {
+                        GameLogic.getInstance().setPlayerName(playerName);
+                        GameLogic.getInstance().setCurrentDifficulty(selectedDifficulty);
+                        GameLogic.getInstance().setSelectedCharacter(selectedCharacter);
 
-            ConfirmationPane confirmationPane = new ConfirmationPane(playerName, selectedCharacter, selectedDifficulty, () -> {
-                GameLogic.getInstance().setPlayerName(playerName);
-                GameLogic.getInstance().setCurrentDifficulty(selectedDifficulty);
-                GameLogic.getInstance().setSelectedCharacter(selectedCharacter);
+                        // Update map and navigate to it
+                        ((MapScene) GameLogic.getInstance().getSceneManager().getScene(SceneName.MAP))
+                                .updateNodeColors();
+                        GameLogic.getInstance().getSceneManager().setScene(SceneName.MAP);
+                    });
 
-                // Update map and navigate to it
-                ((MapScene) GameLogic.getInstance().getSceneManager().getScene(SceneName.MAP)).updateNodeColors();
-                GameLogic.getInstance().getSceneManager().setScene(SceneName.MAP);
-            });
-
-            GameLogic.getInstance().getSceneManager().showPopUp(confirmationPane,750,450);
+            GameLogic.getInstance().getSceneManager().showPopUp(confirmationPane, 750, 450);
         });
 
-        // Warning Label (Initially empty)
+        centerContainer.getChildren().addAll(titleLabel, characterSelection, characterInfoLabel, nameBox, difficultyBox,
+                confirmButton);
+
         warningLabel = new Label("");
-        warningLabel.setFont(baseFont);
+        warningLabel.setFont(ResourceManager.getFont(ResourceName.FONT_DEPARTURE_MONO, 18));
         warningLabel.setTextFill(Color.RED);
 
-        root.getChildren().addAll(titleLabel, characterSelection, characterInfoLabel, nameBox, difficultyBox,
-                confirmButton, warningLabel);
+        Region topSpacer = new Region();
+        Region bottomSpacer = new Region();
+        VBox.setVgrow(topSpacer, Priority.ALWAYS);
+        VBox.setVgrow(bottomSpacer, Priority.ALWAYS);
 
+        root.getChildren().addAll(topBar, topSpacer, centerContainer, bottomSpacer, warningLabel);
     }
 
     private Button createStyledButton(String text, Font font) {
@@ -268,12 +276,11 @@ public class CharacterScene extends BaseScene {
         return button;
     }
 
-    private Button createStyledDifficultyButton(String text, Font font) {
-        Button button = new Button(text);
+    private Button createStyledDifficultyButton(Difficulty difficulty, Font font) {
+        Button button = new Button(difficulty.getDisplayName());
         button.setFont(Font.font(font.getFamily(), 16)); // Set font size to 16
         button.setTextFill(Color.WHITE);
         button.setBackground(new Background(new BackgroundFill(Color.DIMGRAY, new CornerRadii(5), Insets.EMPTY)));
-
 
         // Default shadow effect (matches confirm button)
         DropShadow defaultShadow = new DropShadow();
@@ -287,26 +294,32 @@ public class CharacterScene extends BaseScene {
 
         // Hover effect (only if not selected)
         button.setOnMouseEntered(event -> {
-            if (!button.getStyle().contains("#FFD700")) { // Don't change color if it's selected
-                if (text.equals("Easy")) {
-                    button.setStyle(
-                            "-fx-background-color: lightgreen; -fx-border-color: gold; -fx-border-width: 3px; -fx-border-radius: 5px;");
-                } else if (text.equals("Normal")) {
-                    button.setStyle(
-                            "-fx-background-color: yellow; -fx-border-color: gold; -fx-border-width: 3px; -fx-border-radius: 5px;");
-                } else if (text.equals("Hard")) {
-                    button.setStyle(
-                            "-fx-background-color: red; -fx-border-color: gold; -fx-border-width: 3px; -fx-border-radius: 5px;");
-                } else if (text.equals("Hell")) {
-                    button.setStyle(
-                            "-fx-background-color: red; -fx-border-color: gold; -fx-border-width: 3px; -fx-border-radius: 5px;");
+            if (!button.getStyle().contains("#FFD700")) {
+                switch (difficulty) {
+                    case EASY:
+                        button.setStyle(
+                                "-fx-background-color: lightgreen; -fx-border-color: gold; -fx-border-width: 3px; -fx-border-radius: 5px;");
+                        break;
+                    case NORMAL:
+                        button.setStyle(
+                                "-fx-background-color: yellow; -fx-border-color: gold; -fx-border-width: 3px; -fx-border-radius: 5px;");
+                        break;
+                    case HARD:
+                        button.setStyle(
+                                "-fx-background-color: red; -fx-border-color: gold; -fx-border-width: 3px; -fx-border-radius: 5px;");
+                        break;
+                    case HELL:
+                        button.setStyle(
+                                "-fx-background-color: red; -fx-border-color: gold; -fx-border-width: 3px; -fx-border-radius: 5px;");
 
-                    // Fire effect for Hell difficulty
-                    DropShadow fireEffect = new DropShadow();
-                    fireEffect.setColor(Color.ORANGERED);
-                    fireEffect.setRadius(15);
-                    fireEffect.setSpread(0.7);
-                    button.setEffect(fireEffect);
+                        DropShadow fireEffect = new DropShadow();
+                        fireEffect.setColor(Color.ORANGERED);
+                        fireEffect.setRadius(15);
+                        fireEffect.setSpread(0.7);
+                        button.setEffect(fireEffect);
+                        break;
+                    default:
+                        break;
                 }
                 button.setTextFill(Color.BLACK);
             }
@@ -325,10 +338,10 @@ public class CharacterScene extends BaseScene {
     }
 
     // Method to set selected difficulty and update button styles
-    private void selectDifficulty(String difficultyName, Button... buttons) {
-        selectedDifficulty = Difficulty.fromDisplayName(difficultyName);
+    private void selectDifficulty(Difficulty difficulty, Button... buttons) {
+        selectedDifficulty = difficulty;
         for (Button button : buttons) {
-            if (button.getText().equals(difficultyName)) {
+            if (button.getText().equals(difficulty.getDisplayName())) {
                 button.setStyle(
                         "-fx-background-color: #FFD700; -fx-border-color: gold; -fx-border-width: 3px; -fx-border-radius: 5px; -fx-text-fill: black;");
             } else {
