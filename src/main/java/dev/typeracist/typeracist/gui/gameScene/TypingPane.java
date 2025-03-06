@@ -5,6 +5,7 @@ import dev.typeracist.typeracist.logic.gameScene.DynamicColorText;
 import dev.typeracist.typeracist.logic.gameScene.TypingTrackedPosition;
 import dev.typeracist.typeracist.logic.gameScene.TypingTracker;
 import dev.typeracist.typeracist.utils.EventProcessor;
+import dev.typeracist.typeracist.utils.KeyConverter;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -98,7 +99,7 @@ public class TypingPane extends FlowPane {
                 case SPACE -> typingTracker.addNewWord();
                 case BACK_SPACE -> typingTracker.removeCharacter();
                 default -> {
-                    String input = event.getText();
+                    String input = KeyConverter.convertKeyToText(event);
 
                     if (!input.isEmpty() && input.codePointAt(0) >= 32 && input.codePointAt(0) < 127) {
                         typingTracker.addCharacter(input);
@@ -281,7 +282,7 @@ public class TypingPane extends FlowPane {
     }
 
     protected DynamicColorText renderWord(int index, Color baseColor, Color highlightCorrectColor,
-            Color highlightWrongColor, Color highlightOutOfWordColor) {
+                                          Color highlightWrongColor, Color highlightOutOfWordColor) {
         if (index < 0 || index >= typingTracker.getWords().size()) {
             throw new IllegalArgumentException("Invalid index");
         }
@@ -310,7 +311,7 @@ public class TypingPane extends FlowPane {
     }
 
     protected void reRenderWord(int index, Color baseColor, Color highlightCorrectColor, Color highlightWrongColor,
-            Color hightlightOutofWordColor) {
+                                Color hightlightOutofWordColor) {
         if (index < 0 || index >= typingTracker.getWords().size()) {
             throw new IllegalArgumentException("Invalid index");
         }
@@ -321,7 +322,7 @@ public class TypingPane extends FlowPane {
     }
 
     protected void renderDynamicColorText(int index, DynamicColorText dynamicColorText, Color baseColor,
-            Color highlightCorrectColor, Color highlightWrongColor, Color hightlightOutofWordColor) {
+                                          Color highlightCorrectColor, Color highlightWrongColor, Color hightlightOutofWordColor) {
         String currentTypedWord = typingTracker.getTrackedWords().get(index);
         String currentWord = typingTracker.getWords().get(index);
 

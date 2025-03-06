@@ -1,30 +1,16 @@
 package dev.typeracist.typeracist.logic.gameScene;
 
 import dev.typeracist.typeracist.gui.gameScene.BattlePane.BattlePane;
-import dev.typeracist.typeracist.gui.gameScene.BattlePane.InformationPane.InfoPaneModifierType;
 import dev.typeracist.typeracist.gui.gameScene.BattlePane.PaneModifier.*;
 import dev.typeracist.typeracist.logic.characters.*;
 import dev.typeracist.typeracist.logic.characters.skills.SkillWithProbability;
 import dev.typeracist.typeracist.logic.global.GameLogic;
-import dev.typeracist.typeracist.logic.global.ResourceManager;
 import dev.typeracist.typeracist.logic.global.SaveManager;
 import dev.typeracist.typeracist.logic.inventory.ActivateOnTurn;
 import dev.typeracist.typeracist.logic.inventory.ActivateOnTurnState;
 import dev.typeracist.typeracist.logic.inventory.Item;
-import dev.typeracist.typeracist.utils.ResourceName;
-import dev.typeracist.typeracist.utils.SceneName;
 import dev.typeracist.typeracist.utils.TurnOwnership;
-import javafx.animation.FadeTransition;
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
 import javafx.application.Platform;
-import javafx.event.EventHandler;
-import javafx.geometry.Pos;
-import javafx.scene.control.Label;
-import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
-import javafx.util.Duration;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -101,59 +87,11 @@ public class BattlePaneStateManager {
 
                 GameLogic.getInstance().clearBattle("BATTLE" + (id + 1));
                 SaveManager.saveCharacter();
-
-                EventHandler<? super KeyEvent> keyPressEvent = battlePane.getOnKeyPressed();
-
-                battlePane.setOnKeyPressed(keyEvent -> {
-                    battlePane.setOnKeyPressed(keyPressEvent);
-                    GameLogic.getInstance().getSceneManager().setScene(SceneName.MAP);
-                });
             }
             case GAME_LOSE -> {
                 GameLogic.getInstance().getSelectedCharacter().resetBonuses();
-
-                battlePane.getInformationPane().setToPane(InfoPaneModifierType.TEXT);
-                battlePane.getInformationPane().getChildren().clear();
-
-                VBox vBox = new VBox(20);
-
-                Label GameOverLabel = new Label("You Lose!");
-                GameOverLabel.setFont(ResourceManager.getFont(ResourceName.FONT_DEPARTURE_MONO, 20));
-
-                Label GameOverDescriptionLabel = new Label("Try again next time!");
-                GameOverDescriptionLabel.setFont(ResourceManager.getFont(ResourceName.FONT_DEPARTURE_MONO, 16));
-
-                vBox.getChildren().addAll(GameOverLabel, GameOverDescriptionLabel);
-
-                Label pressAnyKeyToContinue = new Label("<< Press any key to continue.. >> ");
-                pressAnyKeyToContinue.setFont(ResourceManager.getFont(ResourceName.FONT_DEPARTURE_MONO, 14));
-                pressAnyKeyToContinue.setTextFill(Color.DARKGRAY);
-                pressAnyKeyToContinue.setAlignment(Pos.CENTER);
-                pressAnyKeyToContinue.setMaxWidth(Double.MAX_VALUE);
-                pressAnyKeyToContinue.setVisible(false);
-
-                new Timeline(
-                        new KeyFrame(
-                                Duration.millis(500),
-                                ae -> {
-                                    FadeTransition fadeIn = new FadeTransition(Duration.seconds(0.2), pressAnyKeyToContinue);
-                                    fadeIn.setFromValue(0);
-                                    fadeIn.setToValue(1);
-                                    fadeIn.setOnFinished(event -> {
-                                        EventHandler<? super KeyEvent> keyPressEvent = battlePane.getOnKeyPressed();
-
-                                        battlePane.setOnKeyPressed(keyEvent -> {
-                                            battlePane.setOnKeyPressed(keyPressEvent); // Restore previous state
-                                            GameLogic.getInstance().getSceneManager().setScene(SceneName.MAP);
-                                        });
-
-                                    });
-
-                                    pressAnyKeyToContinue.setVisible(true);
-                                    fadeIn.play();
-                                }))
-                        .play();
-
+                GameLogic.getInstance().getSelectedCharacter().getHp().setCurrentHP(35);
+                SaveManager.saveCharacter();
             }
         }
     }
@@ -176,6 +114,16 @@ public class BattlePaneStateManager {
     private void determineNextState(BasePaneModifier completedModifier) {
         BattlePaneState currentState = context.getCurrentState();
 
+        if (context.getEnemy().getHp().isDead()) {
+            transitionToState(BattlePaneState.GAME_WIN);
+            return;
+        }
+
+        if (GameLogic.getInstance().getSelectedCharacter().getHp().isDead()) {
+            transitionToState(BattlePaneState.GAME_LOSE);
+            return;
+        }
+
         switch (currentState) {
             case ENEMY_DESCRIPTION -> {
                 activateSkill(SkillActivationOnState.ACTIVATION_BEFORE_ATTACK, TurnOwnership.PLAYER);
@@ -193,11 +141,7 @@ public class BattlePaneStateManager {
                 transitionToState(BattlePaneState.PLAYER_ATTACK_RESULT);
             }
             case PLAYER_ATTACK_RESULT -> {
-                if (context.getEnemy().getHp().isDead()) {
-                    transitionToState(BattlePaneState.GAME_WIN);
-                } else {
-                    transitionToState(BattlePaneState.ENEMY_BEFORE_ATTACK);
-                }
+                transitionToState(BattlePaneState.ENEMY_BEFORE_ATTACK);
             }
             case ENEMY_BEFORE_ATTACK -> {
                 activateSkill(SkillActivationOnState.ACTIVATION_BEFORE_ATTACK, TurnOwnership.ENEMY);
@@ -214,12 +158,8 @@ public class BattlePaneStateManager {
                 transitionToState(BattlePaneState.PLAYER_DEFENSE_RESULT);
             }
             case PLAYER_DEFENSE_RESULT -> {
-                if (GameLogic.getInstance().getSelectedCharacter().getHp().isDead()) {
-                    transitionToState(BattlePaneState.GAME_LOSE);
-                } else {
-                    context.incrementTurn();
-                    transitionToState(BattlePaneState.ENEMY_DESCRIPTION);
-                }
+                context.incrementTurn();
+                transitionToState(BattlePaneState.ENEMY_DESCRIPTION);
             }
         }
     }
