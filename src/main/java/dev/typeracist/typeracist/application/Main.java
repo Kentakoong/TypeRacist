@@ -37,7 +37,6 @@ public class Main extends Application {
         new Thread(() -> {
             GameLogic.initializeDatasets();
             sceneManager.addScene(SceneName.BATTLE_SCENE, new BattleScene(screenWidth, screenHeight));
-            sceneManager.addScene(SceneName.BATTLE_TEST, new BattleScene(screenWidth, screenHeight));
         }).start();
 
         // Set the stage to full screen or maximized

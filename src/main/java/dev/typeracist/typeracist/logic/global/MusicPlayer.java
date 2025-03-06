@@ -71,9 +71,6 @@ public class MusicPlayer {
 
         sceneMusicMap.put(SceneName.SHOP, "shop_theme");
 
-        // Add battle scenes
-        sceneMusicMap.put(SceneName.BATTLE_TEST, "battle_theme");
-
         sceneMusicMap.put(SceneName.BATTLE_SCENE1, "battle_theme");
         sceneMusicMap.put(SceneName.BATTLE_SCENE2, "battle_theme");
         sceneMusicMap.put(SceneName.BATTLE_SCENE3, "battle_theme");
