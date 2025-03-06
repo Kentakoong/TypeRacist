@@ -66,9 +66,7 @@ public class MusicPlayer {
         sceneMusicMap.put(SceneName.CHARACTERS, "main_theme");
         sceneMusicMap.put(SceneName.SETTINGS, "main_theme");
         sceneMusicMap.put(SceneName.MAP, "main_theme");
-        sceneMusicMap.put(SceneName.ENCHANT, "main_theme");
         sceneMusicMap.put(SceneName.CHEST, "main_theme");
-        sceneMusicMap.put(SceneName.FORGE, "main_theme");
         sceneMusicMap.put(SceneName.NEXT_MAP, "main_theme");
 
         sceneMusicMap.put(SceneName.SHOP, "shop_theme");

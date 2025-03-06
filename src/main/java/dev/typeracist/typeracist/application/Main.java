@@ -31,10 +31,8 @@ public class Main extends Application {
         sceneManager.addScene(SceneName.DYNAMIC_PANE_TEST, new DynamicSceneDemo(screenWidth, screenHeight));
         sceneManager.addScene(SceneName.MAP, new MapScene(screenWidth, screenHeight));
         sceneManager.addScene(SceneName.SHOP, new ShopScene(screenWidth, screenHeight));
-        sceneManager.addScene(SceneName.ENCHANT, new EnchantScene(screenWidth, screenHeight));
         sceneManager.addScene(SceneName.REWARD1, new ChestScene(screenWidth, screenHeight, SceneName.REWARD1));
         sceneManager.addScene(SceneName.REWARD2, new ChestScene(screenWidth, screenHeight, SceneName.REWARD2));
-        sceneManager.addScene(SceneName.FORGE, new ForgeScene(screenWidth, screenHeight));
 
         // Load dataset and keyboard pane in another thread
         new Thread(() -> {
