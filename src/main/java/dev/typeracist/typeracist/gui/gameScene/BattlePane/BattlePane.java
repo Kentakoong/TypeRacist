@@ -100,8 +100,10 @@ public class BattlePane extends VBox {
         playerHealthBar = new HealthBar(Color.BLUE);
         enemyHealthBar = new HealthBar(Color.RED);
 
-        playerHealthBar.setPrefWidth(getPrefWidth());
-        enemyHealthBar.setPrefWidth(getPrefWidth());
+        // Bind width to half of scene width
+        playerHealthBar.prefWidthProperty().bind(widthProperty().divide(2));
+        enemyHealthBar.prefWidthProperty().bind(widthProperty().divide(2));
+
 
         playerHealthBar.updateHealthBar(GameLogic.getInstance().getSelectedCharacter().getHp());
         enemyHealthBar.updateHealthBar(battlePaneStateContext.getEnemy().getHp());
@@ -112,7 +114,7 @@ public class BattlePane extends VBox {
         return healthBarsContainer;
     }
 
-    public HBox createStatsPane() {
+    public VBox createStatsPane() {
         // Create a VBox for each panel we want to display
         VBox playerStatsBox = createCharacterStatsBox();
         VBox enemyStatsBox = createEnemyStatsBox();
@@ -123,13 +125,27 @@ public class BattlePane extends VBox {
         VBox rightPanels = new VBox(10, skillsBox, itemsUsedBox);
         rightPanels.setAlignment(Pos.CENTER);
 
+        // Wrap the close button in a VBox for alignment
+        VBox closeButtonBox = new VBox(20);
+        closeButtonBox.setAlignment(Pos.CENTER);
+
+        // Create a close button
+        Button closeButton = new ThemedButton("Close");
+        closeButton.setTextFill(Color.BLACK);
+        closeButton.setOnMouseClicked(e->{
+            GameLogic.getInstance().getSceneManager().closePopUp();
+        });
+
         // Create the main container with player stats, enemy stats, and the right panels
         HBox container = new HBox(20, playerStatsBox, enemyStatsBox, rightPanels);
         container.setAlignment(Pos.CENTER);
         container.setPadding(new Insets(10));
 
-        return container;
+
+        closeButtonBox.getChildren().addAll(container, closeButton);
+        return closeButtonBox;
     }
+
 
     private VBox createItemsUsedBox() {
         VBox container = new VBox(10);
