@@ -31,7 +31,7 @@ public class WhirlwindDagger extends Item implements ActivateNow, ActivateOnTurn
 
     @Override
     public void activate() {
-        GameLogic.getInstance().getSelectedCharacter().addExtraAtk(6);
+        GameLogic.getInstance().getSelectedCharacter().addExtraAtk(5);
         GameLogic.getInstance().getSceneManager().showBreadcrumb(
                 "WhirlwindDagger is activated",
                 GameLogic.getInstance().getPlayerName() + " atk got boost by " + ATTACK_BONUS,

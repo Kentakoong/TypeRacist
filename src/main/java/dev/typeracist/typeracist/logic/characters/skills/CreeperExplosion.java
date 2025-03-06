@@ -5,7 +5,7 @@ import dev.typeracist.typeracist.logic.characters.Skill;
 import dev.typeracist.typeracist.logic.characters.SkillActivationOnState;
 import dev.typeracist.typeracist.logic.characters.SkillOnEntity;
 
-public class CreeperExplosion extends Skill implements SkillOnEntity {
+public class CreeperExplosion extends Skill {
     private static final int EXPLOSION_DAMAGE = 50;
 
     public CreeperExplosion() {
@@ -23,7 +23,6 @@ public class CreeperExplosion extends Skill implements SkillOnEntity {
         return EXPLOSION_DAMAGE;
     }
 
-    @Override
     public void useSkill(Entity entity) {
         entity.damage(EXPLOSION_DAMAGE);
     }
