@@ -70,8 +70,7 @@ public class PlayerAttackResultPaneModifier extends BasePaneModifier {
                 attackScoreLabel,
                 pressAnyKeyToContinue);
 
-        battlePane.getPlayerHpBar().updateHealthBar();
-        battlePane.getEnemyHpBar().updateHealthBar();
+        battlePane.updateHealthBars();
         battlePane.requestFocus();
 
         // 0.5 seconds delay before

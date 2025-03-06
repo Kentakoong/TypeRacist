@@ -1,21 +1,7 @@
 package dev.typeracist.typeracist.scene;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Queue;
-
 import dev.typeracist.typeracist.gui.gameScene.MapNode;
-import dev.typeracist.typeracist.logic.characters.entities.Character;
-import dev.typeracist.typeracist.logic.global.BattleInfo;
-import dev.typeracist.typeracist.logic.global.BattleNavigation;
-import dev.typeracist.typeracist.logic.global.GameLogic;
-import dev.typeracist.typeracist.logic.global.ResourceManager;
-import dev.typeracist.typeracist.logic.global.SaveManager;
+import dev.typeracist.typeracist.logic.global.*;
 import dev.typeracist.typeracist.utils.ResourceName;
 import dev.typeracist.typeracist.utils.SceneName;
 import javafx.animation.PauseTransition;
@@ -26,21 +12,21 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.Priority;
-import javafx.scene.layout.Region;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.scene.shape.Line;
 import javafx.scene.text.Font;
 import javafx.util.Duration;
 
+import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class MapScene extends BaseScene {
     private final VBox root;
+    private final Map<String, MapNode> mapNodes = new HashMap<>();
     private Label infoLabel;
     private Button confirmButton;
     private ImageView character;
-    private final Map<String, MapNode> mapNodes = new HashMap<>();
     private String selectedAction = null;
     private MapNode currentNode;
 
@@ -178,8 +164,8 @@ public class MapScene extends BaseScene {
         bottomButtonContainer.setPrefWidth(width);
         bottomButtonContainer.setPadding(new Insets(10));
 
-        String[] battleNames = { "BATTLE1", "BATTLE2", "BATTLE3", "BATTLE4", "BATTLE5", "BATTLE6", "BATTLE7", "BATTLE8",
-                "BATTLE9", "BOSS" };
+        String[] battleNames = {"BATTLE1", "BATTLE2", "BATTLE3", "BATTLE4", "BATTLE5", "BATTLE6", "BATTLE7", "BATTLE8",
+                "BATTLE9", "BOSS"};
 
         for (String battleName : battleNames) {
             Button winButton = new Button("Win " + battleName);
@@ -208,7 +194,7 @@ public class MapScene extends BaseScene {
 
     /**
      * Creates a map node with the specified properties
-     * 
+     *
      * @param id          Unique identifier for the node
      * @param x           X-coordinate position
      * @param y           Y-coordinate position
@@ -247,7 +233,7 @@ public class MapScene extends BaseScene {
 
     /**
      * Creates a visual and logical connection between two map nodes
-     * 
+     *
      * @param from ID of the source node
      * @param to   ID of the target node
      */
@@ -293,7 +279,7 @@ public class MapScene extends BaseScene {
 
     /**
      * Uses Breadth-First Search to find the shortest path between two nodes
-     * 
+     *
      * @param start  The starting node
      * @param target The target node
      * @return A list of nodes representing the path, or null if no path exists
@@ -339,7 +325,7 @@ public class MapScene extends BaseScene {
 
     /**
      * Animates character movement along a path of nodes
-     * 
+     *
      * @param path The path of nodes to follow
      */
     private void moveAlongPath(List<MapNode> path) {
@@ -353,7 +339,7 @@ public class MapScene extends BaseScene {
 
     /**
      * Recursively moves the character from one node to the next along a path
-     * 
+     *
      * @param iterator   Iterator over the path nodes
      * @param totalNodes Total number of nodes in the path for timing calculations
      */
@@ -421,23 +407,35 @@ public class MapScene extends BaseScene {
                     GameLogic.getInstance().isBattleCleared(prerequisite);
 
             if (canAccess) {
-                GameLogic.getInstance().getSceneManager().setScene(targetScene.toString());
+                int battleSceneIndex = convertToBattleSceneIndex(action);
+
+                if (battleSceneIndex != -1) {
+                    BattleScene battleScene = (BattleScene) GameLogic.getInstance().getSceneManager().getScene(SceneName.BATTLE);
+                    System.out.println("go to" + (battleSceneIndex - 1));
+                    battleScene.loadPane(battleSceneIndex - 1);
+                    GameLogic.getInstance().getSceneManager().setScene(SceneName.BATTLE);
+                }
             } else {
                 infoLabel.setText("You must clear " + prerequisite + " first!");
             }
         }
     }
 
+    private int convertToBattleSceneIndex(String battleName) {
+        Pattern pattern = Pattern.compile("\\d+");
+        Matcher matcher = pattern.matcher(battleName);
+        return matcher.find() ? Integer.parseInt(matcher.group()) : -1; // Return -1 if no match
+    }
+
     @Override
     public void onSceneEnter() {
         // Load the saved game data to ensure battle statuses are up-to-date
-
-        if (SaveManager.saveFileExists(SaveManager.SAVE_FILE_CHARACTER)) {
-
-            Character selectedCharacter = GameLogic.getInstance().getSelectedCharacter();
-            selectedCharacter = SaveManager.getCharacter();
-            GameLogic.getInstance().setSelectedCharacter(selectedCharacter);
-        }
+//        if (SaveManager.saveFileExists(SaveManager.SAVE_FILE_CHARACTER)) {
+//
+//            Character selectedCharacter = GameLogic.getInstance().getSelectedCharacter();
+//            selectedCharacter = SaveManager.getCharacter();
+//            GameLogic.getInstance().setSelectedCharacter(selectedCharacter);
+//        }
 
         // Set character image
         character.setImage(GameLogic.getInstance().getSelectedCharacter().getImage());

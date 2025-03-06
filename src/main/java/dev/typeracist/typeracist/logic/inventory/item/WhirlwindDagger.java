@@ -50,6 +50,7 @@ public class WhirlwindDagger extends Item implements ActivateNow, ActivateOnTurn
             }
         }
 
+        manager.getContext().getCurrentTurnContext().setEnemyAttackModifier(Integer.MIN_VALUE);
         manager.transitionToState(BattlePaneState.PLAYER_DEFENSE_RESULT);
         GameLogic.getInstance().getSceneManager().showBreadcrumb(
                 "WhirlwindDagger passive is activated",

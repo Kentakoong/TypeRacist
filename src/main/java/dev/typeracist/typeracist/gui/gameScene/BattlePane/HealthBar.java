@@ -16,11 +16,8 @@ import javafx.util.Duration;
 public class HealthBar extends StackPane {
     private final ProgressBar progressBar;
     private final Label hpLabel;
-    private final HP hp;
 
-    public HealthBar(HP hp, Color barColor) {
-        this.hp = hp;
-
+    public HealthBar(Color barColor) {
         progressBar = new ProgressBar(1.0);
         progressBar.setPrefHeight(12);
         progressBar.setMaxWidth(Double.MAX_VALUE);
@@ -31,10 +28,9 @@ public class HealthBar extends StackPane {
         hpLabel.setFont(ResourceManager.getFont(ResourceName.FONT_DEPARTURE_MONO, 14));
 
         getChildren().addAll(progressBar, hpLabel);
-        updateHealthBar();
     }
 
-    public void updateHealthBar() {
+    public void updateHealthBar(HP hp) {
         double newProgress = (double) hp.getCurrentHP() / hp.getMaxHP();
         animateProgressBar(progressBar.getProgress(), newProgress);
 
