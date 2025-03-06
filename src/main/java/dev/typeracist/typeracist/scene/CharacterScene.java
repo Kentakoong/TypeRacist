@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
+import dev.typeracist.typeracist.gui.gameScene.ConfirmationPane;
 import dev.typeracist.typeracist.logic.characters.entities.Character;
 import dev.typeracist.typeracist.logic.characters.entities.character.Archer;
 import dev.typeracist.typeracist.logic.characters.entities.character.Assassin;
@@ -208,107 +209,25 @@ public class CharacterScene extends BaseScene {
                 return;
             }
 
-            // Create the alert window
-            Alert confirmationAlert = new Alert(Alert.AlertType.CONFIRMATION);
-            confirmationAlert.setTitle("Confirm Selection");
-            confirmationAlert.setHeaderText(null); // Remove default header
 
-            // Set Background Color
-            confirmationAlert.getDialogPane().setBackground(new Background(
-                    new BackgroundFill(Color.web("#484848"), CornerRadii.EMPTY, Insets.EMPTY)));
-
-            // Load Font
-            Font alertFont = ResourceManager.getFont(ResourceName.FONT_DEPARTURE_MONO, 18);
-
-            // Create Custom VBox for Content
-            VBox contentBox = new VBox(10);
-            contentBox.setAlignment(Pos.CENTER);
-            contentBox.setPadding(new Insets(10));
-
-            // Character Image
-            ImageView characterImageView = new ImageView(selectedCharacter.getImage());
-            characterImageView.setFitWidth(100);
-            characterImageView.setFitHeight(100);
-
-            // Styled Labels
-            Label alertTitleLabel = new Label("Confirm Your Character Choice");
-            alertTitleLabel.setFont(Font.font(alertFont.getName(), 24));
-            alertTitleLabel.setTextFill(Color.WHITE);
-
-            Label contentLabel = new Label(
-                    "Name: " + playerName + "\n" +
-                            "Character: " + characterData.get(selectedCharacter)[0] + "\n" +
-                            "Difficulty: " + selectedDifficulty.getDisplayName() + "\n\n" +
-                            "Click OK to go to Arena Map");
-            contentLabel.setFont(alertFont);
-            contentLabel.setTextFill(Color.WHITE);
-            contentLabel.setWrapText(true);
-
-            // Add Elements to VBox
-            contentBox.getChildren().addAll(alertTitleLabel, characterImageView, contentLabel);
-
-            // Set Custom Content
-            confirmationAlert.getDialogPane().setContent(contentBox);
-
-            // Style Buttons
-            ButtonType okButton = ButtonType.OK;
-            ButtonType cancelButton = ButtonType.CANCEL;
-            confirmationAlert.getButtonTypes().setAll(okButton, cancelButton);
-
-            Button okBtn = (Button) confirmationAlert.getDialogPane().lookupButton(okButton);
-            Button cancelBtn = (Button) confirmationAlert.getDialogPane().lookupButton(cancelButton);
-
-            if (okBtn != null) {
-                okBtn.setFont(alertFont);
-                okBtn.setTextFill(Color.WHITE);
-                okBtn.setBackground(
-                        new Background(new BackgroundFill(Color.DIMGRAY, new CornerRadii(5), Insets.EMPTY)));
-
-                // Hover effect
-                okBtn.setOnMouseEntered(e -> okBtn.setBackground(
-                        new Background(new BackgroundFill(Color.LIGHTGRAY, new CornerRadii(5), Insets.EMPTY))));
-                okBtn.setOnMouseExited(e -> okBtn.setBackground(
-                        new Background(new BackgroundFill(Color.DIMGRAY, new CornerRadii(5), Insets.EMPTY))));
-            }
-
-            if (cancelBtn != null) {
-                cancelBtn.setFont(alertFont);
-                cancelBtn.setTextFill(Color.WHITE);
-                cancelBtn.setBackground(
-                        new Background(new BackgroundFill(Color.DIMGRAY, new CornerRadii(5), Insets.EMPTY)));
-
-                // Hover effect
-                cancelBtn.setOnMouseEntered(e -> cancelBtn.setBackground(
-                        new Background(new BackgroundFill(Color.LIGHTGRAY, new CornerRadii(5), Insets.EMPTY))));
-                cancelBtn.setOnMouseExited(e -> cancelBtn.setBackground(
-                        new Background(new BackgroundFill(Color.DIMGRAY, new CornerRadii(5), Insets.EMPTY))));
-            }
-
-            // Show Alert
-            Optional<ButtonType> result = confirmationAlert.showAndWait();
-            if (result.isPresent() && result.get() == ButtonType.OK) {
-                // Set player name
+            ConfirmationPane confirmationPane = new ConfirmationPane(playerName, selectedCharacter, selectedDifficulty, () -> {
                 GameLogic.getInstance().setPlayerName(playerName);
-
-                // Set current difficulty
                 GameLogic.getInstance().setCurrentDifficulty(selectedDifficulty);
-
-                // Set selected character (this will also add it to the characters map)
                 GameLogic.getInstance().setSelectedCharacter(selectedCharacter);
 
                 // Update map and navigate to it
                 ((MapScene) GameLogic.getInstance().getSceneManager().getScene(SceneName.MAP)).updateNodeColors();
                 GameLogic.getInstance().getSceneManager().setScene(SceneName.MAP);
-            }
+            });
 
+            GameLogic.getInstance().getSceneManager().showPopUp(confirmationPane,500,300);
         });
-        // return confirmButton;
 
         // Warning Label (Initially empty)
-
         warningLabel = new Label("");
         warningLabel.setFont(baseFont);
         warningLabel.setTextFill(Color.RED);
+
         root.getChildren().addAll(titleLabel, characterSelection, characterInfoLabel, nameBox, difficultyBox,
                 confirmButton, warningLabel);
 
