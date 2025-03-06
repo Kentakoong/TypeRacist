@@ -9,9 +9,7 @@ public class SceneName {
     final public static String MAP = "map";
     final public static String BATTLE_TEST = "battle-pane-test";
     final public static String SHOP = "shop";
-    final public static String ENCHANT = "enchant";
     final public static String CHEST = "chest";
-    final public static String FORGE = "forge";
     final public static String BATTLE_SCENE = "BATTLE";
     final public static String BATTLE_SCENE1 = "BATTLE1";
     final public static String BATTLE_SCENE2 = "BATTLE2";
