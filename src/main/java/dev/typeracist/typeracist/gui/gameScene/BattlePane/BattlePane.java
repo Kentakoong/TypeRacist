@@ -13,7 +13,6 @@ import dev.typeracist.typeracist.logic.inventory.Item;
 import dev.typeracist.typeracist.utils.ResourceName;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
@@ -29,7 +28,7 @@ public class BattlePane extends VBox {
     private ImageView enemyImageView;
     private HealthBar playerHealthBar;
     private HealthBar enemyHealthBar;
-    private Button statsButton;
+    private ThemedButton statsButton;
 
     public BattlePane(BattlePaneStateContext battlePaneStateContext) {
         this.battlePaneStateContext = battlePaneStateContext;
@@ -63,8 +62,7 @@ public class BattlePane extends VBox {
     }
 
     private HBox createHeaderWithStatsButton() {
-        statsButton = new ThemedButton("Show stats", Color.DARKGREY);
-        statsButton.setTextFill(Color.BLACK);
+        statsButton = new ThemedButton("Show stats");
         statsButton.setFocusTraversable(false);
         statsButton.setOnMouseClicked(e -> showStatsPopup());
 
@@ -78,8 +76,7 @@ public class BattlePane extends VBox {
 
     private void showStatsPopup() {
         GameLogic.getInstance().getSceneManager().showPopUp(
-                createStatsPane(), getWidth() - 50, getHeight() - 50
-        );
+                createStatsPane(), getWidth() - 50, getHeight() - 50);
     }
 
     private ImageView createEnemyImageView() {
@@ -104,7 +101,6 @@ public class BattlePane extends VBox {
         // Bind width to half of scene width
         playerHealthBar.prefWidthProperty().bind(widthProperty().divide(2));
         enemyHealthBar.prefWidthProperty().bind(widthProperty().divide(2));
-
 
         playerHealthBar.updateHealthBar(GameLogic.getInstance().getSelectedCharacter().getHp());
         enemyHealthBar.updateHealthBar(battlePaneStateContext.getEnemy().getHp());
@@ -131,22 +127,20 @@ public class BattlePane extends VBox {
         closeButtonBox.setAlignment(Pos.CENTER);
 
         // Create a close button
-        Button closeButton = new ThemedButton("Close");
-        closeButton.setTextFill(Color.BLACK);
-        closeButton.setOnMouseClicked(e->{
+        ThemedButton closeButton = new ThemedButton("Close");
+        closeButton.setOnMouseClicked(e -> {
             GameLogic.getInstance().getSceneManager().closePopUp();
         });
 
-        // Create the main container with player stats, enemy stats, and the right panels
+        // Create the main container with player stats, enemy stats, and the right
+        // panels
         HBox container = new HBox(20, playerStatsBox, enemyStatsBox, rightPanels);
         container.setAlignment(Pos.CENTER);
         container.setPadding(new Insets(10));
 
-
         closeButtonBox.getChildren().addAll(container, closeButton);
         return closeButtonBox;
     }
-
 
     private VBox createItemsUsedBox() {
         VBox container = new VBox(10);
@@ -307,7 +301,7 @@ public class BattlePane extends VBox {
         int playerLevel = player.getXp().getLevel();
         Label playerLevelLabel = new Label("Level " + playerLevel);
         playerLevelLabel.setFont(ResourceManager.getFont(ResourceName.FONT_DEPARTURE_MONO, 16));
-        playerLevelLabel.setTextFill(Color.ORANGERED);  // Set level color to orange
+        playerLevelLabel.setTextFill(Color.ORANGERED); // Set level color to orange
 
         // Player's current XP and XP to level up
         int currentXP = player.getXp().getXp();
@@ -327,7 +321,8 @@ public class BattlePane extends VBox {
                 player.getBaseDef(), player.getExtraDef());
 
         // Add the new labels to the stats box
-        statsBox.getChildren().addAll(characterImage, characterNameLabelContainer, attackLabel, healthLabel, defenseLabel);
+        statsBox.getChildren().addAll(characterImage, characterNameLabelContainer, attackLabel, healthLabel,
+                defenseLabel);
 
         return statsBox;
     }

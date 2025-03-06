@@ -1,6 +1,7 @@
 package dev.typeracist.typeracist.scene;
 
 import dev.typeracist.typeracist.gui.gameScene.MapNode;
+import dev.typeracist.typeracist.gui.global.ThemedButton;
 import dev.typeracist.typeracist.logic.characters.entities.Character;
 import dev.typeracist.typeracist.logic.global.*;
 import dev.typeracist.typeracist.utils.ResourceName;
@@ -9,7 +10,6 @@ import javafx.animation.PauseTransition;
 import javafx.animation.TranslateTransition;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -26,7 +26,7 @@ public class MapScene extends BaseScene {
     private final VBox root;
     private final Map<String, MapNode> mapNodes = new HashMap<>();
     private Label infoLabel;
-    private Button confirmButton;
+    private ThemedButton confirmButton;
     private ImageView character;
     private String selectedAction = null;
     private MapNode currentNode;
@@ -95,8 +95,7 @@ public class MapScene extends BaseScene {
         Region spacer = new Region();
         HBox.setHgrow(spacer, Priority.ALWAYS);
 
-        Button homeButton = new Button("Home");
-        homeButton.setFont(Font.font(baseFont.getName(), 18));
+        ThemedButton homeButton = new ThemedButton("Home");
         homeButton.setOnAction(event -> GameLogic.getInstance().getSceneManager().setScene(SceneName.MAIN));
 
         topBar.getChildren().addAll(titleLabel, spacer, homeButton);
@@ -109,8 +108,7 @@ public class MapScene extends BaseScene {
         infoLabel.setMaxWidth(width - 100);
 
         // Confirm Button
-        confirmButton = new Button("Confirm");
-        confirmButton.setFont(Font.font(baseFont.getName(), 18));
+        confirmButton = new ThemedButton("Confirm");
         confirmButton.setDisable(true);
         confirmButton.setOnAction(event -> {
             if (selectedAction != null) {
@@ -173,7 +171,7 @@ public class MapScene extends BaseScene {
                 "BATTLE9", "BOSS" };
 
         for (String battleName : battleNames) {
-            Button winButton = new Button("Win " + battleName);
+            ThemedButton winButton = new ThemedButton("Win " + battleName);
             winButton.setFont(Font.font(baseFont.getName(), 14));
             winButton.setOnAction(event -> {
                 // Clear the battle in game logic
