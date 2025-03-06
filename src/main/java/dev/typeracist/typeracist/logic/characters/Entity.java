@@ -102,10 +102,6 @@ public class Entity {
         return hp;
     }
 
-    public void setHp(int hp) {
-        this.getHp().setCurrentHP(hp);
-    }
-
     public int getBaseAtk() {
         return baseAtk;
     }
