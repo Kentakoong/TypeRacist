@@ -11,7 +11,11 @@ public class KeyConverter {
     // Method to convert key code to actual character considering CapsLock and Shift
     public static String convertKeyToText(KeyEvent event) {
         if (!isWindow) {
-            return event.getCode().getName();
+            return event.getText();
+        }
+
+        if (event.getText().length() != 1) {
+            return "";
         }
 
         if (event.getText().isEmpty()) {
@@ -97,7 +101,7 @@ public class KeyConverter {
             case RIGHT_PARENTHESIS:
                 return isShiftPressed ? ")" : "0";  // Assuming key layout where ')' is Shift+0
             default:
-                return keyCode.getName();
+                return keyCode.getChar();
         }
     }
 
