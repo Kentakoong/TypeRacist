@@ -51,7 +51,6 @@ public class PlayerDefenseResultPaneModifier extends BasePaneModifier {
             damageTaken += context.getEnemy().getTotalAtk() + context.getCurrentTurnContext().getEnemyAttackModifier()
                     - GameLogic.getInstance().getSelectedCharacter().getTotalDef() * Math.max(rawDefenseScore - 1, 0);
 
-            System.out.println("damageTaken: " + damageTaken);
             damageTaken = GameLogic.getInstance().getSelectedCharacter().damage(damageTaken);
             context.getCurrentTurnContext().setDamageTaken(damageTaken);
         }
@@ -103,7 +102,8 @@ public class PlayerDefenseResultPaneModifier extends BasePaneModifier {
                             });
 
                             if (context.getEnemy() instanceof Nattee115) {
-                                battlePane.getCharacterImage().setImage(ResourceManager.getImage(ResourceName.IMAGE_ENEMY_NATTEE_1));
+                                battlePane.getCharacterImage()
+                                        .setImage(ResourceManager.getImage(ResourceName.IMAGE_ENEMY_NATTEE_1));
                             }
 
                             pressAnyKeyToContinue.setVisible(true); // Ensure the node is visible

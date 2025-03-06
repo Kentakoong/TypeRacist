@@ -1,14 +1,24 @@
 package dev.typeracist.typeracist.scene;
 
-import dev.typeracist.typeracist.gui.gameScene.BattlePane.BattlePane;
-import dev.typeracist.typeracist.gui.gameScene.level.*;
-import dev.typeracist.typeracist.logic.gameScene.BattlePaneState;
-import dev.typeracist.typeracist.logic.gameScene.BattlePaneStateContext;
-import dev.typeracist.typeracist.logic.gameScene.BattlePaneStateManager;
-
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Supplier;
+
+import dev.typeracist.typeracist.gui.gameScene.BattlePane.BattlePane;
+import dev.typeracist.typeracist.gui.gameScene.level.BattlePaneLevel1;
+import dev.typeracist.typeracist.gui.gameScene.level.BattlePaneLevel2;
+import dev.typeracist.typeracist.gui.gameScene.level.BattlePaneLevel3;
+import dev.typeracist.typeracist.gui.gameScene.level.BattlePaneLevel4;
+import dev.typeracist.typeracist.gui.gameScene.level.BattlePaneLevel5;
+import dev.typeracist.typeracist.gui.gameScene.level.BattlePaneLevel6;
+import dev.typeracist.typeracist.gui.gameScene.level.BattlePaneLevel7;
+import dev.typeracist.typeracist.gui.gameScene.level.BattlePaneLevel8;
+import dev.typeracist.typeracist.gui.gameScene.level.BattlePaneLevel9;
+import dev.typeracist.typeracist.gui.gameScene.level.BattlePaneLevelBoss;
+import dev.typeracist.typeracist.logic.gameScene.BattlePaneState;
+import dev.typeracist.typeracist.logic.gameScene.BattlePaneStateContext;
+import dev.typeracist.typeracist.logic.gameScene.BattlePaneStateManager;
+import dev.typeracist.typeracist.logic.global.GameLogic;
 
 public class BattleScene extends BaseDynamicScene<BattlePane> {
     private final Map<Integer, BattlePaneStateManager> sceneStateManagers;
@@ -47,8 +57,7 @@ public class BattleScene extends BaseDynamicScene<BattlePane> {
         BattlePaneStateManager manager = new BattlePaneStateManager(
                 newPane,
                 battlePaneStateContext,
-                id
-        );
+                id);
 
         manager.transitionToState(BattlePaneState.ENEMY_DESCRIPTION);
         sceneStateManagers.put(id, manager);
@@ -59,7 +68,6 @@ public class BattleScene extends BaseDynamicScene<BattlePane> {
     @Override
     public void onSceneEnter() {
         loadPane(currentPaneId);
-
         if (sceneStateManagers.containsKey(currentPaneId)) {
             sceneStateManagers.get(currentPaneId).transitionToState(BattlePaneState.ENEMY_DESCRIPTION);
         }

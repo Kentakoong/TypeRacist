@@ -17,7 +17,7 @@ public class SceneName {
     final public static String BATTLE_SCENE7 = "BATTLE7";
     final public static String BATTLE_SCENE8 = "BATTLE8";
     final public static String BATTLE_SCENE9 = "BATTLE9";
-    final public static String BOSS_SCENE = "BOSS_SCENE";
+    final public static String BOSS = "BOSS";
     final public static String NEXT_MAP = "NEXT_MAP";
     final public static String START = "START";
     final public static String STORE = "STORE";

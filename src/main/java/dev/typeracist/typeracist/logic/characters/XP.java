@@ -61,10 +61,6 @@ public class XP {
         GameLogic.getInstance().getSelectedCharacter()
                 .addDef(1);
 
-        System.out.println(GameLogic.getInstance().getSelectedCharacter().getHp().getMaxHP());
-        System.out.println(GameLogic.getInstance().getSelectedCharacter().getBaseAtk());
-        System.out.println(GameLogic.getInstance().getSelectedCharacter().getBaseDef());
-
         return true;
     }
 

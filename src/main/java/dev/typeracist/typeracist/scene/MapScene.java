@@ -431,7 +431,7 @@ public class MapScene extends BaseScene {
                     GameLogic.getInstance().isBattleCleared(prerequisite);
 
             if (canAccess) {
-                if (action.equals(SceneName.BOSS_SCENE)) {
+                if (action.equals(SceneName.BOSS)) {
                     BattleScene battleScene = (BattleScene) GameLogic.getInstance().getSceneManager()
                             .getScene(SceneName.BATTLE_SCENE);
                     battleScene.loadPane(9);
@@ -451,8 +451,6 @@ public class MapScene extends BaseScene {
                 int battleSceneIndex = convertToBattleSceneIndex(action);
 
                 if (battleSceneIndex != -1) {
-                    System.out.println(action);
-
                     BattleScene battleScene = (BattleScene) GameLogic.getInstance().getSceneManager().getScene(action);
                     battleScene.loadPane(battleSceneIndex - 1);
                     GameLogic.getInstance().getSceneManager().setScene(targetScene);

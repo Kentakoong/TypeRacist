@@ -63,9 +63,9 @@ public final class BattleNavigation {
                                 ResourceManager.getImage(ResourceName.IMAGE_MAP_SWORD),
                                 SceneName.BATTLE_SCENE9, SceneName.BATTLE_SCENE8, true, 525, 220);
 
-                createNode(SceneName.BOSS_SCENE, "Last Battle???",
+                createNode(SceneName.BOSS, "Last Battle???",
                                 ResourceManager.getImage(ResourceName.IMAGE_MAP_SKULL),
-                                SceneName.BOSS_SCENE, SceneName.BATTLE_SCENE9, true, 450, 360);
+                                SceneName.BOSS, SceneName.BATTLE_SCENE9, true, 450, 360);
 
                 // Other scenes with prerequisites
                 createNode(SceneName.REWARD1, "The chest of the town, where you can find items and coins.",
@@ -79,7 +79,7 @@ public final class BattleNavigation {
                 createNode(SceneName.NEXT_MAP,
                                 "The End - You have reached the end of the map, what could have been waiting for you?",
                                 ResourceManager.getImage(ResourceName.IMAGE_MAP_NEXT),
-                                SceneName.NEXT_MAP, SceneName.BOSS_SCENE, true, 625, 420);
+                                SceneName.NEXT_MAP, SceneName.BOSS, false, 625, 420);
 
                 createNode(SceneName.START, "The starting point of your journey.",
                                 ResourceManager.getImage(ResourceName.IMAGE_MAP_CASTLE),
@@ -102,8 +102,8 @@ public final class BattleNavigation {
                 connectNodes(SceneName.BATTLE_SCENE6, SceneName.BATTLE_SCENE7);
                 connectNodes(SceneName.BATTLE_SCENE7, SceneName.BATTLE_SCENE8);
                 connectNodes(SceneName.BATTLE_SCENE6, SceneName.BATTLE_SCENE9);
-                connectNodes(SceneName.BOSS_SCENE, SceneName.BATTLE_SCENE9);
-                connectNodes(SceneName.BOSS_SCENE, SceneName.NEXT_MAP);
+                connectNodes(SceneName.BOSS, SceneName.BATTLE_SCENE9);
+                connectNodes(SceneName.BOSS, SceneName.NEXT_MAP);
         }
 
         /**
