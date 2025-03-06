@@ -6,6 +6,7 @@ import dev.typeracist.typeracist.utils.ResourceName;
 
 public class Wretch extends Character {
     public Wretch() {
-        super(6, 3, ResourceManager.getImage(ResourceName.IMAGE_CHARACTER_WRETCH), null);
+        super(6, 3, ResourceManager.getImage(ResourceName.IMAGE_CHARACTER_WRETCH), null,
+                "A mysterious wanderer with unknown abilities (who wants challenge)\nATK : 3\nDEF : 3\nABIL : NONE");
     }
 }

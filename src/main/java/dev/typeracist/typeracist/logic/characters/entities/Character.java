@@ -26,24 +26,27 @@ public abstract class Character extends Entity {
     protected final Set<String> clearedBattles = new HashSet<>();
     protected XP xp;
     protected int coin;
+    protected String description;
 
-    public Character(HP hp, int atk, int def, Image image, Skill skill) {
+    public Character(HP hp, int atk, int def, Image image, Skill skill, String description) {
         super(hp, atk, def, image, skill);
         this.xp = new XP();
         this.coin = 0100000;
         this.inventory = new Inventory();
+        this.description = description;
     }
 
-    public Character(int atk, int def, Image image, Skill skill) {
-        this(BASE_HP, atk, def, image, skill);
+    public Character(int atk, int def, Image image, Skill skill, String description) {
+        this(BASE_HP, atk, def, image, skill, description);
     }
 
-//    public int attack(Entity target, int rawDamage) {
-//        int realDamage = Math.max(rawDamage * getTotalAtk() - target.getTotalDef(), 0);
-//        target.getHp().damage(realDamage);
-//
-//        return realDamage;
-//    }
+    // public int attack(Entity target, int rawDamage) {
+    // int realDamage = Math.max(rawDamage * getTotalAtk() - target.getTotalDef(),
+    // 0);
+    // target.getHp().damage(realDamage);
+    //
+    // return realDamage;
+    // }
 
     public Inventory getInventory() {
         return inventory;
@@ -136,5 +139,9 @@ public abstract class Character extends Entity {
         } catch (IOException e) {
             System.err.println("Error loading character: " + e.getMessage());
         }
+    }
+
+    public String getDescription() {
+        return description;
     }
 }
