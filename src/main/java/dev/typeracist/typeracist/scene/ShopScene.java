@@ -34,10 +34,14 @@ public class ShopScene extends BaseScene {
         this.root = (VBox) getRoot();
         root.setStyle("-fx-background-color: #333;");
         root.setPadding(new Insets(50));
-
         root.setAlignment(Pos.TOP_CENTER);
         root.setSpacing(20);
         root.setPrefWidth(width);
+
+        if (GameLogic.getInstance().getSelectedCharacter() == null) {
+            GameLogic.getInstance().getSceneManager().setScene(SceneName.CHARACTERS);
+            return;
+        }
 
         HBox header = createShopHeader();
 

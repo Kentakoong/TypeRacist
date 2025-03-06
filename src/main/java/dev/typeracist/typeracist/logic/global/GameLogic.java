@@ -1,17 +1,16 @@
 package dev.typeracist.typeracist.logic.global;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import dev.typeracist.typeracist.logic.characters.entities.Character;
 import dev.typeracist.typeracist.logic.characters.entities.character.Warrior;
 import dev.typeracist.typeracist.logic.gameScene.Dataset;
 import dev.typeracist.typeracist.logic.gameScene.DatasetManager;
-import dev.typeracist.typeracist.logic.inventory.item.*;
 import dev.typeracist.typeracist.utils.DatasetName;
 import dev.typeracist.typeracist.utils.Difficulty;
 import dev.typeracist.typeracist.utils.ResourceName;
 import javafx.stage.Stage;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public class GameLogic {
     private static GameLogic instance;
@@ -20,38 +19,24 @@ public class GameLogic {
     private final Map<String, Character> characters = new HashMap<>();
     private final Map<Difficulty, Map<String, Character>> charactersByDifficulty = new HashMap<>();
     private final MusicPlayer musicPlayer;
-    private Character selectedCharacter; // Store character image path or ID
+    private Character selectedCharacter;
     private String playerName;
     private Difficulty currentDifficulty;
 
     private GameLogic(Stage primaryStage) {
         sceneManager = new SceneManager(primaryStage);
         datasetManager = new DatasetManager();
-        selectedCharacter = new Warrior();
-        characters.put(selectedCharacter.getClass().getSimpleName(), selectedCharacter);
+        musicPlayer = MusicPlayer.getInstance();
 
-        // Initialize difficulty maps
         charactersByDifficulty.put(Difficulty.EASY, new HashMap<>());
         charactersByDifficulty.put(Difficulty.NORMAL, new HashMap<>());
         charactersByDifficulty.put(Difficulty.HARD, new HashMap<>());
         charactersByDifficulty.put(Difficulty.HELL, new HashMap<>());
 
-        musicPlayer = MusicPlayer.getInstance();
-
-        // Music will be played when the first scene is set in the SceneManager
-
-        // todo: remove this, it just for testing
-//        selectedCharacter.getInventory().addItem(new FriedChicken(), 5);
-//        selectedCharacter.getInventory().addItem(new Typewriter());
-//        selectedCharacter.getInventory().addItem(new HealingPotion());
-//        selectedCharacter.getInventory().addItem(new TimePotion());
-//        selectedCharacter.getInventory().addItem(new PotionOfTypeswift());
-//        selectedCharacter.getInventory().addItem(new WoodenShield(), 5);
-//        selectedCharacter.getInventory().addItem(new WhirlwindDagger());
-
-        // todo: remove this for start-pane to set it instead
-        playerName = "Oat Oat";
-        currentDifficulty = Difficulty.NORMAL; // Default difficulty
+        selectedCharacter = new Warrior();
+        characters.put(selectedCharacter.getClass().getSimpleName(), selectedCharacter);
+        playerName = "You";
+        currentDifficulty = Difficulty.NORMAL;
     }
 
     public static void init(Stage primaryStage) {

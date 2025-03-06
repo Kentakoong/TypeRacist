@@ -10,6 +10,7 @@ import dev.typeracist.typeracist.logic.characters.entities.character.Wizard;
 import dev.typeracist.typeracist.logic.characters.entities.character.Wretch;
 import dev.typeracist.typeracist.logic.global.GameLogic;
 import dev.typeracist.typeracist.logic.global.ResourceManager;
+import dev.typeracist.typeracist.logic.global.SaveManager;
 import dev.typeracist.typeracist.utils.Difficulty;
 import dev.typeracist.typeracist.utils.ResourceName;
 import dev.typeracist.typeracist.utils.SceneName;
@@ -161,10 +162,6 @@ public class CharacterScene extends BaseScene {
                         GameLogic.getInstance().setPlayerName(playerName);
                         GameLogic.getInstance().setCurrentDifficulty(selectedDifficulty);
                         GameLogic.getInstance().setSelectedCharacter(selectedCharacter);
-
-                        // Update map and navigate to it
-                        ((MapScene) GameLogic.getInstance().getSceneManager().getScene(SceneName.MAP))
-                                .updateNodeColors();
                         GameLogic.getInstance().getSceneManager().setScene(SceneName.MAP);
                     });
 
