@@ -1,5 +1,6 @@
 package dev.typeracist.typeracist.scene;
 
+import dev.typeracist.typeracist.gui.global.ThemedButton;
 import dev.typeracist.typeracist.logic.global.GameLogic;
 import dev.typeracist.typeracist.logic.global.ResourceManager;
 import dev.typeracist.typeracist.logic.global.SaveManager;
@@ -8,7 +9,6 @@ import dev.typeracist.typeracist.utils.ResourceName;
 import dev.typeracist.typeracist.utils.SceneName;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
@@ -59,12 +59,7 @@ public class ChestScene extends BaseScene {
         rewardText.setTextAlignment(TextAlignment.CENTER);
         rewardText.setFont(ResourceManager.getFont(ResourceName.FONT_DEPARTURE_MONO, 24));
 
-        Button confirmLootButton = new Button("Back to Map");
-        confirmLootButton.setPrefSize(150, 40);
-        confirmLootButton.setMaxSize(150, 40);
-        confirmLootButton.setAlignment(Pos.CENTER);
-        confirmLootButton
-                .setFont(Font.font(ResourceManager.getFont(ResourceName.FONT_DEPARTURE_MONO, 18).getName(), 18));
+        ThemedButton confirmLootButton = new ThemedButton("Back to Map");
         confirmLootButton.setOnAction(event -> {
             if (sceneName.equals(SceneName.REWARD1)) {
                 GameLogic.getInstance().getSelectedCharacter().gainCoin(100);
@@ -92,10 +87,7 @@ public class ChestScene extends BaseScene {
         chestIcon.setFitWidth(450);
         chestIcon.setFitHeight(450);
 
-        Button openChestButton = new Button("Open Chest");
-        openChestButton.setPrefWidth(150);
-        openChestButton.setPrefHeight(40);
-        openChestButton.setFont(Font.font(ResourceManager.getFont(ResourceName.FONT_DEPARTURE_MONO, 18).getName(), 18));
+        ThemedButton openChestButton = new ThemedButton("Open Chest");
         openChestButton.setOnAction(event -> {
             chestIcon.setImage(ResourceManager.getImage(ResourceName.IMAGE_CHEST_OPENED));
         });

@@ -28,7 +28,6 @@ public class Main extends Application {
         sceneManager.addScene(SceneName.MAIN, new MainScene(screenWidth, screenHeight));
         sceneManager.addScene(SceneName.SETTINGS, new SettingScene(screenWidth, screenHeight));
         sceneManager.addScene(SceneName.CHARACTERS, new CharacterScene(screenWidth, screenHeight));
-        sceneManager.addScene(SceneName.DYNAMIC_PANE_TEST, new DynamicSceneDemo(screenWidth, screenHeight));
         sceneManager.addScene(SceneName.MAP, new MapScene(screenWidth, screenHeight));
         sceneManager.addScene(SceneName.SHOP, new ShopScene(screenWidth, screenHeight));
         sceneManager.addScene(SceneName.REWARD1, new ChestScene(screenWidth, screenHeight, SceneName.REWARD1));
@@ -39,7 +38,6 @@ public class Main extends Application {
             GameLogic.initializeDatasets();
             sceneManager.addScene(SceneName.BATTLE_SCENE, new BattleScene(screenWidth, screenHeight));
             sceneManager.addScene(SceneName.BATTLE_TEST, new BattleScene(screenWidth, screenHeight));
-            sceneManager.addScene(SceneName.KEYBOARD_TEST, new KeyboardPaneSceneDemo(screenWidth, screenHeight));
         }).start();
 
         // Set the stage to full screen or maximized
