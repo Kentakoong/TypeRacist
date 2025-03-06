@@ -26,6 +26,7 @@ public class SceneName {
     final public static String NEXT_MAP = "NEXT_MAP";
     final public static String START = "START";
     final public static String STORE = "STORE";
+    final public static String REWARD = "REWARD";
     final public static String REWARD1 = "REWARD1";
     final public static String REWARD2 = "REWARD2";
 
