@@ -162,6 +162,15 @@ public class BattlePaneStateManager {
                 transitionToState(BattlePaneState.ENEMY_DESCRIPTION);
             }
         }
+
+        if (context.getEnemy().getHp().isDead()) {
+            transitionToState(BattlePaneState.GAME_WIN);
+            return;
+        }
+
+        if (GameLogic.getInstance().getSelectedCharacter().getHp().isDead()) {
+            transitionToState(BattlePaneState.GAME_LOSE);
+        }
     }
 
     public void activateSkill(SkillActivationOnState skillActivationOnState, TurnOwnership turnOwnership) {
