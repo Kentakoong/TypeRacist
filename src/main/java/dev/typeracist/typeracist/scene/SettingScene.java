@@ -27,6 +27,7 @@ public class SettingScene extends BaseScene {
     private final VBox volumeBarContainer;
     private final Rectangle[] volumeBars;
     private final Label volumeLabel;
+    private final VBox settingsTable;
 
     public SettingScene(double width, double height) {
         super(new AnchorPane(), width, height);
@@ -35,6 +36,7 @@ public class SettingScene extends BaseScene {
         volumeLabel = new Label("Volume: 3");
         volumeBarContainer = new VBox(5);
         volumeBars = new Rectangle[5];
+        settingsTable = new VBox();
 
         AnchorPane root = (AnchorPane) getRoot();
 
@@ -66,40 +68,11 @@ public class SettingScene extends BaseScene {
         title.setFont(ResourceManager.getFont(ResourceName.FONT_DEPARTURE_MONO, 36));
 
         // Settings Table
-        VBox settingsTable = new VBox();
         settingsTable.setAlignment(Pos.CENTER);
         settingsTable.setSpacing(20);
 
         settingsTable.getChildren().add(0, createVolumeSection());
         settingsTable.getChildren().add(createResetSettingsSection());
-
-        if (GameLogic.getInstance().getSelectedCharacter() != null) {
-
-            Button expButton = new Button("Add 1000 EXP");
-            expButton.setOnAction(e -> {
-                GameLogic.getInstance().getSelectedCharacter().getXp().gainXP(1000);
-                GameLogic.getInstance().getSceneManager().showBreadcrumb(
-                        "Add 1000 EXP",
-                        "",
-                        1000);
-
-                SaveManager.saveCharacter();
-            });
-
-            Button coinButton = new Button("Add 1000 coins");
-            coinButton.setOnAction(e -> {
-                GameLogic.getInstance().getSelectedCharacter().gainCoin(1000);
-                GameLogic.getInstance().getSceneManager().showBreadcrumb(
-                        "Add 1000 Coins",
-                        "",
-                        1000);
-
-                SaveManager.saveCharacter();
-            });
-
-            settingsTable.getChildren().add(coinButton);
-            settingsTable.getChildren().add(expButton);
-        }
 
         // Add everything to the content container
         contentContainer.getChildren().addAll(title, settingsTable);
@@ -232,6 +205,8 @@ public class SettingScene extends BaseScene {
         // Show confirmation message
         showSuccessAlert("Settings Reset", "Settings Reset Successfully",
                 "All settings have been reset to their default values.");
+
+        GameLogic.getInstance().getSceneManager().setScene(SceneName.MAIN);
     }
 
     private void resetGameProgress() {
@@ -244,6 +219,8 @@ public class SettingScene extends BaseScene {
         // Show confirmation message
         showSuccessAlert("Game Progress Reset", "Game Progress Reset Successfully",
                 "All game progress has been reset to the beginning state.");
+
+        GameLogic.getInstance().getSceneManager().setScene(SceneName.MAIN);
     }
 
     private void showSuccessAlert(String title, String header, String content) {
@@ -301,10 +278,44 @@ public class SettingScene extends BaseScene {
         }
     }
 
+    private void updateDebugButtons() {
+        // Remove any existing debug buttons (EXP and Coin buttons)
+        settingsTable.getChildren().removeIf(node -> node instanceof Button &&
+                (((Button) node).getText().contains("EXP") || ((Button) node).getText().contains("coins")));
+
+        if (SaveManager.saveFileExists(SaveManager.SAVE_FILE_CHARACTER)
+                && GameLogic.getInstance().getSelectedCharacter() != null) {
+
+            Button expButton = new Button("Add 1000 EXP");
+            expButton.setOnAction(e -> {
+                GameLogic.getInstance().getSelectedCharacter().getXp().gainXP(1000);
+                GameLogic.getInstance().getSceneManager().showBreadcrumb(
+                        "Add 1000 EXP",
+                        "",
+                        1000);
+
+                SaveManager.saveCharacter();
+            });
+
+            Button coinButton = new Button("Add 1000 coins");
+            coinButton.setOnAction(e -> {
+                GameLogic.getInstance().getSelectedCharacter().gainCoin(1000);
+                GameLogic.getInstance().getSceneManager().showBreadcrumb(
+                        "Add 1000 Coins",
+                        "",
+                        1000);
+
+                SaveManager.saveCharacter();
+            });
+
+            settingsTable.getChildren().addAll(coinButton, expButton);
+        }
+    }
+
     @Override
     public void onSceneEnter() {
-        // Update volume display when entering the scene
         updateVolumeDisplay();
+        updateDebugButtons();
     }
 
     @Override
