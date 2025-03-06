@@ -220,7 +220,7 @@ public class CharacterScene extends BaseScene {
                 GameLogic.getInstance().getSceneManager().setScene(SceneName.MAP);
             });
 
-            GameLogic.getInstance().getSceneManager().showPopUp(confirmationPane,500,300);
+            GameLogic.getInstance().getSceneManager().showPopUp(confirmationPane,750,450);
         });
 
         // Warning Label (Initially empty)

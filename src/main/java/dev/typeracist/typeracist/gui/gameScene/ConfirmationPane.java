@@ -37,11 +37,11 @@ public class ConfirmationPane extends StackPane {
 
         // Character Image
         ImageView characterImageView = new ImageView(selectedCharacter.getImage());
-        characterImageView.setFitWidth(100);
-        characterImageView.setFitHeight(100);
+        characterImageView.setFitWidth(150);
+        characterImageView.setFitHeight(150);
 
         // Title Label
-        Label titleLabel = new Label("Confirm Your Character Choice");
+        Label titleLabel = new Label("Confirm Your Character");
         titleLabel.setFont(baseFontTitle);  // Set to baseFont
         titleLabel.setTextFill(Color.WHITE);
 
@@ -50,11 +50,12 @@ public class ConfirmationPane extends StackPane {
         Label contentLabel = new Label(
                 "Name: " + playerName + "\n" +
                         "Character: " + selectedCharacter.getName() + "\n" +
-                        "Difficulty: " + selectedDifficulty.getDisplayName() + "\n\n" +
-                        "Click OK to go to Arena Map");
+                        "Difficulty: " + selectedDifficulty.getDisplayName());
         contentLabel.setFont(baseFont);  // Set to baseFont
         contentLabel.setTextFill(Color.WHITE);
-        contentLabel.setWrapText(true);
+//        contentLabel.setMaxWidth(Double.MAX_VALUE);
+//
+//        contentLabel.setWrapText(true);
         contentLabel.setAlignment(Pos.CENTER);
 
         // Buttons
