@@ -30,6 +30,17 @@ public class BattlePaneStateContext {
         setCurrentTurn(this.currentTurn);
     }
 
+    public BattlePaneStateContext(BattlePaneStateContext other) {
+        this.enemy = other.enemy;
+        this.typingMaxTime = other.typingMaxTime;
+        this.dataset = other.dataset;
+        this.datasetWordsExtractor = other.datasetWordsExtractor;
+
+        this.currentState = other.currentState;
+        this.turnContext = new HashMap<>(other.turnContext);
+        this.currentTurn = other.currentTurn;
+    }
+
     public Map<Integer, BattlePaneTurnContext> getTurnContext() {
         return turnContext;
     }

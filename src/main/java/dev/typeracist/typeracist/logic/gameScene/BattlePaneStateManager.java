@@ -5,6 +5,7 @@ import dev.typeracist.typeracist.gui.gameScene.BattlePane.PaneModifier.*;
 import dev.typeracist.typeracist.logic.characters.*;
 import dev.typeracist.typeracist.logic.characters.skills.SkillWithProbability;
 import dev.typeracist.typeracist.logic.global.GameLogic;
+import dev.typeracist.typeracist.logic.global.SaveManager;
 import dev.typeracist.typeracist.logic.inventory.ActivateOnTurn;
 import dev.typeracist.typeracist.logic.inventory.ActivateOnTurnState;
 import dev.typeracist.typeracist.logic.inventory.Item;
@@ -24,11 +25,13 @@ public class BattlePaneStateManager {
     private final BattlePane battlePane;
     private final BattlePaneStateContext context;
     private final Map<BattlePaneState, BasePaneModifier> stateModifiers = new HashMap<>();
+    private final int id;
     private BasePaneModifier currentModifier;
 
-    public BattlePaneStateManager(BattlePane battlePane, BattlePaneStateContext context) {
+    public BattlePaneStateManager(BattlePane battlePane, BattlePaneStateContext context, int id) {
         this.battlePane = battlePane;
         this.context = context;
+        this.id = id;
         initializeStateModifiers();
     }
 
@@ -80,6 +83,9 @@ public class BattlePaneStateManager {
                             5000
                     );
                 }
+
+                GameLogic.getInstance().clearBattle("BATTLE" + (id + 1));
+                SaveManager.saveCharacter();
 
                 EventHandler<? super KeyEvent> keyPressEvent = battlePane.getOnKeyPressed();
 

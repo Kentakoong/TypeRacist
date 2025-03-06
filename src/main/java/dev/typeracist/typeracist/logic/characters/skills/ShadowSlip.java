@@ -20,6 +20,7 @@ public class ShadowSlip extends SkillWithProbability implements SkillOnEnvironme
 
     @Override
     public void useSkill(BattlePaneStateManager manager) {
+        manager.getContext().getCurrentTurnContext().addEnemyAttackModifier(Integer.MIN_VALUE);
     }
 
 }

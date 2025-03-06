@@ -1,5 +1,6 @@
 package dev.typeracist.typeracist.logic.characters;
 
+import dev.typeracist.typeracist.logic.global.GameLogic;
 import dev.typeracist.typeracist.utils.RandomRange;
 import javafx.scene.image.Image;
 
@@ -14,6 +15,27 @@ public class Enemy extends Entity {
     public Enemy(HP hp, int atk, int def, Image image, String[] descriptions, Skill skill, RandomRange coinRange,
                  RandomRange xpRange) {
         super(hp, atk, def, image, skill);
+
+        System.out.println(getName() + " " + GameLogic.getInstance().getCurrentDifficulty());
+        switch (GameLogic.getInstance().getCurrentDifficulty()) {
+            case EASY -> {
+                this.hp.setCurrentHP((int) Math.floor(hp.getMaxHP() * 0.8));
+                this.baseAtk = (int) Math.floor(atk * 0.8);
+                this.baseDef = (int) Math.floor(def * 0.8);
+            }
+            case HARD -> {
+                this.hp.setCurrentHP((int) Math.floor(hp.getMaxHP() * 1.5));
+                this.baseAtk = (int) Math.floor(atk * 1.5);
+                this.baseDef = (int) Math.floor(def * 1.5);
+            }
+            case HELL -> {
+                this.hp.setMaxHP(hp.getMaxHP() * 2);
+                this.baseAtk *= 2;
+                this.baseDef *= 2;
+            }
+        }
+
+        this.hp.setCurrentHP(this.hp.getMaxHP());
         this.description = getRandomDescription(descriptions);
         this.dropCoin = coinRange.getRandomValue();
         this.dropXP = xpRange.getRandomValue();
@@ -21,10 +43,7 @@ public class Enemy extends Entity {
 
     public Enemy(int atk, int def, Image image, String[] descriptions, Skill skill, RandomRange coinRange,
                  RandomRange xpRange) {
-        super(BASE_HP, atk, def, image, skill);
-        this.description = getRandomDescription(descriptions);
-        this.dropCoin = coinRange.getRandomValue();
-        this.dropXP = xpRange.getRandomValue();
+        this(BASE_HP, atk, def, image, descriptions, skill, coinRange, xpRange);
     }
 
     protected static String getRandomDescription(String[] descriptions) {

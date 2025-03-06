@@ -37,6 +37,11 @@ public class HP {
         return maxHP;
     }
 
+    public void setMaxHP(int amount) {
+        this.maxHP = amount;
+        this.currentHP = Math.min(currentHP, maxHP);
+    }
+
     public void addMaxHp(int amount) {
         this.maxHP += amount;
         this.currentHP = Math.min(currentHP, maxHP);

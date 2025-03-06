@@ -3,6 +3,7 @@ package dev.typeracist.typeracist.logic.characters.skills;
 import dev.typeracist.typeracist.logic.characters.Skill;
 import dev.typeracist.typeracist.logic.characters.SkillActivationOnState;
 import dev.typeracist.typeracist.logic.characters.SkillOnEnvironment;
+import dev.typeracist.typeracist.logic.gameScene.BattlePaneState;
 import dev.typeracist.typeracist.logic.gameScene.BattlePaneStateManager;
 
 public class MagicWand extends Skill implements SkillOnEnvironment {
@@ -20,7 +21,8 @@ public class MagicWand extends Skill implements SkillOnEnvironment {
 
     @Override
     public void useSkill(BattlePaneStateManager manager) {
-        // TODO: Implement the skill logic
+        manager.getContext().getCurrentTurnContext().addEnemyAttackModifier(Integer.MIN_VALUE);
+        manager.transitionToState(BattlePaneState.PLAYER_DEFENSE_RESULT);
     }
 
 }

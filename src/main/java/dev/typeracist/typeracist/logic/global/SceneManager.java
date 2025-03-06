@@ -44,6 +44,7 @@ public class SceneManager {
         VBox popupLayout = new VBox(10);
         popupLayout.setAlignment(Pos.CENTER);
         popupLayout.setPadding(new Insets(10));
+        popupLayout.setMaxSize(width, height);
         popupLayout.setMinSize(width, height);
         popupLayout
                 .setBackground(new Background(new BackgroundFill(Color.LIGHTGREY, new CornerRadii(10), Insets.EMPTY)));
