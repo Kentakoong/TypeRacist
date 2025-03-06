@@ -24,5 +24,9 @@ public class SceneName {
     final public static String BATTLE_SCENE9 = "BATTLE9";
     final public static String BOSS_SCENE = "BOSS_SCENE";
     final public static String NEXT_MAP = "NEXT_MAP";
+    final public static String START = "START";
+    final public static String STORE = "STORE";
+    final public static String REWARD1 = "REWARD1";
+    final public static String REWARD2 = "REWARD2";
 
 }

@@ -207,7 +207,7 @@ public class SceneManager {
     public void setScene(String rawName) {
         String name = rawName;
 
-        if (rawName.startsWith(SceneName.BATTLE_SCENE)) {
+        if (rawName.startsWith(SceneName.BATTLE_SCENE) || rawName.startsWith(SceneName.BOSS_SCENE)) {
             name = SceneName.BATTLE_SCENE;
         }
 
