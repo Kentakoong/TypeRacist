@@ -1,28 +1,31 @@
 package dev.typeracist.typeracist.scene;
 
 import dev.typeracist.typeracist.gui.gameScene.ShopPane;
+import dev.typeracist.typeracist.gui.global.ThemedButton;
 import dev.typeracist.typeracist.logic.global.GameLogic;
 import dev.typeracist.typeracist.logic.global.ResourceManager;
 import dev.typeracist.typeracist.logic.global.SaveManager;
 import dev.typeracist.typeracist.logic.inventory.Inventory;
 import dev.typeracist.typeracist.logic.inventory.Item;
-import dev.typeracist.typeracist.logic.inventory.item.*;
+import dev.typeracist.typeracist.logic.inventory.item.FriedChicken;
+import dev.typeracist.typeracist.logic.inventory.item.HealingPotion;
+import dev.typeracist.typeracist.logic.inventory.item.PotionOfTypeswift;
+import dev.typeracist.typeracist.logic.inventory.item.TimePotion;
+import dev.typeracist.typeracist.logic.inventory.item.Typewriter;
+import dev.typeracist.typeracist.logic.inventory.item.WhirlwindDagger;
+import dev.typeracist.typeracist.logic.inventory.item.WoodenShield;
 import dev.typeracist.typeracist.utils.ResourceName;
 import dev.typeracist.typeracist.utils.SceneName;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Font;
 
 public class ShopScene extends BaseScene {
     private final AnchorPane root;
@@ -60,7 +63,7 @@ public class ShopScene extends BaseScene {
         shopContainer.getChildren().addAll(shopItemContainer, shopMasterContainer);
 
         // Return button (smaller size)
-        Button returnButton = createStyledButton("Return to Map");
+        ThemedButton returnButton = new ThemedButton("Return to Map");
         returnButton.setOnAction(event -> GameLogic.getInstance().getSceneManager().setScene(SceneName.MAP));
 
         shopPane = new ShopPane(width, height);
@@ -144,7 +147,7 @@ public class ShopScene extends BaseScene {
         costLabel.setStyle("-fx-text-fill: gold;");
         costLabel.setFont(ResourceManager.getFont(ResourceName.FONT_DEPARTURE_MONO, 16));
 
-        Button buyButton = createStyledButton("BUY");
+        ThemedButton buyButton = new ThemedButton("BUY");
         buyButton.setOnAction(event -> purchaseItem(item));
 
         itemContainer.getChildren().addAll(itemImage, itemInfoContainer, coinIcon, costLabel, buyButton);
@@ -209,21 +212,6 @@ public class ShopScene extends BaseScene {
 
         // Update coin display
         coinLabel.setText(getPlayerCoinsText());
-    }
-
-    private Button createStyledButton(String text) {
-        Button button = new Button(text);
-        button.setFont(ResourceManager.getFont(ResourceName.FONT_DEPARTURE_MONO, 16));
-        button.setStyle(
-                "-fx-background-color: #484848; -fx-text-fill: white; -fx-border-color: white; -fx-border-width: 2;");
-        button.setMinHeight(35);
-
-        button.setOnMouseEntered(e -> button.setStyle(
-                "-fx-background-color: #606060; -fx-text-fill: white; -fx-border-color: white; -fx-border-width: 2;"));
-        button.setOnMouseExited(e -> button.setStyle(
-                "-fx-background-color: #484848; -fx-text-fill: white; -fx-border-color: white; -fx-border-width: 2;"));
-
-        return button;
     }
 
     private String getPlayerCoinsText() {

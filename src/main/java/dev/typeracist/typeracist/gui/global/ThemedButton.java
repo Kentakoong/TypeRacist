@@ -5,9 +5,6 @@ import dev.typeracist.typeracist.utils.ResourceName;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.effect.DropShadow;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.CornerRadii;
 import javafx.scene.paint.Color;
 
 public class ThemedButton extends Button {
@@ -38,46 +35,65 @@ public class ThemedButton extends Button {
         this.textColor = Color.WHITE;
     }
 
-    // Fluent color setters
+    // Fluent color setters with hex support
     public ThemedButton setBaseColor(Color baseColor) {
-        this.baseColor = baseColor;
-        this.hoverColor = baseColor.darker();
-        this.pressedColor = baseColor.brighter();
-        updateButtonColors();
+        return setBaseColor(String.format("#%02X%02X%02X",
+                (int) (baseColor.getRed() * 255),
+                (int) (baseColor.getGreen() * 255),
+                (int) (baseColor.getBlue() * 255)));
+    }
+
+    public ThemedButton setBaseColor(String hexColor) {
+        setStyle(
+                getStyle().replaceAll("-fx-background-color: [^;]+;",
+                        "-fx-background-color: " + hexColor + ";"));
         return this;
     }
 
     public ThemedButton setHoverColor(Color hoverColor) {
-        this.hoverColor = hoverColor;
-        updateButtonColors();
+        return setHoverColor(String.format("#%02X%02X%02X",
+                (int) (hoverColor.getRed() * 255),
+                (int) (hoverColor.getGreen() * 255),
+                (int) (hoverColor.getBlue() * 255)));
+    }
+
+    public ThemedButton setHoverColor(String hoverHexColor) {
+        this.hoverColor = Color.web(hoverHexColor);
         return this;
     }
 
     public ThemedButton setPressedColor(Color pressedColor) {
-        this.pressedColor = pressedColor;
+        return setPressedColor(String.format("#%02X%02X%02X",
+                (int) (pressedColor.getRed() * 255),
+                (int) (pressedColor.getGreen() * 255),
+                (int) (pressedColor.getBlue() * 255)));
+    }
+
+    public ThemedButton setPressedColor(String pressedHexColor) {
+        this.pressedColor = Color.web(pressedHexColor);
         return this;
     }
 
     public ThemedButton setTextColor(Color textColor) {
-        this.textColor = textColor;
-        setTextFill(textColor);
+        return setTextColor(String.format("#%02X%02X%02X",
+                (int) (textColor.getRed() * 255),
+                (int) (textColor.getGreen() * 255),
+                (int) (textColor.getBlue() * 255)));
+    }
+
+    public ThemedButton setTextColor(String textHexColor) {
+        setStyle(
+                getStyle().replaceAll("-fx-text-fill: [^;]+;",
+                        "-fx-text-fill: " + textHexColor + ";"));
         return this;
     }
 
-    // Update button appearance
-    private void updateButtonColors() {
-        BackgroundFill backgroundFill = new BackgroundFill(
-                baseColor,
-                new CornerRadii(10),
-                Insets.EMPTY
-        );
-        setBackground(new Background(backgroundFill));
-        setTextFill(textColor);
-    }
-
     private void initialize() {
-        // Basic styling
-        setFont(ResourceManager.getFont(ResourceName.FONT_DEPARTURE_MONO, 14));
+        // Basic styling from ShopScene's createStyledButton
+        setFont(ResourceManager.getFont(ResourceName.FONT_DEPARTURE_MONO, 16));
+        setStyle(
+                "-fx-background-color: #484848; -fx-text-fill: white; -fx-border-color: white; -fx-border-width: 2;");
+        setMinHeight(35);
 
         // Padding
         setPadding(new Insets(10, 15, 10, 15));
@@ -90,39 +106,53 @@ public class ThemedButton extends Button {
         shadow.setOffsetY(2);
         setEffect(shadow);
 
-        updateButtonColors();
         // Hover effects
         setOnMouseEntered(e -> {
-            setBackground(new Background(new BackgroundFill(
-                    hoverColor,
-                    new CornerRadii(10),
-                    Insets.EMPTY
-            )));
+            String hoverColorHex = hoverColor != null
+                    ? String.format("#%02X%02X%02X",
+                            (int) (hoverColor.getRed() * 255),
+                            (int) (hoverColor.getGreen() * 255),
+                            (int) (hoverColor.getBlue() * 255))
+                    : "#606060";
+            setStyle(
+                    "-fx-background-color: " + hoverColorHex + "; " +
+                            "-fx-text-fill: white; -fx-border-color: white; -fx-border-width: 2;");
         });
 
-        setOnMouseExited(e -> {
-            setBackground(new Background(new BackgroundFill(
-                    baseColor,
-                    new CornerRadii(10),
-                    Insets.EMPTY
-            )));
-        });
+        setOnMouseExited(e -> setStyle(
+                "-fx-background-color: #484848; -fx-text-fill: white; -fx-border-color: white; -fx-border-width: 2;"));
 
         // Click/pressed effect
         setOnMousePressed(e -> {
-            setBackground(new Background(new BackgroundFill(
-                    pressedColor,
-                    new CornerRadii(10),
-                    Insets.EMPTY
-            )));
+            String pressedColorHex = pressedColor != null
+                    ? String.format("#%02X%02X%02X",
+                            (int) (pressedColor.getRed() * 255),
+                            (int) (pressedColor.getGreen() * 255),
+                            (int) (pressedColor.getBlue() * 255))
+                    : "#707070";
+            setStyle(
+                    "-fx-background-color: " + pressedColorHex + "; " +
+                            "-fx-text-fill: white; -fx-border-color: white; -fx-border-width: 2;");
         });
 
-        setOnMouseReleased(e -> {
-            setBackground(new Background(new BackgroundFill(
-                    baseColor,
-                    new CornerRadii(10),
-                    Insets.EMPTY
-            )));
-        });
+        setOnMouseReleased(e -> setStyle(
+                "-fx-background-color: #484848; -fx-text-fill: white; -fx-border-color: white; -fx-border-width: 2;"));
+    }
+
+    // Getters for color properties
+    public Color getBaseColor() {
+        return baseColor;
+    }
+
+    public Color getHoverColor() {
+        return hoverColor;
+    }
+
+    public Color getPressedColor() {
+        return pressedColor;
+    }
+
+    public Color getTextColor() {
+        return textColor;
     }
 }
