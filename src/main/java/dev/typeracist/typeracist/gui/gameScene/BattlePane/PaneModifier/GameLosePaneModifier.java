@@ -63,7 +63,6 @@ public class GameLosePaneModifier extends BasePaneModifier {
                                 battlePane.setOnKeyPressed(keyEvent -> {
                                     battlePane.setOnKeyPressed(keyPressEvent); // Restore previous state
                                     GameLogic.getInstance().getSceneManager().setScene(SceneName.MAP);
-                                    GameLogic.getInstance().getSelectedCharacter().getHp().setCurrentHP(35);
                                 });
 
                             });
