@@ -173,8 +173,8 @@ public class MapScene extends BaseScene {
      */
     private void createCharacter() {
         character = new ImageView(GameLogic.getInstance().getSelectedCharacter().getImage());
-        character.setFitWidth(50);
-        character.setFitHeight(50);
+        character.setFitWidth(100);
+        character.setFitHeight(100);
         mapContainer.getChildren().add(character);
     }
 

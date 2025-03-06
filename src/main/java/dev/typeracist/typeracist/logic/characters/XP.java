@@ -55,6 +55,8 @@ public class XP {
         GameLogic.getInstance().getSelectedCharacter()
                 .getHp().addMaxHp(5);
         GameLogic.getInstance().getSelectedCharacter()
+                .getHp().setCurrentHP(GameLogic.getInstance().getSelectedCharacter().getHp().getMaxHP());
+        GameLogic.getInstance().getSelectedCharacter()
                 .addAtk(1);
         GameLogic.getInstance().getSelectedCharacter()
                 .addDef(1);
