@@ -110,7 +110,6 @@ public abstract class Character extends Entity {
 
         try (FileWriter file = new FileWriter(filePath)) {
             file.write(characterData.toString(2)); // Pretty print JSON
-            System.out.println("Character saved successfully to " + filePath);
         } catch (IOException e) {
             System.err.println("Error saving character: " + e.getMessage());
         }
@@ -133,8 +132,6 @@ public abstract class Character extends Entity {
                 this.inventory.loadItems(characterData.optJSONObject("inventory"));
                 this.coin = characterData.optInt("coin", 0);
                 this.xp.setXp(characterData.optInt("xp", 0));
-
-                System.out.println("Character loaded successfully from " + filePath);
             }
         } catch (IOException e) {
             System.err.println("Error loading character: " + e.getMessage());

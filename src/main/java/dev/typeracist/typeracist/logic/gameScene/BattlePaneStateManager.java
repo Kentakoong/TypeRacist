@@ -17,7 +17,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
 public class BattlePaneStateManager {
     private final BattlePane battlePane;
     private final BattlePaneStateContext context;
@@ -33,8 +32,10 @@ public class BattlePaneStateManager {
     }
 
     private void initializeStateModifiers() {
-        stateModifiers.put(BattlePaneState.PLAYER_BEFORE_ATTACK_ITEM_SELECTION, new PlayerItemSelectionPaneModifier(battlePane, context));
-        stateModifiers.put(BattlePaneState.PLAYER_BEFORE_DEFENSE_ITEM_SELECTION, new PlayerItemSelectionPaneModifier(battlePane, context));
+        stateModifiers.put(BattlePaneState.PLAYER_BEFORE_ATTACK_ITEM_SELECTION,
+                new PlayerItemSelectionPaneModifier(battlePane, context));
+        stateModifiers.put(BattlePaneState.PLAYER_BEFORE_DEFENSE_ITEM_SELECTION,
+                new PlayerItemSelectionPaneModifier(battlePane, context));
         stateModifiers.put(BattlePaneState.ENEMY_DESCRIPTION, new EnemyDescriptionPaneModifier(battlePane, context));
         stateModifiers.put(BattlePaneState.PLAYER_ATTACK, new PlayerAttackPaneModifier(battlePane, context));
         stateModifiers.put(BattlePaneState.PLAYER_ATTACK_RESULT,
@@ -75,17 +76,22 @@ public class BattlePaneStateManager {
                     GameLogic.getInstance().getSceneManager().showBreadcrumb(
                             "Level Up",
                             "level " + GameLogic.getInstance().getSelectedCharacter().getXp().getLevel(),
-                            5000
-                    );
+                            5000);
                 } else {
                     GameLogic.getInstance().getSceneManager().showBreadcrumb(
                             "Gain " + droppedEXP + " XP and " + droppedCoin + " Coins",
-                            "XP: " + GameLogic.getInstance().getSelectedCharacter().getXp().getXp() + " / " + GameLogic.getInstance().getSelectedCharacter().getXp().getExpToLvlUp() + ", Coins: " + GameLogic.getInstance().getSelectedCharacter().getCoin(),
-                            5000
-                    );
+                            "XP: " + GameLogic.getInstance().getSelectedCharacter().getXp().getXp() + " / "
+                                    + GameLogic.getInstance().getSelectedCharacter().getXp().getExpToLvlUp()
+                                    + ", Coins: " + GameLogic.getInstance().getSelectedCharacter().getCoin(),
+                            5000);
                 }
 
-                GameLogic.getInstance().clearBattle("BATTLE" + (id + 1));
+                if (id + 1 == 10) {
+                    GameLogic.getInstance().clearBattle("BOSS");
+                } else {
+                    GameLogic.getInstance().clearBattle("BATTLE" + (id + 1));
+                }
+
                 SaveManager.saveCharacter();
             }
             case GAME_LOSE -> {
@@ -221,8 +227,7 @@ public class BattlePaneStateManager {
             GameLogic.getInstance().getSceneManager().showBreadcrumb(
                     ownerName + " use " + ownerSkill.getName() + " on " + targetName,
                     ownerSkill.getDescription(),
-                    2000
-            );
+                    2000);
             ownerSkill.resetCooldown();
         }
 
@@ -231,8 +236,7 @@ public class BattlePaneStateManager {
             GameLogic.getInstance().getSceneManager().showBreadcrumb(
                     ownerName + " use " + ownerSkill.getName(),
                     ownerSkill.getDescription(),
-                    2000
-            );
+                    2000);
             ownerSkill.resetCooldown();
         }
 
@@ -243,7 +247,8 @@ public class BattlePaneStateManager {
         context.getCurrentTurnContext().getItemsUsed().clear();
 
         for (Item item : itemsUsed) {
-            if (((ActivateOnTurn) item).getActivateOnTurnState() == currentState || ((ActivateOnTurn) item).getActivateOnTurnState() == ActivateOnTurnState.BOTH) {
+            if (((ActivateOnTurn) item).getActivateOnTurnState() == currentState
+                    || ((ActivateOnTurn) item).getActivateOnTurnState() == ActivateOnTurnState.BOTH) {
                 ((ActivateOnTurn) item).activate(this);
             } else {
                 context.getCurrentTurnContext().getItemsUsed().add(item);

@@ -70,15 +70,14 @@ public class SaveManager {
                     currentCharacter.setBaseDef(difficultyData.optInt("def"));
                 }
 
-                if (difficultyData.optInt("hp") != currentCharacter.getHp().getCurrentHP()) {
-                    currentCharacter.getHp().setCurrentHP(difficultyData.optInt("hp"));
-                }
-
                 if (difficultyData.optInt("maxHP") != currentCharacter.getHp().getMaxHP()) {
                     currentCharacter.getHp().setMaxHP(difficultyData.optInt("maxHP"));
                 }
 
-                System.out.println("Character loaded successfully from " + SAVE_FILE_CHARACTER);
+                if (difficultyData.optInt("hp") != currentCharacter.getHp().getCurrentHP()) {
+                    currentCharacter.getHp().setCurrentHP(difficultyData.optInt("hp"));
+                }
+
             }
         }
         return currentCharacter;
@@ -134,7 +133,6 @@ public class SaveManager {
 
         try (FileWriter file = new FileWriter(saveFile)) {
             file.write(saveData.toString(2)); // Pretty print
-            System.out.println("Character saved successfully to " + SAVE_FILE_CHARACTER);
         } catch (IOException e) {
             System.err.println("Error saving character: " + e.getMessage());
         }
@@ -159,7 +157,6 @@ public class SaveManager {
 
         try (FileWriter file = new FileWriter(saveFile)) {
             file.write(saveData.toString(2));
-            System.out.println("Settings saved successfully to " + SAVE_FILE_SETTINGS);
         } catch (IOException e) {
             System.err.println("Error saving settings: " + e.getMessage());
         }
@@ -185,7 +182,6 @@ public class SaveManager {
         File saveFile = new File(fileName);
         if (saveFile.exists()) {
             saveFile.delete();
-            System.out.println("Save file deleted: " + saveFile);
         }
     }
 }

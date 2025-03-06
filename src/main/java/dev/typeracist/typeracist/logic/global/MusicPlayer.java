@@ -80,7 +80,7 @@ public class MusicPlayer {
         sceneMusicMap.put(SceneName.BATTLE_SCENE7, "battle_theme");
         sceneMusicMap.put(SceneName.BATTLE_SCENE8, "battle_theme");
         sceneMusicMap.put(SceneName.BATTLE_SCENE9, "battle_theme");
-        sceneMusicMap.put(SceneName.BOSS_SCENE, "boss_theme");
+        sceneMusicMap.put(SceneName.BOSS, "boss_theme");
     }
 
     /**

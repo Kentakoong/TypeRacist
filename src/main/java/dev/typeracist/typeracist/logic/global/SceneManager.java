@@ -53,7 +53,6 @@ public class SceneManager {
                 new BorderStroke(Color.DARKGRAY, BorderStrokeStyle.SOLID, new CornerRadii(10), new BorderWidths(2))));
         popupLayout.setOpacity(0);
 
-
         popupLayout.getChildren().addAll(content);
         popup.getContent().add(popupLayout);
         currentPopup = popup;
@@ -207,7 +206,7 @@ public class SceneManager {
     public void setScene(String rawName) {
         String name = rawName;
 
-        if (rawName.startsWith(SceneName.BATTLE_SCENE) || rawName.startsWith(SceneName.BOSS_SCENE)) {
+        if (rawName.startsWith(SceneName.BATTLE_SCENE) || rawName.startsWith(SceneName.BOSS)) {
             name = SceneName.BATTLE_SCENE;
         }
 
