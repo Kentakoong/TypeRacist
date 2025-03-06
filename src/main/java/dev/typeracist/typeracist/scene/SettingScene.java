@@ -8,8 +8,12 @@ import dev.typeracist.typeracist.utils.ResourceName;
 import dev.typeracist.typeracist.utils.SceneName;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.control.*;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.DialogPane;
+import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
@@ -66,31 +70,36 @@ public class SettingScene extends BaseScene {
         settingsTable.setAlignment(Pos.CENTER);
         settingsTable.setSpacing(20);
 
-        Button expButton = new Button("Add 1000 EXP");
-        expButton.setOnAction(e -> {
-            GameLogic.getInstance().getSelectedCharacter().getXp().gainXP(1000);
-            GameLogic.getInstance().getSceneManager().showBreadcrumb(
-                    "Add 1000 EXP",
-                    "",
-                    1000
-            );
-        });
-
-        Button coinButton = new Button("Add 1000 coins");
-        coinButton.setOnAction(e -> {
-            GameLogic.getInstance().getSelectedCharacter().gainCoin(1000);
-            GameLogic.getInstance().getSceneManager().showBreadcrumb(
-                    "Add 1000 Coins",
-                    "",
-                    1000
-            );
-        });
-
-
         settingsTable.getChildren().add(0, createVolumeSection());
         settingsTable.getChildren().add(createResetSettingsSection());
-        settingsTable.getChildren().add(coinButton);
-        settingsTable.getChildren().add(expButton);
+
+        if (GameLogic.getInstance().getSelectedCharacter() != null) {
+
+            Button expButton = new Button("Add 1000 EXP");
+            expButton.setOnAction(e -> {
+                GameLogic.getInstance().getSelectedCharacter().getXp().gainXP(1000);
+                GameLogic.getInstance().getSceneManager().showBreadcrumb(
+                        "Add 1000 EXP",
+                        "",
+                        1000);
+
+                SaveManager.saveCharacter();
+            });
+
+            Button coinButton = new Button("Add 1000 coins");
+            coinButton.setOnAction(e -> {
+                GameLogic.getInstance().getSelectedCharacter().gainCoin(1000);
+                GameLogic.getInstance().getSceneManager().showBreadcrumb(
+                        "Add 1000 Coins",
+                        "",
+                        1000);
+
+                SaveManager.saveCharacter();
+            });
+
+            settingsTable.getChildren().add(coinButton);
+            settingsTable.getChildren().add(expButton);
+        }
 
         // Add everything to the content container
         contentContainer.getChildren().addAll(title, settingsTable);

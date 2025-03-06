@@ -163,7 +163,10 @@ public class MapScene extends BaseScene {
 
         mapContainer.setMaxWidth(625);
 
-        createCharacter();
+        if (GameLogic.getInstance().getSelectedCharacter() == null) {
+            GameLogic.getInstance().getSceneManager().setScene(SceneName.CHARACTERS);
+            return mapContainer;
+        }
 
         return mapContainer;
     }
@@ -469,17 +472,21 @@ public class MapScene extends BaseScene {
 
     @Override
     public void onSceneEnter() {
-        // Load the saved game data to ensure battle statuses are up-to-date
+        // Load saved game data...
         if (SaveManager.saveFileExists(SaveManager.SAVE_FILE_CHARACTER)) {
-            Character selectedCharacter = GameLogic.getInstance().getSelectedCharacter();
-            selectedCharacter = SaveManager.getCharacter();
+            Character selectedCharacter = SaveManager.getCharacter();
             GameLogic.getInstance().setSelectedCharacter(selectedCharacter);
         }
 
-        // Set character image
-        character.setImage(GameLogic.getInstance().getSelectedCharacter().getImage());
+        // Ensure character ImageView is initialized
+        if (GameLogic.getInstance().getSelectedCharacter() != null) {
+            if (character == null) {
+                createCharacter();
+            }
+            character.setImage(GameLogic.getInstance().getSelectedCharacter().getImage());
+        }
 
-        // Make sure character is positioned at the current node
+        // Position the character at the current node
         if (currentNode != null) {
             character.setLayoutX(currentNode.getLayoutX());
             character.setLayoutY(currentNode.getLayoutY());
@@ -491,7 +498,6 @@ public class MapScene extends BaseScene {
             }
         }
 
-        // Update node colors based on battle status
         updateNodeColors();
     }
 

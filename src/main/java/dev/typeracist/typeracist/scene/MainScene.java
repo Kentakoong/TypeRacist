@@ -7,7 +7,6 @@ import dev.typeracist.typeracist.utils.ResourceName;
 import dev.typeracist.typeracist.utils.SceneName;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
@@ -24,8 +23,6 @@ public class MainScene extends BaseScene {
                 Font baseFont = ResourceManager.getFont(ResourceName.FONT_DEPARTURE_MONO, 36);
                 Label titleLabel = new Label("TypeRacist");
                 titleLabel.setStyle("-fx-text-fill: black;");
-                titleLabel.setLayoutX(50);
-                titleLabel.setLayoutY(10);
                 titleLabel.setFont(Font.font(baseFont.getName(), 36));
 
                 assert GameLogic.getInstance().getSceneManager().sceneExists(SceneName.CHARACTERS);

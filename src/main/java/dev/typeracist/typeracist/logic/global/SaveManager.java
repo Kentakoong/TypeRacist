@@ -22,7 +22,6 @@ public class SaveManager {
     public static final String SAVE_FILE_SETTINGS = SAVE_FILE + "settings.json";
 
     public static Character getCharacter() {
-        System.out.println("current difficulty: " + GameLogic.getInstance().getCurrentDifficulty());
         Character currentCharacter = GameLogic.getInstance().getSelectedCharacter();
         Difficulty currentDifficulty = GameLogic.getInstance().getCurrentDifficulty();
         String characterType = currentCharacter.getClass().getSimpleName();
@@ -55,6 +54,14 @@ public class SaveManager {
                     currentCharacter.getXp().setXp(difficultyData.optInt("xp"));
                 }
 
+                if (difficultyData.optInt("level") != currentCharacter.getXp().getLevel()) {
+                    currentCharacter.getXp().setLevel(difficultyData.optInt("level"));
+                }
+
+                if (difficultyData.optInt("expToLvlUp") != currentCharacter.getXp().getExpToLvlUp()) {
+                    currentCharacter.getXp().setExpToLvlUp(difficultyData.optInt("expToLvlUp"));
+                }
+
                 if (difficultyData.optInt("atk") != currentCharacter.getBaseAtk()) {
                     currentCharacter.setBaseAtk(difficultyData.optInt("atk"));
                 }
@@ -78,6 +85,9 @@ public class SaveManager {
     }
 
     public static void saveCharacter() {
+        if (GameLogic.getInstance().getSelectedCharacter() == null)
+            return;
+
         Character currentCharacter = GameLogic.getInstance().getSelectedCharacter();
         Difficulty currentDifficulty = GameLogic.getInstance().getCurrentDifficulty();
         String characterType = currentCharacter.getClass().getSimpleName();
@@ -103,6 +113,8 @@ public class SaveManager {
 
         difficultyData.put("coin", currentCharacter.getCoin());
         difficultyData.put("xp", currentCharacter.getXp().getXp());
+        difficultyData.put("level", currentCharacter.getXp().getLevel());
+        difficultyData.put("expToLvlUp", currentCharacter.getXp().getExpToLvlUp());
         difficultyData.put("atk", currentCharacter.getBaseAtk());
         difficultyData.put("def", currentCharacter.getBaseDef());
         difficultyData.put("hp", currentCharacter.getHp().getCurrentHP());
