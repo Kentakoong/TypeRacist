@@ -1,13 +1,11 @@
 package dev.typeracist.typeracist.gui.game;
 
-import javafx.application.Platform;
-import javafx.geometry.Insets;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.StackPane;
-
 import java.util.List;
 import java.util.function.Consumer;
+
+import javafx.application.Platform;
+import javafx.geometry.Insets;
+import javafx.scene.layout.StackPane;
 
 public class TimedTypingPane extends TypingPane {
     private final CountdownProgressBar countdownProgressBar;
@@ -15,6 +13,7 @@ public class TimedTypingPane extends TypingPane {
     private double totalTime;
     private double spacing;
     private Consumer<Void> onStopCallback;
+    private Thread timerThread;
 
     public TimedTypingPane(List<String> words, long totalTime) {
         super(words);
@@ -27,6 +26,16 @@ public class TimedTypingPane extends TypingPane {
         this.progressBarContainer.getChildren().add(countdownProgressBar);
 
         getChildren().add(this.progressBarContainer);
+
+        // Ensure focus is requested when clicked
+        setOnMouseClicked(event -> requestFocus());
+
+        // Ensure focus is maintained
+        focusedProperty().addListener((obs, oldVal, newVal) -> {
+            if (!newVal) {
+                Platform.runLater(this::requestFocus);
+            }
+        });
     }
 
     public TimedTypingPane(List<String> words) {
@@ -34,40 +43,41 @@ public class TimedTypingPane extends TypingPane {
     }
 
     public void start() {
-        getTypingTracker().start();
+        if (timerThread != null && timerThread.isAlive()) {
+            return; // Don't start if already running
+        }
 
-        new Thread(() -> {
+        getTypingTracker().start();
+        requestFocus(); // Ensure focus when starting
+
+        timerThread = new Thread(() -> {
             while (getTypingTracker().isRunning()) {
                 if (getTypingTracker().getElapsedTime() > totalTime) {
-                    stop();
+                    Platform.runLater(this::stop);
+                    break;
                 }
 
                 try {
                     Platform.runLater(() -> countdownProgressBar.updateProgress(getTypingTracker().getElapsedTime()));
                     Thread.sleep(25);
                 } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
+                    Thread.currentThread().interrupt();
+                    break;
                 }
             }
-        }).start();
+        });
+        timerThread.setDaemon(true);
+        timerThread.start();
     }
 
     public void stop() {
         getTypingTracker().stop();
         firstTypeHandled = false;
 
-        // make the key invalid, so it doesn't register as a printable character
-        // and not added to the typing pane
-
-        setOnType(event -> new KeyEvent(
-                event.getEventType(),
-                "",
-                "",
-                KeyCode.F24,
-                true,
-                true,
-                true,
-                true));
+        if (timerThread != null) {
+            timerThread.interrupt();
+            timerThread = null;
+        }
 
         // Call the onStop callback, if it's set
         if (onStopCallback != null) {
