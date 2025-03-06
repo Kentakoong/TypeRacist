@@ -28,7 +28,6 @@ public class ResourceName {
     public static final String IMAGE_ENEMY_NATTEE_1 = ResourceBasePath.IMAGE_PATH + "/enemy/nattee1.png";
     public static final String IMAGE_ENEMY_NATTEE_2 = ResourceBasePath.IMAGE_PATH + "/enemy/nattee2.png";
 
-
     public static final String FONT_DEPARTURE_MONO = ResourceBasePath.FONT_PATH + "/DepartureMono-Regular.otf";
 
     public static final String DATASET_COMMON_WORDS_1K = ResourceBasePath.DATASET_PATH + "/commonWords1k.json";
@@ -44,6 +43,7 @@ public class ResourceName {
     public static final String IMAGE_MAP_SWORD = ResourceBasePath.IMAGE_PATH + "/map/sword.png";
     public static final String IMAGE_MAP_SKULL = ResourceBasePath.IMAGE_PATH + "/map/skull.png";
     public static final String IMAGE_MAP_NEXT = ResourceBasePath.IMAGE_PATH + "/map/next.png";
+    public static final String IMAGE_MAP_BACKGROUND = ResourceBasePath.IMAGE_PATH + "/map/background.png";
 
     public static final String IMAGE_SHOP_HEALING_POTION = ResourceBasePath.IMAGE_PATH + "/shop/healing_potion.png";
     public static final String IMAGE_SHOP_TIME_POTION = ResourceBasePath.IMAGE_PATH + "/shop/time_potion.png";

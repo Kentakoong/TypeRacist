@@ -1,6 +1,7 @@
 package dev.typeracist.typeracist.gui.gameScene;
 
 import dev.typeracist.typeracist.logic.global.GameLogic;
+import dev.typeracist.typeracist.utils.SceneName;
 import dev.typeracist.typeracist.logic.global.BattleInfo;
 import dev.typeracist.typeracist.logic.global.BattleNavigation;
 import javafx.scene.control.Button;
@@ -64,6 +65,11 @@ public class MapNode extends Button {
     // Helper method to determine the correct color
     private Color getNodeColor(BattleInfo action) {
         // Check if the action is a battle using BattleNavigation
+
+        if (action.getBattleName().startsWith(SceneName.REWARD)
+                && GameLogic.getInstance().isBattleCleared(action.getBattleName())) {
+            return Color.RED;
+        }
 
         if (!action.isBattle()) {
             return Color.GRAY;

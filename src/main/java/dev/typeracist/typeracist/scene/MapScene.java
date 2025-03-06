@@ -38,11 +38,18 @@ public class MapScene extends BaseScene {
     public MapScene(double width, double height) {
         super(new VBox(), width, height);
         root = (VBox) getRoot();
-        root.setStyle("-fx-background-color: #484848;");
+        // Load background image
+        root.setBackground(new Background(new BackgroundImage(
+                ResourceManager.getImage(ResourceName.IMAGE_MAP_BACKGROUND),
+                BackgroundRepeat.NO_REPEAT,
+                BackgroundRepeat.NO_REPEAT,
+                BackgroundPosition.CENTER,
+                new BackgroundSize(width, height, true, true, true, true))));
         root.setAlignment(Pos.CENTER);
-        root.setSpacing(10); // Adds spacing between UI elements
+        root.setPadding(new Insets(50));
 
         // Load font
+
         Font baseFont = ResourceManager.getFont(ResourceName.FONT_DEPARTURE_MONO, 36);
 
         // Create UI elements
@@ -124,8 +131,6 @@ public class MapScene extends BaseScene {
 
         mapContainer.setPrefSize(625, height * 0.6);
         mapContainer.setMaxWidth(625);
-        mapContainer.setStyle("-fx-background-color: #484848;"); // Match background color
-
         for (BattleInfo battleInfo : BattleNavigation.getAllBattleInfo()) {
             createNode(battleInfo.getBattleName(), battleInfo.getNodeX(), battleInfo.getNodeY(),
                     battleInfo.getBattleImage(), battleInfo, battleInfo.getBattleDescription());
@@ -138,7 +143,6 @@ public class MapScene extends BaseScene {
         }
 
         mapContainer.setMaxWidth(625);
-        mapContainer.setStyle("-fx-background-color: #484848;"); // Match background color
 
         createCharacter();
 
@@ -398,7 +402,6 @@ public class MapScene extends BaseScene {
 
         // Use the new BattleNavigation utility class
         BattleInfo navigationDetails = BattleNavigation.getNavigationDetails(action);
-
         if (navigationDetails != null) {
             String targetScene = navigationDetails.getSceneName();
             String prerequisite = navigationDetails.getPrerequisiteBattle();
@@ -413,6 +416,15 @@ public class MapScene extends BaseScene {
                             .getScene(SceneName.BATTLE_SCENE);
                     battleScene.loadPane(9);
                     GameLogic.getInstance().getSceneManager().setScene(targetScene);
+                    return;
+                }
+
+                if (action.startsWith(SceneName.REWARD)) {
+                    if (GameLogic.getInstance().isBattleCleared(action)) {
+                        infoLabel.setText("You have already claimed this reward!");
+                    } else {
+                        GameLogic.getInstance().getSceneManager().setScene(action);
+                    }
                     return;
                 }
 
@@ -442,7 +454,6 @@ public class MapScene extends BaseScene {
     public void onSceneEnter() {
         // Load the saved game data to ensure battle statuses are up-to-date
         if (SaveManager.saveFileExists(SaveManager.SAVE_FILE_CHARACTER)) {
-
             Character selectedCharacter = GameLogic.getInstance().getSelectedCharacter();
             selectedCharacter = SaveManager.getCharacter();
             GameLogic.getInstance().setSelectedCharacter(selectedCharacter);

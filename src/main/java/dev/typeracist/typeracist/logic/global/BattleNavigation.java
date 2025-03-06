@@ -70,16 +70,16 @@ public final class BattleNavigation {
                 // Other scenes with prerequisites
                 createNode(SceneName.REWARD1, "The chest of the town, where you can find items and coins.",
                                 ResourceManager.getImage(ResourceName.IMAGE_MAP_CHEST),
-                                SceneName.CHEST, SceneName.BATTLE_SCENE4, false, 100, 30);
+                                SceneName.REWARD1, SceneName.BATTLE_SCENE4, false, 100, 30);
 
                 createNode(SceneName.REWARD2, "The chest of the town, where you can find items and coins.",
                                 ResourceManager.getImage(ResourceName.IMAGE_MAP_CHEST),
-                                SceneName.CHEST, SceneName.BATTLE_SCENE9, false, 600, 150);
+                                SceneName.REWARD2, SceneName.BATTLE_SCENE9, false, 600, 150);
 
                 createNode(SceneName.NEXT_MAP,
                                 "The End - You have reached the end of the map, what could have been waiting for you?",
                                 ResourceManager.getImage(ResourceName.IMAGE_MAP_NEXT),
-                                SceneName.NEXT_MAP, SceneName.BOSS_SCENE, false, 625, 420);
+                                SceneName.NEXT_MAP, SceneName.BOSS_SCENE, true, 625, 420);
 
                 createNode(SceneName.START, "The starting point of your journey.",
                                 ResourceManager.getImage(ResourceName.IMAGE_MAP_CASTLE),
