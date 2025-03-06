@@ -10,7 +10,7 @@ public class WebTrap extends Skill implements SkillOnEnvironment {
         super("Web Trap",
                 "Player cannot use items for one turn.",
                 SkillActivationOnState.ACTIVATION_BEFORE_ITEM,
-                8 // because of this skill is call 2 time for 1 turn
+                4 // because of this skill is call 2 time for 1 turn
         );
     }
 

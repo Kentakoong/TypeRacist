@@ -8,12 +8,12 @@ import dev.typeracist.typeracist.logic.inventory.Item;
 import dev.typeracist.typeracist.utils.ResourceName;
 
 public class PotionOfTypeswift extends Item implements ActivateOnTurn {
-    private static final double CPS_MULTIPLIER = 2;
+    private static final double CPS_MULTIPLIER = 1.25;
     private static final int DURATION = 1;
 
     public PotionOfTypeswift() {
         super("Potion of Typeswift",
-                "Increase your CPS by x2. 1 turn.",
+                "Increase your CPS by x1.25. 1 turn.",
                 30,
                 ResourceName.IMAGE_SHOP_POTION_OF_TYPESWIFT);
     }
