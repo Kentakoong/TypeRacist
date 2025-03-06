@@ -3,6 +3,7 @@ package dev.typeracist.typeracist.gui.gameScene.BattlePane.PaneModifier;
 import dev.typeracist.typeracist.gui.gameScene.BattlePane.BattlePane;
 import dev.typeracist.typeracist.gui.gameScene.BattlePane.InformationPane.InfoPaneModifierType;
 import dev.typeracist.typeracist.logic.characters.SkillActivationOnState;
+import dev.typeracist.typeracist.logic.characters.enemies.Nattee115;
 import dev.typeracist.typeracist.logic.gameScene.BattlePaneStateContext;
 import dev.typeracist.typeracist.logic.gameScene.BattlePaneStateManager;
 import dev.typeracist.typeracist.logic.global.GameLogic;
@@ -30,7 +31,9 @@ public class PlayerDefenseResultPaneModifier extends BasePaneModifier {
 
     @Override
     public void initialize(BattlePaneStateManager manager) {
-        System.out.println("init");
+        if (context.getEnemy() instanceof Nattee115) {
+            battlePane.getCharacterImage().setImage(ResourceManager.getImage(ResourceName.IMAGE_ENEMY_NATTEE_2));
+        }
 
         battlePane.getInformationPane().getChildren().clear();
         battlePane.getInformationPane().setToPane(InfoPaneModifierType.TEXT);
@@ -98,6 +101,11 @@ public class PlayerDefenseResultPaneModifier extends BasePaneModifier {
                                     returnControl();
                                 });
                             });
+
+                            if (context.getEnemy() instanceof Nattee115) {
+                                battlePane.getCharacterImage().setImage(ResourceManager.getImage(ResourceName.IMAGE_ENEMY_NATTEE_1));
+                            }
+
                             pressAnyKeyToContinue.setVisible(true); // Ensure the node is visible
                             fadeIn.play();
                         }))
