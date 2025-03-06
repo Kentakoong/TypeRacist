@@ -1,19 +1,30 @@
 package dev.typeracist.typeracist.logic.gameScene;
 
 import dev.typeracist.typeracist.gui.gameScene.BattlePane.BattlePane;
+import dev.typeracist.typeracist.gui.gameScene.BattlePane.InformationPane.InfoPaneModifierType;
 import dev.typeracist.typeracist.gui.gameScene.BattlePane.PaneModifier.*;
 import dev.typeracist.typeracist.logic.characters.*;
 import dev.typeracist.typeracist.logic.characters.skills.SkillWithProbability;
 import dev.typeracist.typeracist.logic.global.GameLogic;
+import dev.typeracist.typeracist.logic.global.ResourceManager;
 import dev.typeracist.typeracist.logic.global.SaveManager;
 import dev.typeracist.typeracist.logic.inventory.ActivateOnTurn;
 import dev.typeracist.typeracist.logic.inventory.ActivateOnTurnState;
 import dev.typeracist.typeracist.logic.inventory.Item;
+import dev.typeracist.typeracist.utils.ResourceName;
 import dev.typeracist.typeracist.utils.SceneName;
 import dev.typeracist.typeracist.utils.TurnOwnership;
+import javafx.animation.FadeTransition;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
+import javafx.geometry.Pos;
+import javafx.scene.control.Label;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.util.Duration;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -51,6 +62,8 @@ public class BattlePaneStateManager {
     }
 
     public void transitionToState(BattlePaneState newState) {
+        GameLogic.getInstance().getSceneManager().closePopUp();
+
         context.setCurrentState(newState);
 
         handleSpecialStateTransition(newState);
@@ -65,7 +78,9 @@ public class BattlePaneStateManager {
 
     private void handleSpecialStateTransition(BattlePaneState newState) {
         switch (newState) {
-            case GAME_WIN:
+            case GAME_WIN -> {
+                GameLogic.getInstance().getSelectedCharacter().resetBonuses();
+
                 int droppedCoin = context.getEnemy().getDropCoin();
                 int droppedEXP = context.getEnemy().getDropXP();
 
@@ -93,17 +108,53 @@ public class BattlePaneStateManager {
                     battlePane.setOnKeyPressed(keyPressEvent);
                     GameLogic.getInstance().getSceneManager().setScene(SceneName.MAP);
                 });
+            }
+            case GAME_LOSE -> {
+                GameLogic.getInstance().getSelectedCharacter().resetBonuses();
 
-                break;
-            case GAME_LOSE:
-                System.out.println("Game lost! Handle any lose logic here.");
-                break;
-            case PLAYER_ATTACK_RESULT:
-                System.out.println("Processing player attack result.");
-                break;
-            default:
-                // No special handling needed for other states
-                break;
+                battlePane.getInformationPane().setToPane(InfoPaneModifierType.TEXT);
+                battlePane.getInformationPane().getChildren().clear();
+
+                VBox vBox = new VBox(20);
+
+                Label GameOverLabel = new Label("You Lose!");
+                GameOverLabel.setFont(ResourceManager.getFont(ResourceName.FONT_DEPARTURE_MONO, 20));
+
+                Label GameOverDescriptionLabel = new Label("Try again next time!");
+                GameOverDescriptionLabel.setFont(ResourceManager.getFont(ResourceName.FONT_DEPARTURE_MONO, 16));
+
+                vBox.getChildren().addAll(GameOverLabel, GameOverDescriptionLabel);
+
+                Label pressAnyKeyToContinue = new Label("<< Press any key to continue.. >> ");
+                pressAnyKeyToContinue.setFont(ResourceManager.getFont(ResourceName.FONT_DEPARTURE_MONO, 14));
+                pressAnyKeyToContinue.setTextFill(Color.DARKGRAY);
+                pressAnyKeyToContinue.setAlignment(Pos.CENTER);
+                pressAnyKeyToContinue.setMaxWidth(Double.MAX_VALUE);
+                pressAnyKeyToContinue.setVisible(false);
+
+                new Timeline(
+                        new KeyFrame(
+                                Duration.millis(500),
+                                ae -> {
+                                    FadeTransition fadeIn = new FadeTransition(Duration.seconds(0.2), pressAnyKeyToContinue);
+                                    fadeIn.setFromValue(0);
+                                    fadeIn.setToValue(1);
+                                    fadeIn.setOnFinished(event -> {
+                                        EventHandler<? super KeyEvent> keyPressEvent = battlePane.getOnKeyPressed();
+
+                                        battlePane.setOnKeyPressed(keyEvent -> {
+                                            battlePane.setOnKeyPressed(keyPressEvent); // Restore previous state
+                                            GameLogic.getInstance().getSceneManager().setScene(SceneName.MAP);
+                                        });
+
+                                    });
+
+                                    pressAnyKeyToContinue.setVisible(true);
+                                    fadeIn.play();
+                                }))
+                        .play();
+
+            }
         }
     }
 
@@ -200,7 +251,11 @@ public class BattlePaneStateManager {
         }
 
         if (ownerSkill.isOnCooldown()) {
-            ownerSkill.tickCooldown();
+
+            if (ownerSkill.getActivationOnState() == skillActivationOnState) {
+                ownerSkill.tickCooldown();
+            }
+
             return;
         }
 
