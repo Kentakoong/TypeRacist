@@ -1,6 +1,7 @@
 package dev.typeracist.typeracist.gui.gameScene.BattlePane;
 
 import dev.typeracist.typeracist.logic.characters.Enemy;
+import dev.typeracist.typeracist.logic.characters.Entity;
 import dev.typeracist.typeracist.logic.characters.Skill;
 import dev.typeracist.typeracist.logic.characters.entities.Character;
 import dev.typeracist.typeracist.logic.global.GameLogic;
@@ -223,9 +224,9 @@ public class StatsDisplayManager {
         return itemBox;
     }
 
-    private static HBox createSkillBox(Skill skill, Object entity, String entityType) {
+    private static HBox createSkillBox(Skill skill, Entity entity, String entityType) {
         // Entity small image
-        ImageView entityImage = new ImageView(((Character) entity).getImage());
+        ImageView entityImage = new ImageView(entity.getImage());
         entityImage.setFitWidth(50);
         entityImage.setFitHeight(50);
 
