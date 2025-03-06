@@ -49,7 +49,7 @@ public class PlayerDefenseResultPaneModifier extends BasePaneModifier {
             damageTaken = context.getCurrentTurnContext().getDamageTaken();
         } else {
             damageTaken += context.getEnemy().getTotalAtk() + context.getCurrentTurnContext().getEnemyAttackModifier()
-                    - GameLogic.getInstance().getSelectedCharacter().getTotalDef() * rawDefenseScore;
+                    - GameLogic.getInstance().getSelectedCharacter().getTotalDef() * Math.max(rawDefenseScore - 1, 0);
 
             System.out.println("damageTaken: " + damageTaken);
             damageTaken = GameLogic.getInstance().getSelectedCharacter().damage(damageTaken);
