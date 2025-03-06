@@ -36,6 +36,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 
 public class CharacterScene extends BaseScene {
     private Character selectedCharacter; // Store selected character ID
@@ -55,6 +56,20 @@ public class CharacterScene extends BaseScene {
 
         // Load font
         Font baseFont = ResourceManager.getFont(ResourceName.FONT_DEPARTURE_MONO, 36);
+
+        // Create a top-right aligned HBox for the Home button
+        HBox topBar = new HBox();
+        topBar.setAlignment(Pos.TOP_RIGHT);
+        topBar.setPadding(new Insets(10));
+        topBar.setPrefWidth(width);
+
+        // Home Button
+        Button homeButton = new Button("Home");
+        homeButton.setFont(Font.font(baseFont.getName(), 18));
+        homeButton.setOnAction(event -> GameLogic.getInstance().getSceneManager().setScene(SceneName.MAIN));
+
+        topBar.getChildren().add(homeButton);
+        root.getChildren().add(topBar);
 
         // Title Label
         Label titleLabel = new Label("Choose Your Character");
