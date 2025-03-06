@@ -13,11 +13,11 @@ public class GiantSpider extends Enemy {
             "It's crawling to the center of its web.",
             "Webs everywhere. You're trapped."
     };
-    private static final RandomRange COIN_RANGE = new RandomRange(40, 50);
-    private static final RandomRange XP_RANGE = new RandomRange(30, 45);
+    private static final RandomRange COIN_RANGE = new RandomRange(200, 350);
+    private static final RandomRange XP_RANGE = new RandomRange(1000, 2000);
 
     public GiantSpider() {
-        super(new HP(450), 40, 1,
+        super(new HP(500), 65, 40,
                 ResourceManager.getImage(ResourceName.IMAGE_ENEMY_SPIDER),
                 DESCRIPTIONS,
                 new WebTrap(),

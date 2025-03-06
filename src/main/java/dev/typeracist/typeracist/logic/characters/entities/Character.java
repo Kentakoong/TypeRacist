@@ -31,7 +31,7 @@ public abstract class Character extends Entity {
     public Character(HP hp, int atk, int def, Image image, Skill skill, String description) {
         super(hp, atk, def, image, skill);
         this.xp = new XP();
-        this.coin = 0100000;
+        this.coin = 0;
         this.inventory = new Inventory();
         this.description = description;
     }

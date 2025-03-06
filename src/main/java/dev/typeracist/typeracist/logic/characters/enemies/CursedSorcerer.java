@@ -13,11 +13,11 @@ public class CursedSorcerer extends Enemy {
             "Don't let him use Avada Kedavra.",
             "He's mumbling something."
     };
-    private static final RandomRange COIN_RANGE = new RandomRange(15, 20);
-    private static final RandomRange XP_RANGE = new RandomRange(15, 20);
+    private static final RandomRange COIN_RANGE = new RandomRange(125, 200);
+    private static final RandomRange XP_RANGE = new RandomRange(500, 1000);
 
     public CursedSorcerer() {
-        super(new HP(125), 50, 5,
+        super(new HP(350), 55, 20,
                 ResourceManager.getImage(ResourceName.IMAGE_ENEMY_SORCERER),
                 DESCRIPTIONS,
                 new Hex(),

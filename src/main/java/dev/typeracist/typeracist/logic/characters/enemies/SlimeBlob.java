@@ -12,11 +12,11 @@ public class SlimeBlob extends Enemy {
             "It tries to reshape to something.",
             "Looks like a green blob."
     };
-    private static final RandomRange COIN_RANGE = new RandomRange(0, 3);
+    private static final RandomRange COIN_RANGE = new RandomRange(1, 5);
     private static final RandomRange XP_RANGE = new RandomRange(5, 10);
 
     public SlimeBlob() {
-        super(new HP(5), 2, 0,
+        super(new HP(20), 5, 3,
                 ResourceManager.getImage(ResourceName.IMAGE_ENEMY_SLIME),
                 DESCRIPTIONS,
                 null,

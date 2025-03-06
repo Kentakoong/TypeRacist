@@ -13,11 +13,11 @@ public class SkeletonScribe extends Enemy {
             "SPOOKY SCARY SKELETON.",
             "It's using its bones to be a weapon."
     };
-    private static final RandomRange COIN_RANGE = new RandomRange(5, 7);
-    private static final RandomRange XP_RANGE = new RandomRange(7, 12);
+    private static final RandomRange COIN_RANGE = new RandomRange(20, 50);
+    private static final RandomRange XP_RANGE = new RandomRange(50, 100);
 
     public SkeletonScribe() {
-        super(new HP(100), 30, 1,
+        super(new HP(125), 40, 5,
                 ResourceManager.getImage(ResourceName.IMAGE_ENEMY_SKELETON),
                 DESCRIPTIONS,
                 new UndeadEndurance(),

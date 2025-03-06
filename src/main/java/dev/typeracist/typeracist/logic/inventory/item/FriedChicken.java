@@ -9,14 +9,14 @@ import dev.typeracist.typeracist.logic.inventory.Item;
 import dev.typeracist.typeracist.utils.ResourceName;
 
 public class FriedChicken extends Item implements ActivateNow, ActivateOnTurn {
-    private static final int HEAL_AMOUNT = 10;
-    private static final int DURATION = 2;
+    private static final int HEAL_AMOUNT = 15;
+    private static final int DURATION = 3;
     private boolean firstActive = true;
 
     public FriedChicken() {
         super("Fried Chicken",
-                "Heal your character by 10 HP, lasts for 2 turns.",
-                20,
+                "Heal your character by 15 HP, lasts for 3 turns.",
+                40,
                 ResourceName.IMAGE_SHOP_FRIED_CHICKEN);
     }
 

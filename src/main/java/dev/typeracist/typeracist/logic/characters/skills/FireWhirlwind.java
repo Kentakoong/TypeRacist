@@ -11,9 +11,9 @@ public class FireWhirlwind extends SkillWithProbability implements SkillOnEnviro
 
     public FireWhirlwind() {
         super("Fire Whirlwind",
-                "Every turn have a 15% chance to Deals massive 10 fire damage for 2 turns",
+                "Every turn have a 25% chance to Deals massive 10 fire damage for 2 turns",
                 SkillActivationOnState.ACTIVATION_ON_ATTACK,
-                0.15);
+                0.25);
     }
 
     @Override

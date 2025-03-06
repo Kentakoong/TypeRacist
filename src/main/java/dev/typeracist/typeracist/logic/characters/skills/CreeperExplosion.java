@@ -6,11 +6,11 @@ import dev.typeracist.typeracist.logic.characters.SkillActivationOnState;
 import dev.typeracist.typeracist.logic.characters.SkillOnEntity;
 
 public class CreeperExplosion extends Skill implements SkillOnEntity {
-    private static final int EXPLOSION_DAMAGE = 39;
+    private static final int EXPLOSION_DAMAGE = 50;
 
     public CreeperExplosion() {
         super("Creeper Explosion",
-                "When defeated, deals 39 damage to the player.",
+                "When defeated, deals 50 damage to the player.",
                 SkillActivationOnState.ACTIVATION_AFTER_ATTACK);
     }
 
