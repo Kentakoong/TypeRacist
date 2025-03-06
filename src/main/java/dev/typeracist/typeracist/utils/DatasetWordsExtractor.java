@@ -1,8 +1,8 @@
 package dev.typeracist.typeracist.utils;
 
-import dev.typeracist.typeracist.logic.gameScene.Dataset;
-
 import java.util.List;
+
+import dev.typeracist.typeracist.logic.game.dataset.Dataset;
 
 @FunctionalInterface
 public interface DatasetWordsExtractor {

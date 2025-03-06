@@ -11,10 +11,10 @@ import java.util.Queue;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import dev.typeracist.typeracist.gui.gameScene.MapNode;
-import dev.typeracist.typeracist.gui.gameScene.BattlePane.StatsDisplayManager;
+import dev.typeracist.typeracist.gui.game.MapNode;
+import dev.typeracist.typeracist.gui.game.battle.StatsDisplayManager;
 import dev.typeracist.typeracist.gui.global.ThemedButton;
-import dev.typeracist.typeracist.logic.characters.entities.Character;
+import dev.typeracist.typeracist.logic.characters.Character;
 import dev.typeracist.typeracist.logic.global.BattleInfo;
 import dev.typeracist.typeracist.logic.global.BattleNavigation;
 import dev.typeracist.typeracist.logic.global.GameLogic;

@@ -1,7 +1,7 @@
 package dev.typeracist.typeracist.logic.inventory.item;
 
-import dev.typeracist.typeracist.logic.gameScene.BattlePaneState;
-import dev.typeracist.typeracist.logic.gameScene.BattlePaneStateManager;
+import dev.typeracist.typeracist.logic.game.battle.BattlePaneState;
+import dev.typeracist.typeracist.logic.game.battle.BattlePaneStateManager;
 import dev.typeracist.typeracist.logic.global.GameLogic;
 import dev.typeracist.typeracist.logic.inventory.ActivateNow;
 import dev.typeracist.typeracist.logic.inventory.ActivateOnTurn;

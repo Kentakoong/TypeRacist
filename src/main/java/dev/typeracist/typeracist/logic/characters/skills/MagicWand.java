@@ -3,8 +3,8 @@ package dev.typeracist.typeracist.logic.characters.skills;
 import dev.typeracist.typeracist.logic.characters.Skill;
 import dev.typeracist.typeracist.logic.characters.SkillActivationOnState;
 import dev.typeracist.typeracist.logic.characters.SkillOnEnvironment;
-import dev.typeracist.typeracist.logic.gameScene.BattlePaneState;
-import dev.typeracist.typeracist.logic.gameScene.BattlePaneStateManager;
+import dev.typeracist.typeracist.logic.game.battle.BattlePaneState;
+import dev.typeracist.typeracist.logic.game.battle.BattlePaneStateManager;
 
 public class MagicWand extends Skill implements SkillOnEnvironment {
     public MagicWand() {

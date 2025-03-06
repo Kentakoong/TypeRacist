@@ -3,10 +3,10 @@ package dev.typeracist.typeracist.logic.global;
 import java.util.HashMap;
 import java.util.Map;
 
-import dev.typeracist.typeracist.logic.characters.entities.Character;
-import dev.typeracist.typeracist.logic.characters.entities.character.Warrior;
-import dev.typeracist.typeracist.logic.gameScene.Dataset;
-import dev.typeracist.typeracist.logic.gameScene.DatasetManager;
+import dev.typeracist.typeracist.logic.characters.Character;
+import dev.typeracist.typeracist.logic.characters.entities.Warrior;
+import dev.typeracist.typeracist.logic.game.dataset.Dataset;
+import dev.typeracist.typeracist.logic.game.dataset.DatasetManager;
 import dev.typeracist.typeracist.utils.DatasetName;
 import dev.typeracist.typeracist.utils.Difficulty;
 import dev.typeracist.typeracist.utils.ResourceName;

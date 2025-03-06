@@ -10,7 +10,7 @@ import java.util.Map;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import dev.typeracist.typeracist.logic.characters.entities.Character;
+import dev.typeracist.typeracist.logic.characters.Character;
 import dev.typeracist.typeracist.logic.inventory.Item;
 import dev.typeracist.typeracist.utils.Difficulty;
 

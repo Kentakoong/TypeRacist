@@ -4,20 +4,20 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Supplier;
 
-import dev.typeracist.typeracist.gui.gameScene.BattlePane.BattlePane;
-import dev.typeracist.typeracist.gui.gameScene.level.BattlePaneLevel1;
-import dev.typeracist.typeracist.gui.gameScene.level.BattlePaneLevel2;
-import dev.typeracist.typeracist.gui.gameScene.level.BattlePaneLevel3;
-import dev.typeracist.typeracist.gui.gameScene.level.BattlePaneLevel4;
-import dev.typeracist.typeracist.gui.gameScene.level.BattlePaneLevel5;
-import dev.typeracist.typeracist.gui.gameScene.level.BattlePaneLevel6;
-import dev.typeracist.typeracist.gui.gameScene.level.BattlePaneLevel7;
-import dev.typeracist.typeracist.gui.gameScene.level.BattlePaneLevel8;
-import dev.typeracist.typeracist.gui.gameScene.level.BattlePaneLevel9;
-import dev.typeracist.typeracist.gui.gameScene.level.BattlePaneLevelBoss;
-import dev.typeracist.typeracist.logic.gameScene.BattlePaneState;
-import dev.typeracist.typeracist.logic.gameScene.BattlePaneStateContext;
-import dev.typeracist.typeracist.logic.gameScene.BattlePaneStateManager;
+import dev.typeracist.typeracist.gui.game.battle.BattlePane;
+import dev.typeracist.typeracist.gui.game.level.BattlePaneLevel1;
+import dev.typeracist.typeracist.gui.game.level.BattlePaneLevel2;
+import dev.typeracist.typeracist.gui.game.level.BattlePaneLevel3;
+import dev.typeracist.typeracist.gui.game.level.BattlePaneLevel4;
+import dev.typeracist.typeracist.gui.game.level.BattlePaneLevel5;
+import dev.typeracist.typeracist.gui.game.level.BattlePaneLevel6;
+import dev.typeracist.typeracist.gui.game.level.BattlePaneLevel7;
+import dev.typeracist.typeracist.gui.game.level.BattlePaneLevel8;
+import dev.typeracist.typeracist.gui.game.level.BattlePaneLevel9;
+import dev.typeracist.typeracist.gui.game.level.BattlePaneLevelBoss;
+import dev.typeracist.typeracist.logic.game.battle.BattlePaneState;
+import dev.typeracist.typeracist.logic.game.battle.BattlePaneStateContext;
+import dev.typeracist.typeracist.logic.game.battle.BattlePaneStateManager;
 import dev.typeracist.typeracist.logic.global.GameLogic;
 
 public class BattleScene extends BaseDynamicScene<BattlePane> {

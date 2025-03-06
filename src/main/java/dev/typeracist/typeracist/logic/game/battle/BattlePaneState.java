@@ -1,0 +1,14 @@
+package dev.typeracist.typeracist.logic.game.battle;
+
+public enum BattlePaneState {
+    ENEMY_DESCRIPTION,
+    PLAYER_ATTACK,
+    PLAYER_ATTACK_RESULT,
+    ENEMY_BEFORE_ATTACK,
+    PLAYER_BEFORE_ATTACK_ITEM_SELECTION,
+    PLAYER_BEFORE_DEFENSE_ITEM_SELECTION,
+    PLAYER_DEFENSE,
+    PLAYER_DEFENSE_RESULT,
+    GAME_WIN,
+    GAME_LOSE,
+}
