@@ -101,12 +101,12 @@ public class SaveManager {
         JSONObject difficultyData = new JSONObject();
         difficultyData.put("clearedBattles", new JSONArray(currentCharacter.getClearedBattles()));
 
-        // Convert inventory to name:amount format
         JSONObject inventoryData = new JSONObject();
         for (Map.Entry<Item, Integer> entry : currentCharacter.getInventory().getItems().entrySet()) {
             Item item = entry.getKey();
             int amount = entry.getValue();
-            inventoryData.put(item.getName(), amount);
+            String className = item.getClass().getSimpleName();
+            inventoryData.put(className, amount);
         }
         difficultyData.put("inventory", inventoryData);
 

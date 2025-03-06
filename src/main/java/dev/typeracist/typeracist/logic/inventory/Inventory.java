@@ -42,25 +42,25 @@ public class Inventory {
         }
 
         items.clear();
-        for (String itemName : jsonItems.keySet()) {
-            int amount = jsonItems.getInt(itemName);
+        for (String className : jsonItems.keySet()) {
+            int amount = jsonItems.getInt(className);
 
-            Item item = createItemByName(itemName);
+            Item item = createItemByClassName(className);
             if (item != null) {
                 items.put(item, amount);
             }
         }
     }
 
-    private Item createItemByName(String name) {
-        return switch (name.toLowerCase()) {
-            case "wooden shield" -> new WoodenShield();
-            case "healing potion" -> new HealingPotion();
-            case "fried chicken" -> new FriedChicken();
-            case "typewriter" -> new Typewriter();
-            case "time potion" -> new TimePotion();
-            case "potion of typeswift" -> new PotionOfTypeswift();
-            case "whirlwind dagger" -> new WhirlwindDagger();
+    private Item createItemByClassName(String className) {
+        return switch (className) {
+            case "WoodenShield" -> new WoodenShield();
+            case "HealingPotion" -> new HealingPotion();
+            case "FriedChicken" -> new FriedChicken();
+            case "Typewriter" -> new Typewriter();
+            case "TimePotion" -> new TimePotion();
+            case "PotionOfTypeswift" -> new PotionOfTypeswift();
+            case "WhirlwindDagger" -> new WhirlwindDagger();
             default -> null;
         };
     }

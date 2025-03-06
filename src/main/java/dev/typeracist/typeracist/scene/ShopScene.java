@@ -154,14 +154,20 @@ public class ShopScene extends BaseScene {
 
         HBox.setHgrow(shopItemContainer, Priority.ALWAYS);
 
-        shopItemContainer.getChildren().addAll(
-                createShopItem(new HealingPotion()),
-                createShopItem(new TimePotion()),
-                createShopItem(new PotionOfTypeswift()),
-                createShopItem(new FriedChicken()),
-                createShopItem(new WhirlwindDagger()),
-                createShopItem(new WoodenShield()),
-                createShopItem(new Typewriter()));
+        // Create items once and reuse them
+        Item[] shopItems = {
+                new HealingPotion(),
+                new TimePotion(),
+                new PotionOfTypeswift(),
+                new FriedChicken(),
+                new WhirlwindDagger(),
+                new WoodenShield(),
+                new Typewriter()
+        };
+
+        for (Item item : shopItems) {
+            shopItemContainer.getChildren().add(createShopItem(item));
+        }
 
         return shopItemContainer;
     }
@@ -192,9 +198,8 @@ public class ShopScene extends BaseScene {
         Inventory inventory = GameLogic.getInstance().getSelectedCharacter().getInventory();
 
         if (playerCoins >= itemPrice) {
-            GameLogic.getInstance().getSelectedCharacter().spendCoin(itemPrice);
             inventory.addItem(item);
-
+            GameLogic.getInstance().getSelectedCharacter().spendCoin(itemPrice);
             GameLogic.getInstance().getSceneManager().showBreadcrumb("You bought " + item.getName() + "!", "", 1000);
             SaveManager.saveCharacter();
         } else {
