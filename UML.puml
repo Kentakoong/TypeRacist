@@ -1,0 +1,1657 @@
+@startuml
+interface dev.typeracist.typeracist.logic.inventory.ActivateOnTurn {
+~ void activate(BattlePaneStateManager)
+~ ActivateOnTurnState getActivateOnTurnState()
+}
+
+class dev.typeracist.typeracist.gui.game.level.BattlePaneLevel6 {
++ BattlePaneLevel6()
++ {static} BattlePaneStateContext initializeContext()
+}
+
+class dev.typeracist.typeracist.logic.global.SceneManager {
+- Stage primaryStage
+- HashMap<String,BaseScene> scenes
+- SceneHistoryManager sceneHistoryManager
+- Queue<BreadcrumbData> breadcrumbQueue
+- Popup currentPopup
+- boolean popUpOpen
++ SceneManager(Stage)
++ void showPopUp(Pane,double,double)
++ void closePopUp()
++ void showBreadcrumb(String,String,long)
+- void startBreadcrumbScheduler()
+- void playNextBreadcrumb()
++ void addScene(String,BaseScene)
++ void removeScene(String)
++ BaseScene getScene(String)
++ BaseScene getCurrentScene()
++ boolean sceneExists(String)
++ String getPreviousScene()
++ void setToPreviousScene()
++ void setScene(String)
++ boolean isPopUpOpen()
++ Popup getCurrentPopup()
+- void applyFadeTransition(Scene,Scene)
++ void closeStage()
+}
+
+
+class dev.typeracist.typeracist.logic.global.SceneManager$BreadcrumbData {
+~ String title
+~ String description
+~ long durationInMilliseconds
+~ BreadcrumbData(String,String,long)
+}
+
+
+class dev.typeracist.typeracist.logic.characters.skills.FlamePunch {
+- {static} int MIN_BURN_DAMAGE
+- {static} int MAX_BURN_DAMAGE
+- Random random
++ FlamePunch()
++ Skill copy()
++ void useSkill(BattlePaneStateManager)
++ int getBurnDamage()
+}
+
+
+class dev.typeracist.typeracist.logic.characters.skills.SkillIssue {
++ SkillIssue()
++ Skill copy()
++ void useSkill(Entity)
+}
+
+class dev.typeracist.typeracist.utils.ResourceBasePath {
++ {static} String BASE_PATH
++ {static} String IMAGE_PATH
++ {static} String FONT_PATH
++ {static} String DATASET_PATH
++ {static} String MUSIC_PATH
+}
+
+class dev.typeracist.typeracist.utils.ResourceName {
++ {static} String IMAGE_CHARACTER_WARRIOR
++ {static} String IMAGE_CHARACTER_ARCHER
++ {static} String IMAGE_CHARACTER_WIZARD
++ {static} String IMAGE_CHARACTER_ASSASSIN
++ {static} String IMAGE_CHARACTER_WRETCH
++ {static} String IMAGE_ENEMY_SLIME
++ {static} String IMAGE_ENEMY_GOBLIN
++ {static} String IMAGE_ENEMY_SKELETON
++ {static} String IMAGE_ENEMY_BAT
++ {static} String IMAGE_ENEMY_CREEPER
++ {static} String IMAGE_ENEMY_FIRE_GOLEM
++ {static} String IMAGE_ENEMY_SORCERER
++ {static} String IMAGE_ENEMY_SPIDER
++ {static} String IMAGE_ENEMY_DRAGON
++ {static} String IMAGE_ENEMY_NATTEE_1
++ {static} String IMAGE_ENEMY_NATTEE_2
++ {static} String FONT_DEPARTURE_MONO
++ {static} String DATASET_COMMON_WORDS_1K
++ {static} String DATASET_COMMON_WORDS_25K
++ {static} String DATASET_POPULAR_BOOKS
++ {static} String DATASET_DATA_STRUCTURE_AND_ALGORITHM
++ {static} String IMAGE_MAP_CASTLE
++ {static} String IMAGE_MAP_SHOP
++ {static} String IMAGE_MAP_BOOK
++ {static} String IMAGE_MAP_CHEST
++ {static} String IMAGE_MAP_ANVIL
++ {static} String IMAGE_MAP_SWORD
++ {static} String IMAGE_MAP_SKULL
++ {static} String IMAGE_MAP_NEXT
++ {static} String IMAGE_MAP_BACKGROUND
++ {static} String IMAGE_SHOP_HEALING_POTION
++ {static} String IMAGE_SHOP_TIME_POTION
++ {static} String IMAGE_SHOP_POTION_OF_TYPESWIFT
++ {static} String IMAGE_SHOP_FRIED_CHICKEN
++ {static} String IMAGE_SHOP_WHIRLWIND_DAGGER
++ {static} String IMAGE_SHOP_WOODEN_SHIELD
++ {static} String IMAGE_SHOP_TYPEWRITER
++ {static} String IMAGE_SHOP_SHOPMASTER
++ {static} String IMAGE_SHOP_COIN
++ {static} String IMAGE_ENCHANT_PLUS
++ {static} String IMAGE_ENCHANT_TO
++ {static} String IMAGE_ENCHANT_ENCHANTED_WEAPON
++ {static} String IMAGE_ENCHANT_SCROLL
++ {static} String IMAGE_ENCHANT_WEAPON
++ {static} String IMAGE_ENCHANT_SPACE
++ {static} String IMAGE_CHEST_CLOSE
++ {static} String IMAGE_CHEST_OPENED
++ {static} String MUSIC_MAIN_THEME
++ {static} String MUSIC_BATTLE_THEME
++ {static} String MUSIC_SHOP_THEME
++ {static} String MUSIC_BOSS_THEME
+}
+
+class dev.typeracist.typeracist.gui.game.level.BattlePaneLevel5 {
++ BattlePaneLevel5()
++ {static} BattlePaneStateContext initializeContext()
+}
+
+class dev.typeracist.typeracist.logic.characters.entities.Archer {
++ Archer()
+}
+
+class dev.typeracist.typeracist.logic.characters.enemies.BatSwarm {
+- {static} String[] DESCRIPTIONS
+- {static} RandomRange COIN_RANGE
+- {static} RandomRange XP_RANGE
++ BatSwarm()
+}
+
+
+class dev.typeracist.typeracist.gui.game.MapNode {
+- Circle statusCircle
+- BattleInfo action
+- List<MapNode> neighbors
++ MapNode(double,double,Image,BattleInfo)
++ void addNeighbor(MapNode)
++ List<MapNode> getNeighbors()
++ void updateStatusColor()
++ Circle getStatusCircle()
++ BattleInfo getAction()
+- Color getNodeColor(BattleInfo)
+}
+
+
+class dev.typeracist.typeracist.logic.inventory.item.WoodenShield {
+- {static} int DEFENSE_BONUS
++ WoodenShield()
++ int getDefenseBonus()
++ void activate()
++ Item copy()
+}
+
+
+class dev.typeracist.typeracist.logic.characters.skills.UndeadEndurance {
+- {static} double DAMAGE_REDUCTION
++ UndeadEndurance()
++ Skill copy()
++ double getDamageReduction()
++ void useSkill(BattlePaneStateManager)
+}
+
+
+class dev.typeracist.typeracist.utils.ShakeTransition {
++ ShakeTransition(Node)
+}
+
+class dev.typeracist.typeracist.scene.CharacterScene {
+- Character selectedCharacter
+- Label warningLabel
+- Label characterInfoLabel
+- Difficulty selectedDifficulty
+- ThemedButton.RadioButtonGroup difficultyGroup
+- ThemedButton.RadioButtonGroup characterGroup
++ CharacterScene(double,double)
+- HBox createTopContainer()
+- VBox createCenterContainer()
+- ThemedButton createCharacterButton(Character)
+- ThemedButton createStyledDifficultyButton(Difficulty,Font)
++ void onSceneEnter()
++ void onSceneLeave()
+}
+
+
+enum dev.typeracist.typeracist.logic.game.battle.BattlePaneState {
++  ENEMY_DESCRIPTION
++  PLAYER_ATTACK
++  PLAYER_ATTACK_RESULT
++  ENEMY_BEFORE_ATTACK
++  PLAYER_BEFORE_ATTACK_ITEM_SELECTION
++  PLAYER_BEFORE_DEFENSE_ITEM_SELECTION
++  PLAYER_DEFENSE
++  PLAYER_DEFENSE_RESULT
++  GAME_WIN
++  GAME_LOSE
+}
+
+abstract class dev.typeracist.typeracist.logic.inventory.Item {
+- String name
+- String description
+- int price
+- Image image
++ Item(String,String,int,String)
++ String getName()
++ String getDescription()
++ int getPrice()
++ Image getImage()
++ {abstract}Item copy()
++ boolean equals(Object)
++ int hashCode()
+}
+
+
+class dev.typeracist.typeracist.logic.characters.enemies.SkeletonScribe {
+- {static} String[] DESCRIPTIONS
+- {static} RandomRange COIN_RANGE
+- {static} RandomRange XP_RANGE
++ SkeletonScribe()
+}
+
+
+class dev.typeracist.typeracist.logic.characters.skills.WebTrap {
++ WebTrap()
++ Skill copy()
++ void useSkill(BattlePaneStateManager)
+}
+
+class dev.typeracist.typeracist.utils.SceneName {
++ {static} String MAIN
++ {static} String CHARACTERS
++ {static} String SETTINGS
++ {static} String MAP
++ {static} String SHOP
++ {static} String CHEST
++ {static} String BATTLE_SCENE
++ {static} String BATTLE_SCENE1
++ {static} String BATTLE_SCENE2
++ {static} String BATTLE_SCENE3
++ {static} String BATTLE_SCENE4
++ {static} String BATTLE_SCENE5
++ {static} String BATTLE_SCENE6
++ {static} String BATTLE_SCENE7
++ {static} String BATTLE_SCENE8
++ {static} String BATTLE_SCENE9
++ {static} String BOSS
++ {static} String NEXT_MAP
++ {static} String START
++ {static} String STORE
++ {static} String REWARD
++ {static} String REWARD1
++ {static} String REWARD2
+}
+
+class dev.typeracist.typeracist.utils.KeyConverter {
+- {static} boolean isWindow
++ {static} String convertKeyToText(KeyEvent)
+- {static} boolean isCapsLockActive()
+}
+
+
+class dev.typeracist.typeracist.gui.global.ThemedButton {
+- Color baseColor
+- Color hoverColor
+- Color pressedColor
+- Color textColor
+- Color borderColor
+- boolean isRadioButton
+- boolean isSelected
+- RadioButtonGroup radioButtonGroup
++ ThemedButton(String)
++ ThemedButton(String,Color)
+- void setDefaultColors(Color)
++ ThemedButton setBaseColor(Color)
++ ThemedButton setBaseColor(String)
++ ThemedButton setHoverColor(Color)
++ ThemedButton setHoverColor(String)
++ ThemedButton setPressedColor(Color)
++ ThemedButton setPressedColor(String)
++ ThemedButton setBorderColor(Color)
++ ThemedButton setBorderColor(String)
++ ThemedButton setTextColor(Color)
++ ThemedButton setTextColor(String)
++ ThemedButton setAsRadioButton(RadioButtonGroup)
++ ThemedButton setSelected(boolean)
++ boolean isSelected()
+- void updateRadioButtonStyle()
+- void initialize()
++ Color getBaseColor()
++ Color getHoverColor()
++ Color getPressedColor()
++ Color getTextColor()
+}
+
+
+class dev.typeracist.typeracist.gui.global.ThemedButton$RadioButtonGroup {
+- List<ThemedButton> buttons
++ void addButton(ThemedButton)
++ void deselectOthers(ThemedButton)
++ ThemedButton getSelectedButton()
++ List<ThemedButton> getButtons()
+}
+
+
+class dev.typeracist.typeracist.gui.game.level.BattlePaneLevel8 {
++ BattlePaneLevel8()
++ {static} BattlePaneStateContext initializeContext()
+}
+
+abstract class dev.typeracist.typeracist.scene.BaseScene {
++ BaseScene(Parent,double,double)
++ BaseScene(Parent)
++ {abstract}void onSceneEnter()
++ {abstract}void onSceneLeave()
+}
+
+class dev.typeracist.typeracist.gui.game.level.BattlePaneLevelBoss {
++ BattlePaneLevelBoss()
++ {static} BattlePaneStateContext initializeContext()
+}
+
+interface dev.typeracist.typeracist.logic.characters.SkillPermanent {
+}
+class dev.typeracist.typeracist.gui.game.battle.modifiers.PlayerDefenseResultPaneModifier {
++ PlayerDefenseResultPaneModifier(BattlePane,BattlePaneStateContext)
++ void initialize(BattlePaneStateManager)
+}
+
+class dev.typeracist.typeracist.scene.MainScene {
++ MainScene(double,double)
++ void onSceneEnter()
++ void onSceneLeave()
+}
+
+class dev.typeracist.typeracist.logic.characters.enemies.GoblinTypist {
+- {static} String[] DESCRIPTIONS
+- {static} RandomRange COIN_RANGE
+- {static} RandomRange XP_RANGE
++ GoblinTypist()
+}
+
+
+class dev.typeracist.typeracist.logic.inventory.Inventory {
+- Map<Item,Integer> items
++ Inventory()
++ void addItem(Item,int)
++ void addItem(Item)
++ void removeItem(Item,int)
++ int getItemAmount(Item)
++ Map<Item,Integer> getItems()
++ void loadItems(JSONObject)
+- Item createItemByClassName(String)
+}
+
+
+class dev.typeracist.typeracist.gui.game.information.modifiers.ItemInfoPaneModifier {
+- List<Button> itemButtons
+- BattlePane battlePane
+- Button skipButton
++ ItemInfoPaneModifier(BattlePane,InformationPane)
++ List<Button> getItemButtons()
++ Button getSkipButton()
++ void initialize()
+- Button createRoundedButton(String,Image,double,double)
++ Pane createItemContent(Map.Entry<Item,Integer>,Button)
+}
+
+
+class dev.typeracist.typeracist.logic.characters.skills.PhantomStrike {
++ PhantomStrike(double)
++ Skill copy()
++ void useSkill(BattlePaneStateManager)
+}
+
+class dev.typeracist.typeracist.logic.characters.skills.CreeperExplosion {
+- {static} int EXPLOSION_DAMAGE
++ CreeperExplosion()
++ Skill copy()
++ int getExplosionDamage()
++ void useSkill(Entity)
+}
+
+
+class dev.typeracist.typeracist.logic.global.SaveManager {
+- {static} String SAVE_DIRECTORY
+- {static} String SAVE_FILE
++ {static} String SAVE_FILE_CHARACTER
++ {static} String SAVE_FILE_SETTINGS
++ {static} Character getCharacter()
++ {static} void saveCharacter()
++ {static} void loadSettings()
++ {static} void saveSettings()
+- {static} JSONObject loadExistingSave(String)
++ {static} boolean saveFileExists(String)
++ {static} void deleteSaveFile(String)
+}
+
+
+class dev.typeracist.typeracist.logic.game.typing.TypingTrackedPosition {
++ int wordPosition
++ int characterPosition
+~ TypingTrackedPosition(int,int)
+}
+
+
+class dev.typeracist.typeracist.gui.game.battle.BattlePane {
+- BattlePaneStateContext battlePaneStateContext
+- InformationPane informationPane
+- ImageView enemyImageView
+- HealthBar playerHealthBar
+- HealthBar enemyHealthBar
+- ThemedButton statsButton
++ BattlePane(BattlePaneStateContext)
+- void setupLayout()
+- void initializeComponents()
+- HBox createHeaderWithStatsButton()
+- void showStatsPopup()
+- ImageView createEnemyImageView()
+- InformationPane createInformationPane()
+- HBox createHealthBars()
++ void updateHealthBars()
++ BattlePaneStateContext getStateContext()
++ InformationPane getInformationPane()
++ ImageView getCharacterImage()
++ HealthBar getPlayerHpBar()
++ HealthBar getEnemyHpBar()
+}
+
+
+class dev.typeracist.typeracist.logic.game.battle.BattlePaneStateContext {
+- Enemy enemy
+- Dataset dataset
+- Map<Integer,BattlePaneTurnContext> turnContext
+- DatasetWordsExtractor datasetWordsExtractor
+- long typingMaxTime
+- BattlePaneState currentState
+- int currentTurn
++ BattlePaneStateContext(Enemy,long,Dataset,DatasetWordsExtractor)
++ BattlePaneStateContext(BattlePaneStateContext)
++ Map<Integer,BattlePaneTurnContext> getTurnContext()
++ Enemy getEnemy()
++ Dataset getDataset()
++ List<String> extractDataset()
++ BattlePaneState getCurrentState()
++ void setCurrentState(BattlePaneState)
++ int getCurrentTurn()
++ void setCurrentTurn(int)
++ BattlePaneTurnContext getTurnContext(int)
++ BattlePaneTurnContext ensureExistsGetTurnContext(int)
++ BattlePaneTurnContext getCurrentTurnContext()
++ void incrementTurn()
++ long getTypingMaxTime()
++ void setTypingMaxTime(long)
+}
+
+
+class dev.typeracist.typeracist.gui.game.CountdownProgressBar {
++ {static} long DEFAULT_TOTAL_TIME
+- long totalTime
++ CountdownProgressBar(long)
++ void updateProgress(long)
++ double getTotalTime()
++ void setTotalTime(long)
+}
+
+
+class dev.typeracist.typeracist.logic.characters.entities.Wizard {
++ Wizard()
+}
+
+class dev.typeracist.typeracist.logic.game.typing.TypingHardness {
+- {static} Set<Character> LEFT_HAND
+- {static} Set<Character> RIGHT_HAND
+- {static} Set<Character> TOP_ROW
+- {static} Set<Character> BOTTOM_ROW
+- {static} Set<Character> NUMBERS
+- {static} Set<Character> SPECIAL_CHARS
+- {static} Set<Character> PINKY_KEYS
++ {static} double paragraphTypingHardness(String)
++ {static} double paragraphTypingHardness(List<String>)
++ {static} double paragraphTypingHardness(List<String>,int)
++ {static} double paragraphTypingHardness(String,int)
++ {static} double wordTypingHardness(String)
+}
+
+
+class dev.typeracist.typeracist.logic.global.ResourceManager {
+- {static} Map<String,Image> imageCache
+- {static} Map<String,Font> fontCache
++ {static} Image getImage(String)
+- {static} Image loadImage(String)
++ {static} Font getFont(String,double)
+- {static} Font loadFont(String,double)
+}
+
+
+enum dev.typeracist.typeracist.utils.TurnOwnership {
++  PLAYER
++  ENEMY
+}
+
+class dev.typeracist.typeracist.gui.game.TypingPane {
++ {static} Color DEFAULT_DYNAMIC_COLOR_TEXT_BASE_COLOR
++ {static} Color DEFAULT_DYNAMIC_COLOR_TEXT_HIGHLIGHT_CORRECT_COLOR
++ {static} Color DEFAULT_DYNAMIC_COLOR_TEXT_HIGHLIGHT_WRONG_COLOR
++ {static} Color DEFAULT_DYNAMIC_COLOR_TEXT_HIGHLIGHT_OUTOFWORD_COLOR
+# List<DynamicColorText> dynamicColorWords
+# HashMap<Integer,List<DynamicColorText>> rowMap
+# TypingTracker typingTracker
+# int maxVisibleRows
+# int currentTopRow
+# int triggerScrollRowRelativeTopCurrentTopRow
+# Color baseColor
+# Color highlightCorrectColor
+# Color highlightWrongColor
+# Color highlightOutOfWordColor
+# Font font
+# boolean firstTypeHandled
+# EventHandler<KeyEvent> onFirstTypeHandler
+# EventProcessor<KeyEvent> onTypeProcessor
++ TypingPane(List<String>)
++ void setOnFirstType(EventHandler<KeyEvent>)
++ void setOnType(EventProcessor<KeyEvent>)
++ void setHighlightColors(Color,Color,Color,Color)
++ Color getBaseColor()
++ Color getHighlightCorrectColor()
++ Color getHighlightWrongColor()
++ Color getHighlightOutOfWordColor()
++ int getMaxVisibleRows()
++ void setMaxVisibleRows(int)
++ int getTriggerScrollRowRelativeTopCurrentTopRow()
++ void setTriggerScrollRowRelativeTopCurrentTopRow(int)
++ TypingTracker getTypingTracker()
++ void setFont(Font)
++ void scrollDown()
++ void scrollUp()
+# void initializeTypingPaneTexts()
+# void updateRowMappings()
+# void updateRowVisibility()
+# int getRowOfWord(int)
+# DynamicColorText renderWord(int)
+# DynamicColorText renderWord(int,Color,Color,Color,Color)
+# void reRenderWord(int)
+# void reRenderWord(int,Color,Color,Color,Color)
+# void renderDynamicColorText(int,DynamicColorText,Color,Color,Color,Color)
+}
+
+
+class dev.typeracist.typeracist.logic.game.typing.TypingTracker {
+- List<String> words
+- List<String> trackedWords
+- Map<String,TypedWordStatus> typedWordStatuses
+- long startTime
+- long totalElapsedTime
+- boolean isRunning
+- boolean allowRemoveCorrectWord
++ TypingTracker(List<String>)
++ void start()
++ void pause()
++ void stop()
++ boolean isRunning()
++ void addCharacter(String)
++ void addNewWord()
++ void removeCharacter()
++ boolean checkWord(int)
++ double calculateCorrectWPM()
++ double calculateRawWPM()
++ Map<String,TypedWordStatus> getTypedWordStatuses()
++ TypingTrackedPosition getTypingTrackedPosition()
++ long getElapsedTime()
++ List<String> getTrackedWords()
++ List<String> getWords()
+- String getLastTypedWord()
++ boolean isAllowRemoveCorrectWord()
++ void setAllowRemoveCorrectWord(boolean)
+- void appendCharacter(String)
+- void removeLastCharacter()
+- void updateTypedWordStatuses(int)
+}
+
+
+class dev.typeracist.typeracist.logic.characters.XP {
+- int xp
+- int level
+- int expToLvlUp
++ XP()
++ int getXp()
++ void setXp(int)
++ int getLevel()
++ void setLevel(int)
++ int getExpToLvlUp()
++ void setExpToLvlUp(int)
++ boolean gainXP(int)
+- boolean checkLevelUp()
++ boolean canLevelUp()
+}
+
+
+class dev.typeracist.typeracist.logic.global.GameLogic {
+- {static} GameLogic instance
+- SceneManager sceneManager
+- DatasetManager datasetManager
+- Map<String,Character> characters
+- Map<Difficulty,Map<String,Character>> charactersByDifficulty
+- MusicPlayer musicPlayer
+- Character selectedCharacter
+- String playerName
+- Difficulty currentDifficulty
+- GameLogic(Stage)
++ {static} void init(Stage)
++ {static} void initializeDatasets()
++ {static} GameLogic getInstance()
++ SceneManager getSceneManager()
++ DatasetManager getDatasetManager()
++ Character getSelectedCharacter()
++ void setSelectedCharacter(Character)
++ void resetSelected()
++ Map<String,Character> getCharacters()
++ Map<Difficulty,Map<String,Character>> getCharactersByDifficulty()
++ Map<String,Character> getCharactersForDifficulty(Difficulty)
++ String getPlayerName()
++ void setPlayerName(String)
++ Difficulty getCurrentDifficulty()
++ void setCurrentDifficulty(Difficulty)
++ void clearBattle(String)
++ boolean isBattleCleared(String)
++ boolean isBattleUnlocked(String)
++ boolean isPreviousBattleCleared(String)
++ MusicPlayer getMusicPlayer()
+}
+
+
+class dev.typeracist.typeracist.gui.game.battle.HealthBar {
+- ProgressBar progressBar
+- Label hpLabel
++ HealthBar(Color)
++ void updateHealthBar(HP)
+- void animateProgressBar(double,double)
+}
+
+
+class dev.typeracist.typeracist.scene.BattleScene {
+- Map<Integer,BattlePaneStateManager> sceneStateManagers
+- Map<Integer,Supplier<BattlePaneStateContext>> paneStateContexts
+- int currentPaneId
++ BattleScene(double,double)
+- void initializeBattlePanes()
++ void addPane(int,Supplier<BattlePaneStateContext>)
++ void loadPane(int)
++ void onSceneEnter()
++ void onSceneLeave()
+}
+
+
+class dev.typeracist.typeracist.logic.inventory.item.HealingPotion {
+- {static} int HEAL_AMOUNT
++ HealingPotion()
++ int getHealAmount()
++ void activate()
++ Item copy()
+}
+
+
+class dev.typeracist.typeracist.logic.inventory.item.FireDragonCurse {
+- {static} int BURN_DAMAGE
++ FireDragonCurse()
++ void activate(BattlePaneStateManager)
++ ActivateOnTurnState getActivateOnTurnState()
++ Item copy()
+}
+
+
+class dev.typeracist.typeracist.logic.global.BattleInfo {
+- String battleName
+- String battleDescription
+- Image battleImage
+- String sceneName
+- String prerequisiteBattle
+- boolean isBattle
+- double nodeX
+- double nodeY
+- List<String> connectedNodes
++ BattleInfo(String,String,Image,String,String,boolean,double,double)
++ BattleInfo(String,String,Image,String,String,double,double)
++ String getBattleName()
++ String getSceneName()
++ String getPrerequisiteBattle()
++ boolean isBattle()
++ String getBattleDescription()
++ Image getBattleImage()
++ double getNodeX()
++ double getNodeY()
++ List<String> getConnectedNodes()
++ void addConnection(String)
+}
+
+
+interface dev.typeracist.typeracist.utils.EventProcessor {
+~ T process(T)
+}
+
+class dev.typeracist.typeracist.scene.SettingScene {
+- {static} int DEFAULT_VOLUME
+- VBox volumeBarContainer
+- Rectangle[] volumeBars
+- Label volumeLabel
+- VBox settingsTable
++ SettingScene(double,double)
+- VBox createVolumeSection()
+- VBox createResetSettingsSection()
+- void showResetSettingsConfirmation()
+- void showResetGameConfirmation()
+- void resetToDefaultSettings()
+- void resetGameProgress()
+- void showSuccessAlert(String,String,String)
+- void decreaseVolume()
+- void increaseVolume()
+- void updateVolumeDisplay()
+- void updateDebugButtons()
++ void onSceneEnter()
++ void onSceneLeave()
+}
+
+
+class dev.typeracist.typeracist.application.Main {
++ {static} void main(String[])
++ void start(Stage)
+}
+
+enum dev.typeracist.typeracist.logic.inventory.ActivateOnTurnState {
++  BEFORE_ATTACK
++  BEFORE_DEFENSE
++  BOTH
+}
+
+class dev.typeracist.typeracist.logic.characters.entities.Assassin {
++ Assassin()
+}
+
+abstract class dev.typeracist.typeracist.gui.game.information.modifiers.BaseInfoPaneModifier {
+# InformationPane informationPane
++ BaseInfoPaneModifier(InformationPane)
++ {abstract}void initialize()
+}
+
+
+enum dev.typeracist.typeracist.gui.game.information.InfoPaneModifierType {
++  TYPING_PANE
++  ITEM_SELECTION_PANE
++  TEXT
+}
+
+class dev.typeracist.typeracist.logic.inventory.item.FriedChicken {
+- {static} int HEAL_AMOUNT
+- {static} int DURATION
+- boolean firstActive
++ FriedChicken()
++ int getHealAmount()
++ int getDuration()
++ void activate()
++ void activate(BattlePaneStateManager)
++ ActivateOnTurnState getActivateOnTurnState()
++ Item copy()
+}
+
+
+class dev.typeracist.typeracist.logic.characters.entities.Wretch {
++ Wretch()
+}
+
+class dev.typeracist.typeracist.logic.characters.Enemy {
+- {static} Random random
+# int dropXP
+# int dropCoin
+# String description
++ Enemy(HP,int,int,Image,String[],Skill,RandomRange,RandomRange)
++ Enemy(int,int,Image,String[],Skill,RandomRange,RandomRange)
+# {static} String getRandomDescription(String[])
++ int attack(Entity,int)
++ int getDropXP()
++ int getDropCoin()
++ String getDescription()
+}
+
+
+class dev.typeracist.typeracist.logic.inventory.item.PotionOfTypeswift {
+- {static} double CPS_MULTIPLIER
+- {static} int DURATION
++ PotionOfTypeswift()
++ double getCpsMultiplier()
++ int getDuration()
++ void activate(BattlePaneStateManager)
++ ActivateOnTurnState getActivateOnTurnState()
++ Item copy()
+}
+
+
+class dev.typeracist.typeracist.logic.characters.skills.FireWhirlwind {
+- {static} int DURATION
++ FireWhirlwind()
++ Skill copy()
++ void useSkill(BattlePaneStateManager)
++ int getDuration()
+}
+
+
+class dev.typeracist.typeracist.logic.game.battle.BattlePaneTurnContext {
+- List<Item> itemsUsed
+- int rawAttackScore
+- int rawDefenseScore
+- int damageTaken
+- int attackDamage
+- boolean hadAttack
+- boolean hadDefense
+- double wordMultiplier
+- int playerAttackModifier
+- int enemyAttackModifier
+- boolean itemSelectDisable
++ BattlePaneTurnContext()
++ boolean isItemSelectDisable()
++ void setItemSelectDisable(boolean)
++ int getEnemyAttackModifier()
++ void setEnemyAttackModifier(int)
++ void addEnemyAttackModifier(int)
++ int getPlayerAttackModifier()
++ void setPlayerAttackModifier(int)
++ void addPlayerAttackModifier(int)
++ int getAttackDamage()
++ void setAttackDamage(int)
++ int getDamageTaken()
++ void setDamageTaken(int)
++ boolean isHadDefense()
++ void setHadDefense(boolean)
++ boolean isHadAttack()
++ void setHadAttack(boolean)
++ int getRawDefenseScore()
++ void setRawDefenseScore(int)
++ int getRawAttackScore()
++ void setRawAttackScore(int)
++ void addItemUsed(T)
++ List<Item> getItemsUsed()
++ double getWordMultiplier()
++ void setWordMultiplier(double)
+}
+
+
+class dev.typeracist.typeracist.logic.characters.skills.ShadowSlip {
++ ShadowSlip(double)
++ Skill copy()
++ void useSkill(BattlePaneStateManager)
+}
+
+class dev.typeracist.typeracist.gui.game.battle.modifiers.GameWinPaneModifier {
++ GameWinPaneModifier(BattlePane,BattlePaneStateContext)
++ void initialize(BattlePaneStateManager)
+}
+
+class dev.typeracist.typeracist.gui.game.level.BattlePaneLevel1 {
++ BattlePaneLevel1()
++ {static} BattlePaneStateContext initializeContext()
+}
+
+class dev.typeracist.typeracist.logic.characters.enemies.FireDragon {
+- {static} String[] DESCRIPTIONS
+- {static} RandomRange COIN_RANGE
+- {static} RandomRange XP_RANGE
++ FireDragon()
+}
+
+
+abstract class dev.typeracist.typeracist.logic.characters.Character {
+# {static} HP BASE_HP
+# {static} int BASE_ATK
+# {static} int BASE_DEF
+# {static} int XP_TO_LEVEL_UP
+# Inventory inventory
+# Set<String> clearedBattles
+# XP xp
+# int coin
+# String description
++ Character(HP,int,int,Image,Skill,String)
++ Character(int,int,Image,Skill,String)
++ Inventory getInventory()
++ int getCoin()
++ void gainCoin(int)
++ XP getXp()
++ void spendCoin(int)
++ void clearBattle(String)
++ boolean isBattleCleared(String)
++ Set<String> getClearedBattles()
++ boolean isBattleUnlocked(String)
++ boolean isPreviousBattleCleared(String)
++ void saveToJson(String)
++ void loadFromJson(String)
++ String getDescription()
+}
+
+
+class dev.typeracist.typeracist.gui.game.level.BattlePaneLevel4 {
++ BattlePaneLevel4()
++ {static} BattlePaneStateContext initializeContext()
+}
+
+class dev.typeracist.typeracist.logic.characters.enemies.CursedSorcerer {
+- {static} String[] DESCRIPTIONS
+- {static} RandomRange COIN_RANGE
+- {static} RandomRange XP_RANGE
++ CursedSorcerer()
+}
+
+
+class dev.typeracist.typeracist.utils.RandomRange {
+- int min
+- int max
+- Random random
++ RandomRange(int,int)
++ int getRandomValue()
++ int getMin()
++ int getMax()
+}
+
+
+class dev.typeracist.typeracist.logic.inventory.item.Typewriter {
++ Typewriter()
++ void activate()
++ Item copy()
+}
+
+class dev.typeracist.typeracist.gui.game.level.BattlePaneLevel7 {
++ BattlePaneLevel7()
++ {static} BattlePaneStateContext initializeContext()
+}
+
+abstract class dev.typeracist.typeracist.scene.BaseDynamicScene {
+# Pane rootPane
+# HashMap<Integer,T> panes
+# int currentPaneId
++ BaseDynamicScene(T)
++ BaseDynamicScene(T,double,double)
++ void addPane(int,T)
++ void loadPane(int)
++ int getCurrentPaneId()
++ Pane getCurrentPane()
++ HashMap<Integer,T> getPanes()
+}
+
+
+enum dev.typeracist.typeracist.utils.Difficulty {
++  EASY
++  NORMAL
++  HARD
++  HELL
+- String displayName
+~ Difficulty(String)
++ String getDisplayName()
++ {static} Difficulty fromDisplayName(String)
+}
+
+
+class dev.typeracist.typeracist.utils.DatasetName {
++ {static} String COMMON_WORDS_1K
++ {static} String COMMON_WORDS_25K
++ {static} String POPULAR_BOOKS
++ {static} String DATA_STRUCTURE_AND_ALGORITHM
+}
+
+class dev.typeracist.typeracist.logic.characters.skills.Evasion {
++ Evasion()
++ Skill copy()
++ void useSkill(BattlePaneStateManager)
+}
+
+class dev.typeracist.typeracist.logic.global.MusicPlayer {
+- {static} int FADE_DURATION_MS
+- {static} MusicPlayer instance
+- Map<String,String> musicTracks
+- Map<String,String> sceneMusicMap
+- MediaPlayer mediaPlayer
+- MediaPlayer nextMediaPlayer
+- String currentTrack
+- boolean isPlaying
+- int volumeLevel
+- MusicPlayer()
++ {static} MusicPlayer getInstance()
+- void initializeMusicTracks()
+- void initializeSceneMusicMap()
++ void playMusicForScene(String)
+- void prepareNextTrack(String)
+- void fadeOutCurrentAndFadeInNext()
+- void startNextTrackWithFadeIn()
++ void playMusic(String)
++ void stopMusic()
++ void pauseMusic()
++ void resumeMusic()
++ int getVolumeLevel()
++ void setVolumeLevel(int)
+- void updateVolume()
++ boolean isPlaying()
++ String getCurrentTrack()
+}
+
+
+class dev.typeracist.typeracist.gui.game.battle.modifiers.PlayerAttackPaneModifier {
++ PlayerAttackPaneModifier(BattlePane,BattlePaneStateContext)
++ void initialize(BattlePaneStateManager)
+}
+
+class dev.typeracist.typeracist.logic.characters.enemies.GiantSpider {
+- {static} String[] DESCRIPTIONS
+- {static} RandomRange COIN_RANGE
+- {static} RandomRange XP_RANGE
++ GiantSpider()
+}
+
+
+class dev.typeracist.typeracist.logic.characters.HP {
+- int maxHP
+- int currentHP
++ HP(int,int)
++ HP(int)
++ int getCurrentHP()
++ void setCurrentHP(int)
++ void heal(int)
++ void damage(int)
++ boolean isDead()
++ int getMaxHP()
++ void setMaxHP(int)
++ void addMaxHp(int)
+}
+
+
+class dev.typeracist.typeracist.logic.characters.entities.Warrior {
++ Warrior()
+}
+
+class dev.typeracist.typeracist.logic.global.SceneHistoryManager {
+- List<String> sceneHistory
++ SceneHistoryManager()
++ void addSceneToHistory(String)
++ String getPreviousScene()
++ boolean hasPreviousScene()
++ void clearHistory()
+}
+
+
+abstract class dev.typeracist.typeracist.gui.game.battle.modifiers.BasePaneModifier {
+# BattlePane battlePane
+# BattlePaneStateContext context
+- BattlePaneStateManager manager
++ BasePaneModifier(BattlePane,BattlePaneStateContext)
++ void setManager(BattlePaneStateManager)
++ {abstract}void initialize(BattlePaneStateManager)
++ void returnControl()
+}
+
+
+class dev.typeracist.typeracist.gui.game.ThemedProgressBarSkin {
+- Rectangle track
+- Rectangle bar
+- ProgressBar control
++ ThemedProgressBarSkin(ProgressBar,Color,Color)
+- void updateSize()
+- void updateBar(double)
+}
+
+
+class dev.typeracist.typeracist.logic.inventory.item.FireGolemDebris {
+- Random random
++ FireGolemDebris()
++ int getBurnDamage()
++ void activate(BattlePaneStateManager)
++ ActivateOnTurnState getActivateOnTurnState()
++ Item copy()
+}
+
+
+class dev.typeracist.typeracist.logic.game.dataset.DatasetManager {
+- Map<String,Dataset> datasets
++ DatasetManager()
++ void addDataset(String,Dataset)
++ Collection<Dataset> getAllDataSets()
++ Dataset getDataSet(String)
++ double getMaxWordScore()
++ double getMinWordScore()
++ double getMaxParagraphScore()
++ double getMinParagraphScore()
++ String getRandomWordByScoreRange(double,double)
++ List<String> getRandomParagraphByScoreRange(double,double)
++ List<String> getWordsByScoreRange(double,double)
++ List<List<String>> getParagraphsByScoreRange(double,double)
++ String getRandomWord()
++ List<String> getRandomParagraph()
+}
+
+
+class dev.typeracist.typeracist.logic.characters.enemies.Creeper {
+- {static} String[] DESCRIPTIONS
+- {static} RandomRange COIN_RANGE
+- {static} RandomRange XP_RANGE
++ Creeper()
++ int damage(int)
+}
+
+
+class dev.typeracist.typeracist.scene.ChestScene {
++ ChestScene(double,double,String)
++ void onSceneEnter()
++ void onSceneLeave()
+}
+
+class dev.typeracist.typeracist.logic.game.dataset.Dataset {
+- List<String> paragraphs
+- List<String> words
+- Random random
+- LinkedHashMap<String,Double> rankedWords
+- LinkedHashMap<String,Double> rankedParagraphs
++ Dataset(String)
++ Dataset(List<String>)
++ Dataset(String,boolean,boolean,boolean)
++ Dataset(List<String>,boolean,boolean,boolean)
+- {static} List<String> readJsonFile(String)
++ Dataset transform(boolean,boolean,boolean)
++ void initializeWithRanking()
++ List<String> getWordsByScoreRange(double,double)
++ List<List<String>> getParagraphsByScoreRange(double,double)
++ String getRandomWordByScoreRange(double,double)
++ List<String> getRandomParagraphByScoreRange(double,double)
++ List<String> getRandomWords(int)
++ List<List<String>> getRandomParagraphs(int)
++ List<String> getRandomWordsByScoreRange(double,double,int)
++ List<List<String>> getRandomParagraphsByScoreRange(double,double,int)
++ String getRandomWord()
++ List<String> getRandomParagraph()
++ double getMaxWordScore()
++ double getMinWordScore()
++ double getMaxParagraphScore()
++ double getMinParagraphScore()
++ List<String> getParagraphs()
++ List<String> getWords()
++ LinkedHashMap<String,Double> getRankedWords()
++ LinkedHashMap<String,Double> getRankedParagraphs()
++ void addParagraph(String)
+- void applyTransformations(boolean,boolean,boolean)
+- List<String> extractWords(List<String>)
+- LinkedHashMap<String,Double> rankWordsByTypingHardness(List<String>)
+- LinkedHashMap<String,Double> rankParagraphsByTypingHardness(List<String>)
+}
+
+
+abstract class dev.typeracist.typeracist.logic.characters.skills.SkillWithProbability {
+- Random random
+- double probability
++ SkillWithProbability(String,String,SkillActivationOnState,double)
++ boolean isProbability()
+}
+
+
+class dev.typeracist.typeracist.logic.characters.enemies.FireGolem {
+- {static} String[] DESCRIPTIONS
+- {static} RandomRange COIN_RANGE
+- {static} RandomRange XP_RANGE
++ FireGolem()
+}
+
+
+class dev.typeracist.typeracist.gui.game.battle.StatsDisplayManager {
++ {static} VBox createCharacterStatsBox()
++ {static} VBox createEnemyStatsBox(Enemy)
++ {static} VBox createItemsUsedBox(List<Item>)
++ {static} VBox createSkillsBox(Character,Enemy)
+- {static} VBox createStatsBoxBase()
+- {static} Label createNameLabel(String)
+- {static} TextFlow createStatLabel(String,int,int,int)
+- {static} HBox createItemBox(Item)
+- {static} HBox createSkillBox(Skill,Entity,String)
+}
+
+class dev.typeracist.typeracist.scene.MapScene {
+- VBox root
+- Map<String,MapNode> mapNodes
+- Label infoLabel
+- ThemedButton confirmButton
+- ImageView character
+- String selectedAction
+- MapNode currentNode
+- VBox topContainer
+- Pane mapContainer
+- HBox bottomContainer
++ MapScene(double,double)
+- VBox createTopContainer(double,Font)
+- Pane createNodesAndConnections(double)
+- void createCharacter()
+- HBox createBottomButtonContainer(double,double,Font)
+- void createNode(String,double,double,Image,BattleInfo,String)
++ void updateNodeColors()
+- void connectNodes(String,String)
+- void moveCharacter(MapNode)
+- List<MapNode> findShortestPath(MapNode,MapNode)
+- void moveAlongPath(List<MapNode>)
+- void moveToNextNode(Iterator<MapNode>,int)
+- void navigate(String)
+- int convertToBattleSceneIndex(String)
++ void onSceneEnter()
++ void onSceneLeave()
+}
+
+
+class dev.typeracist.typeracist.logic.game.ui.DynamicColorText {
+- List<Text> characters
+- Color baseColor
++ DynamicColorText(String,Color)
++ void setText(String)
++ void highlightCharacter(int,Color)
++ void resetCharacterColor(int)
++ void resetColors()
++ void resetColors(Color)
++ void setFont(Font)
++ Text getCharacter(int)
++ int length()
++ String toString()
+}
+
+
+interface dev.typeracist.typeracist.logic.characters.SkillOnEntity {
+~ void useSkill(Entity)
+}
+
+class dev.typeracist.typeracist.logic.game.ui.CursorDynamicColorText {
++ {static} Color DEFAULT_CURSOR_COLOR
+- {static} Rectangle sharedCursor
+- {static} CursorDynamicColorText currentOwner
+- Timeline blinkAnimation
+- int cursorPosition
++ CursorDynamicColorText(String,Color)
++ void setText(String)
+- void updateCursorPosition()
++ void setFont(Font)
++ int getCursorPosition()
++ void setCursorPosition(int)
++ void stopBlinking()
++ void setCursorSize(double,double)
++ void setCursorColor(Color)
+}
+
+
+class dev.typeracist.typeracist.gui.game.TimedTypingPane {
+- CountdownProgressBar countdownProgressBar
+- StackPane progressBarContainer
+- double totalTime
+- double spacing
+- Consumer<Void> onStopCallback
+- Thread timerThread
++ TimedTypingPane(List<String>,long)
++ TimedTypingPane(List<String>)
++ void start()
++ void stop()
++ double getTotalTime()
++ void setTotalTime(double)
++ double getSpacing()
++ void setSpacing(double)
++ void setOnStop(Consumer<Void>)
+}
+
+
+class dev.typeracist.typeracist.gui.game.battle.modifiers.EnemyDescriptionPaneModifier {
++ EnemyDescriptionPaneModifier(BattlePane,BattlePaneStateContext)
++ void initialize(BattlePaneStateManager)
+}
+
+class dev.typeracist.typeracist.logic.characters.enemies.Nattee115 {
+- {static} String[] DESCRIPTIONS
+- {static} RandomRange COIN_RANGE
+- {static} RandomRange XP_RANGE
++ Nattee115()
+}
+
+
+enum dev.typeracist.typeracist.logic.game.typing.TypedWordStatus {
++  CORRECTED
++  INCORRECT
++  CORRECTED_UNCOMPLETED
++  INCORRECT_UNCOMPLETED
++  INCORRECT_OVERFLOWED
++  NONE
+}
+
+class dev.typeracist.typeracist.logic.characters.skills.Hex {
++ Hex()
++ Skill copy()
++ void useSkill(BattlePaneStateManager)
+}
+
+class dev.typeracist.typeracist.gui.game.level.BattlePaneLevel9 {
++ BattlePaneLevel9()
++ {static} BattlePaneStateContext initializeContext()
+}
+
+abstract class dev.typeracist.typeracist.logic.characters.Skill {
+# String name
+# String description
+# SkillActivationOnState activationOnState
+# int cooldown
+# int currentCooldownTurns
++ Skill(String,String,SkillActivationOnState,int)
++ Skill(String,String,SkillActivationOnState)
++ {abstract}Skill copy()
++ SkillActivationOnState getActivationOnState()
++ String getName()
++ String getDescription()
++ int getCooldownTurns()
++ int getCurrentCooldownTurns()
++ boolean isOnCooldown()
++ void tickCooldown()
++ void resetCooldown()
+}
+
+
+class dev.typeracist.typeracist.gui.game.level.BattlePaneLevel3 {
++ BattlePaneLevel3()
++ {static} BattlePaneStateContext initializeContext()
+}
+
+interface dev.typeracist.typeracist.logic.characters.SkillOnEnvironment {
+~ void useSkill(BattlePaneStateManager)
+}
+
+class dev.typeracist.typeracist.logic.characters.skills.MagicWand {
++ MagicWand()
++ Skill copy()
++ void useSkill(BattlePaneStateManager)
+}
+
+class dev.typeracist.typeracist.gui.game.ConfirmationPane {
++ ConfirmationPane(String,Character,Difficulty,Runnable)
+}
+
+class dev.typeracist.typeracist.logic.characters.enemies.SlimeBlob {
+- {static} String[] DESCRIPTIONS
+- {static} RandomRange COIN_RANGE
+- {static} RandomRange XP_RANGE
++ SlimeBlob()
+}
+
+
+class dev.typeracist.typeracist.gui.game.level.BattlePaneLevel2 {
++ BattlePaneLevel2()
++ {static} BattlePaneStateContext initializeContext()
+}
+
+class dev.typeracist.typeracist.logic.inventory.item.TimePotion {
+- {static} long TIME_INCREASE
+- {static} int DURATION
+- boolean firstActive
++ TimePotion()
++ double getTimeIncrease()
++ int getDuration()
++ void activate(BattlePaneStateManager)
++ ActivateOnTurnState getActivateOnTurnState()
++ Item copy()
+}
+
+
+interface dev.typeracist.typeracist.logic.inventory.ActivateNow {
+~ void activate()
+}
+
+enum dev.typeracist.typeracist.logic.characters.SkillActivationOnState {
++  ACTIVATION_BEFORE_ATTACK
++  ACTIVATION_ON_ATTACK
++  ACTIVATION_AFTER_ATTACK
++  ACTIVATION_BEFORE_ITEM
++  ACTIVATION_AFTER_ITEM
++  ACTIVATION_BEFORE_DEFENSE
++  ACTIVATION_ON_DEFENSE
++  ACTIVATION_AFTER_DEFENSE
++  ACTIVATION_ALWAYS
+}
+
+class dev.typeracist.typeracist.logic.characters.Entity {
+# {static} HP BASE_HP
+# {static} int BASE_ATK
+# {static} int BASE_DEF
+# String name
+# HP hp
+# Image image
+# Skill skill
+# int baseAtk
+# int extraAtk
+# int baseDef
+# int extraDef
++ Entity(String,HP,int,int,Image,Skill)
++ Entity(HP,int,int,Image,Skill)
++ Entity(Entity)
++ int getTotalAtk()
++ int getTotalDef()
++ void heal(int)
++ int damage(int)
++ void addAtk(int)
++ void addDef(int)
++ void addExtraAtk(int)
++ void addExtraDef(int)
++ void resetBonuses()
++ int attack(Entity)
++ String getName()
++ HP getHp()
++ int getBaseAtk()
++ void setBaseAtk(int)
++ int getBaseDef()
++ void setBaseDef(int)
++ Image getImage()
++ Skill getSkill()
++ int getExtraAtk()
++ void setExtraAtk(int)
++ int getExtraDef()
++ void setExtraDef(int)
+}
+
+
+class dev.typeracist.typeracist.scene.ShopScene {
+- VBox root
+- Label coinLabel
++ ShopScene(double,double)
+- HBox createShopHeader()
+- HBox createShopItem(Item)
+- VBox createShopContainer()
+- VBox createShopMaster()
+- void purchaseItem(Item)
+- String getPlayerCoinsText()
++ void onSceneEnter()
++ void onSceneLeave()
+}
+
+
+class dev.typeracist.typeracist.logic.inventory.item.WhirlwindDagger {
+- {static} int ATTACK_BONUS
+- {static} int STUN_INTERVAL
+- boolean firstActivate
++ WhirlwindDagger()
++ int getAttackBonus()
++ int getStunInterval()
++ void activate()
++ void activate(BattlePaneStateManager)
++ ActivateOnTurnState getActivateOnTurnState()
++ Item copy()
+}
+
+
+class dev.typeracist.typeracist.logic.game.battle.BattlePaneStateManager {
+- BattlePane battlePane
+- BattlePaneStateContext context
+- Map<BattlePaneState,BasePaneModifier> stateModifiers
+- int id
+- BasePaneModifier currentModifier
++ BattlePaneStateManager(BattlePane,BattlePaneStateContext,int)
+- void initializeStateModifiers()
++ void transitionToState(BattlePaneState)
+- void handleSpecialStateTransition(BattlePaneState)
+- void processCurrentModifier()
++ void notifyModifierComplete(BasePaneModifier)
+- void determineNextState(BasePaneModifier)
++ void activateSkill(SkillActivationOnState,TurnOwnership)
+- void applyItem(ActivateOnTurnState)
++ BattlePaneStateContext getContext()
+}
+
+
+class dev.typeracist.typeracist.logic.global.BattleNavigation {
+- {static} List<BattleInfo> BATTLE_PROGRESSION
+- {static} Map<String,BattleInfo> BATTLE_MAP
+- BattleNavigation()
+- {static} void createNode(String,String,Image,String,String,boolean,double,double)
+- {static} void connectNodes(String,String)
++ {static} BattleInfo getNavigationDetails(String)
++ {static} List<BattleInfo> getAllBattleInfo()
++ {static} boolean isBattleUnlocked(String)
++ {static} String getBattlePrerequisite(String)
++ {static} boolean canNavigate(String,Set<String>)
+}
+
+
+class dev.typeracist.typeracist.gui.game.information.modifiers.TypingInfoPaneModifier {
+- BattlePane battlePane
+- TimedTypingPane typingPane
+- Label progressLabel
++ TypingInfoPaneModifier(BattlePane,InformationPane)
++ void initialize()
++ TimedTypingPane getTypingPane()
++ Label getProgressLabel()
+- TimedTypingPane createTypingPane()
+- void configureTypingPaneEvents(TimedTypingPane)
+- Label createProgressLabel()
+- void updateProgressLabel()
++ long countCompletedWords()
+}
+
+
+class dev.typeracist.typeracist.gui.game.information.InformationPane {
+~ BattlePane battlePane
++ InformationPane(BattlePane)
++ BaseInfoPaneModifier setToPane(InfoPaneModifierType)
+}
+
+
+class dev.typeracist.typeracist.gui.game.battle.modifiers.PlayerDefensePaneModifier {
++ PlayerDefensePaneModifier(BattlePane,BattlePaneStateContext)
++ void initialize(BattlePaneStateManager)
+}
+
+class dev.typeracist.typeracist.gui.game.information.modifiers.TextInfoPaneModifier {
++ TextInfoPaneModifier(InformationPane)
++ void initialize()
+}
+
+class dev.typeracist.typeracist.gui.game.battle.modifiers.PlayerItemSelectionPaneModifier {
++ PlayerItemSelectionPaneModifier(BattlePane,BattlePaneStateContext)
++ void initialize(BattlePaneStateManager)
+}
+
+class dev.typeracist.typeracist.gui.game.battle.modifiers.PlayerAttackResultPaneModifier {
++ PlayerAttackResultPaneModifier(BattlePane,BattlePaneStateContext)
++ void initialize(BattlePaneStateManager)
+}
+
+interface dev.typeracist.typeracist.utils.DatasetWordsExtractor {
+~ List<String> extractWord(Dataset)
+}
+
+class dev.typeracist.typeracist.gui.game.battle.modifiers.GameLosePaneModifier {
++ GameLosePaneModifier(BattlePane,BattlePaneStateContext)
++ void initialize(BattlePaneStateManager)
+}
+
+class dev.typeracist.typeracist.gui.game.battle.modifiers.EnemyBeforeAttackPaneModifier {
++ EnemyBeforeAttackPaneModifier(BattlePane,BattlePaneStateContext)
++ void initialize(BattlePaneStateManager)
+}
+
+
+
+dev.typeracist.typeracist.gui.game.battle.BattlePane <|-- dev.typeracist.typeracist.gui.game.level.BattlePaneLevel6
+dev.typeracist.typeracist.logic.global.SceneManager +.. dev.typeracist.typeracist.logic.global.SceneManager$BreadcrumbData
+dev.typeracist.typeracist.logic.characters.SkillOnEnvironment <|.. dev.typeracist.typeracist.logic.characters.skills.FlamePunch
+dev.typeracist.typeracist.logic.characters.Skill <|-- dev.typeracist.typeracist.logic.characters.skills.FlamePunch
+dev.typeracist.typeracist.logic.characters.SkillOnEntity <|.. dev.typeracist.typeracist.logic.characters.skills.SkillIssue
+dev.typeracist.typeracist.logic.characters.Skill <|-- dev.typeracist.typeracist.logic.characters.skills.SkillIssue
+dev.typeracist.typeracist.gui.game.battle.BattlePane <|-- dev.typeracist.typeracist.gui.game.level.BattlePaneLevel5
+dev.typeracist.typeracist.logic.characters.Character <|-- dev.typeracist.typeracist.logic.characters.entities.Archer
+dev.typeracist.typeracist.logic.characters.Enemy <|-- dev.typeracist.typeracist.logic.characters.enemies.BatSwarm
+javafx.scene.control.Button <|-- dev.typeracist.typeracist.gui.game.MapNode
+dev.typeracist.typeracist.logic.inventory.ActivateNow <|.. dev.typeracist.typeracist.logic.inventory.item.WoodenShield
+dev.typeracist.typeracist.logic.inventory.Item <|-- dev.typeracist.typeracist.logic.inventory.item.WoodenShield
+dev.typeracist.typeracist.logic.characters.SkillOnEnvironment <|.. dev.typeracist.typeracist.logic.characters.skills.UndeadEndurance
+dev.typeracist.typeracist.logic.characters.Skill <|-- dev.typeracist.typeracist.logic.characters.skills.UndeadEndurance
+dev.typeracist.typeracist.scene.BaseScene <|-- dev.typeracist.typeracist.scene.CharacterScene
+dev.typeracist.typeracist.logic.characters.Enemy <|-- dev.typeracist.typeracist.logic.characters.enemies.SkeletonScribe
+dev.typeracist.typeracist.logic.characters.SkillOnEnvironment <|.. dev.typeracist.typeracist.logic.characters.skills.WebTrap
+dev.typeracist.typeracist.logic.characters.Skill <|-- dev.typeracist.typeracist.logic.characters.skills.WebTrap
+javafx.scene.control.Button <|-- dev.typeracist.typeracist.gui.global.ThemedButton
+dev.typeracist.typeracist.gui.global.ThemedButton +.. dev.typeracist.typeracist.gui.global.ThemedButton$RadioButtonGroup
+dev.typeracist.typeracist.gui.game.battle.BattlePane <|-- dev.typeracist.typeracist.gui.game.level.BattlePaneLevel8
+javafx.scene.Scene <|-- dev.typeracist.typeracist.scene.BaseScene
+dev.typeracist.typeracist.gui.game.battle.BattlePane <|-- dev.typeracist.typeracist.gui.game.level.BattlePaneLevelBoss
+dev.typeracist.typeracist.gui.game.battle.modifiers.BasePaneModifier <|-- dev.typeracist.typeracist.gui.game.battle.modifiers.PlayerDefenseResultPaneModifier
+dev.typeracist.typeracist.scene.BaseScene <|-- dev.typeracist.typeracist.scene.MainScene
+dev.typeracist.typeracist.logic.characters.Enemy <|-- dev.typeracist.typeracist.logic.characters.enemies.GoblinTypist
+dev.typeracist.typeracist.gui.game.information.modifiers.BaseInfoPaneModifier <|-- dev.typeracist.typeracist.gui.game.information.modifiers.ItemInfoPaneModifier
+dev.typeracist.typeracist.logic.characters.SkillOnEnvironment <|.. dev.typeracist.typeracist.logic.characters.skills.PhantomStrike
+dev.typeracist.typeracist.logic.characters.skills.SkillWithProbability <|-- dev.typeracist.typeracist.logic.characters.skills.PhantomStrike
+dev.typeracist.typeracist.logic.characters.Skill <|-- dev.typeracist.typeracist.logic.characters.skills.CreeperExplosion
+javafx.scene.layout.VBox <|-- dev.typeracist.typeracist.gui.game.battle.BattlePane
+javafx.scene.control.ProgressBar <|-- dev.typeracist.typeracist.gui.game.CountdownProgressBar
+dev.typeracist.typeracist.logic.characters.Character <|-- dev.typeracist.typeracist.logic.characters.entities.Wizard
+javafx.scene.layout.FlowPane <|-- dev.typeracist.typeracist.gui.game.TypingPane
+javafx.scene.layout.StackPane <|-- dev.typeracist.typeracist.gui.game.battle.HealthBar
+dev.typeracist.typeracist.scene.BaseDynamicScene <|-- dev.typeracist.typeracist.scene.BattleScene
+dev.typeracist.typeracist.logic.inventory.ActivateNow <|.. dev.typeracist.typeracist.logic.inventory.item.HealingPotion
+dev.typeracist.typeracist.logic.inventory.Item <|-- dev.typeracist.typeracist.logic.inventory.item.HealingPotion
+dev.typeracist.typeracist.logic.inventory.ActivateOnTurn <|.. dev.typeracist.typeracist.logic.inventory.item.FireDragonCurse
+dev.typeracist.typeracist.logic.inventory.Item <|-- dev.typeracist.typeracist.logic.inventory.item.FireDragonCurse
+java.util.EventListener <|-- dev.typeracist.typeracist.utils.EventProcessor
+dev.typeracist.typeracist.scene.BaseScene <|-- dev.typeracist.typeracist.scene.SettingScene
+javafx.application.Application <|-- dev.typeracist.typeracist.application.Main
+dev.typeracist.typeracist.logic.characters.Character <|-- dev.typeracist.typeracist.logic.characters.entities.Assassin
+dev.typeracist.typeracist.logic.inventory.ActivateNow <|.. dev.typeracist.typeracist.logic.inventory.item.FriedChicken
+dev.typeracist.typeracist.logic.inventory.ActivateOnTurn <|.. dev.typeracist.typeracist.logic.inventory.item.FriedChicken
+dev.typeracist.typeracist.logic.inventory.Item <|-- dev.typeracist.typeracist.logic.inventory.item.FriedChicken
+dev.typeracist.typeracist.logic.characters.Character <|-- dev.typeracist.typeracist.logic.characters.entities.Wretch
+dev.typeracist.typeracist.logic.characters.Entity <|-- dev.typeracist.typeracist.logic.characters.Enemy
+dev.typeracist.typeracist.logic.inventory.ActivateOnTurn <|.. dev.typeracist.typeracist.logic.inventory.item.PotionOfTypeswift
+dev.typeracist.typeracist.logic.inventory.Item <|-- dev.typeracist.typeracist.logic.inventory.item.PotionOfTypeswift
+dev.typeracist.typeracist.logic.characters.SkillOnEnvironment <|.. dev.typeracist.typeracist.logic.characters.skills.FireWhirlwind
+dev.typeracist.typeracist.logic.characters.skills.SkillWithProbability <|-- dev.typeracist.typeracist.logic.characters.skills.FireWhirlwind
+dev.typeracist.typeracist.logic.characters.SkillOnEnvironment <|.. dev.typeracist.typeracist.logic.characters.skills.ShadowSlip
+dev.typeracist.typeracist.logic.characters.skills.SkillWithProbability <|-- dev.typeracist.typeracist.logic.characters.skills.ShadowSlip
+dev.typeracist.typeracist.gui.game.battle.modifiers.BasePaneModifier <|-- dev.typeracist.typeracist.gui.game.battle.modifiers.GameWinPaneModifier
+dev.typeracist.typeracist.gui.game.battle.BattlePane <|-- dev.typeracist.typeracist.gui.game.level.BattlePaneLevel1
+dev.typeracist.typeracist.logic.characters.Enemy <|-- dev.typeracist.typeracist.logic.characters.enemies.FireDragon
+dev.typeracist.typeracist.logic.characters.Entity <|-- dev.typeracist.typeracist.logic.characters.Character
+dev.typeracist.typeracist.gui.game.battle.BattlePane <|-- dev.typeracist.typeracist.gui.game.level.BattlePaneLevel4
+dev.typeracist.typeracist.logic.characters.Enemy <|-- dev.typeracist.typeracist.logic.characters.enemies.CursedSorcerer
+dev.typeracist.typeracist.logic.inventory.ActivateNow <|.. dev.typeracist.typeracist.logic.inventory.item.Typewriter
+dev.typeracist.typeracist.logic.inventory.Item <|-- dev.typeracist.typeracist.logic.inventory.item.Typewriter
+dev.typeracist.typeracist.gui.game.battle.BattlePane <|-- dev.typeracist.typeracist.gui.game.level.BattlePaneLevel7
+dev.typeracist.typeracist.scene.BaseScene <|-- dev.typeracist.typeracist.scene.BaseDynamicScene
+dev.typeracist.typeracist.logic.characters.SkillOnEnvironment <|.. dev.typeracist.typeracist.logic.characters.skills.Evasion
+dev.typeracist.typeracist.logic.characters.skills.SkillWithProbability <|-- dev.typeracist.typeracist.logic.characters.skills.Evasion
+dev.typeracist.typeracist.gui.game.battle.modifiers.BasePaneModifier <|-- dev.typeracist.typeracist.gui.game.battle.modifiers.PlayerAttackPaneModifier
+dev.typeracist.typeracist.logic.characters.Enemy <|-- dev.typeracist.typeracist.logic.characters.enemies.GiantSpider
+dev.typeracist.typeracist.logic.characters.Character <|-- dev.typeracist.typeracist.logic.characters.entities.Warrior
+javafx.scene.control.SkinBase <|-- dev.typeracist.typeracist.gui.game.ThemedProgressBarSkin
+dev.typeracist.typeracist.logic.inventory.ActivateOnTurn <|.. dev.typeracist.typeracist.logic.inventory.item.FireGolemDebris
+dev.typeracist.typeracist.logic.inventory.Item <|-- dev.typeracist.typeracist.logic.inventory.item.FireGolemDebris
+dev.typeracist.typeracist.logic.characters.Enemy <|-- dev.typeracist.typeracist.logic.characters.enemies.Creeper
+dev.typeracist.typeracist.scene.BaseScene <|-- dev.typeracist.typeracist.scene.ChestScene
+dev.typeracist.typeracist.logic.characters.Skill <|-- dev.typeracist.typeracist.logic.characters.skills.SkillWithProbability
+dev.typeracist.typeracist.logic.characters.Enemy <|-- dev.typeracist.typeracist.logic.characters.enemies.FireGolem
+dev.typeracist.typeracist.scene.BaseScene <|-- dev.typeracist.typeracist.scene.MapScene
+javafx.scene.layout.HBox <|-- dev.typeracist.typeracist.logic.game.ui.DynamicColorText
+dev.typeracist.typeracist.logic.game.ui.DynamicColorText <|-- dev.typeracist.typeracist.logic.game.ui.CursorDynamicColorText
+dev.typeracist.typeracist.gui.game.TypingPane <|-- dev.typeracist.typeracist.gui.game.TimedTypingPane
+dev.typeracist.typeracist.gui.game.battle.modifiers.BasePaneModifier <|-- dev.typeracist.typeracist.gui.game.battle.modifiers.EnemyDescriptionPaneModifier
+dev.typeracist.typeracist.logic.characters.Enemy <|-- dev.typeracist.typeracist.logic.characters.enemies.Nattee115
+dev.typeracist.typeracist.logic.characters.SkillOnEnvironment <|.. dev.typeracist.typeracist.logic.characters.skills.Hex
+dev.typeracist.typeracist.logic.characters.skills.SkillWithProbability <|-- dev.typeracist.typeracist.logic.characters.skills.Hex
+dev.typeracist.typeracist.gui.game.battle.BattlePane <|-- dev.typeracist.typeracist.gui.game.level.BattlePaneLevel9
+dev.typeracist.typeracist.gui.game.battle.BattlePane <|-- dev.typeracist.typeracist.gui.game.level.BattlePaneLevel3
+dev.typeracist.typeracist.logic.characters.SkillOnEnvironment <|.. dev.typeracist.typeracist.logic.characters.skills.MagicWand
+dev.typeracist.typeracist.logic.characters.Skill <|-- dev.typeracist.typeracist.logic.characters.skills.MagicWand
+javafx.scene.layout.StackPane <|-- dev.typeracist.typeracist.gui.game.ConfirmationPane
+dev.typeracist.typeracist.logic.characters.Enemy <|-- dev.typeracist.typeracist.logic.characters.enemies.SlimeBlob
+dev.typeracist.typeracist.gui.game.battle.BattlePane <|-- dev.typeracist.typeracist.gui.game.level.BattlePaneLevel2
+dev.typeracist.typeracist.logic.inventory.ActivateOnTurn <|.. dev.typeracist.typeracist.logic.inventory.item.TimePotion
+dev.typeracist.typeracist.logic.inventory.Item <|-- dev.typeracist.typeracist.logic.inventory.item.TimePotion
+dev.typeracist.typeracist.scene.BaseScene <|-- dev.typeracist.typeracist.scene.ShopScene
+dev.typeracist.typeracist.logic.inventory.ActivateNow <|.. dev.typeracist.typeracist.logic.inventory.item.WhirlwindDagger
+dev.typeracist.typeracist.logic.inventory.ActivateOnTurn <|.. dev.typeracist.typeracist.logic.inventory.item.WhirlwindDagger
+dev.typeracist.typeracist.logic.inventory.Item <|-- dev.typeracist.typeracist.logic.inventory.item.WhirlwindDagger
+dev.typeracist.typeracist.gui.game.information.modifiers.BaseInfoPaneModifier <|-- dev.typeracist.typeracist.gui.game.information.modifiers.TypingInfoPaneModifier
+javafx.scene.layout.VBox <|-- dev.typeracist.typeracist.gui.game.information.InformationPane
+dev.typeracist.typeracist.gui.game.battle.modifiers.BasePaneModifier <|-- dev.typeracist.typeracist.gui.game.battle.modifiers.PlayerDefensePaneModifier
+dev.typeracist.typeracist.gui.game.information.modifiers.BaseInfoPaneModifier <|-- dev.typeracist.typeracist.gui.game.information.modifiers.TextInfoPaneModifier
+dev.typeracist.typeracist.gui.game.battle.modifiers.BasePaneModifier <|-- dev.typeracist.typeracist.gui.game.battle.modifiers.PlayerItemSelectionPaneModifier
+dev.typeracist.typeracist.gui.game.battle.modifiers.BasePaneModifier <|-- dev.typeracist.typeracist.gui.game.battle.modifiers.PlayerAttackResultPaneModifier
+dev.typeracist.typeracist.gui.game.battle.modifiers.BasePaneModifier <|-- dev.typeracist.typeracist.gui.game.battle.modifiers.GameLosePaneModifier
+dev.typeracist.typeracist.gui.game.battle.modifiers.BasePaneModifier <|-- dev.typeracist.typeracist.gui.game.battle.modifiers.EnemyBeforeAttackPaneModifier
+@enduml
