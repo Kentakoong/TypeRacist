@@ -10,14 +10,14 @@ import dev.typeracist.typeracist.logic.inventory.Item;
 import dev.typeracist.typeracist.utils.ResourceName;
 
 public class WhirlwindDagger extends Item implements ActivateNow, ActivateOnTurn {
-    private static final int ATTACK_BONUS = 5;
+    private static final int ATTACK_BONUS = 1;
     private static final int STUN_INTERVAL = 3;
     private boolean firstActivate = true;
 
     public WhirlwindDagger() {
         super("Whirlwind Dagger",
-                "ATK +5. Stun enemy every 3 turns, for 30 turns.",
-                100,
+                "ATK +1. Stun enemy every 3 turns, for 30 turns.",
+                35,
                 ResourceName.IMAGE_SHOP_WHIRLWIND_DAGGER);
     }
 
@@ -31,7 +31,7 @@ public class WhirlwindDagger extends Item implements ActivateNow, ActivateOnTurn
 
     @Override
     public void activate() {
-        GameLogic.getInstance().getSelectedCharacter().addExtraAtk(5);
+        GameLogic.getInstance().getSelectedCharacter().addExtraAtk(1);
         GameLogic.getInstance().getSceneManager().showBreadcrumb(
                 "WhirlwindDagger is activated",
                 GameLogic.getInstance().getPlayerName() + " atk got boost by " + ATTACK_BONUS,

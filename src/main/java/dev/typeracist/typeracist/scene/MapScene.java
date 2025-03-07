@@ -24,11 +24,13 @@ import dev.typeracist.typeracist.utils.ResourceName;
 import dev.typeracist.typeracist.utils.SceneName;
 import javafx.animation.PauseTransition;
 import javafx.animation.TranslateTransition;
+import javafx.event.EventType;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundImage;
 import javafx.scene.layout.BackgroundPosition;
@@ -123,7 +125,7 @@ public class MapScene extends BaseScene {
 
         // Info Label
         infoLabel = new Label("Select a location.");
-        infoLabel.setFont(Font.font(baseFont.getName(), 24));
+        infoLabel.setFont(Font.font(baseFont.getName(), 18));
         infoLabel.setStyle("-fx-text-fill: white;");
         infoLabel.setWrapText(true);
         infoLabel.setMaxWidth(width - 100);
@@ -417,6 +419,15 @@ public class MapScene extends BaseScene {
 
         if (action.equals(SceneName.STORE)) {
             GameLogic.getInstance().getSceneManager().setScene(SceneName.SHOP.toString());
+            return;
+        }
+
+        if (action.equals(SceneName.NEXT_MAP)) {
+            GameLogic.getInstance().getSceneManager().showBreadcrumb(
+                    "You win the Game!",
+                    "happy birthday",
+                    10000
+            );
             return;
         }
 
