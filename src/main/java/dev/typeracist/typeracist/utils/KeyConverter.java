@@ -74,6 +74,22 @@ public class KeyConverter {
                         return "_";
                     case EQUALS:
                         return "+";
+                    case OPEN_BRACKET:
+                        return "{";
+                    case CLOSE_BRACKET:
+                        return "}";
+                    case BACK_SLASH:
+                        return "|";
+                    case SEMICOLON:
+                        return ":";
+                    case QUOTE:
+                        return "\"";
+                    case COMMA:
+                        return "<";
+                    case PERIOD:
+                        return ">";
+                    case SLASH:
+                        return "?";
                     default:
                         return keyCode.getName();
                 }

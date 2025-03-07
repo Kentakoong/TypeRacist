@@ -6,11 +6,11 @@ import dev.typeracist.typeracist.logic.inventory.Item;
 import dev.typeracist.typeracist.utils.ResourceName;
 
 public class HealingPotion extends Item implements ActivateNow {
-    private static final int HEAL_AMOUNT = 10;
+    private static final int HEAL_AMOUNT = 20;
 
     public HealingPotion() {
         super("Healing Potion",
-                "Heal your character by 30 HP.",
+                "Heal your character by 20 HP.",
                 15,
                 ResourceName.IMAGE_SHOP_HEALING_POTION);
     }

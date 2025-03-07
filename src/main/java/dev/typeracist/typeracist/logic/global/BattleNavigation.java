@@ -63,7 +63,7 @@ public final class BattleNavigation {
                                 ResourceManager.getImage(ResourceName.IMAGE_MAP_SWORD),
                                 SceneName.BATTLE_SCENE9, SceneName.BATTLE_SCENE8, true, 525, 220);
 
-                createNode(SceneName.BOSS, "Last Battle???",
+                createNode(SceneName.BOSS, "Last Battle??? MEET THE GOD OF TYPIST",
                                 ResourceManager.getImage(ResourceName.IMAGE_MAP_SKULL),
                                 SceneName.BOSS, SceneName.BATTLE_SCENE9, true, 450, 360);
 

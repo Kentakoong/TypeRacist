@@ -33,6 +33,7 @@ public class Main extends Application {
         sceneManager.addScene(SceneName.REWARD1, new ChestScene(screenWidth, screenHeight, SceneName.REWARD1));
         sceneManager.addScene(SceneName.REWARD2, new ChestScene(screenWidth, screenHeight, SceneName.REWARD2));
 
+
         // Load dataset and keyboard pane in another thread
         new Thread(() -> {
             GameLogic.initializeDatasets();
